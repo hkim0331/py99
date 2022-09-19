@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="content">
+    <h2>{{title}}</h2>
+    <p>何番に回答が何個ついているかのグラフ。期末テスト予告の「文字列」は 80 番台、
+      グループ課題は 200 番以降。</p>
+    <div>
+      {% for row in data %}
+       <p>{{row.num}}
+         <input style="width:{{row.count|divide:2}}mm;" disabled=disabled>
+         {{row.count}}</p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

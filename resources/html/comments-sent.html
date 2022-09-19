@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="content">
+  <h2>Comments Sent</h2>
+  <ol reversed>
+    {% for item in sent %}
+    <li>{{item.create_at|date:shortDate}}
+      &nbsp;
+      to <b>{{item.to_login}}</b>
+      &nbsp;
+      <b>{{item.p_num}}</b>, 
+      <a href='/comment/{{item.a_id}}'>
+      {{item.comment|abbreviate:19}}</a>
+      </li>
+    {% endfor %}
+  </ol>
+  </div>
+{% endblock %}

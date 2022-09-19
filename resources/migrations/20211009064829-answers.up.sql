@@ -1,0 +1,7 @@
+CREATE TABLE answers (
+  id SERIAL PRIMARY KEY,
+  num INTEGER,
+  login VARCHAR(20),
+  answer TEXT,
+  md5 VARCHAR(300),
+  create_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);

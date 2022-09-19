@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="content">
+  <h2>{{answer.login}}'s answer to
+    <a href='/answer/{{problem.num}}'>Problem {{problem.num}}</a>,
+    {{answer.create_at|date:shortDateTime}}</h2>
+  <p>{{problem.problem|safe}}</p>
+  <pre class='nocopy'>{{answer.answer}}</pre>
+
+  <h3>Who sent the same answer with {{answer.login}}?</h3>
+  <p>
+    {% for a in same-md5 %}
+    {{a.login}}
+    &nbsp;
+    {% endfor %}
+  </p>
+
+  <h3>Comments</h3>
+  {% for c in comments %}
+  <p>from <b>{{c.from_login}}</b>, at {{c.create_at|date:shortDateTime}}</p>
+  <pre>{{c.comment|wrap66}}</pre>
+  {% endfor %}
+
+
+  <form method='post'>
+    {% csrf-field %}
+    <input type='hidden' name='p_num' value='{{problem.num}}'>
+    <input type='hidden' name='a_id' value='{{answer.id}}'>
+    <input type='hidden' name='to_login' value='{{answer.login}}'>
+    <textarea name='comment' class='textarea'
+              placeholder='Your comment please.'></textarea><br>
+    <input type='submit' value='comment' class='button is-warning is-small'>
+  </form>
+
+  <br>
+
+  <p>Other comments to this problem ...
+    <a href='/comments/{{problem.num}}'>✏️</a></p>
+
+  </div>
+{% endblock %}

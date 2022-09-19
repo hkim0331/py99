@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content">
+  <div class="container">
+    <h2>Login</h2>
+    <div style="color:red;">{{flash}}</div>
+    <form method='post'>
+      {% csrf-field %}
+      <input name='login' placeholder='nobody'>
+      <input name='password' placeholder='nobody' type='password'>
+      <input type='submit' value='login'>
+    </form>
+    <br>
+    <ul>
+      <li>アカウントの新規作成は授業時間中に
+        <a href='https://l22.melt.kyutech.ac.jp'>
+          l22.melt.kyutech.ac.jp</a>へ。</li>
+    </ul>
+  <!--
+    <ul>
+      <li>アカウント持ってる人はそれで、持ってない人はカンを働かせ。</li>
+      <li>学生番号・氏名をデータベースから落とし、データベースを read only に設定した。</li>
+      <li>2021のログイン・パスワードは有効だが、新しい回答やコメントはできないよ。<br>
+    </ul>
+  -->
+  </div>
+    <!--
+    <p>or</p>
+    <p><a href="/register">register</a></p>
+
+    <ul>
+      <li>解いてない問題でも回答が読める。2022-02-10</li>
+      <li>R99 のインデントルールに抵触する投稿を受付けなくした。2021-12-20</li>
+      <li>R99 のスペースルールに抵触する投稿を受け付けなくした。</li>
+    </ul>
+  -->
+  </div>
+{% endblock %}

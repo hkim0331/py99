@@ -6,6 +6,7 @@
    [clj-time.local :as l]
    [clj-time.periodic :as p]
    [clojure.java.io :as io]
+   [clojure.java.shell :refer [sh]]
    [clojure.string :as str]
    [digest]
    [environ.core :refer [env]]
@@ -88,7 +89,7 @@
 (defn- admin?
   "return `user` is admin?"
   [user]
-  true)
+  (= user :hkimua))
 
 ;; https://stackoverflow.com/questions/16264813/
 ;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
@@ -162,7 +163,8 @@
       (str/replace #"[ \t]" "")
       remove-comments))
 
-(defn- not-empty? [answer]
+;; Boolean を返すわけじゃない。
+(defn- not-empty-test [answer]
   (when-not (re-find #"\S" (strip answer))
     (throw (Exception. "answer is empty"))))
 
@@ -190,41 +192,44 @@
 ;;     (when-let [err (:err @r)]
 ;;       (throw (Exception. err)))))
 
-;;
-(defn test-code
-  "db からテストコードを拾ってテストする。"
+(defn- pytest-test
   [num answer]
-  (timbre/debug "test-code" num answer)
-  nil)
+  (timbre/info "pytest")
+  (when-let [test (:test (db/get-problem {:num num}))]
+    (let [tempfile (java.io.File/createTempFile "python" ".py")]
+      (println "pytest test:\n" test)
+      (println "pytest:\n" (.getAbsolutePath tempfile))
+      (with-open [file (clojure.java.io/writer tempfile)]
+        (binding [*out* file]
+          (println answer)
+          (println test)))
+      (timbre/info (sh "pytest" tempfile))
+      (.delete tempfile))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."
-  [n answer]
-  (when validate?
-    (try
-      (not-empty? (strip answer))
-      ;;(space-rule? (remove-comments answer))
-      ;;(check-indent answer)
-      ;;(can-compile? answer)
-      (test-code n answer)
-      nil
-      (catch Exception e (.getMessage e)))))
+  [num answer]
+  (try
+    (not-empty-test (strip answer))
+    (pytest-test num answer)
+    nil
+    (catch Exception e (throw (Exception. (.getMessage e))))))
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
   (try
-   (validate num answer)
-   (db/create-answer!
-       {:login (login request)
-        :num (Integer/parseInt num)
-        :answer answer
-        :md5 (-> answer strip digest/md5)})
-   (redirect (str "/answer/" num))
-   (catch Exception e
-    (layout/render request "error.html"
-                   {:status 406
-                    :title (.getMessage e)
-                    :message "ブラウザのバックで戻って、修正後、再提出してください。"}))))
+    (validate (Integer/parseInt num) answer)
+    (db/create-answer!
+     {:login (login request)
+      :num (Integer/parseInt num)
+      :answer answer
+      :md5 (-> answer strip digest/md5)})
+    (redirect (str "/answer/" num))
+    (catch Exception e
+      (layout/render request "error.html"
+                     {:status 406
+                      :title (.getMessage e)
+                      :message "ブラウザのバックで戻って、修正後、再提出してください。"}))))
 
 ;; (defn- require-my-answer?
 ;;   []

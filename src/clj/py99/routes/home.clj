@@ -194,18 +194,17 @@
 
 (defn- pytest-test
   [num answer]
-  (timbre/info "pytest")
   (when-let [test (:test (db/get-problem {:num num}))]
     (let [tempfile (java.io.File/createTempFile "python" ".py")]
-      (println "pytest test:\n" test)
-      (println "pytest:\n" (.getAbsolutePath tempfile))
       (with-open [file (clojure.java.io/writer tempfile)]
         (binding [*out* file]
           (println answer)
           (println test)))
-      (timbre/info (sh "pytest" tempfile))
-      (.delete tempfile))))
-
+      (let [ret (sh "pytest" (.getAbsolutePath tempfile))]
+        (timbre/info "ret" ret)
+        (.delete tempfile)
+        (when-not (zero? (:exit ret))
+          (throw (Exception. "test failed.")))))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."

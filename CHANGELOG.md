@@ -7,6 +7,8 @@
 - python 問題
 - test がある問題は test を実行して True になる回答だけを受け付ける。
 
+## 0.33.0-SNAPSHOT
+- require pytest
 
 ## 0.32.0 - 2022-09-19
 - ライブラリのバージョンアップ

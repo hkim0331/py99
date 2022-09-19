@@ -9,7 +9,7 @@
    [struct.core :as st]
    [taoensso.timbre :as timbre]))
 
-(def ^:private version "0.31.1")
+(def ^:private version "0.33.0")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 

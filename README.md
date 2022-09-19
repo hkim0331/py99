@@ -1,17 +1,29 @@
 # py99
 
+🔥UNDER CONSTRUCTION🔥
+
 generated using Luminus version "4.19"
 
-## UNDER CONSTRUCTION!
+updated libraries by `antq`
 
-`R99` was programmed with COMMON LISP by me in 2017.
-I planed to version-up the old R99 to a single page application
-with Clojure/Script, but recently gave up since R99 is natural to have
-several pages. Status, problems, new-answer, others-answers, comments,
-and so on.
+## `R99` => `R99c` => `Py99`
 
-I love `duct`. Also I am interested in `reitit`.
-This time, I will try `luminus` to extend my Clojure world.
+In 2017, I programmed `R99` using COMMON LISP.
+It was designed for C programming beginners.
+Although simple, which is not an online tutorial.
+The main purpose of it is to provide mutual stdudying environment to
+students. Students can see other students' answers if he/she submitted
+his/her answers including teacher's advices on this app.
+
+I planed to rewrite the old `R99` with newly learned language,
+Clojure. It was done as `R99c`.
+
+Then in 2022, my university's caliculum changed from C to Python.
+Truely said, it was me who insist the language change because teachers had selected languages accroding to their own favorites. C, processing, JavaScript, bash, and so on. It was no good for students.
+
+So, python. In case of me, I love Clojure much more than Python.
+
+With spirit of Clojure's functional programming, benefit of immutable data, I will teach python. For the preparation, first of all, rebuild `R99c` as `Py99`.
 
 ## Prerequisites
 
@@ -34,4 +46,4 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2021 Hiroshi Kimura
+Copyright © 2021, 2022 Hiroshi Kimura

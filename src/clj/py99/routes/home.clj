@@ -6,11 +6,12 @@
    [clj-time.local :as l]
    [clj-time.periodic :as p]
    [clojure.java.io :as io]
+   [clojure.java.shell :refer [sh]]
    [clojure.string :as str]
    [digest]
    [environ.core :refer [env]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
-   [py99.check-indent :refer [check-indent]]
+   #_[py99.check-indent :refer [check-indent]]
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
@@ -18,15 +19,13 @@
    [selmer.filters :refer [add-filter!]]
    [taoensso.timbre :as timbre]))
 
-;; py99 environment
-(when-let [level (env :py99-log-level)]
-  (timbre/set-level! (keyword level)))
+;; (when-let [level (env :py99-log-level)]
+;;  (timbre/set-level! (keyword level)))
 
-(defn- self-only?
-  []
-  (= "TRUE" (env :py99-self-only)))
+;; FIXME: オフにするのはデバッグ時のみか。
+(def ^:private validate? true)
 
-;; py99 は2021-10-11 から 130 日間営業
+;; py99 は2022-10-10 から 130 日間営業
 (defn- to-date-str [s]
   (-> (str s)
       (subs 0 10)))
@@ -37,9 +36,8 @@
     (->> (take days (p/periodic-seq start-day (t/days 1)))
          (map to-date-str))))
 
-(def ^:private period (make-period 2021 10 11 130))
-
-(def weeks
+(def ^:private period (make-period 2022 10 10 130))
+(def ^:private weeks
   ["2022-10-10" "2022-10-17" "2022-10-24" "2022-10-31"
    "2022-11-07" "2022-11-14" "2022-11-21" "2022-11-28"
    "2022-12-05" "2022-12-12" "2022-12-19" "2022-12-26"
@@ -75,7 +73,7 @@
               count)]
     (if (zero? c)
       (str "")
-      (str " ⤵️ " c))))
+      (str " (+" c " lines)"))))
 
 (add-filter! :wrap66  (fn [x] (wrap 66 x)))
 (add-filter! :first-line (fn [x] (first-line x)))
@@ -87,12 +85,14 @@
   [request]
   (name (get-in request [:session :identity] :nobody)))
 
+;; FIXME
 (defn- admin?
   "return `user` is admin?"
   [user]
-  (:is_admin (db/get-user {:login user})))
+  (= user :hkimua))
 
-;; https://stackoverflow.com/questions/16264813/clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+;; https://stackoverflow.com/questions/16264813/
+;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
   (some #{key} col))
 
@@ -100,15 +100,14 @@
   [col n]
   {:n n :stat (if (lazy-contains? col n) "solved" "yet")})
 
-
 (defn status-page
-  "display user's status. how many problems he/she solved?"
+  "Display user's status. How many problems has he/she solved?"
   [request]
   (let [login (login request)
         solved (map #(:num %) (db/answers-by {:login login}))
         individual (db/answers-by-date-login {:login login})
         all-answers (db/answers-by-date)]
-    ;;(timbre/info "status-page" login)
+    ;; (timbre/info "status-page" login)
     (layout/render
      request
      "status.html"
@@ -122,9 +121,10 @@
 (defn problems-page
   "display problems."
   [request]
-  ;;(timbre/info "problem-page" (login request))
+  ;; (timbre/info "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
+;; FIXME: destructuring
 (defn answer-page
   "Take problem number `num` as path parameter, prep answer to the
    problem."
@@ -133,7 +133,8 @@
         problem (db/get-problem {:num num})
         answers (db/answers-to {:num num})
         frozen?  (db/frozen? {:num num})]
-    ;;(timbre/info "answer-page" (login request))
+    ;; (timbre/info "answer-page" (login request))
+    ;; この if の理由？
     (if-let [answer (db/get-answer {:num num :login (login request)})]
       (let [answers (group-by #(= (:md5 answer) (:md5 %)) answers)]
         (layout/render request
@@ -151,79 +152,88 @@
 
 ;; validations
 (defn- remove-comments
-  "Remove lines starting from //, they are comments in C."
+  "Remove lines starting from #, they are comments in Python."
   [s]
   (apply
    str
-   (interpose "\n" (remove #(str/starts-with? % "//") (str/split-lines s)))))
+   (interpose "\n" (remove #(str/starts-with? % "#") (str/split-lines s)))))
 
 (defn- strip [s]
   (-> s
       (str/replace #"[ \t]" "")
       remove-comments))
 
-(defn- not-empty? [answer]
+;; Boolean を返すわけじゃない。
+(defn- not-empty-test [answer]
   (when-not (re-find #"\S" (strip answer))
     (throw (Exception. "answer is empty"))))
 
-(defn- space-rule?
-  "R99 space-char rules"
-  [s]
-  (when-not (every? nil?
-                    [(re-find #"include<" s)
-                     (re-find #"\)\{" s)
-                     (re-find #"if\(" s)
-                     (re-find #"for\(" s)
-                     (re-find #"while\(" s)
-                     (re-find #"}else" s)
-                     (re-find #"else\{" s)
-                     (re-find #"\n\s*else" s)
-                     (re-find #" \+\+" s)
-                     (re-find #"\+\+\s+[a-zA-Z]" s)])
-    (throw (Exception. "against R99 space rules"))))
+;; (defn- space-rule?
+;;   "R99 space-char rules"
+;;   [s]
+;;   (when-not (every? nil?
+;;                     [(re-find #"include<" s)
+;;                      (re-find #"\)\{" s)
+;;                      (re-find #"if\(" s)
+;;                      (re-find #"for\(" s)
+;;                      (re-find #"while\(" s)
+;;                      (re-find #"}else" s)
+;;                      (re-find #"else\{" s)
+;;                      (re-find #"\n\s*else" s)
+;;                      (re-find #" \+\+" s)
+;;                      (re-find #"\+\+\s+[a-zA-Z]" s)])
+;;     (throw (Exception. "against R99 space rules"))))
 
+;; FIXME: python
 ;; https://github.com/hozumi/clj-commons-exec
-(defn- can-compile? [answer]
-  (let [r (exec/sh ["gcc" "-xc" "-fsyntax-only" "-"] {:in answer})]
-    (timbre/debug "gcc" @r)
-    (when-let [err (:err @r)]
-      (throw (Exception. err)))))
+;; (defn- can-compile? [answer]
+;;   (let [r (exec/sh ["gcc" "-xc" "-fsyntax-only" "-"] {:in answer})]
+;;     (timbre/debug "gcc" @r)
+;;     (when-let [err (:err @r)]
+;;       (throw (Exception. err)))))
+
+(defn- pytest-test
+  [num answer]
+  (when-let [test (:test (db/get-problem {:num num}))]
+    (let [tempfile (java.io.File/createTempFile "python" ".py")]
+      (with-open [file (clojure.java.io/writer tempfile)]
+        (binding [*out* file]
+          (println answer)
+          (println test)))
+      (let [ret (sh "pytest" (.getAbsolutePath tempfile))]
+        (timbre/info "ret" ret)
+        (.delete tempfile)
+        (when-not (zero? (:exit ret))
+          (throw (Exception. "test failed.")))))))
 
 (defn- validate
-  [answer]
+  "Return nil if all validations success, or raize exeption."
+  [num answer]
   (try
-    (not-empty? (strip answer))
-    (space-rule? (remove-comments answer))
-    (check-indent answer)
-    (can-compile? answer)
-    (catch Exception e (.getMessage e))))
+    (not-empty-test (strip answer))
+    (pytest-test num answer)
+    nil
+    (catch Exception e (throw (Exception. (.getMessage e))))))
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
-  ;;(timbre/info "create-answer!")
-  (if-let [error (and (not (self-only?)) (validate answer))]
-    (do
-      (timbre/info "validation failed" (login request) error)
+  (try
+    (validate (Integer/parseInt num) answer)
+    (db/create-answer!
+     {:login (login request)
+      :num (Integer/parseInt num)
+      :answer answer
+      :md5 (-> answer strip digest/md5)})
+    (redirect (str "/answer/" num))
+    (catch Exception e
       (layout/render request "error.html"
                      {:status 406
-                      :title error
-                      :message "ブラウザのバックで戻って、修正後、再提出してください。"}))
-    (try
-      (let [{:keys [id]} (db/create-answer!
-                          {:login (login request)
-                           :num (Integer/parseInt num)
-                           :answer answer
-                           :md5 (-> answer strip digest/md5)})]
-        (redirect (str "/answer/" num)))
-      (catch Exception _
-        (layout/render request "error.html"
-                       {:status 406
-                        :title "frozen r99"
-                        :message "can not insert"})))))
+                      :title (.getMessage e)
+                      :message "ブラウザのバックで戻って、修正後、再提出してください。"}))))
 
-(defn- require-my-answer?
-  []
-  (= (env :py99-require-my-answer) "TRUE"))
+;; (defn- require-my-answer?
+;;   []
+;;   (= (env :py99-require-my-answer) "TRUE"))
 
 (defn comment-form
   "Taking answer id as path-parameter, show the answer with
@@ -233,17 +243,14 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})]
-    ;;(timbre/info "comment-form" (login request))
-    (if (or (not (require-my-answer?)) my-answer)
+    ;; (timbre/info "comment-form" (login request))
+    ;; self-only? を使って書いてた。それは何？
+    (if my-answer
       (layout/render request "comment-form.html"
-                     {:answer   (if (self-only?)
-                                  my-answer
-                                  answer)
+                     {:answer   answer
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (if (self-only?)
-                                  nil
-                                  (db/get-comments {:a_id id}))})
+                      :comments (db/get-comments {:a_id id})})
       (layout/render request "error.html"
                      {:status 403
                       :title "Access Forbidden"
@@ -256,20 +263,20 @@
     (if (db/frozen? {:num num})
       (layout/render request "error.html"
                      {:status 403
-                      :title "Frozen"
+                      :title "Py99 is Frozen"
                       :message "回答受け付けを停止してます。"})
       (try
-         (db/create-comment! {:from_login (login request)
-                              :comment (:comment params)
-                              :to_login (:to_login params)
-                              :p_num num
-                              :a_id (Integer/parseInt (:a_id params))})
-         (redirect "/")
-         (catch Exception _
-           (layout/render request "error.html"
-                          {:status 406
-                           :title "frozen r99"
-                           :message "can not add comments"}))))))
+        (db/create-comment! {:from_login (login request)
+                             :comment (:comment params)
+                             :to_login (:to_login params)
+                             :p_num num
+                             :a_id (Integer/parseInt (:a_id params))})
+        (redirect "/")
+        (catch Exception _
+          (layout/render request "error.html"
+                         {:status 406
+                          :title "frozen r99"
+                          :message "can not add comments"}))))))
 
 (defn comments-sent [request]
   (let [login (get-in request [:path-params :login])
@@ -287,16 +294,16 @@
     (layout/render request "comments.html"
                    {:comments (db/comments-by-num {:num num})})))
 
-(defn ch-pass [{{:keys [old new]} :params :as request}]
-  (let [login (login request)
-        user (db/get-user {:login login})]
-    ;;(timbre/info "ch-pass" login)
-    (if (and (seq user) (hashers/check old (:password user)))
-      (do
-        (db/update-user! {:login login :password (hashers/derive new)})
-        (redirect "/login"))
-      (layout/render request "error.html"
-                     {:message "did not match old password"}))))
+;; (defn ch-pass [{{:keys [old new]} :params :as request}]
+;;   (let [login (login request)
+;;         user (db/get-user {:login login})]
+;;     ;;(timbre/info "ch-pass" login)
+;;     (if (and (seq user) (hashers/check old (:password user)))
+;;       (do
+;;         (db/update-user! {:login login :password (hashers/derive new)})
+;;         (redirect "/login"))
+;;       (layout/render request "error.html"
+;;                      {:message "did not match old password"}))))
 
 ;;
 ;; weekly counts
@@ -352,7 +359,7 @@
 
 (defn profile-login
   [request]
-  ;;(timbre/info "profile-login" (login request))
+  ;; (timbre/info "profile-login" (login request))
   (if (admin? (login request))
     (profile (get-in request [:path-params :login]))
     (layout/render request "error.html"
@@ -361,7 +368,7 @@
                     :message "admin only. "})))
 
 (defn ranking [request]
-  ;;(timbre/info "ranking" (login request))
+  ;; (timbre/info "ranking" (login request))
   (layout/render request "ranking.html"
                  {:submissions (take 30 (db/submissions))
                   :solved      (take 30 (db/solved))
@@ -371,7 +378,7 @@
 
 (defn rank-submissions [request]
   (let [login (login request)]
-    ;;(timbre/info "rank-submissions" login)
+    ;; (timbre/info "rank-submissions" login)
     (layout/render request "ranking-all.html"
                    {:data (db/submissions)
                     :title "Ranking Submissions"
@@ -380,7 +387,7 @@
 
 (defn rank-solved [request]
   (let [login (login request)]
-    ;;(timbre/info "rank-solved" login)
+    ;; (timbre/info "rank-solved" login)
     (layout/render request "ranking-all.html"
                    {:data (db/solved)
                     :title "Ranking Solved"
@@ -392,7 +399,7 @@
         data (map (fn [x] {:login (:from_login x)
                            :count (:count x)})
                   (db/comments-counts))]
-    ;;(timbre/info "rank-comments" login)
+    ;; (timbre/info "rank-comments" login)
     (layout/render request "ranking-all.html"
                    {:data data
                     :title "Comments Ranking"
@@ -401,7 +408,7 @@
 
 (defn answers-by-problems [request]
   (let [data (db/answers-by-problems)]
-    ;;(timbre/info "answers-by-problems" (login request))
+    ;; (timbre/info "answers-by-problems" (login request))
     (layout/render request "answers-by-problems.html"
                    {:data data
                     :title "Answers by Problems"})))
@@ -414,7 +421,7 @@
    ["/answers" {:get answers-by-problems}]
    ["/answer/:num" {:get  answer-page
                     :post create-answer!}]
-   ["/ch-pass" {:post ch-pass}]
+   #_["/ch-pass" {:post ch-pass}]
    ["/comment/:id" {:get  comment-form
                     :post create-comment!}]
    ["/comments" {:get comments}]

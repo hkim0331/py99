@@ -6,7 +6,17 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
 - test がある問題は test を実行して True になる回答だけを受け付ける。
-- weekly [submissions comments]
+- timbre を tools.logging でリプレース。
+
+
+## 0.33.0 - 2022-09-20
+- require pytest. poetry の外側でやむなく pip install pytest.
+- No value supplied for key: /tmp/python14732584781486045261.py のエラーは
+  java.io.File/createTempFile をそのまま sh に渡していたからか？
+  (.getAbosolutePath tempfile) と囲んだら OK.
+- 再び三度、VScode でバッファの内容が書き変わってしまう事件。
+  opt+return で home.clj の式を評価すると
+  home.clj バッファの内容が outpt.calva-repl で上書きされる。
 
 ## 0.32.0 - 2022-09-19
 - ライブラリのバージョンアップ

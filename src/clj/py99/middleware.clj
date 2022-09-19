@@ -40,7 +40,7 @@
 ;;      false))
 
 (defn admin? [request]
- (= :hkimura (get-in request [:session :identity] nil)))
+ (= :hkimura (get-in request [:session :identity])))
 
 ;; Added 2021-10-06
 (defn admin [handler]

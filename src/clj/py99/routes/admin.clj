@@ -61,8 +61,9 @@
    ["/" {:get  admin-page}]
    ["/problems" {:get problems-page
                  :post update-problem!}]
-   ;;["/users"    {:get users-page}]
-   ;;["/comments" {:get comments-page}]
+   ;; ["/users"    {:get users-page}]
+   ;; ["/comments" {:get comments-page}]
+   ;; no use?
    ["/seed-problems" {:post seed-problems!}]
    ["/freeze/:num"  {:post freeze!}]
    ["/froze/:num"   {:get frozen?}]

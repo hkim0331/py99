@@ -18,15 +18,11 @@
    [selmer.filters :refer [add-filter!]]
    [taoensso.timbre :as timbre]))
 
-;; py99 environment
-(when-let [level (env :py99-log-level)]
-  (timbre/set-level! (keyword level)))
+;; (when-let [level (env :py99-log-level)]
+;;  (timbre/set-level! (keyword level)))
 
-(defn- do-validate?
-  "Returns environment variable `Py99NoCheck`s negate value.
-   If this is false, does not validate answers."
-  []
-  (nil? (env :py99-no-check)))
+;; FIXME: オフにするのはデバッグ時のみか。
+(def ^:private validate? true)
 
 ;; py99 は2022-10-10 から 130 日間営業
 (defn- to-date-str [s]
@@ -76,7 +72,7 @@
               count)]
     (if (zero? c)
       (str "")
-      (str "(+" c " lines)"))))
+      (str " (+" c " lines)"))))
 
 (add-filter! :wrap66  (fn [x] (wrap 66 x)))
 (add-filter! :first-line (fn [x] (first-line x)))
@@ -104,13 +100,13 @@
   {:n n :stat (if (lazy-contains? col n) "solved" "yet")})
 
 (defn status-page
-  "display user's status. how many problems he/she solved?"
+  "Display user's status. How many problems has he/she solved?"
   [request]
   (let [login (login request)
         solved (map #(:num %) (db/answers-by {:login login}))
         individual (db/answers-by-date-login {:login login})
         all-answers (db/answers-by-date)]
-    ;;(timbre/info "status-page" login)
+    ;; (timbre/info "status-page" login)
     (layout/render
      request
      "status.html"
@@ -124,9 +120,10 @@
 (defn problems-page
   "display problems."
   [request]
-  ;;(timbre/info "problem-page" (login request))
+  ;; (timbre/info "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
+;; FIXME: destructuring
 (defn answer-page
   "Take problem number `num` as path parameter, prep answer to the
    problem."
@@ -135,7 +132,8 @@
         problem (db/get-problem {:num num})
         answers (db/answers-to {:num num})
         frozen?  (db/frozen? {:num num})]
-    ;;(timbre/info "answer-page" (login request))
+    ;; (timbre/info "answer-page" (login request))
+    ;; この if の理由？
     (if-let [answer (db/get-answer {:num num :login (login request)})]
       (let [answers (group-by #(= (:md5 answer) (:md5 %)) answers)]
         (layout/render request
@@ -200,8 +198,9 @@
   nil)
 
 (defn- validate
+  "Return nil if all validations success, or raize exeption."
   [n answer]
-  (when (do-validate?)
+  (when validate?
     (try
       (not-empty? (strip answer))
       ;;(space-rule? (remove-comments answer))
@@ -213,30 +212,23 @@
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
-  ;;(timbre/info "create-answer!")
-  (if-let [error (validate num answer)]
-    (do
-      (timbre/info "validation failed" (login request) error)
-      (layout/render request "error.html"
-                     {:status 406
-                      :title error
-                      :message "ブラウザのバックで戻って、修正後、再提出してください。"}))
-    (try
-      (let [{:keys [id]} (db/create-answer!
-                          {:login (login request)
-                           :num (Integer/parseInt num)
-                           :answer answer
-                           :md5 (-> answer strip digest/md5)})]
-        (redirect (str "/answer/" num)))
-      (catch Exception _
-        (layout/render request "error.html"
-                       {:status 406
-                        :title "frozen r99"
-                        :message "can not insert"})))))
+  (try
+   (validate num answer)
+   (db/create-answer!
+       {:login (login request)
+        :num (Integer/parseInt num)
+        :answer answer
+        :md5 (-> answer strip digest/md5)})
+   (redirect (str "/answer/" num))
+   (catch Exception e
+    (layout/render request "error.html"
+                   {:status 406
+                    :title (.getMessage e)
+                    :message "ブラウザのバックで戻って、修正後、再提出してください。"}))))
 
-(defn- require-my-answer?
-  []
-  (= (env :py99-require-my-answer) "TRUE"))
+;; (defn- require-my-answer?
+;;   []
+;;   (= (env :py99-require-my-answer) "TRUE"))
 
 (defn comment-form
   "Taking answer id as path-parameter, show the answer with
@@ -246,17 +238,14 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})]
-    ;;(timbre/info "comment-form" (login request))
+    ;; (timbre/info "comment-form" (login request))
+    ;; self-only? を使って書いてた。それは何？
     (if my-answer
       (layout/render request "comment-form.html"
-                     {:answer   (if true
-                                  my-answer
-                                  answer)
+                     {:answer   answer
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (if true
-                                  nil
-                                  (db/get-comments {:a_id id}))})
+                      :comments (db/get-comments {:a_id id})})
       (layout/render request "error.html"
                      {:status 403
                       :title "Access Forbidden"
@@ -269,7 +258,7 @@
     (if (db/frozen? {:num num})
       (layout/render request "error.html"
                      {:status 403
-                      :title "Frozen"
+                      :title "Py99 is Frozen"
                       :message "回答受け付けを停止してます。"})
       (try
         (db/create-comment! {:from_login (login request)
@@ -365,7 +354,7 @@
 
 (defn profile-login
   [request]
-  ;;(timbre/info "profile-login" (login request))
+  ;; (timbre/info "profile-login" (login request))
   (if (admin? (login request))
     (profile (get-in request [:path-params :login]))
     (layout/render request "error.html"
@@ -374,7 +363,7 @@
                     :message "admin only. "})))
 
 (defn ranking [request]
-  ;;(timbre/info "ranking" (login request))
+  ;; (timbre/info "ranking" (login request))
   (layout/render request "ranking.html"
                  {:submissions (take 30 (db/submissions))
                   :solved      (take 30 (db/solved))
@@ -384,7 +373,7 @@
 
 (defn rank-submissions [request]
   (let [login (login request)]
-    ;;(timbre/info "rank-submissions" login)
+    ;; (timbre/info "rank-submissions" login)
     (layout/render request "ranking-all.html"
                    {:data (db/submissions)
                     :title "Ranking Submissions"
@@ -393,7 +382,7 @@
 
 (defn rank-solved [request]
   (let [login (login request)]
-    ;;(timbre/info "rank-solved" login)
+    ;; (timbre/info "rank-solved" login)
     (layout/render request "ranking-all.html"
                    {:data (db/solved)
                     :title "Ranking Solved"
@@ -405,7 +394,7 @@
         data (map (fn [x] {:login (:from_login x)
                            :count (:count x)})
                   (db/comments-counts))]
-    ;;(timbre/info "rank-comments" login)
+    ;; (timbre/info "rank-comments" login)
     (layout/render request "ranking-all.html"
                    {:data data
                     :title "Comments Ranking"
@@ -414,7 +403,7 @@
 
 (defn answers-by-problems [request]
   (let [data (db/answers-by-problems)]
-    ;;(timbre/info "answers-by-problems" (login request))
+    ;; (timbre/info "answers-by-problems" (login request))
     (layout/render request "answers-by-problems.html"
                    {:data data
                     :title "Answers by Problems"})))

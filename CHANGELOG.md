@@ -20,6 +20,11 @@ int error() {
 }
 ```
 
+## 0.31.1 - 2022-09-19
+## Removed
+- removed ~/.git.orig
+- removed initdb.d, db-dumps
+
 ## 0.31.0 - 2022-09-19
 early-deploy
 - dns

@@ -194,25 +194,27 @@
 
 ;;
 (defn test-code
-  [answer test]
-  true)
+  "db からテストコードを拾ってテストする。"
+  [num answer]
+  (timbre/debug "test-code" num answer)
+  nil)
 
 (defn- validate
-  [answer]
+  [n answer]
   (when (do-validate?)
     (try
       (not-empty? (strip answer))
       ;;(space-rule? (remove-comments answer))
       ;;(check-indent answer)
       ;;(can-compile? answer)
-      (test-code answer "")
+      (test-code n answer)
       nil
       (catch Exception e (.getMessage e)))))
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
   ;;(timbre/info "create-answer!")
-  (if-let [error (validate answer)]
+  (if-let [error (validate num answer)]
     (do
       (timbre/info "validation failed" (login request) error)
       (layout/render request "error.html"

@@ -24,13 +24,14 @@ int error() {
 - dns
 - nginx
 - systemd
+- repository
 
 ## 0.30.0 - 2022-09-19
 restart as Py99 for 2022 classes.
 * login の差し替え
   l22.melt の API を利用する。CORS が心配だが。
 
-- - - -
+- - - - - - - - - - - -
 
 ## 0.26.4 - 2022-04-07
 ### Changed

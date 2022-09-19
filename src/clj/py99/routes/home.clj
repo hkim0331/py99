@@ -10,7 +10,7 @@
    [digest]
    [environ.core :refer [env]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
-   [py99.check-indent :refer [check-indent]]
+   #_[py99.check-indent :refer [check-indent]]
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
@@ -22,11 +22,13 @@
 (when-let [level (env :py99-log-level)]
   (timbre/set-level! (keyword level)))
 
-(defn- self-only?
+(defn- do-validate?
+  "Returns environment variable `Py99NoCheck`s negate value.
+   If this is false, does not validate answers."
   []
-  (= "TRUE" (env :py99-self-only)))
+  (nil? (env :py99-no-check)))
 
-;; py99 は2021-10-11 から 130 日間営業
+;; py99 は2022-10-10 から 130 日間営業
 (defn- to-date-str [s]
   (-> (str s)
       (subs 0 10)))
@@ -37,9 +39,8 @@
     (->> (take days (p/periodic-seq start-day (t/days 1)))
          (map to-date-str))))
 
-(def ^:private period (make-period 2021 10 11 130))
-
-(def weeks
+(def ^:private period (make-period 2022 10 10 130))
+(def ^:private weeks
   ["2022-10-10" "2022-10-17" "2022-10-24" "2022-10-31"
    "2022-11-07" "2022-11-14" "2022-11-21" "2022-11-28"
    "2022-12-05" "2022-12-12" "2022-12-19" "2022-12-26"
@@ -75,7 +76,7 @@
               count)]
     (if (zero? c)
       (str "")
-      (str " ⤵️ " c))))
+      (str "(+" c " lines)"))))
 
 (add-filter! :wrap66  (fn [x] (wrap 66 x)))
 (add-filter! :first-line (fn [x] (first-line x)))
@@ -87,19 +88,20 @@
   [request]
   (name (get-in request [:session :identity] :nobody)))
 
+;; FIXME
 (defn- admin?
   "return `user` is admin?"
   [user]
-  (:is_admin (db/get-user {:login user})))
+  true)
 
-;; https://stackoverflow.com/questions/16264813/clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+;; https://stackoverflow.com/questions/16264813/
+;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
   (some #{key} col))
 
 (defn- solved?
   [col n]
   {:n n :stat (if (lazy-contains? col n) "solved" "yet")})
-
 
 (defn status-page
   "display user's status. how many problems he/she solved?"
@@ -151,11 +153,11 @@
 
 ;; validations
 (defn- remove-comments
-  "Remove lines starting from //, they are comments in C."
+  "Remove lines starting from #, they are comments in Python."
   [s]
   (apply
    str
-   (interpose "\n" (remove #(str/starts-with? % "//") (str/split-lines s)))))
+   (interpose "\n" (remove #(str/starts-with? % "#") (str/split-lines s)))))
 
 (defn- strip [s]
   (-> s
@@ -166,42 +168,51 @@
   (when-not (re-find #"\S" (strip answer))
     (throw (Exception. "answer is empty"))))
 
-(defn- space-rule?
-  "R99 space-char rules"
-  [s]
-  (when-not (every? nil?
-                    [(re-find #"include<" s)
-                     (re-find #"\)\{" s)
-                     (re-find #"if\(" s)
-                     (re-find #"for\(" s)
-                     (re-find #"while\(" s)
-                     (re-find #"}else" s)
-                     (re-find #"else\{" s)
-                     (re-find #"\n\s*else" s)
-                     (re-find #" \+\+" s)
-                     (re-find #"\+\+\s+[a-zA-Z]" s)])
-    (throw (Exception. "against R99 space rules"))))
+;; (defn- space-rule?
+;;   "R99 space-char rules"
+;;   [s]
+;;   (when-not (every? nil?
+;;                     [(re-find #"include<" s)
+;;                      (re-find #"\)\{" s)
+;;                      (re-find #"if\(" s)
+;;                      (re-find #"for\(" s)
+;;                      (re-find #"while\(" s)
+;;                      (re-find #"}else" s)
+;;                      (re-find #"else\{" s)
+;;                      (re-find #"\n\s*else" s)
+;;                      (re-find #" \+\+" s)
+;;                      (re-find #"\+\+\s+[a-zA-Z]" s)])
+;;     (throw (Exception. "against R99 space rules"))))
 
+;; FIXME: python
 ;; https://github.com/hozumi/clj-commons-exec
-(defn- can-compile? [answer]
-  (let [r (exec/sh ["gcc" "-xc" "-fsyntax-only" "-"] {:in answer})]
-    (timbre/debug "gcc" @r)
-    (when-let [err (:err @r)]
-      (throw (Exception. err)))))
+;; (defn- can-compile? [answer]
+;;   (let [r (exec/sh ["gcc" "-xc" "-fsyntax-only" "-"] {:in answer})]
+;;     (timbre/debug "gcc" @r)
+;;     (when-let [err (:err @r)]
+;;       (throw (Exception. err)))))
+
+;;
+(defn test-code
+  [answer test]
+  true)
 
 (defn- validate
   [answer]
-  (try
-    (not-empty? (strip answer))
-    (space-rule? (remove-comments answer))
-    (check-indent answer)
-    (can-compile? answer)
-    (catch Exception e (.getMessage e))))
+  (when (do-validate?)
+    (try
+      (not-empty? (strip answer))
+      ;;(space-rule? (remove-comments answer))
+      ;;(check-indent answer)
+      ;;(can-compile? answer)
+      (test-code answer "")
+      nil
+      (catch Exception e (.getMessage e)))))
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
   ;;(timbre/info "create-answer!")
-  (if-let [error (and (not (self-only?)) (validate answer))]
+  (if-let [error (validate answer)]
     (do
       (timbre/info "validation failed" (login request) error)
       (layout/render request "error.html"
@@ -234,14 +245,14 @@
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})]
     ;;(timbre/info "comment-form" (login request))
-    (if (or (not (require-my-answer?)) my-answer)
+    (if my-answer
       (layout/render request "comment-form.html"
-                     {:answer   (if (self-only?)
+                     {:answer   (if true
                                   my-answer
                                   answer)
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (if (self-only?)
+                      :comments (if true
                                   nil
                                   (db/get-comments {:a_id id}))})
       (layout/render request "error.html"
@@ -259,17 +270,17 @@
                       :title "Frozen"
                       :message "回答受け付けを停止してます。"})
       (try
-         (db/create-comment! {:from_login (login request)
-                              :comment (:comment params)
-                              :to_login (:to_login params)
-                              :p_num num
-                              :a_id (Integer/parseInt (:a_id params))})
-         (redirect "/")
-         (catch Exception _
-           (layout/render request "error.html"
-                          {:status 406
-                           :title "frozen r99"
-                           :message "can not add comments"}))))))
+        (db/create-comment! {:from_login (login request)
+                             :comment (:comment params)
+                             :to_login (:to_login params)
+                             :p_num num
+                             :a_id (Integer/parseInt (:a_id params))})
+        (redirect "/")
+        (catch Exception _
+          (layout/render request "error.html"
+                         {:status 406
+                          :title "frozen r99"
+                          :message "can not add comments"}))))))
 
 (defn comments-sent [request]
   (let [login (get-in request [:path-params :login])
@@ -287,16 +298,16 @@
     (layout/render request "comments.html"
                    {:comments (db/comments-by-num {:num num})})))
 
-(defn ch-pass [{{:keys [old new]} :params :as request}]
-  (let [login (login request)
-        user (db/get-user {:login login})]
-    ;;(timbre/info "ch-pass" login)
-    (if (and (seq user) (hashers/check old (:password user)))
-      (do
-        (db/update-user! {:login login :password (hashers/derive new)})
-        (redirect "/login"))
-      (layout/render request "error.html"
-                     {:message "did not match old password"}))))
+;; (defn ch-pass [{{:keys [old new]} :params :as request}]
+;;   (let [login (login request)
+;;         user (db/get-user {:login login})]
+;;     ;;(timbre/info "ch-pass" login)
+;;     (if (and (seq user) (hashers/check old (:password user)))
+;;       (do
+;;         (db/update-user! {:login login :password (hashers/derive new)})
+;;         (redirect "/login"))
+;;       (layout/render request "error.html"
+;;                      {:message "did not match old password"}))))
 
 ;;
 ;; weekly counts
@@ -414,7 +425,7 @@
    ["/answers" {:get answers-by-problems}]
    ["/answer/:num" {:get  answer-page
                     :post create-answer!}]
-   ["/ch-pass" {:post ch-pass}]
+   #_["/ch-pass" {:post ch-pass}]
    ["/comment/:id" {:get  comment-form
                     :post create-comment!}]
    ["/comments" {:get comments}]

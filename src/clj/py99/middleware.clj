@@ -34,10 +34,13 @@
       (wrap-authorization  auth-backend)
       (wrap-authentication auth-backend)))
 
+;; (defn admin? [request]
+;;    (if-let [login (get-in request [:session :identity] nil)]
+;;      (boolean (:is_admin (db/get-user {:login (name login)})))
+;;      false))
+
 (defn admin? [request]
-   (if-let [login (get-in request [:session :identity] nil)]
-     (boolean (:is_admin (db/get-user {:login (name login)})))
-     false))
+ (= :hkimura (get-in request [:session :identity] nil)))
 
 ;; Added 2021-10-06
 (defn admin [handler]

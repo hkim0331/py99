@@ -1,16 +1,15 @@
 (ns py99.handler
   (:require
-    [mount.core :as mount]
-    [py99.env :refer [defaults]]
-    [py99.layout :refer [error-page]]
-    [py99.middleware :as middleware]
-    [py99.routes.home :refer [home-routes]]
-    [reitit.ring :as ring]
-    [ring.middleware.content-type :refer [wrap-content-type]]
-    [ring.middleware.webjars :refer [wrap-webjars]]
-    ;;
-    [py99.routes.admin :refer [admin-routes]]
-    [py99.routes.login :refer [login-routes]]))
+   [mount.core :as mount]
+   [py99.env :refer [defaults]]
+   [py99.layout :refer [error-page]]
+   [py99.middleware :as middleware]
+   [py99.routes.admin :refer [admin-routes]]
+   [py99.routes.home :refer [home-routes]]
+   [py99.routes.login :refer [login-routes]]
+   [reitit.ring :as ring]
+   [ring.middleware.content-type :refer [wrap-content-type]]
+   [ring.middleware.webjars :refer [wrap-webjars]]))
 
 (mount/defstate init-app
   :start ((or (:init defaults) (fn [])))

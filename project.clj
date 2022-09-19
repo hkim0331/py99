@@ -1,4 +1,4 @@
-(defproject py99 "0.26.4"
+(defproject py99 "0.30.0-SNAPSHOT"
 
   :description "r99 revised with clojure"
   :url "https://r99.melt.kyutech.ac.jp"
@@ -40,6 +40,7 @@
    [com.taoensso/timbre "5.1.2"]
    [digest "1.4.10"]
    [environ/environ "1.2.0"]
+   [hato/hato "0.8.2"]
    [hiccup "1.0.5"]
    [org.clojars.hozumi/clj-commons-exec "1.2.0"]]
 

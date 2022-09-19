@@ -21,4 +21,4 @@ profiles.clj
 /log/
 /node_modules/
 /docker-compose.yml
-/.devcontaier/
+/.devcontainer/

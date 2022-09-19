@@ -6,9 +6,12 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
 - test がある問題は test を実行して True になる回答だけを受け付ける。
+- timbre を tools.logging でリプレース。
+
 
 ## 0.33.0-SNAPSHOT
 - require pytest
+- No value supplied for key: /tmp/python14732584781486045261.py
 
 ## 0.32.0 - 2022-09-19
 - ライブラリのバージョンアップ

@@ -206,6 +206,7 @@
       (timbre/info (sh "pytest" tempfile))
       (.delete tempfile))))
 
+
 (defn- validate
   "Return nil if all validations success, or raize exeption."
   [num answer]

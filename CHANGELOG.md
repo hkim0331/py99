@@ -10,7 +10,7 @@
 
 
 ## 0.33.0 - 2022-09-20
-- require pytest
+- require pytest. poetry の外側でやむなく pip install pytest.
 - No value supplied for key: /tmp/python14732584781486045261.py のエラーは
   java.io.File/createTempFile をそのまま sh に渡していたからか？
   (.getAbosolutePath tempfile) と囲んだら OK.

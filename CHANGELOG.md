@@ -1,24 +1,13 @@
 # CHANGELOG.md
 
 ## Unreleased
-- problems に C のコードをデコレートして表示する。
-```c
-int func_test(void) {
-  return 1==1 && 2==2 && 3==3;
-}
-```
 - r99のタブが今「Welcome to r99」ですが、
   問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
   何番を解いているタブを開いているか分かるようにしてほしいです！
-- comments all に pager の導入
-- chart y 軸を動的に。
-- "" の中、'{'、'}' をエスケープする。
-```c
-int error() {
-  char a[] = "a{bcd}e";
-  return a[1] == '{' && a[5] == '}';
-}
-```
+- python 問題
+- test がある問題は test を実行して True になる回答だけを受け付ける。
+- ライブラリのバージョンアップ
+- weekly [submissions comments]
 
 ## 0.31.1 - 2022-09-19
 ## Removed

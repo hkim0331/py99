@@ -1,6 +1,7 @@
 (ns py99.routes.login
   (:require
    [buddy.hashers :as hashers]
+   [hato.client :as hc]
    [py99.layout :as layout]
    [py99.db.core :as db]
    [py99.middleware :as middleware]
@@ -8,7 +9,17 @@
    [struct.core :as st]
    [taoensso.timbre :as timbre]))
 
-(def ^:private version "0.26.4")
+(def ^:private version "0.30.0-SNAPSHOT")
+
+;; debug
+(def ^:private l22 "http://localhost:3022")
+
+(defn get-user
+  [login]
+  (let [resp (hc/get (str l22 "/api/user/" login) {:as :json})]
+    (timbre/debug "get-user" resp)
+    (:body resp)))
+
 
 (def users-schema
   [[:sid
@@ -51,14 +62,13 @@
 (defn login-post [{{:keys [login password]} :params}]
   (let [user (db/get-user {:login login})]
     (if (or
-         (and (= login "nobody") (= password "nobody"))
          (and (seq user)
               (= (:login user) login)
               (hashers/check password (:password user))))
       (do
         (timbre/info "login success" login)
-       ;; in read-only mode, can not this.
-       ;;(db/login {:login login})
+        ;; in read-only mode, can not this.
+        ;; (db/login {:login login})
         (-> (redirect "/")
             (assoc-in [:session :identity] (keyword login))))
       (do
@@ -75,16 +85,16 @@
                  "register.html"
                  {:errors (select-keys flash [:errors])}))
 
-(defn register-post [{params :params}]
-  (if-let [errors (validate-user params)]
-    (-> (redirect "/register")
-        (assoc :flash (assoc params :errors errors)))
-    (try
-      (db/create-user! (assoc (dissoc params :password)
-                              :password (hashers/derive (:password params))))
-      (redirect "/login")
-      (catch Exception _
-        (redirect "/register")))))
+;; (defn register-post [{params :params}]
+;;   (if-let [errors (validate-user params)]
+;;     (-> (redirect "/register")
+;;         (assoc :flash (assoc params :errors errors)))
+;;     (try
+;;       (db/create-user! (assoc (dissoc params :password)
+;;                               :password (hashers/derive (:password params))))
+;;       (redirect "/login")
+;;       (catch Exception _
+;;         (redirect "/register")))))
 
 (defn login-routes []
   [""
@@ -94,8 +104,7 @@
    ["/admin-only" {:get admin-only}]
    ["/login" {:get  login
               :post login-post}]
-   ;; FIXME: post
    ["/logout" {:get logout}]
-   ["/register" {:get  register
-                 :post register-post}]])
+   #_["/register" {:get  register
+                   :post register-post}]])
 

@@ -17,18 +17,18 @@
     (migrations/migrate ["migrate"] (select-keys env [:database-url]))
     (f)))
 
-(deftest test-users
-  (jdbc/with-transaction [t-conn *db* {:rollback-only true}]
-    (is (= 1 (db/create-user!
-              t-conn
-              {:sid    "Sam"
-               :login  "Smith"
-               :name   "smith"
-               :password "pass"}
-              {})))
-    (is (= {:sid    "Sam"
-            :login  "Smith"
-            :name   "smith"
-            :password "pass"}
-           (-> (db/get-user t-conn {:login "Smith"} {})
-               (select-keys [:sid :login :name :password]))))))
+;; (deftest test-users
+;;   (jdbc/with-transaction [t-conn *db* {:rollback-only true}]
+;;     (is (= 1 (db/create-user!
+;;               t-conn
+;;               {:sid    "Sam"
+;;                :login  "Smith"
+;;                :name   "smith"
+;;                :password "pass"}
+;;               {})))
+;;     (is (= {:sid    "Sam"
+;;             :login  "Smith"
+;;             :name   "smith"
+;;             :password "pass"}
+;;            (-> (db/get-user t-conn {:login "Smith"} {})
+;;                (select-keys [:sid :login :name :password]))))))

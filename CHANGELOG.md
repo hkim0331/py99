@@ -20,9 +20,15 @@ int error() {
 }
 ```
 
+## 0.30.1-early-deploy
+- dns
+- nginx
+- systemd
+
 ## 0.30.0 - 2022-09-19
 restart as Py99 for 2022 classes.
 * login の差し替え
+  l22.melt の API を利用する。CORS が心配だが。
 
 - - - -
 

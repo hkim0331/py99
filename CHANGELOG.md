@@ -20,7 +20,8 @@ int error() {
 }
 ```
 
-## 0.30.1-early-deploy
+## 0.31.0 - 2022-09-19
+early-deploy
 - dns
 - nginx
 - systemd

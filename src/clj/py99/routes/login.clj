@@ -15,11 +15,13 @@
 (def ^:private l22 "http://localhost:3022")
 
 (defn get-user
+  "retrieve str login's info from API."
   [login]
-  (let [resp (hc/get (str l22 "/api/user/" login) {:as :json})]
-    (timbre/debug "get-user" resp)
+  (let [ep (str l22 "/api/user/" login)
+        resp (hc/get ep {:as :json})]
+    ;; (timbre/debug "body get-user ep " ep)
+    ;; (timbre/debug "(:body resp)" (:body resp))
     (:body resp)))
-
 
 (def users-schema
   [[:sid
@@ -35,7 +37,7 @@
     st/string
     {:message "同じユーザ名があります。"
      :validate (fn [login]
-                 (let [ret (db/get-user {:login login})]
+                 (let [ret (get-user login)]
                    (timbre/debug "validate ret:" ret)
                    (empty? ret)))}]
    [:password
@@ -60,11 +62,10 @@
   (layout/render request "login.html" {:flash (:flash request)}))
 
 (defn login-post [{{:keys [login password]} :params}]
-  (let [user (db/get-user {:login login})]
-    (if (or
-         (and (seq user)
-              (= (:login user) login)
-              (hashers/check password (:password user))))
+  (let [user (get-user login)]
+    (if (and (seq user)
+           (= (:login user) login)
+           (hashers/check password (:password user)))
       (do
         (timbre/info "login success" login)
         ;; in read-only mode, can not this.
@@ -72,7 +73,7 @@
         (-> (redirect "/")
             (assoc-in [:session :identity] (keyword login))))
       (do
-        (timbre/info "login faild" login password)
+        (timbre/info "login faild" login)
         (-> (redirect "/login")
             (assoc :flash "login failure"))))))
 
@@ -80,10 +81,10 @@
   (-> (redirect "/")
       (assoc :session {})))
 
-(defn register [{:keys [flash] :as request}]
-  (layout/render request
-                 "register.html"
-                 {:errors (select-keys flash [:errors])}))
+;; (defn register [{:keys [flash] :as request}]
+;;   (layout/render request
+;;                  "register.html"
+;;                  {:errors (select-keys flash [:errors])}))
 
 ;; (defn register-post [{params :params}]
 ;;   (if-let [errors (validate-user params)]

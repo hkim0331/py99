@@ -3,7 +3,7 @@
    [buddy.hashers :as hashers]
    [hato.client :as hc]
    [py99.layout :as layout]
-   [py99.db.core :as db]
+   #_[py99.db.core :as db]
    [py99.middleware :as middleware]
    [ring.util.response :refer [redirect]]
    [struct.core :as st]
@@ -11,11 +11,11 @@
 
 (def ^:private version "0.30.0-SNAPSHOT")
 
-;; debug
-(def ^:private l22 "http://localhost:3022")
+(def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 
 (defn get-user
-  "retrieve str login's info from API."
+  "retrieve str login's info from API.
+   note: parameter is a string. cf. (db/get-user {:login login})"
   [login]
   (let [ep (str l22 "/api/user/" login)
         resp (hc/get ep {:as :json})]

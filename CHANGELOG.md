@@ -6,6 +6,9 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
 - test がある問題は test を実行して True になる回答だけを受け付ける。
+- weekly [submissions comments]
+
+## 0.32.0 - 2022-09-19
 - ライブラリのバージョンアップ
 - weekly [submissions comments]
 

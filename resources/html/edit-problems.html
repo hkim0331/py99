@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="content">
+    <h2>Problems</h2>
+    <p>問題文に改行には &lt;br&gt; が必要。
+      テストコードは &lt;pre&gt;~&lt;/pre&gt; で表示する。</p>
+    {% for p in problems %}
+    <form method='post'>
+      {% csrf-field %}
+      <input name='id'  class='id'  value='{{p.id}}' readonly='readonly'>
+      <input name='num' class='num' value='{{p.num}}'>
+      <input name='is_avail' class='is_avail' value='{{p.is_avail}}'><br>
+      <textarea name='problem' class='textarea'>{{p.problem}}</textarea><br>
+      <textarea name='test' class='textarea'>{{p.test}}</textarea><br>
+      <input type='submit' value='update'>
+   </form>
+   <hr>
+   {% endfor %}
+  </div>
+{% endblock %}

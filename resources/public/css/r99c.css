@@ -1,0 +1,18 @@
+input.id  {width: 50px;}
+input.num {width: 50px;}
+input.is_avail {width: 50px;}
+
+a.solved  {color: white; background: hsl(217,71%,53%);}
+a.yet     {color: hsl(217,71%,53%); background: white;}
+
+.nocopy {user-select: none;
+         -webkit-user-select: none;
+         -moz-user-select: none;
+         -khtml-user-select: none;
+         -webkit-user-drag: none;
+         -khtml-user-drag: none;}
+
+textarea.answer {height: 300px;}
+
+.red {color: red;}
+.blue {color: blue;}

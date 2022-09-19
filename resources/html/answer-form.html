@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="content">
+  <h2>New answer to Problem {{problem.num}}</h2>
+  <p>{{problem.problem|safe}}</p>
+
+  {% if frozen? %}
+  <p class="red">期末試験終了につき、新規投稿を受付停止してます。</p>
+  {% else %}
+  <form method='post'>
+    {% csrf-field %}
+    <input type='hidden' name='num' value='{{problem.num}}'>
+    <textarea name='answer' class='textarea answer'
+     placeholder='replit.com 等で動作確認してから submit すること。動作確認せずに submit は減点。'></textarea><br>
+    <input type='submit' name='action' value='submit' class='button is-warning is-small'>
+  </form>
+  {% endif %}
+  <br>
+  <p>test code:</p>
+  <pre>{{problem.test}}</pre>
+
+  <h3>Same Answers (including yours)</h3>
+
+  {% for a in same %}
+  <a href='/comment/{{a.id}}'>{{a.login}}</a>
+  &nbsp;
+  {% endfor %}
+
+  <h3>Different Answers</h3>
+
+  {% for a in differ %}
+  <a href='/comment/{{a.id}}'>{{a.login}}</a>
+  &nbsp;
+  {% endfor %}
+
+  </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+[Unit]
+Description=Py99 from py99
+
+[Service]
+WorkingDirectory=/home/ubuntu/py99
+ExecStart=/bin/sh start.sh
+ExecStop=/bin/sh stop.sh
+TimeoutSec=300
+Type=simple
+User=ubuntu
+
+[Install]
+WantedBy=multi-user.target

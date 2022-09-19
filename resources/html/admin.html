@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="content">
+   <h2>Admin Page</h2>
+   <ul>
+   <!--
+     <li><a href='/admin/users'>users</a></li>
+     <li><a href='/admin/comments'>comments</a></li>
+   -->
+   <li><a href='/admin/problems'>edit problems</a></li>
+   </ul>
+
+   <p>for safety, currently disable `seed problem` button.</p>
+   <!-- for safety, disable submit button -->
+   <form method='post' action='/admin/seed-problems'>
+     {% csrf-field %}
+      <input type='submit'
+             class='button is-small is-danger'
+             disabled='disabled'
+             value='seed problems'>
+   </form>
+  </div>
+{% endblock %}

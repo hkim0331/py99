@@ -12,16 +12,13 @@ profiles.clj
 /.env
 .nrepl-port
 
-.calva/
-.clj-kondo/.cache/
-.lsp/.cache/
-.vscode/
-/db-dumps/*
-!/db-dumps/dump.sh
-!/db-dumps/restore.sh
+/.calva/
+/.clj-kondo/.cache/
+/.lsp/.cache/
+/.vscode/
+/db-dumps/
 /initdb.d/
-/log
-/node_modules
-migrate.sh
-start.sh
+/log/
+/node_modules/
 /docker-compose.yml
+/.devcontaier/

@@ -1,7 +1,7 @@
 (ns py99.check-indent
   (:require
    [clojure.string :as str]
-   #_[taoensso.timbre :as timbre]))
+   #_[taoensso.log :as log]))
 
 (defn- remove-comments
   [lines]

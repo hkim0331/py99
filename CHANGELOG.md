@@ -5,11 +5,11 @@
   問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
-- test がある問題は test を実行して True になる回答だけを受け付ける。
 - timbre を tools.logging でリプレース。
 
-## 0.34.1-SNAPSHOT
-- test がない時は pytest しない。seq で十分か？
+## 0.34.1 - 2022-09-20
+- test がある問題は test を実行し True になる回答だけを受け付ける。
+- test がない時は pytest しない。(re-match #"\S" test) で。
 
 ## 0.34.0 - 2022-09-20
 ### Added

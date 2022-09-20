@@ -4,7 +4,8 @@
     <h2>Problems</h2>
     {% for p in problems %}
     <p><b>{{p.num}}.</b> {{p.problem|safe}}
-      <a href="/answer/{{p.num}}" class="button is-small is-primary">answer</a>
+      <a href="/answer/{{p.num}}"
+         class="button is-small is-rounded is-primary is-responsive">answer</a>
     </p>
     {% endfor %}
   </div>

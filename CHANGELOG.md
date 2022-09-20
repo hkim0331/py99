@@ -7,6 +7,9 @@
 - python 問題
 - timbre を tools.logging でリプレース。
 
+## 0.35.0-SNAPSHOT
+- (map-indexed #(vector (inc %1) %2) coll)
+
 ## 0.34.1 - 2022-09-20
 - test がある問題は test を実行し True になる回答だけを受け付ける。
 - test がない時は pytest しない。(re-match #"\S" test) で。

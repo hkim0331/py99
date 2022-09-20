@@ -196,7 +196,7 @@
   [num answer]
   (let [test (:test (db/get-problem {:num num}))]
     (timbre/info "test" test)
-    (when (seq test)
+    (when (re-matches #"\S" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]
           (binding [*out* file]

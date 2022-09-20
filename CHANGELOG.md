@@ -9,7 +9,7 @@
 - timbre を tools.logging でリプレース。
 
 ## 0.34.1-SNAPSHOT
-* test がない時は pytest しない
+- test がない時は pytest しない。seq で十分か？
 
 ## 0.34.0 - 2022-09-20
 ### Added

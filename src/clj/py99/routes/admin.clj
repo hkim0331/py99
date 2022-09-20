@@ -7,20 +7,44 @@
    [clojure.string :refer [split-lines starts-with? replace-first]]
    [ring.util.response :refer [redirect]]))
 
-(defn- strip-li
-  "strip <li> and </li> from s"
-  [s]
-  (replace-first (replace-first s #"^<li>" "") #"</li>$" ""))
+;; (defn- strip-li
+;;   "strip <li> and </li> from s"
+;;   [s]
+;;   (replace-first (replace-first s #"^<li>" "") #"</li>$" ""))
 
-(defn seed-problems!
-  "rebuild problems table from docs/seed-problems.html."
+;; replaced by seed-problems-from-markdown!
+;; (defn seed-problems!
+;;   "rebuild problems table from docs/seed-problems.html."
+;;   [request]
+;;   (let [num (atom 0)]
+;;     (db/delete-problems-all!)
+;;     (doseq [s (-> "docs/seed-problems.html" io/resource slurp split-lines)]
+;;       (when (starts-with? s "<li>")
+;;         (db/create-problem! {:problem (strip-li s) :num (swap! num inc)}))))
+;;   (layout/render request "home.html" {:docs "seed problems done."}))
+
+(defn seed-problems-from-markdown!
+  "rebuild problems table from docs/seed-problems.md"
   [request]
-  (let [num (atom 0)]
+  (let [problems (->> (io/resource "docs/problems.md")
+                      slurp
+                      split-lines
+                      (remove #(starts-with? % "#"))
+                      (remove #(re-matches #"^\s*$" %))
+                      (map #(replace-first % #"1. " "")))]
     (db/delete-problems-all!)
-    (doseq [s (-> "docs/seed-problems.html" io/resource slurp split-lines)]
-      (when (starts-with? s "<li>")
-        (db/create-problem! {:problem (strip-li s) :num (swap! num inc)}))))
-  (layout/render request "home.html" {:docs "seed problems done."}))
+    (doseq [[i line] (map-indexed vector problems)]
+      (db/create-problem! {:num i :problem line}))
+    (layout/render request "home.html" {:docs "done seed problems."})))
+
+;; (seed-problems-from-markdown! 1)
+
+;; (let [problems (->> (io/resource "docs/problems.md")
+;;                     slurp
+;;                     split-lines
+;;                     (remove #(starts-with? % "#"))
+;;                     (remove #(re-matches #"^\s*$" %)))]
+;;  problems)
 
 (defn admin-page [request]
   (layout/render request "admin.html"))
@@ -39,19 +63,19 @@
 
 ;;(defn users-page [request])
 
-(defn comments-page [request]
-  (let [from (db/comments-from)
-        to   (db/comments-to)]
-    (layout/render request "comments.html" {:from from
-                                            :to to})))
+;; (defn comments-page [request]
+;;   (let [from (db/comments-from)
+;;         to   (db/comments-to)]
+;;     (layout/render request "comments.html" {:from from
+;;                                             :to to})))
 
-(defn freeze! [request])
+;; (defn freeze! [request])
 
-(defn frozen? [request])
+;; (defn frozen? [request])
 
-(defn defrost! [request])
+;; (defn defrost! [request])
 
-(defn frozens [request])
+;; (defn frozens [request])
 
 (defn admin-routes []
   ["/admin"
@@ -64,8 +88,8 @@
    ;; ["/users"    {:get users-page}]
    ;; ["/comments" {:get comments-page}]
    ;; no use?
-   ["/seed-problems" {:post seed-problems!}]
-   ["/freeze/:num"  {:post freeze!}]
-   ["/froze/:num"   {:get frozen?}]
-   ["/defrost/:num" {:post defrost!}]
-   ["/frozens"      {:get frozens}]])
+   ["/seed-problems" {:post seed-problems-from-markdown!}]
+   #_["/freeze/:num"  {:post freeze!}]
+   #_["/froze/:num"   {:get frozen?}]
+   #_["/defrost/:num" {:post defrost!}]
+   #_["/frozens"      {:get frozens}]])

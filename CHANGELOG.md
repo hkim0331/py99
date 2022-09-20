@@ -6,11 +6,8 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
 
-- admin/seed-problems-from-markdown! の改良。test が入れずらい。
-  markdown やめて edn では？
 
-
-## 0.35.0-SNAPSHOT
+## 0.35.0 - 2022-09-20
 - (map-indexed #(vector (inc %1) %2) coll)
 ### Changed
 - color of Problems buttons, from is-primary to is-warning
@@ -18,6 +15,8 @@
 - timbre を tools.logging でリプレース。
   luminus が最初から clojure.tools.logging を dependencies に入れていて、
   timbre と機能が重なるから。
+- admin/seed-problems-from-markdown! の改良。test が入れずらい。
+  markdown やめて edn で。
 
 ## 0.34.1 - 2022-09-20
 - test がある問題は test を実行し True になる回答だけを受け付ける。

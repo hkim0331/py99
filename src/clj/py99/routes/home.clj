@@ -37,9 +37,9 @@
          (map to-date-str))))
 
 ;;(def ^:private period (make-period 2022 10 10 130))
-(def ^:private period (make-period 2022 9 10 160))
+(def ^:private period (make-period 2022 9 20 150))
 (def ^:private weeks
-  ["2022-09-10" "2022-09-17" "2022-09-21"
+  ["2022-09-21"
    "2022-10-10" "2022-10-17" "2022-10-24" "2022-10-31"
    "2022-11-07" "2022-11-14" "2022-11-21" "2022-11-28"
    "2022-12-05" "2022-12-12" "2022-12-19" "2022-12-26"
@@ -195,8 +195,8 @@
 (defn- pytest-test
   [num answer]
   (let [test (:test (db/get-problem {:num num}))]
-    (timbre/info "test" test)
     (when (re-matches #"\S" test)
+      (timbre/info "teset is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]
           (binding [*out* file]

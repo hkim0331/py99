@@ -1,14 +1,14 @@
 (ns py99.layout
   (:require
     [clojure.java.io]
-    [selmer.parser :as parser]
-    [selmer.filters :as filters]
+    [clojure.tools.logging :as log]
     [markdown.core :refer [md-to-html-string]]
-    [ring.util.http-response :refer [content-type ok]]
-    [ring.util.anti-forgery :refer [anti-forgery-field]]
     [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
+    [ring.util.anti-forgery :refer [anti-forgery-field]]
+    [ring.util.http-response :refer [content-type ok]]
     [ring.util.response]
-    [taoensso.timbre :as timbre]))
+    [selmer.filters :as filters]
+    [selmer.parser :as parser]))
 
 (parser/set-resource-path!  (clojure.java.io/resource "html"))
 (parser/add-tag! :csrf-field (fn [_ _] (anti-forgery-field)))
@@ -17,7 +17,7 @@
 (defn render
   "renders the HTML template located relative to resources/html"
   [request template & [params]]
-  (timbre/info (get-in request [:session :identity] "nobody") template)
+  (log/info (get-in request [:session :identity] "nobody") template)
   (content-type
     (ok
       (parser/render-file

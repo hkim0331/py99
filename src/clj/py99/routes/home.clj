@@ -1,23 +1,23 @@
 (ns py99.routes.home
   (:require
-   #_[buddy.hashers :as hashers]
-   #_[clj-commons-exec :as exec]
    [clj-time.core :as t]
    [clj-time.local :as l]
    [clj-time.periodic :as p]
    [clojure.java.io :as io]
    [clojure.java.shell :refer [sh]]
    [clojure.string :as str]
+   [clojure.tools.logging :as log]
    [digest]
-   #_[environ.core :refer [env]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
-   #_[py99.check-indent :refer [check-indent]]
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]
-   [taoensso.timbre :as timbre]))
+   #_[buddy.hashers :as hashers]
+   #_[clj-commons-exec :as exec]
+   #_[environ.core :refer [env]]
+   #_[py99.check-indent :refer [check-indent]]))
 
 ;; (when-let [level (env :py99-log-level)]
 ;;  (timbre/set-level! (keyword level)))
@@ -108,7 +108,7 @@
         solved (map #(:num %) (db/answers-by {:login login}))
         individual (db/answers-by-date-login {:login login})
         all-answers (db/answers-by-date)]
-    ;; (timbre/info "status-page" login)
+    ;; (log/info "status-page" login)
     (layout/render
      request
      "status.html"
@@ -122,7 +122,7 @@
 (defn problems-page
   "display problems."
   [request]
-  ;; (timbre/info "problem-page" (login request))
+  ;; (log/info "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
 ;; FIXME: destructuring
@@ -134,7 +134,7 @@
         problem (db/get-problem {:num num})
         answers (db/answers-to {:num num})
         frozen?  (db/frozen? {:num num})]
-    ;; (timbre/info "answer-page" (login request))
+    ;; (log/info "answer-page" (login request))
     ;; この if の理由？
     (if-let [answer (db/get-answer {:num num :login (login request)})]
       (let [answers (group-by #(= (:md5 answer) (:md5 %)) answers)]
@@ -188,7 +188,7 @@
 ;; https://github.com/hozumi/clj-commons-exec
 ;; (defn- can-compile? [answer]
 ;;   (let [r (exec/sh ["gcc" "-xc" "-fsyntax-only" "-"] {:in answer})]
-;;     (timbre/debug "gcc" @r)
+;;     (log/debug "gcc" @r)
 ;;     (when-let [err (:err @r)]
 ;;       (throw (Exception. err)))))
 
@@ -196,14 +196,14 @@
   [num answer]
   (let [test (:test (db/get-problem {:num num}))]
     (when (re-matches #"\S" test)
-      (timbre/info "teset is not empty" test)
+      (log/info "teset is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]
           (binding [*out* file]
             (println answer)
             (println test)))
         (let [ret (sh "pytest" (.getAbsolutePath tempfile))]
-          (timbre/info "ret" ret)
+          (log/info "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
             (throw (Exception. "test failed."))))))))
@@ -245,7 +245,7 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})]
-    ;; (timbre/info "comment-form" (login request))
+    ;; (log/info "comment-form" (login request))
     ;; self-only? を使って書いてた。それは何？
     (if my-answer
       (layout/render request "comment-form.html"
@@ -261,7 +261,7 @@
 (defn create-comment! [request]
   (let [params (:params request)
         num (Integer/parseInt (:p_num params))]
-    (timbre/debug "create-comment! num:" num)
+    (log/debug "create-comment! num:" num)
     (if (db/frozen? {:num num})
       (layout/render request "error.html"
                      {:status 403
@@ -286,20 +286,20 @@
     (layout/render request "comments-sent.html" {:sent sent})))
 
 (defn comments [request]
-  ;;(timbre/info "comments" (login request))
+  ;;(log/info "comments" (login request))
   (layout/render request "comments.html"
                  {:comments (drop 20 (db/comments))}))
 
 (defn comments-by-num [request]
   (let [num (Integer/parseInt (get-in request [:path-params :num]))]
-    ;;(timbre/info "comments-by-num" (login request))
+    ;;(log/info "comments-by-num" (login request))
     (layout/render request "comments.html"
                    {:comments (db/comments-by-num {:num num})})))
 
 ;; (defn ch-pass [{{:keys [old new]} :params :as request}]
 ;;   (let [login (login request)
 ;;         user (db/get-user {:login login})]
-;;     ;;(timbre/info "ch-pass" login)
+;;     ;;(log/info "ch-pass" login)
 ;;     (if (and (seq user) (hashers/check old (:password user)))
 ;;       (do
 ;;         (db/update-user! {:login login :password (hashers/derive new)})
@@ -332,7 +332,7 @@
   (let [solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
         comments (db/comments-by-date-login {:login login})]
-    ;;(timbre/info "profile who?" {:login login})
+    ;;(log/info "profile who?" {:login login})
     (layout/render {} "profile.html"
                    {:login login
                     :user (db/get-user {:login login})
@@ -361,7 +361,7 @@
 
 (defn profile-login
   [request]
-  ;; (timbre/info "profile-login" (login request))
+  ;; (log/info "profile-login" (login request))
   (if (admin? (login request))
     (profile (get-in request [:path-params :login]))
     (layout/render request "error.html"
@@ -370,7 +370,7 @@
                     :message "admin only. "})))
 
 (defn ranking [request]
-  ;; (timbre/info "ranking" (login request))
+  ;; (log/info "ranking" (login request))
   (layout/render request "ranking.html"
                  {:submissions (take 30 (db/submissions))
                   :solved      (take 30 (db/solved))
@@ -380,7 +380,7 @@
 
 (defn rank-submissions [request]
   (let [login (login request)]
-    ;; (timbre/info "rank-submissions" login)
+    ;; (log/info "rank-submissions" login)
     (layout/render request "ranking-all.html"
                    {:data (db/submissions)
                     :title "Ranking Submissions"
@@ -389,7 +389,7 @@
 
 (defn rank-solved [request]
   (let [login (login request)]
-    ;; (timbre/info "rank-solved" login)
+    ;; (log/info "rank-solved" login)
     (layout/render request "ranking-all.html"
                    {:data (db/solved)
                     :title "Ranking Solved"
@@ -401,7 +401,7 @@
         data (map (fn [x] {:login (:from_login x)
                            :count (:count x)})
                   (db/comments-counts))]
-    ;; (timbre/info "rank-comments" login)
+    ;; (log/info "rank-comments" login)
     (layout/render request "ranking-all.html"
                    {:data data
                     :title "Comments Ranking"
@@ -410,7 +410,7 @@
 
 (defn answers-by-problems [request]
   (let [data (db/answers-by-problems)]
-    ;; (timbre/info "answers-by-problems" (login request))
+    ;; (log/info "answers-by-problems" (login request))
     (layout/render request "answers-by-problems.html"
                    {:data data
                     :title "Answers by Problems"})))

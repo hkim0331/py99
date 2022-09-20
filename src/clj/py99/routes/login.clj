@@ -1,13 +1,13 @@
 (ns py99.routes.login
   (:require
    [buddy.hashers :as hashers]
+   [clojure.tools.logging :as log]
    [hato.client :as hc]
    [py99.layout :as layout]
-   #_[py99.db.core :as db]
    [py99.middleware :as middleware]
    [ring.util.response :refer [redirect]]
    [struct.core :as st]
-   [taoensso.timbre :as timbre]))
+   #_[py99.db.core :as db]))
 
 (def ^:private version "0.34.1")
 
@@ -19,8 +19,8 @@
   [login]
   (let [ep (str l22 "/api/user/" login)
         resp (hc/get ep {:as :json})]
-    ;; (timbre/debug "body get-user ep " ep)
-    ;; (timbre/debug "(:body resp)" (:body resp))
+    ;; (log/debug "body get-user ep " ep)
+    ;; (log/debug "(:body resp)" (:body resp))
     (:body resp)))
 
 (def users-schema
@@ -38,7 +38,7 @@
     {:message "同じユーザ名があります。"
      :validate (fn [login]
                  (let [ret (get-user login)]
-                   (timbre/debug "validate ret:" ret)
+                   (log/debug "validate ret:" ret)
                    (empty? ret)))}]
    [:password
     st/required
@@ -46,11 +46,11 @@
 
 (defn validate-user [params]
   (let [ret (st/validate params users-schema)]
-    (timbre/debug "validate:" ret)
+    (log/debug "validate:" ret)
     (first ret)))
 
 (defn about-page [request]
-  ;;(timbre/info "about-page" (login request))
+  ;;(log/info "about-page" (login request))
   (layout/render request "about.html" {:version version}))
 
 (defn admin-only [request]
@@ -67,13 +67,13 @@
            (= (:login user) login)
            (hashers/check password (:password user)))
       (do
-        (timbre/info "login success" login)
+        (log/info "login success" login)
         ;; in read-only mode, can not this.
         ;; (db/login {:login login})
         (-> (redirect "/")
             (assoc-in [:session :identity] (keyword login))))
       (do
-        (timbre/info "login faild" login)
+        (log/info "login faild" login)
         (-> (redirect "/login")
             (assoc :flash "login failure"))))))
 

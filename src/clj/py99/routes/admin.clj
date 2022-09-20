@@ -29,11 +29,12 @@
   (let [problems (->> (io/resource "docs/problems.md")
                       slurp
                       split-lines
-                      (remove #(starts-with? % "#"))
-                      (remove #(re-matches #"^\s*$" %))
+                      ;; (remove #(starts-with? % "#"))
+                      ;; (remove #(re-matches #"^\s*$" %))
+                      (filter #(starts-with? % "1. "))
                       (map #(replace-first % #"1. " "")))]
     (db/delete-problems-all!)
-    (doseq [[i line] (map-indexed vector problems)]
+    (doseq [[i line] (map-indexed #(vector (inc %1) %2) problems)]
       (db/create-problem! {:num i :problem line}))
     (layout/render request "home.html" {:docs "done seed problems."})))
 

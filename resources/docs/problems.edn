@@ -1,5 +1,10 @@
 [
- {:problem "edn フォーマットでタネ問題を準備する。これなら、テストも用意しやすい（やや）。"}
+ {:problem "edn フォーマットでタネ問題を準備する。これなら、テストも用意しやすい（やや）。"
+  :test "def test_add10()
+  assert add10(3)==13
+  assert add10(4)==14
+  assert add10(5)==15"}
+
  {:problem "'Hello, Python!' を画面にプリントしなさい。"}
 
  {:problem "+, -, *, /, %, //, ** はそれぞれ何を計算する演算子か。"}

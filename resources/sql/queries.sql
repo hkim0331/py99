@@ -40,8 +40,8 @@ WHERE login = :login
 -- :name create-problem! :! :1
 -- :doc creates a new problem record
 INSERT INTO problems
-(num, problem)
-VALUES (:num, :problem)
+(num, problem, test)
+VALUES (:num, :problem, :test)
 
 -- :name update-problem! :! :n
 -- :doc updates an existing problem record

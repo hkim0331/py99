@@ -195,7 +195,7 @@
 (defn- pytest-test
   [num answer]
   (let [test (:test (db/get-problem {:num num}))]
-    (when (re-matches #"\S" test)
+    (when (re-find #"\S" test)
       (log/info "teset is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]

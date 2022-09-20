@@ -6,6 +6,10 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
 
+## 0.35.1 - 2022-09-20
+### Fixed
+- `re-matches` is for whole-string match.
+  home/pytest-test should use `re-find`.
 
 ## 0.35.0 - 2022-09-20
 - (map-indexed #(vector (inc %1) %2) coll)

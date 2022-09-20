@@ -29,7 +29,7 @@
                      read-string)]
     (db/delete-problems-all!)
     (doseq [[i m] (map-indexed #(vector (inc %1) %2) problems)]
-      (db/create-problem! {:num i :problem (:problem m)}))
+      (db/create-problem! {:num i :problem (:problem m) :test (:test m)}))
     (layout/render request "home.html" {:docs "seeded problems."})))
 
 (defn admin-page [request]

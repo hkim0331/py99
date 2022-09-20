@@ -1,6 +1,6 @@
 [
  {:problem "'Hello, Python!' を画面にプリントしなさい。"}
-
+ 
  {:problem "+, -, *, /, %, //, ** はそれぞれ何を計算する演算子か。"}
 
  {:problem "1 > 0 の戻り値は何か？ 2 > 1 の戻り値は何か？戻り値とは何か？"}
@@ -11,15 +11,15 @@
 
  {:problem "リスト xs の中央値を返す関数 median(xs)."}
 
- {:problem "整数リスト xs の最頻値を返す関数名前は何だ"？}
+ {:problem "整数リスト xs の最頻値を返す関数名前は何だ？"}
 
  ;; randoms
 
- {:problem "n &le; r &lt; m の整数乱数 r を返す関数int rand_int(int n, int m)".}
+ {:problem "n &le; r &lt; m の整数乱数 r を返す関数int rand_int(int n, int m)."}
 
- {:problem "上で作った乱数配列 a[ ] 中にみつからない 0~99 の数をプリントする関数void find_not(int a[ ], int n)".}
+ {:problem "上で作った乱数配列 a[ ] 中にみつからない 0~99 の数をプリントする関数void find_not(int a[ ], int n)."}
 
- {:problem "上で作った乱数配列 a[ ] (サイズは n) 中に一番たくさん重複して現れる数を返す関数int find_max_dupli(int a[ ], int n)".}
+ {:problem "上で作った乱数配列 a[ ] (サイズは n) 中に一番たくさん重複して現れる数を返す関数int find_max_dupli(int a[ ], int n)."}
 
  {:problem "int * shuffle(int n) を定義せよ。戻り値は 0~n-1 の n 個の正整数が重複なく順番バラバラに入った配列。完成するとビンゴゲームに使えるぞ。関数名を bingo( ) にしようか。"}
 
@@ -65,16 +65,16 @@
 
  {:problem "4 番目までの素数を足すと 2 + 3 + 5 + 7 = 17.1000 番目までの素数の和を求めなさい。それはたぶん 3682913."}
 
- {:problem "整数 x を引数に取り、それが負数だったら -1, ゼロと等しければ 0, 整数であれば 1 を返す関数 sign(x)".}
+ {:problem "整数 x を引数に取り、それが負数だったら -1, ゼロと等しければ 0, 整数であれば 1 を返す関数 sign(x)."}
 
- {:problem "整数 x を引数にとり、それが偶数であれば True、奇数だったら False を返す関数 is_even(x)".}
+ {:problem "整数 x を引数にとり、それが偶数であれば True、奇数だったら False を返す関数 is_even(x)."}
 
  {:problem "キーボードから整数ひとつを入力し、それが偶数だったら '偶数です'、奇数だったら '奇数です' とプリントする関数 parity_p()."}
 
  {:problem "彼・彼女の年齢を y とする。彼・彼女がティーンエイジャーだったら True、
    そうでなければ False を返す関数 is_teenage(y)."}
 
- {:problem "西暦 year を引数にとり昭和、平成、令和の和暦をプリントする関数 void era_p(int year).  era_p(2020)は "令和2年" をプリントする。"}
+ {:problem "西暦 year を引数にとり昭和、平成、令和の和暦をプリントする関数 void era_p(int year).  era_p(2020)は '令和2年' をプリントする。"}
 
  {:problem "西暦 year を引数にとり、閏年であれば True、そうでなければ False を返す関数 is_leap(year). 西暦が 4 で割り切れれば閏年。ただし、100 で割り切れる時は平年。ただし、400 で割り切れる時は閏年。"}
 
@@ -135,17 +135,17 @@ int days_between(int y1, int m1, int d1, int y2, int m2, int d2). 自分は今�
 
  {:problem "2520 は 1 から 10 の数字のすべての整数で割り切れる最小の整数である。1 から 20 までの整数すべてで割り切れる最小の整数は何か？"}
 
- {:problem "600851475143 の素因数のうち最大のものを求めよ。何秒以内"？}
-
+ {:problem "600851475143 の素因数のうち最大のものを求めよ。何秒以内に？"}
 
  {:problem "n を整数とする。factorial(n) + 2 が立方数となるような n を全て求めよ。"}
 
  {:problem "整数 n を引数とし、その数が完全数かどうかを判定する関数 is_perfect(n)."}
 
- {:problem "n よりも大きい完全数はなにか？を求める関数 next_perfect(int n).
- next_perfect(28) はきっと 496。"}
+ {:problem "n よりも大きい完全数はなにか？を求める関数 next_perfect(n). next_perfect(28) はきっと 496。"}
 
  ;; square, cubic,...
+
+
 
  {:problem "整数 n が平方数であるかどうかを判定する関数 is_square(n). 237169 は平方数である。"}
 
@@ -165,17 +165,17 @@ int days_between(int y1, int m1, int d1, int y2, int m2, int d2). 自分は今�
 
  ;; files
 
- {:problem "ファイル<a href="integers.txt">integers.txt</a> をダウンロードし、適当な場所にセーブしてください。ファイル "numbers.txt"には一行にひとつ、整数が書き込まれている。そのファイルの1行目の数を返す関数int head(void)."}
+ {:problem "ファイル<a href='integers.txt'>integers.txt</a> をダウンロードし、適当な場所にセーブしてください。ファイル 'numbers.txt' には一行にひとつ、整数が書き込まれている。そのファイルの1行目の数を返す関数int head(void)."}
 
- {:problem "ファイル"numbers.txt"が何行あるかを返す関数int lines(void)."}
+ {:problem "ファイル 'numbers.txt' が何行あるかを返す関数int lines(void)."}
 
- {:problem "ファイル"numbers.txt"の n 行目の数字を返す関数int nth(int n)."}
+ {:problem "ファイル 'numbers.txt' の n 行目の数字を返す関数int nth(int n)."}
 
- {:problem "ファイル"numbers.txt"の最初の十行に含まれる整数の総和を返す関数int sum10(void)."}
+ {:problem "ファイル 'numbers.txt' の最初の十行に含まれる整数の総和を返す関数int sum10(void)."}
 
- {:problem "ファイル"numbers.txt"の最初の n 行に含まれる整数の総和を返す関数int sum_n(int n)."}
+ {:problem "ファイル 'numbers.txt' の最初の n 行に含まれる整数の総和を返す関数int sum_n(int n)."}
 
- {:problem "ファイル "numbers.txt"の最後の n 行に含まれる整数の総和を返す関数int sum_tail(int n)."}
+ {:problem "ファイル 'numbers.txt' の最後の n 行に含まれる整数の総和を返す関数int sum_tail(int n)."}
 
  {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を表示する関数 void cat(char *fname)"}
 
@@ -191,13 +191,12 @@ int days_between(int y1, int m1, int d1, int y2, int m2, int d2). 自分は今�
 
  {:problem "フィボナッチ数列を計算する関数 int fibo(int n) を定義せよ。fibo(0) = 0, fibo(1) = 1, fibo(2) = 1 で、一般にfibo(n) = fibo(n-1) + fibo(n-2) だ。"}
 
- {:problem "フィボナッチ数が最初に n を超えるのはいくらかを求める関数int fibo_over(n). fibo_over(20000) の戻り値はきっと 23 だ。"
+ {:problem "フィボナッチ数が最初に n を超えるのはいくらかを求める関数int fibo_over(n). fibo_over(20000) の戻り値はきっと 23 だ。"}
 
-  {:problem "n 以上 m 未満となるフィボナッチ数の総和を返す関数int sum_of_fibo_between(int n, int m).sum_of_fibo_between(10000,100000) の戻り値は 178700 よりちょっと大きい。"}}
-
+ {:problem "n 以上 m 未満となるフィボナッチ数の総和を返す関数int sum_of_fibo_between(int n, int m).sum_of_fibo_between(10000,100000) の戻り値は 178700 よりちょっと大きい。"}
  ;; strings
 
- {:problem "文字列 s が空文字列 "" かどうかを判定する関数int is_empty(char* s)."}
+ {:problem "文字列 s が空文字列 '' かどうかを判定する関数int is_empty(char* s)."}
 
  {:problem "文字列 s の長さを返す関数int str_len(char* s)."}
 
@@ -209,27 +208,24 @@ int days_between(int y1, int m1, int d1, int y2, int m2, int d2). 自分は今�
 
  {:problem "文字列 s1 を文字列 s2 にコピーする関数void str_copy(char* s1, char* s2).s2 は s1 をコピーするに十分な長さがあると仮定してよい。以下同様。str_copy(s1,s2) の実行後、str_sql(s1, s2) が真になること。"}
 
- {:problem "文字列 s1 の後ろに文字列 s2 を連結する関数char* str_append(char* s1, char* s2).str_append("abc", "def") の実行後、str_eql(s1, "abcdef")は真になる。s1 を破壊しないバージョンも作ってみよう。s1 と s2 を連結した文字列を返すように。"}
+ #_{:problem "文字列 s1 の後ろに文字列 s2 を連結する関数char* str_append(char* s1, char* s2).str_append("abc", "def") の実行後、str_eql(s1, "abcdef")は真になる。s1 を破壊しないバージョンも作ってみよう。s1 と s2 を連結した文字列を返すように。"}
 
  {:problem "文字列 s1 中に文字列 s2 が出現するかどうかを判定する関数int str_search(char* s1, char* s2).s2 が s1 の何文字目から出現しているかを返す。見つからなかった時は -1 を返せ。戻り値 が 0 の時は「s1 の先頭に s2 は見つかる」の意味になる。"}
 
- {:problem "文字列 s1 の n 文字目からの m 文字を削除するchar* str_remove(char* s1, int n, int m). 戻り値は s."}
-
- {:problem "文字列 s1 の n 文字目に文字列 s2 を挿入するchar* str_insert(char* s1, int n, char* s2).戻り値は挿入後の文字列（ポインタ）。printf("%s\n", str_insert("012345", 3, "abc")) は0123abc45 を印字する。"}
+ {:problem "文字列 s1 の n 文字目からの m 文字を削除する str_remove(char* s1, int n, int m). 戻り値は s."}
 
  {:problem "文字列 s1 中に現れる文字列 s2 を文字列 s3 で置き換えるchar* str_subst(char* s1, char* s2, char* s3).戻り値は置き換え後の文字列（ポインタ）。"}
 
- {:problem "文字列 s を全て大文字にして返す char *toUpper(char* s).printf("%s\n", toUpper("I am small letters, ain't I?")) はI AM SMALL LETTERS, AIN'T I? を印字する。"}
+ {:problem "文字列 s1 を整数に変換して返す関数 int str_to_int(s1). str_to_int('314')の戻り値は 314 になる。	"}
 
- {:problem "文字列 s1 を整数に変換して返す関数 int str_to_int(char* s1).str_to_int("314")の戻り値は 314 になる。atoi( ) 使わずに行ってみよう。"}
-
- {:problem "文字列 *s を逆にした文字列を返す関数 char* str_reverse(char* s).printf("%s\n", str_reverse("abcdef")) がプリントするのは"fedcba\n""}
+ #_{:problem "文字列 *s を逆にした文字列を返す関数 char* str_reverse(char* s).printf("%s\n", str_reverse("abcdef")) がプリントするのは"fedcba\n""}
 
  {:problem "左右どちらから読んでも同じ値になる数を回文数という。2桁の数の積で表される回文数のうち、最大のものは 9009 = 91 × 99 である。3桁の数の積で表される回文数の最大値を求めよ"}
 
- {:problem "n * m と同じ計算をする関数 int stoic_times(int n, int m) を定義せよ。負の数も考慮すること。stoic_times( ) ほか、補助関数中でも * を使うのは反則とする。" }
+ {:problem "n * m と同じ計算をする関数 int stoic_times(int n, int m) を定義せよ。負の数も考慮すること。stoic_times( ) ほか、補助関数中でも * を使うのは反則とする。"}
 
- {:problem "++ と -- のみを使い、x + y と同じ計算をする関数 int stoic_add(int x, int y) を定義せよ。負の数も考慮すること。" }
+ {:problem "++ と -- のみを使い、x + y と同じ計算をする関数 int stoic_add(int x, int y) を定義せよ。負の数も考慮すること。"}
 
  {:problem "4/(1+x<sup>2</sup>) を x について 0 から 1 まで積分すると pi になる。これをスマートにプログラムしてください。"}
- ]
+ 
+ {:problem "これでおしまい。"}]

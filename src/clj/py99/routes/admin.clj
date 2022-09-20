@@ -1,24 +1,36 @@
 (ns py99.routes.admin
   (:require
+   [clojure.edn :as edn]
    [clojure.java.io :as io]
+   [clojure.string :refer [split-lines starts-with? replace-first]]
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
-   [clojure.string :refer [split-lines starts-with? replace-first]]
    [ring.util.response :refer [redirect]]))
 
-(defn seed-problems-from-markdown!
-  "rebuild problems table from docs/seed-problems.md"
+;; (defn seed-problems-from-markdown!
+;;   "rebuild problems table from docs/problems.md"
+;;   [request]
+;;   (let [problems (->> (io/resource "docs/problems.md")
+;;                       slurp
+;;                       split-lines
+;;                       (filter #(starts-with? % "1. "))
+;;                       (map #(replace-first % #"1. " "")))]
+;;     (db/delete-problems-all!)
+;;     (doseq [[i line] (map-indexed #(vector (inc %1) %2) problems)]
+;;       (db/create-problem! {:num i :problem line}))
+;;     (layout/render request "home.html" {:docs "done seed problems."})))
+
+(defn seed-problems!
+  "rebuild problems table from docs/problems.edn"
   [request]
-  (let [problems (->> (io/resource "docs/problems.md")
-                      slurp
-                      split-lines
-                      (filter #(starts-with? % "1. "))
-                      (map #(replace-first % #"1. " "")))]
+  (let [problems (-> (io/resource "docs/problems.edn")
+                     slurp
+                     read-string)]
     (db/delete-problems-all!)
-    (doseq [[i line] (map-indexed #(vector (inc %1) %2) problems)]
-      (db/create-problem! {:num i :problem line}))
-    (layout/render request "home.html" {:docs "done seed problems."})))
+    (doseq [[i m] (map-indexed #(vector (inc %1) %2) problems)]
+      (db/create-problem! {:num i :problem (:problem m)}))
+    (layout/render request "home.html" {:docs "seeded problems."})))
 
 (defn admin-page [request]
   (layout/render request "admin.html"))
@@ -43,4 +55,4 @@
    ["/" {:get  admin-page}]
    ["/problems" {:get problems-page
                  :post update-problem!}]
-   ["/seed-problems" {:post seed-problems-from-markdown!}]])
+   ["/seed-problems" {:post seed-problems!}]])

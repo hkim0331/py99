@@ -22,8 +22,8 @@
 ;; (when-let [level (env :py99-log-level)]
 ;;  (timbre/set-level! (keyword level)))
 
-;; FIXME: オフにするのはデバッグ時のみか。
-(def ^:private validate? true)
+;; ;; FIXME: オフにするのはデバッグ時のみか。
+;; (def ^:private validate? true)
 
 ;; py99 は2022-10-10 から 130 日間営業
 (defn- to-date-str [s]

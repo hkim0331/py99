@@ -6,9 +6,15 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
 - timbre を tools.logging でリプレース。
+- admin/seed-problems-from-markdown! の改良。test が入れずらい。
+  markdown やめて edn では？
+
 
 ## 0.35.0-SNAPSHOT
 - (map-indexed #(vector (inc %1) %2) coll)
+### Changed
+- color of Problems buttons, from is-primary to is-warning
+- class="button is-small is-rounded is-primary is-responsive"
 
 ## 0.34.1 - 2022-09-20
 - test がある問題は test を実行し True になる回答だけを受け付ける。

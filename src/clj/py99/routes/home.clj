@@ -1,7 +1,7 @@
 (ns py99.routes.home
   (:require
-   [buddy.hashers :as hashers]
-   [clj-commons-exec :as exec]
+   #_[buddy.hashers :as hashers]
+   #_[clj-commons-exec :as exec]
    [clj-time.core :as t]
    [clj-time.local :as l]
    [clj-time.periodic :as p]
@@ -9,7 +9,7 @@
    [clojure.java.shell :refer [sh]]
    [clojure.string :as str]
    [digest]
-   [environ.core :refer [env]]
+   #_[environ.core :refer [env]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
    #_[py99.check-indent :refer [check-indent]]
    [py99.db.core :as db]
@@ -36,9 +36,11 @@
     (->> (take days (p/periodic-seq start-day (t/days 1)))
          (map to-date-str))))
 
-(def ^:private period (make-period 2022 10 10 130))
+;;(def ^:private period (make-period 2022 10 10 130))
+(def ^:private period (make-period 2022 9 10 160))
 (def ^:private weeks
-  ["2022-10-10" "2022-10-17" "2022-10-24" "2022-10-31"
+  ["2022-09-10" "2022-09-17" "2022-09-21"
+   "2022-10-10" "2022-10-17" "2022-10-24" "2022-10-31"
    "2022-11-07" "2022-11-14" "2022-11-21" "2022-11-28"
    "2022-12-05" "2022-12-12" "2022-12-19" "2022-12-26"
    "2023-01-02" "2023-01-09" "2023-01-16" "2023-01-23" "2023-01-30"
@@ -79,7 +81,6 @@
 (add-filter! :first-line (fn [x] (first-line x)))
 (add-filter! :rest-lines (fn [x] (rest-lines-count x)))
 
-;; misc functions, predicates
 (defn login
   "return user's login as a string. or nobody."
   [request]
@@ -163,7 +164,6 @@
       (str/replace #"[ \t]" "")
       remove-comments))
 
-;; Boolean を返すわけじゃない。
 (defn- not-empty-test [answer]
   (when-not (re-find #"\S" (strip answer))
     (throw (Exception. "answer is empty"))))
@@ -194,17 +194,19 @@
 
 (defn- pytest-test
   [num answer]
-  (when-let [test (:test (db/get-problem {:num num}))]
-    (let [tempfile (java.io.File/createTempFile "python" ".py")]
-      (with-open [file (clojure.java.io/writer tempfile)]
-        (binding [*out* file]
-          (println answer)
-          (println test)))
-      (let [ret (sh "pytest" (.getAbsolutePath tempfile))]
-        (timbre/info "ret" ret)
-        (.delete tempfile)
-        (when-not (zero? (:exit ret))
-          (throw (Exception. "test failed.")))))))
+  (let [test (:test (db/get-problem {:num num}))]
+    (timbre/info "test" test)
+    (when (seq test)
+      (let [tempfile (java.io.File/createTempFile "python" ".py")]
+        (with-open [file (clojure.java.io/writer tempfile)]
+          (binding [*out* file]
+            (println answer)
+            (println test)))
+        (let [ret (sh "pytest" (.getAbsolutePath tempfile))]
+          (timbre/info "ret" ret)
+          (.delete tempfile)
+          (when-not (zero? (:exit ret))
+            (throw (Exception. "test failed."))))))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."

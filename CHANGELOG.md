@@ -8,7 +8,10 @@
 - test がある問題は test を実行して True になる回答だけを受け付ける。
 - timbre を tools.logging でリプレース。
 
-## 0.34.0-SNAPSHOT
+## 0.34.1-SNAPSHOT
+- test がない時は pytest しない。seq で十分か？
+
+## 0.34.0 - 2022-09-20
 ### Added
 - admin/seed-problems-from-markdown!
 ### Changed

@@ -8,6 +8,13 @@
 - test がある問題は test を実行して True になる回答だけを受け付ける。
 - timbre を tools.logging でリプレース。
 
+## 0.34.0-SNAPSHOT
+### Added
+- admin/seed-problems-from-markdown!
+### Changed
+- html/admin.html: seed button enabled
+- admin/seed-problems
+- /seed-problems {:post seed-problems-from-markdown!}
 
 ## 0.33.0 - 2022-09-20
 - require pytest. poetry の外側でやむなく pip install pytest.

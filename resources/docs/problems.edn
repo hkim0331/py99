@@ -10,12 +10,15 @@
 
  {:problem "+, -, *, **, /, %, // はそれぞれ何を計算する演算子か。"}
 
+ {:problem "1 + 2 は 3 を返し、123 + 3 は 126 を返す。'1' + '2' の戻り値は何か？
+ '123' * 3 の戻り値は?"}
 
- {:problem "関数 hello_p(s) を定義しなさい。s は文字列 s"}
+ {:problem "関数 hello_p(s) を定義しなさい。
+  引数の s は文字列。hello_p('Japan') は 'Hello, Japan!' をプリントする。"}
 
 
- {:problem "関数 hello(s) を定義しなさい。s は文字列 s で"}
-
+ {:problem "関数 hello(s) を定義しなさい。
+  引数の s は文字列。hello('Japan') は文字列 'Hello, Japan!' を返す。"}
 
  {:problem "1 > 0 の戻り値は何か？ 2 > 1 の戻り値は何か？戻り値とは何か？"}
 
@@ -290,8 +293,7 @@ int days_between(int y1,  m1,  d1,  y2,  m2,  d2). 自分は今日まで何日�
 
  {:problem "n 以上 m 未満となるフィボナッチ数の総和を返す関数 sum_of_fibo_between(n,  m).sum_of_fibo_between(10000, 100000) の戻り値は 178700 よりちょっと大きい。"}
 
- ;;;;;;;;;;;;;;
- ;;; strings
+ ;; strings
 
  {:problem "文字列 s が空文字列 '' かどうかを判定する関数 is_empty(s)."}
 
@@ -311,7 +313,8 @@ int days_between(int y1,  m1,  d1,  y2,  m2,  d2). 自分は今日まで何日�
 
  {:problem "文字列 s1 中に現れる文字列 s2 を文字列 s3 で置き換えた文字列を返す str_subst(s1, s2, s3)."}
 
- {:problem "文字列 s1 を整数に変換して返す関数  str_to_int(s1). str_to_int('314')の戻り値は 314 になる。	"}
+ {:problem "文字列 s1 を整数に変換して返す関数  str_to_int(s1). str_to_int('314')の戻り値は 314 になる。
+  int(314)."}
 
  {:problem "文字列 s を逆にした文字列を返す関数 str_reverse(s)."}
 
@@ -324,5 +327,9 @@ int days_between(int y1,  m1,  d1,  y2,  m2,  d2). 自分は今日まで何日�
  {:problem "++ と -- のみを使い、x + y と同じ計算をする関数  stoic_add(int x,  y) を定義せよ。負の数も考慮すること。"}
 
  {:problem "4/(1+x<sup>2</sup>) を x について 0 から 1 まで積分すると pi になる。これをスマートにプログラムしてください。"}
+
+ ;; numpy
+
+ ;; matplotlib
 
  {:problem "これでおしまい。"}]

@@ -15,7 +15,13 @@
  ;; predicates
 
  {:problem "整数 x を引数に取り、それが負数だったら -1, ゼロと等しければ 0,
-            正数であれば 1 を返す関数 sign(x)."}
+            正数であれば 1 を返す関数 sign(x)."
+  :test "def test_sign()
+  assert sign(-100)==-1
+  assert sign(0)==0
+  assert sign(-0)==0
+  assert sign(0.0)==0
+  assert sign(3.14)==1"}
 
  {:problem "整数 x を引数にとり、それが偶数であれば True、
             奇数だったら False を返す関数 is_even(x)."}

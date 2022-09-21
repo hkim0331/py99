@@ -1,6 +1,6 @@
 [;; 小手調べ
 
- {:problem "edn フォーマットでタネ問題を準備する。これなら、テストも用意しやすい（やや）。"
+ {:problem "edn フォーマットでタネ問題を準備する。これなら、テストもやや用意しやすい。"
   :test "def test_add10()
  assert add10(3)==13
  assert add10(4)==14
@@ -11,16 +11,63 @@
  {:problem "+, -, *, **, /, %, // はそれぞれ何を計算する演算子か。"}
 
  {:problem "1 + 2 は 3 を返し、123 + 3 は 126 を返す。'1' + '2' の戻り値は何か？
- '123' * 3 の戻り値は?"}
+ '123' * 3 の戻り値は？"}
+
+ ;; print と return
 
  {:problem "関数 hello_p(s) を定義しなさい。
   引数の s は文字列。hello_p('Japan') は 'Hello, Japan!' をプリントする。"}
-
 
  {:problem "関数 hello(s) を定義しなさい。
   引数の s は文字列。hello('Japan') は文字列 'Hello, Japan!' を返す。"}
 
  {:problem "1 > 0 の戻り値は何か？ 2 > 1 の戻り値は何か？戻り値とは何か？"}
+
+ {:problem "整数ひとつをキーボードから入力、それに 1 を足した数をプリントする関数 void add1_p(void"}
+
+ {:problem "整数 x, y を引数にとり、それらを足した数を戻り値とする関数  add2(int x,  y)."}
+
+ {:problem "整数 x, y を引数にとり、それらを足した数をプリントする関数 void add2_p(int x,  y)."}
+
+ {:problem "円の半径（整数）を引数にとり、その円の面積（浮動小数点数）を戻り値とする関数 float en(int r)."}
+
+ {:problem "円の半径（整数）をキーボードから読み、その円の面積（浮動小数点数）をプリントする関数 void en_p(void)."}
+
+ {:problem "数 n の絶対値を返す関数abs(n). abs() があるな。"}
+
+ {:problem "数 n の 2 乗を戻り値とする関数 square(n)."}
+
+ {:problem "数 n の m 乗を返す関数 power(n, m). pow()があるか"}
+
+ {:problem "整数 x, y を引数にとり、それらの和、差、積、整数商をプリントする関数 void arithmetic_p(int x,  y)."}
+
+ {:problem "数 x, y を引数にとり、大きい方の数を戻り値とする関数 max2(x, y)."}
+
+ {:problem "数三つを引数にとり、もっとも大きい整数を戻り値とする関数 max3(x, y, z)."}
+
+ {:problem "数 4 つを引数にとり、もっとも大きい整数を戻り値とする関数 max4(x, y, z, w)."}
+
+ {:problem "3 つの数を引数とし、それらの長さを各辺とする直角三角形ができるかどうかを判定する関数 is_right_triangle(x, y, z)."}
+
+ {:problem "3 つの整数を引数とし、それらの長さを各辺とする三角形がありうるかどうかを判定する関数 is_triangle(int x,  y,  z)."}
+
+ {:problem "整数 n の各桁の総和を返す関数 sum_of_digits(n). sum_of_digits(12345) の戻り値は 15. "}
+
+ {:problem "整数 n から m までの総和を求める関数 sum(n, m)."}
+
+ {:problem "正の整数 n から m までの整数の積を求める関数 product(n, m)."}
+
+ {:problem "正の整数 n の階乗 n! を求める関数 factorial(n)."}
+
+ {:problem "整数 n を引数とし、それが 3 の倍数だったら 1、
+            5 の倍数だったら 2、
+            3 の倍数でもあり、かつ、5 の倍数でもあったら 3、
+            いずれでもなかったら 0 を返す関数 fz(int n)."}
+
+ {:problem "1 + 2 + ... + n を求める関数 sum_int(n)."}
+
+ {:problem "fz(1) + fz(2) + ... + fz(n) を求める関数 sum_fz(n)."}
+
 
  ;; predicates
 
@@ -63,7 +110,8 @@
  {:problem "三つの数 x, y, z の最大値を返す関数 max3(x, y, z).
             ビルトイン関数の max を使うのは反則とする。"}
 
- {:problem "リスト xs 中の要素の最大値を返す関数 max_in_list(xs) を再帰で。"}
+ {:problem "リスト xs 中の要素の最大値を返す関数 max_in_list(xs) を再帰で。
+            ビルトイン関数の max を使うのは反則とする。"}
 
  {:problem "リスト xs 中の要素の平均値を返す関数 mean(xs).
             numpy.max を使うのは反則とする。"}
@@ -72,12 +120,11 @@
             numpy.max を使うのは反則とする。"}
 
  {:problem "要素が整数であるリスト xs の最頻値を返す関数mod(xs).
-            numpy.max を使うのは反則とする。"}
+            numpy.mod を使うのは反則とする。"}
 
  {:problem "ビルトイン関数の sorted(), list クラスの sort() メソッドを使わずに、
             リスト xs の要素を小さい順に並べ替えたリストを返す関数 sort(xs)
             を定義しなさい。"}
-
 
  ;; randoms
  ;;
@@ -98,6 +145,13 @@
 
  {:problem "rev3(n) が元の整数 n と等しくなる3桁の整数は何個あるかを返す関数int how_many_rev3(void)."}
 
+  ;; divisors
+
+ {:problem "n 以下の整数のうち、もっとも約数の多い数を返す関数 most_divisors(n).
+            most_divisors(1000)の戻り値は 840."}
+
+ {:problem "整数 n を引数とし、その約数の合計を戻り値とする関数 sum_of_divisors(int n)."}
+
  ;; GCD
 
  {:problem "整数 n を引数とし、その約数のリストを返す関数 divisors(n)."}
@@ -109,24 +163,22 @@
  {:problem "正の整数のリスト xs を引数に取り、
             xs に含まれる整数すべてのの最大公約数を返す関数 gcd_any(xs)."}
 
- ;; divisors
+ {:problem "n よりも大きい完全数はなにか？を求める関数 next_perfect(n). next_perfect(28) はきっと 496。"}
 
- {:problem "n 以下の整数のうち、もっとも約数の多い数を返す関数 most_divisors(n).
-            most_divisors(1000)の戻り値は 840."}
-
- {:problem "整数 n を引数とし、その約数の合計を戻り値とする関数 sum_of_divisors(int n)."}
-
+ {:problem "整数 n を引数とし、その数が完全数かどうかを判定する関数 is_perfect(n)."}
  ;; primes
 
- {:problem "正の整数 x を引数に取り、x が素数であれば True、
+ {:problem "正の整数 n を引数に取り、n が素数であれば True、
             そうでなければ False を返す関数 is_prime(n)."}
 
  {:problem "正の整数 n を引数に取り、n 以下の素数は何個あるかを戻り値とする関数 primes(n).
             primes(10000) の戻り値はおそらく 1229."}
 
- {:problem "n 未満の素数の和を求める関数 sum_primes_under(int n). sum_primes_under(1000) は 76127 のはず。"}
+ {:problem "n 未満の素数の和を求める関数 sum_primes_under(int n).
+            sum_primes_under(1000) は 76127 のはず。"}
 
- {:problem "4 番目までの素数を足すと 2 + 3 + 5 + 7 = 17. 1000 番目までの素数の和を求めなさい。それはたぶん 3682913."}
+ {:problem "4 番目までの素数を足すと 2 + 3 + 5 + 7 = 17.
+            1000 番目までの素数の和を求めなさい。それはたぶん 3682913."}
 
  {:problem "正数 n を超えない最大の素数を返す関数 max_prime_under(n)."
   :test "def test_max_prime_under()
@@ -137,6 +189,8 @@
  {:problem "正数 n を超えない 2 番目に大きい素数を返す関数 submax_prime_under(n)."}
 
  ;; lists
+
+ {:problem "リスト xs の各要素を n 倍したリストを返す関数 times_n(xs, n)."}
 
  {:problem "リスト xs の偶数番めの要素だけを抜き出したリストを返す index-even(xs).
             最初の要素を 0 番目と数えること。"}
@@ -151,15 +205,13 @@
 
  {:problem "リスト xs とリスト ys から作った重複要素のないリストを返す uniq_join(xs, ys)."}
 
- {:problem "リスト xs の各要素を n 倍したリストを返す関数 times_n(xs, n)."}
+ {:problem "要素 e が m 個あるリストを返す関数 repeat_item(e, m)."}
 
  ;; range
 
  {:problem "正数 n から m-1 (n &lt; m) までの整数のリストを関数 range() で作れ。"}
 
  {:problem "正数 n から m-1 (n &lt; m) まで、step ごとの整数のリストを関数 range() で作れ。"}
-
- {:problem "要素 e が m 個あるリストを返す関数 repeat_item(e, m)."}
 
  {:problem "それぞれ要素 r が 0 &le; r &lt; n の乱数、要素数 m 個のリストを返す関数
             rand_list(n, m)."}
@@ -175,93 +227,62 @@
             ただし、400 で割り切れる時は閏年。"}
 
  {:problem "hh 時 mm 分 ss 秒の hh, mm, ss を引数にとり、
-            0 時 0 分 0 秒からの通算秒に変換した整数を戻り値とする関数 time_to_int(h, m, s)."}
+            00 時 00 分 00 秒からの通算秒に変換した整数を戻り値とする関数
+            time_to_int(h, m, s)."}
 
  {:problem "時刻 h1:m1:s1 と 時刻 h2:m2:s2 の間の秒数を整数で返す関数
             sec_between(h1, m1, s1, h2, m2, s2)."}
 
- {:problem "平年の 1 月 1 日から同年 mm 月 dd 日までの日数を返す関数  days(int mm, dd)."}
+ {:problem "平年の 1 月 1 日から同年 mm 月 dd 日までの日数を返す関数
+            days(int mm, dd)."}
 
  {:problem "y1 年 m1 月 d1 日から y2 年 m2 月 d2 月までの日数を返す関数
-int days_between(int y1,  m1,  d1,  y2,  m2,  d2). 自分は今日まで何日生きてきましたか?"}
+            days_between(y1, m1, d1, y2, m2, d2).
+            自分は今日まで何日生きてきましたか?"}
 
- {:problem "時刻 h1:m1:s1 と 時刻 h2:m2:s2 をそれぞれ文字列として受け取り、それらの時間差を文字列で戻す関数char * times_between_string(char time1[ ], char time2[ ])."}
-
- {:problem "整数ひとつをキーボードから入力、それに 1 を足した数をプリントする関数 void add1_p(void"}
-
- {:problem "整数 x, y を引数にとり、それらを足した数を戻り値とする関数  add2(int x,  y)."}
-
- {:problem "整数 x, y を引数にとり、それらを足した数をプリントする関数 void add2_p(int x,  y)."}
-
- {:problem "円の半径（整数）を引数にとり、その円の面積（浮動小数点数）を戻り値とする関数 float en(int r)."}
-
- {:problem "円の半径（整数）をキーボードから読み、その円の面積（浮動小数点数）をプリントする関数 void en_p(void)."}
-
- {:problem "数 n の絶対値を返す関数abs(n). abs() があるな。"}
-
- {:problem "数 n の 2 乗を戻り値とする関数 square(n)."}
-
- {:problem "数 n の m 乗を返す関数 power(n, m). pow()があるか"}
-
- {:problem "整数 x, y を引数にとり、それらの和、差、積、整数商をプリントする関数 void arithmetic_p(int x,  y)."}
-
- {:problem "数 x, y を引数にとり、大きい方の数を戻り値とする関数 max2(x, y)."}
-
- {:problem "数三つを引数にとり、もっとも大きい整数を戻り値とする関数 max3(x, y, z)."}
-
- {:problem "数 4 つを引数にとり、もっとも大きい整数を戻り値とする関数 max4(x, y, z, w)."}
-
- {:problem "3 つの数を引数とし、それらの長さを各辺とする直角三角形ができるかどうかを判定する関数 is_right_triangle(x, y, z)."}
-
- {:problem "3 つの整数を引数とし、それらの長さを各辺とする三角形がありうるかどうかを判定する関数 is_triangle(int x,  y,  z)."}
-
- {:problem "整数 n の各桁の総和を返す関数 sum_of_digits(n). sum_of_digits(12345) の戻り値は 15. "}
-
- {:problem "整数 n から m までの総和を求める関数 sum(n, m)."}
-
- {:problem "正の整数 n から m までの整数の積を求める関数 product(n, m)."}
-
- {:problem "正の整数 n の階乗 n! を求める関数 factorial(n)."}
-
- {:problem "整数 n を引数とし、それが 3 の倍数だったら 1、5 の倍数だったら 2、3 の倍数でもあり、かつ、5 の倍数でもあったら 3、いずれでもなかったら 0 を返す関数 fz(int n)."}
-
- {:problem "1 + 2 + ... + n を求める関数 sum_int(n)."}
-
- {:problem "fz(1) + fz(2) + ... + fz(n) を求める関数 sum_fz(n)."}
+ {:problem "時刻 h1:m1:s1 と 時刻 h2:m2:s2 をそれぞれ文字列として受け取り、
+            それらの時間差を文字列で戻す関数 times_between_string(char time1[ ], char time2[ ])."}
 
  {:problem "（孫子の問題）3 で割って1余り、5 で割って2余り、7 で割って 3 余る正の整数の最小のものはなにか？"}
 
+ ;; mathematics
+
  {:problem "10000 未満の素数 p1, p2, p3 で、p1<sup>2</sup> + p2<sup>2</sup> = p3<sup>2</sup>を満たすものを探せ。"}
 
- {:problem "2520 は 1 から 10 の数字のすべての整数で割り切れる最小の整数である。1 から 20 までの整数すべてで割り切れる最小の整数は何か？"}
+ {:problem "2520 は 1 から 10 の数字のすべての整数で割り切れる最小の整数である。
+            1 から 20 までの整数すべてで割り切れる最小の整数は何か？"}
 
  {:problem "600851475143 の素因数のうち最大のものを求めよ。スピード勝負！"}
 
  {:problem "n を整数とする。factorial(n) + 2 が立方数となるような n を全て求めよ。"}
 
- {:problem "整数 n を引数とし、その数が完全数かどうかを判定する関数 is_perfect(n)."}
-
- {:problem "n よりも大きい完全数はなにか？を求める関数 next_perfect(n). next_perfect(28) はきっと 496。"}
-
  ;; square, cubic,...
 
- {:problem "整数 n が平方数であるかどうかを判定する関数 is_square(n). 237169 は平方数である。"}
+ {:problem "整数 n が平方数であるかどうかを判定する関数 is_square(n). 
+            237169 は平方数である。"}
 
- {:problem "整数 n が立方数であるかどうかを判定する関数 is_cubic(n). 9663597 は立方数である。"}
+ {:problem "整数 n が立方数であるかどうかを判定する関数 is_cubic(n). 
+            9663597 は立方数である。"}
 
- {:problem "整数 n が 二つの整数の2乗の和として表されるかどうかを判定する関数 is_squeare_sum(n). is_square_sum(30505) は True を返す。"}
+ {:problem "整数 n が 二つの整数の2乗の和として表されるかどうかを判定する関数 is_squeare_sum(n). 
+            is_square_sum(30505) は True を返す。"}
 
- {:problem "整数 n のルートを超えない最大の整数を返す関数int sqrt_int(int n). sqrt_int(24) の戻り値は4, sqrt_int(25)の戻り値は 5 を期待する。ライブラリ sqrt を使わずに解くこと。"}
+ {:problem "整数 n のルートを超えない最大の整数を返す関数int sqrt_int(int n). 
+            sqrt_int(24) の戻り値は4, sqrt_int(25)の戻り値は 5 を期待する。ライブラリ sqrt を使わずに解くこと。"}
 
- {:problem "1000000 未満の整数で、平方数かつ立方数でもある最大の数は何か。square_cubic(int n). square_cubic(1000000) の戻り値はきっと、531***."}
+ {:problem "1000000 未満の整数で、平方数かつ立方数でもある最大の数は何か。
+            square_cubic(int n). square_cubic(1000000) の戻り値はきっと、531***."}
 
  ;; floating numbers
 
- {:problem "float x を四捨五入した  を返す関数int f_to_i(float x).ヒント: 浮動小数点数 x の整数部分は (int)x で得られる。かっこの付け方が妙だけど、こう書く。(int)3.5 は 3 だよ。4にならない"}
+ {:problem "float x を四捨五入した  を返す関数int f_to_i(float x).
+            ヒント: 浮動小数点数 x の整数部分は (int)x で得られる。かっこの付け方が妙だけど、こう書く。(int)3.5 は 3 だよ。4にならない"}
 
- {:problem "float x を小数点第 2 位で四捨五入した float を返す関数float f_to_f1(float x).f_to_f1(3.14159265) の戻り値は 3.100000 になる"}
+ {:problem "float x を小数点第 2 位で四捨五入した float を返す関数float f_to_f1(float x).
+            f_to_f1(3.14159265) の戻り値は 3.100000 になる"}
 
- {:problem "float x を小数点第 n+1 位で四捨五入した float を返す関数float f_to_f(float x,  n).f_to_f(3.14159265, 4) の戻り値は 3.141600になる。"}
+ {:problem "float x を小数点第 n+1 位で四捨五入した float を返す関数float f_to_f(float x,  n).
+            f_to_f(3.14159265, 4) の戻り値は 3.141600になる。"}
 
  ;; files
 
@@ -294,6 +315,16 @@ int days_between(int y1,  m1,  d1,  y2,  m2,  d2). 自分は今日まで何日�
  {:problem "n 以上 m 未満となるフィボナッチ数の総和を返す関数 sum_of_fibo_between(n,  m).sum_of_fibo_between(10000, 100000) の戻り値は 178700 よりちょっと大きい。"}
 
  ;; strings
+ ;;
+ ;; s.replace(s1,s2)
+ ;; s.index(s1)
+ ;; s.count(s2)
+ ;; s.strip(), lstrip(), rstrip()
+ ;; 
+ {:problem "'Kimura Takuya' のような文字列 s を引数とし、そのイニシャル 'K.T' を返す
+           関数 initial(s)"}
+
+ {:problem "文字列 s を逆にした文字列を返す関数 str_reverse(s)."}
 
  {:problem "文字列 s が空文字列 '' かどうかを判定する関数 is_empty(s)."}
 
@@ -316,7 +347,7 @@ int days_between(int y1,  m1,  d1,  y2,  m2,  d2). 自分は今日まで何日�
  {:problem "文字列 s1 を整数に変換して返す関数  str_to_int(s1). str_to_int('314')の戻り値は 314 になる。
   int(314)."}
 
- {:problem "文字列 s を逆にした文字列を返す関数 str_reverse(s)."}
+
 
  {:problem "左右どちらから読んでも同じ値になる数を回文数という。
             2桁の数の積で表される回文数のうち、最大のものは 9009 = 91 × 99 である。

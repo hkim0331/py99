@@ -4,7 +4,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Add python3
 RUN apt-get update \
-    && apt-get -y install --no-install-recommends apt-utils python3 python3-pip >&1
+    && apt-get -y install --no-install-recommends \
+    apt-utils git python3 python3-pip >&1
 
 # and numpy, pytest
 RUN pip install numpy pytest

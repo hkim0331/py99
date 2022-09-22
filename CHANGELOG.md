@@ -7,11 +7,13 @@
 - python 問題
 
 
+
 ## 0.36.0 - 2022-09-22
 ### Fixed
 - コンテナ内からの hc/get に戻らない。
   原因は hato. cheshire を dependencies に加えないと、
   (hato.client/get {:as :json}) が失敗する。
+
 
 ## 0.35.1 - 2022-09-20
 ### Fixed

@@ -6,6 +6,17 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
 
+## 0.37.0 - 2022-09-22
+successed remote-container on nuc.local via ssh.
+
+
+## 0.36.0 - 2022-09-22
+### Fixed
+- コンテナ内からの hc/get に戻らない。
+  原因は hato. cheshire を dependencies に加えないと、
+  (hato.client/get {:as :json}) が失敗する。
+
+
 ## 0.35.1 - 2022-09-20
 ### Fixed
 - `re-matches` is for whole-string match.

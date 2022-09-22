@@ -7,10 +7,11 @@
 - python 問題
 
 
-## 0.36.0-SNAPSHOT
-* コンテナ内からの hc/get に戻らない。
-  ** get-users を書き換える。
-  ** コンテナの内側に hc/get 先を向ける。
+## 0.36.0 - 2022-09-22
+### Fixed
+- コンテナ内からの hc/get に戻らない。
+  原因は hato. cheshire を dependencies に加えないと、
+  (hato.client/get {:as :json}) が失敗する。
 
 ## 0.35.1 - 2022-09-20
 ### Fixed

@@ -36,12 +36,13 @@
    ;;
    [buddy/buddy-auth "3.0.323"]
    [buddy/buddy-hashers "1.8.158"]
+   [cheshire/cheshire "5.11.0"]
    [clj-time/clj-time "0.15.2"]
-   #_[com.taoensso/timbre "5.2.1"]
    [digest "1.4.10"]
    [environ/environ "1.2.0"]
    [hato/hato "0.8.2"]
    [hiccup "1.0.5"]
+   #_[com.taoensso/timbre "5.2.1"]
    #_[org.clojars.hozumi/clj-commons-exec "1.2.0"]]
 
   :min-lein-version "2.0.0"

@@ -18,8 +18,9 @@
    note: parameter is a string. cf. (db/get-user {:login login})"
   [login]
   (let [ep (str l22 "/api/user/" login)
-        resp (hc/get ep {:as :json})]
-    ;; (log/debug "body get-user ep " ep)
+        resp (hc/get ep {:as :json})] ;; {:as :json} failed in docker
+        ;;resp (hc/get ep)]
+    (log/info "login" (get-in resp [:body :login]))
     ;; (log/debug "(:body resp)" (:body resp))
     (:body resp)))
 

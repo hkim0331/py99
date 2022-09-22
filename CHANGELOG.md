@@ -6,6 +6,12 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
 
+
+## 0.36.0-SNAPSHOT
+* コンテナ内からの hc/get に戻らない。
+  ** get-users を書き換える。
+  ** コンテナの内側に hc/get 先を向ける。
+
 ## 0.35.1 - 2022-09-20
 ### Fixed
 - `re-matches` is for whole-string match.

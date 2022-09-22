@@ -8,6 +8,8 @@
 
 ## 0.37.0 - 2022-09-22
 successed remote-container on nuc.local via ssh.
+vscode ユーザでは /home/vscode/.m2 のボリュームマウントでエラーになる時がある。
+nuc.local では root ユーザで /root/.m2 をボリュームマウントした。
 
 
 ## 0.36.0 - 2022-09-22

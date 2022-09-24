@@ -20,5 +20,6 @@ profiles.clj
 /initdb.d/
 /log/
 /node_modules/
+
 /docker-compose.yml
 /.devcontainer/

@@ -6,8 +6,19 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
 
+## 0.38.0 - 2022-09-24
+- pytest の結果の一部をエラーメッセージとして表示する。
+
+## 0.37.1-SNAPSHOT
+最初 vscode ユーザで失敗した後、rebuild container メニューを実行すると
+大丈夫、かな？
+.devcontaiers, docker-compose.yml は .gitigonore しているので、
+場面に応じてその場で書き換えるでいいか？
+
 ## 0.37.0 - 2022-09-22
 successed remote-container on nuc.local via ssh.
+vscode ユーザでは /home/vscode/.m2 のボリュームマウントでエラーになる時がある。
+nuc.local では root ユーザで /root/.m2 をボリュームマウントした。
 
 
 ## 0.36.0 - 2022-09-22

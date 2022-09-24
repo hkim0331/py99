@@ -168,30 +168,6 @@
   (when-not (re-find #"\S" (strip answer))
     (throw (Exception. "answer is empty"))))
 
-;; (defn- space-rule?
-;;   "R99 space-char rules"
-;;   [s]
-;;   (when-not (every? nil?
-;;                     [(re-find #"include<" s)
-;;                      (re-find #"\)\{" s)
-;;                      (re-find #"if\(" s)
-;;                      (re-find #"for\(" s)
-;;                      (re-find #"while\(" s)
-;;                      (re-find #"}else" s)
-;;                      (re-find #"else\{" s)
-;;                      (re-find #"\n\s*else" s)
-;;                      (re-find #" \+\+" s)
-;;                      (re-find #"\+\+\s+[a-zA-Z]" s)])
-;;     (throw (Exception. "against R99 space rules"))))
-
-;; FIXME: python
-;; https://github.com/hozumi/clj-commons-exec
-;; (defn- can-compile? [answer]
-;;   (let [r (exec/sh ["gcc" "-xc" "-fsyntax-only" "-"] {:in answer})]
-;;     (log/debug "gcc" @r)
-;;     (when-let [err (:err @r)]
-;;       (throw (Exception. err)))))
-
 (defn- pytest-test
   [num answer]
   (let [test (:test (db/get-problem {:num num}))]
@@ -206,7 +182,9 @@
           (log/info "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
-            (throw (Exception. "test failed."))))))))
+            (throw (Exception. (->> (str/split-lines (:out ret))
+                                    (filter #(re-find #"^[>E]" %))
+                                    (str/join "\n"))))))))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."
@@ -230,7 +208,7 @@
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406
-                      :title (.getMessage e)
+                      :exception (.getMessage e)
                       :message "ブラウザのバックで戻って、修正後、再提出してください。"}))))
 
 ;; (defn- require-my-answer?

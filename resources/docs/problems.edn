@@ -24,6 +24,7 @@
  {:problem "数をキーボードから入力、それに 1 を足した数をプリントする関数
             add1_( )."}
 
+ ;; numerical
  {:problem "数 x, y を引数にとり、
             それらを足した数を戻り値とする関数 add2(x, y)."
   :test "def test_add2():
@@ -78,6 +79,7 @@
   assert not is_teenage(20)"}
 
  ;; define functions using defined functions
+ 
  ;; calendar
  {:problem "西暦 year を引数にとり昭和、平成、令和の和暦を表す文字列を返す関数
             era(year). era(2022)は '令和4年' を返す。
@@ -401,7 +403,9 @@
 
 ;; {:problem "文字列 s1 と文字列 s2 が完全に等しいかどうかを判定する関数 str_eql(s1, s2)."}
 
-;; {:problem "文字列 s1 を文字列 s2 にコピーする関数void str_copy(char* s1, char* s2).s2 は s1 をコピーするに十分な長さがあると仮定してよい。以下同様。str_copy(s1,s2) の実行後、str_sql(s1, s2) が真になること。"}
+;; {:problem "文字列 s1 を文字列 s2 にコピーする関数void str_copy(s1, s2)
+;;  s2 は s1 をコピーするに十分な長さがあると仮定してよい。以下同様。
+;;  str_copy(s1,s2) の実行後、str_sql(s1, s2) が真になること。"}
 
 ;; {:problem "文字列 s1 の後ろに文字列 s2 を連結する関数char* str_append(char* s1, char* s2).str_append(" abc ", " def ") の実行後、str_eql(s1, " abcdef ")は真になる。s1 を破壊しないバージョンも作ってみよう。s1 と s2 を連結した文字列を返すように。"
 
@@ -424,6 +428,8 @@
 ;; {:problem "++ と -- のみを使い、x + y と同じ計算をする関数  stoic_add(int x,  y) を定義せよ。負の数も考慮すること。"}
 
  {:problem "4/(1+x<sup>2</sup>) を x について 0 から 1 まで積分すると pi になる。これをスマートにプログラムしてください。"}
+
+ ;; speed
 
  ;; numpy, 50x faster?
  {:problem "numpy 50x faster?"}

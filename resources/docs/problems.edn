@@ -79,7 +79,6 @@
   assert not is_teenage(20)"}
 
  ;; define functions using defined functions
- 
  ;; calendar
  {:problem "西暦 year を引数にとり昭和、平成、令和の和暦を表す文字列を返す関数
             era(year). era(2022)は '令和4年' を返す。
@@ -116,7 +115,7 @@
  {:problem "y1 年 m1 月 d1 日から y2 年 m2 月 d2 月までの日数を返す関数
             days_between(y1, m1, d1, y2, m2, d2).
             自分は今日まで何日生きてきましたか?"}
-
+ 
  ;; define functions using defined functions.
  {:problem "二つの数 x, y のどちらか大きい方を返す関数 max2(x, y).
             ビルトイン関数の max を使うのは反則とする。"
@@ -127,10 +126,15 @@
     return y"}
 
  {:problem "三つの数 x, y, z の最大値を返す関数 max3(x, y, z).
-           ビルトイン関数の max を使うのは反則とする。"}
+           ビルトイン関数の max を使うのは反則とする。"
+  :test "def test_max3():
+  assert max3(1,2,3) == 3
+  assert max3(10,20,3) == 20
+  assert max3(100,20,30) == 100"}
 
  {:problem "リスト xs 中の要素の最大値を返す関数 max_in_list(xs).
             ビルトイン関数の max を使うのは反則とする。"}
+
 
  ;; smart conditionals
  {:problem "3 つの整数を引数とし、
@@ -154,7 +158,54 @@
 
  {:problem "fz(1) + fz(2) + ... + fz(n) を求める関数 sum_fz(n)."}
 
+ ;; lambda functions
+
  {:problem "正の整数 n の階乗 n! を求める関数 factorial(n)."}
+
+ ;; randoms
+ ;;
+ ;; >>> import random
+ ;; >>> random.seed( )
+ {:problem "n &le; r &lt; m の整数乱数 r を返す関数 rand_int(n, m)."}
+
+ {:problem "それぞれが 0 &le; r &lt; n の整数乱数 m 個のリストを返す関数
+            list_randoms(n, m)."
+  :test "def test_list_randoms():
+  xs = list_randoms(10,20)
+  ys = list_randoms(10,20)
+  assert not xs == ys
+  assert len(xs) == 20
+  assert len(list(filter(lambda x: x < 0, xs))) == 0
+  assert len(list(filter(lambda x: x< 20, xs))) == 20"}
+
+
+ {:problem "rs = list_randoms(n, m) で作った配列 rs 中にみつからない
+            x <= r < y の数をリストで返す関数 not_found(rs, x, y)."}
+
+ {:problem "rs 中に一番たくさん重複して現れる数を返す関数は前に出てきた。"}
+
+ {:problem "ビンゴゲーム用の bingo(n). 戻り値は 0 ~ n-1 の n 個の整数が重複なく順番バラバラに入った配列。
+            shuffle() を使うのは反則としておこう。"}
+
+ ;; coercion between int and str
+ {:problem "整数 n は何桁あるかを返す関数 digits(n)."
+  :test "def test_digits():
+  assert digits(12345)==5
+  assert digits(0)==1
+  assert digits(123450123)==9
+  assert digits(24213412414124141412431241414)==29"}
+
+ {:problem "整数 n の各桁の総和を返す関数 sum_of_digits(n)."
+  :test "def test_sum_of_digits():
+  assert sum_of_digits(12345) == 15
+  assert sum_of_digits(0) == 0"}
+
+ {:problem "一の位が０でない整数 n の各桁の数字を逆転した整数を返す関数 reverse_int(n)."
+  :test "def test_reverse_int():
+  for _ in range(10):
+    n = random.randrange(100000000)
+    if n%10 != 0:
+      assert n == reverse_int(reverse_int(n))"}
 
  ;; statistics
  {:problem "リスト xs 中の要素の平均値を返す関数 mean(xs).
@@ -172,32 +223,7 @@
             リスト xs の要素を小さい順に並べ替えたリストを返す関数 my_sort(xs)
             を定義しなさい。"}
 
- ;; randoms
- ;;
- ;; >>> import random
- ;; >>> random.seed( )
- {:problem "n &le; r &lt; m の整数乱数 r を返す関数 rand_int(n, m)."}
-
- {:problem "それぞれが 0 &le; r &lt; n の整数乱数 m 個のリストを返す関数
-            list_randoms(n, m)."}
-
- {:problem "rs = list_randoms(n, m) で作った配列 rs 中にみつからない
-            0 ~ n-1 の数をリストで返す関数 find_not(rs,  n)."}
-
- {:problem "rs 中に一番たくさん重複して現れる数を返す関数は my-mode(rs)."}
-
-;; {:problem "int * shuffle(int n) を定義せよ。戻り値は 0~n-1 の n 個の正整数が重複なく順番バラバラに入った配列。完成するとビンゴゲームに使えるぞ。関数名を bingo( ) にしようか。"}
-
- ;; coercion between int and str
- {:problem "整数 n は何桁あるかを返す関数 digits(n)."}
-
- {:problem "整数 n の各桁の総和を返す関数 sum_of_digits(n).
-            sum_of_digits(12345) の戻り値は 15. "}
-
- {:problem "整数 n の各桁の数字を逆転した整数を返す関数 reverse_int(n)."}
-
-
- ;; palindrome
+  ;; palindrome
  {:problem "左右どちらから読んでも同じ値になる数を回文数という。
             整数 n が回文数かどうかを判定する関数 is_palindrome(n)."}
 
@@ -205,6 +231,9 @@
             3桁の数の積で表される回文数の最大値を求めよ"}
 
  ;; divisors, gcd
+ {:problem "整数 n を引数とし、その約数のリストを返す関数 divisors(n)."
+  :test ""}
+
  {:problem "n 以下の整数のうち、もっとも約数の多い数を返す関数 most_divisors(n).
             most_divisors(1000)の戻り値は 840."
   :test ""}
@@ -213,12 +242,10 @@
             その約数の合計を戻り値とする関数 sum_of_divisors(int n)."
   :test ""}
 
- {:problem "整数 n を引数とし、その約数のリストを返す関数 divisors(n)."
-  :test ""}
 
  {:problem "math.gcd( ) を使わずに、
            正の整数 x, y の最大公約数を返す関数 gcd2(x, y) を定義しなさい。"
-  :test""}
+  :test ""}
 
  {:problem "正の整数 x, y z の最大公約数を返す関数 gcd3(x, y, z) を定義しなさい."
   :test ""}
@@ -255,9 +282,21 @@
             1000 番目までの素数の和を求めなさい。それはたぶん 3682913."}
 
  ;; lists
+ {:problem "要素 item が m 個あるリストを返す関数 repeat_item(item, m)."
+  :test "def test_repeat_item():
+  assert repeat_item(0,3) == [0, 0, 0]
+  assert repeat_item(0,0) == []
+  assert repeat_item('a', 3) == ['a', 'a', 'a']
+  assert repeat_item(0,-1) == []"}
+
+ {:problem "リストxs とリストys"}
+
+ ;; 内積は
+ ;; zip はどうか？
+ 
  {:problem "リスト xs の各要素を n 倍したリストを返す関数 times_n(xs, n)."}
 
- {:problem "リスト xs の偶数番めの要素だけを抜き出したリストを返す even-index(xs).
+ {:problem "リスト xs の偶数番めの要素だけを抜き出したリストを返す even_index(xs).
             最初の要素は 0 番目と数える。"}
 
  {:problem "整数リスト xs に含まれる偶数だけを抜き出す evens_only(xs)."}
@@ -268,8 +307,6 @@
 
  {:problem "リスト xs とリスト ys から作った重複要素のないリストを返す
            distinct(xs, ys)."}
-
- {:problem "要素 e が m 個あるリストを返す関数 repeat_item(e, m)."}
 
  {:problem "リスト xs の要素をそれぞれ2個に増やす関数 dupli(xs).
            dupli([1, 2, 3]) は [1, 1, 2, 2, 3, 3] を返す。"}

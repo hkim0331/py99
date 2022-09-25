@@ -8,9 +8,9 @@
            '1' + '2' は何を返すか？'123' * 3 は？"}
 
  ;; difference between `print` and `return`
- {:problem "関数 hello_none(s) を定義しなさい。
+ {:problem "関数 hello_(s) を定義しなさい。
             引数の s は文字列。
-            hello_none('Japan') は 'Hello, Japan!' をプリントする。"}
+            hello_('Japan') は 'Hello, Japan!' をプリントする。"}
 
  {:problem "関数 hello(s) を定義しなさい。
            引数の s は文字列。hello('Japan') は文字列 'Hello, Japan!' を返す。"
@@ -22,21 +22,21 @@
 
  ;; input( )
  {:problem "数をキーボードから入力、それに 1 を足した数をプリントする関数
-            add1_none( )."}
+            add1_( )."}
 
  {:problem "数 x, y を引数にとり、
             それらを足した数を戻り値とする関数 add2(x, y)."}
 
  {:problem "数 x, y を引数にとり、
-            それらを足した数をプリントする関数 add2_none(x, y)."}
+            それらを足した数をプリントする関数 add2_(x, y)."}
 
  {:problem "円の半径を引数にとり、その円の面積を戻り値とする関数en(int r)."}
 
  {:problem "円の半径をキーボードから読み、
-            その円の面積をプリントする関数 void en_none( )."}
+            その円の面積をプリントする関数 void en_( )."}
 
  {:problem "整数 x, y を引数にとり、それらの和、差、積、商をプリントする関数
-            arithmetic_none(x, y)."}
+            arithmetic_(x, y)."}
 
  {:problem "数 x を引数に取り、それが負数だったら -1, ゼロと等しければ 0,
             正数であれば 1 を返す関数 sign(x)."
@@ -57,7 +57,7 @@
   assert not is_even(-99)"}
 
  {:problem "キーボードから整数ひとつを入力し、それが偶数だったら '偶数です'、
-            奇数だったら '奇数です' とプリントする関数 parity_none( )."}
+            奇数だったら '奇数です' とプリントする関数 parity_( )."}
 
  {:problem "彼・彼女の年齢を y とする。彼・彼女がティーンエイジャーだったら True、
   そうでなければ False を返す関数 is_teenage(y)."
@@ -71,7 +71,16 @@
  ;; define functions using defined functions
  ;; calendar
  {:problem "西暦 year を引数にとり昭和、平成、令和の和暦を表す文字列を返す関数
-            era_p(year). era_p(2022)は '令和 4 年' を返す。"}
+            era(year). era(2022)は '令和4年' を返す。
+            1926年、1989年、2019年はそれぞれ
+            '昭和元年'、'平成元年'、'令和元年'を返すこと。"
+  :test "def test_era( ):
+  assert era(1926)=='昭和元年'
+  assert era(1989)=='平成元年'
+  assert era(2019)=='令和元年'
+  assert era(1984)=='昭和59年'
+  assert era(2013)=='平成25年'
+  assert era(2022)=='令和4年'"}
 
  {:problem "西暦 year を引数にとり、閏年であれば True、
             そうでなければ False を返す関数 is_leap(year).
@@ -86,7 +95,7 @@
             sec_between(h1, m1, s1, h2, m2, s2)."}
 
  {:problem "平年の 1 月 1 日から同年 mm 月 dd 日までの日数を返す関数
-            days(int mm, dd)."}
+            days(mm, dd)."}
 
  {:problem "y1 年 m1 月 d1 日から y2 年 m2 月 d2 月までの日数を返す関数
             days_between(y1, m1, d1, y2, m2, d2).
@@ -94,7 +103,12 @@
 
  ;; define functions using defined functions.
  {:problem "二つの数 x, y のどちらか大きい方を返す関数 max2(x, y).
-            ビルトイン関数の max を使うのは反則とする。"}
+            ビルトイン関数の max を使うのは反則とする。"
+  :teset "def max2(x,y):
+  if x>y:
+    return x
+  else:
+    return y"}
 
  {:problem "三つの数 x, y, z の最大値を返す関数 max3(x, y, z).
            ビルトイン関数の max を使うのは反則とする。"}

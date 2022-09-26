@@ -49,6 +49,9 @@
             その円の面積をプリントする関数 en_( )."}
 
  ;; floating numbers
+ {:problem "ax^2 + bx +c==0 の a,b,c を引数に取り、
+           2次方程式の解をリストで返す関数 eqn2(a, b, c)."}
+ 
  {:problem "小数点数 x を四捨五入した整数を返す関数 f_to_i(x).
             注意: python の関数 round( ) だと、
             round(2.5) が 2 になってちょっとまずい。"}
@@ -59,11 +62,6 @@
  {:problem "小数点数 x を小数点第 n+1 位で四捨五入した数を返す関数 f_to_f( x, n).
             f_to_f(3.14159265, 4) の戻り値は 3.141600になる。"}
 
- {:problem "ax^2 + bx +c==0 の a,b,c を引数に取り、
-            2次方程式の解をリストで返す関数 eqn2(a, b, c)."}
-
- {:problem "4/(1+x<sup>2</sup>) を x について 0 から 1 まで積分すると円周率 pi になる。
-           スマートにプログラムしてください。"}
 
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; predicates
@@ -143,8 +141,8 @@
             days_between(y1, m1, d1, y2, m2, d2).
             自分は今日まで何日生きてきましたか?"}
 
- ;; dictionary
- {:problem "月の名前を文字列 s で取り、その月の日数を返す関数 days(s)."}
+ ;; ;; dictionary
+ ;; {:problem "月の名前を文字列 s で取り、その月の日数を返す関数 days(s)."}
 
  ;; iteration, loop
  {:problem "1 + 2 + ... + n を求める関数 sum_int(n)."
@@ -180,6 +178,7 @@
 
  {:problem "整数 xs の最頻値を返す関数 mode(xs).
             numpy.mode を使うのは反則とする。"}
+
  ;; strings
  ;;
  ;; s.replace(s1,s2)
@@ -192,6 +191,9 @@
 
  {:problem "文字列 s を逆にした文字列を返す関数 str_reverse(s)."}
 
+ {:problem "文字列 s に含まれる文字 c をリストで返す関数 find_char(s, c).
+            find_char('apple','p') は ['p', 'p'] を返す。"}
+
  {:problem "文字列 s に含まれる文字 c の数を返す関数 count_char(s, c).
             count_char('apple','p') は 2 を返す。"}
 
@@ -200,9 +202,8 @@
             count_words('I love you. I need you.') の戻り値は 6."}
 
  {:problem "'Kimura Takuya' のような文字列 s を引数とし、
-           そのイニシャル 'K.T.' を返す関数 initial(s)"}
+           そのイニシャル 'K.T.' を返す関数 initial(s)."}
 
- ;;{:problem "文字列 s に含まれる単語 w をリストで返す関数 count_word(s)."}
 
  ;; define functions using defined functions.
  {:problem "二つの数 x, y のどちらか大きい方を返す関数 max2(x, y).
@@ -234,9 +235,10 @@ def test_max_in_list( ):
             最大値が複数ある場合にそれらをリストで返すことだ。"
   :test ""}
 
+
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; random numbers
- {:problem "0 &le; r &lt; n の整数乱数が m 個のリストを返す関数
+ {:problem "0 <= r < n の整数乱数 m 個のリストを返す関数
             list_randoms(n, m)."
   :test "def test_list_randoms( ):
   xs = list_randoms(10,20)
@@ -254,11 +256,17 @@ def test_max_in_list( ):
             shuffle( ) を使うのは反則としておこう。"}
 
  {:problem "(モンテカルロメソッド)
-            -1 &le; x &le; 1, -1 &le; y &le; 1 となる乱数(x,y)を 1000 個発生させる。
-            そのうち、x^2+y^2 &le; 1 となる (x,y) の数を n とすると、
+            -1 <= x < 1, -1 <= y < 1 となる乱数(x,y)を 1000 個発生させる。
+            そのうち、
+            x<sup>2</sup>+y<sup>2</sup> &le; 1
+            となる (x,y) の数を n とすると、
             n/1000 が円周率 pi に近づく。関数 monte-carlo-pi(m) を定義せよ。
             m は繰り返しの回数。
             m をより大きくすると近似値が良くなることを確認せよ。"}
+
+ {:problem "4/(1+x<sup>2</sup>) を x について 0 から 1 まで積分すると円周率 pi になる。
+            できるだけスマートにプログラムし、上のモンテカルロ法で求める pi と
+            精度、計算時間を比較せよ。"}
 
  ;; coercion between int and str
  {:problem "整数 n は何桁かを返す関数 digits(n)."
@@ -446,10 +454,9 @@ def test_max_in_list( ):
 
 ;; {:problem "n を整数とする。factorial(n) + 2 が立方数となるような n を全て求めよ。"}
 
- ;; sorting
- {:problem "ビルトイン関数の sorted( ), list クラスの sort( ) メソッドを使わずに、
-            リスト xs の要素を小さい順に並べ替えたリストを返す関数 my_sort(xs)
-            を定義しなさい。"}
+;; {:problem "ビルトイン関数の sorted( ), list クラスの sort( ) メソッドを使わずに、
+;;            リスト xs の要素を小さい順に並べ替えたリストを返す関数 my_sort(xs)
+;;            を定義しなさい。"}
 
  ;; files, csv
  ;; {:problem ""}
@@ -500,7 +507,11 @@ def test_max_in_list( ):
 
  ;; speed
  ;; numpy, 50x faster?
- {:problem "numpy 50x faster? numpy を使わずに行列の掛け算 mat"}
+ {:problem "numpy を使わず行列積 mat_mul(A, B) を実装しなさい。
+            定義した関数と numpy.matmul() との速度差はどのくらいか？
+            巷では 50 倍とされているが、本当か？
+            100x100 の乱数行列で確かめなさい。"}]
 
  ;; matplotlib
- {:problem "matplotlib, how to?"}]
+;; {:problem "matplotlib, how to?"}
+

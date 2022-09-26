@@ -6,6 +6,10 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - python 問題
 
+
+## 0.38.4 - 2022-09-26
+- magic comment for UTF-8
+
 ## 0.38.1 - 2022-09-25
 - docker-compose.yml, .devcontainer を gitignore しない。
 

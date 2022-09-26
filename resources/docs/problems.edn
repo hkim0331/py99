@@ -158,8 +158,8 @@
 
  {:problem "リスト xs の中央値を返す関数 median(xs).
             numpy.median を使うのは反則とする。"}
-
- {:problem "整数 xs の最頻値を返す関数 mod(xs).
+ 
+ {:problem "整数 xs の最頻値を返す関数 mode(xs).
             numpy.mod を使うのは反則とする。"}
 
  ;; define functions using defined functions.
@@ -426,21 +426,26 @@ def test_max_in_list( ):
             を定義しなさい。"}
 
  ;; files, csv
- {:problem "ファイル<a href='integers.txt'>integers.txt</a> をダウンロードし、適当な場所にセーブしてください。ファイル 'numbers.txt' には一行にひとつ、整数が書き込まれている。そのファイルの1行目の数を返す関数int head(void)."}
+ ;; {:problem ""}
 
- {:problem "ファイル 'numbers.txt' が何行あるかを返す関数int lines(void)."}
+ ;; {:problem "ファイル file が何行あるかを返す関数lines(file)を定義しなさい。
+ ;;            ファイルa href='000975797.csv'></a> は
+ ;;            https://www.city.kitakyushu.lg.jp/soumu/file_0311.html にある
+ ;;            北九州市の人口Excel データを csv に変換したものです。
+ ;;            ダウンロードし、適当な場所にセーブしてください。
+ ;;            ファイル 000975797.csv は何行あるか。"}
 
- {:problem "ファイル 'numbers.txt' の n 行目の数字を返す関数int nth(int n)."}
+ ;; {:problem "ファイル 'numbers.txt' の n 行目の数字を返す関数int nth(int n)."}
 
- {:problem "ファイル 'numbers.txt' の最初の十行に含まれる整数の総和を返す関数int sum10(void)."}
+ ;; {:problem "ファイル 'numbers.txt' の最初の十行に含まれる整数の総和を返す関数int sum10(void)."}
 
- {:problem "ファイル 'numbers.txt' の最初の n 行に含まれる整数の総和を返す関数int sum_n(int n)."}
+ ;; {:problem "ファイル 'numbers.txt' の最初の n 行に含まれる整数の総和を返す関数int sum_n(int n)."}
 
- {:problem "ファイル 'numbers.txt' の最後の n 行に含まれる整数の総和を返す関数int sum_tail(int n)."}
+ ;; {:problem "ファイル 'numbers.txt' の最後の n 行に含まれる整数の総和を返す関数int sum_tail(int n)."}
 
- {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を表示する関数 void cat(char *fname)"}
+ ;; {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を表示する関数 void cat(char *fname)"}
 
- {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を行番号つきで表示する関数 void n_cat(char *fname)"}
+ ;; {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を行番号つきで表示する関数 void n_cat(char *fname)"}
 
 
  ;; recursion
@@ -490,7 +495,7 @@ def test_max_in_list( ):
 
  ;; speed
  ;; numpy, 50x faster?
- {:problem "numpy 50x faster?"}
+ {:problem "numpy 50x faster? numpy を使わずに行列の掛け算 mat"}
 
  ;; matplotlib
  {:problem "matplotlib, how to?"}]

@@ -177,6 +177,7 @@
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]
           (binding [*out* file]
+            (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
         (let [ret (sh "pytest" (.getAbsolutePath tempfile))]

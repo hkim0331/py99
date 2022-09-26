@@ -46,7 +46,7 @@
     assert en(-1) == None"}
 
  {:problem "円の半径をキーボードから読み、
-            その円の面積をプリントする関数 void en_( )."}
+            その円の面積をプリントする関数 en_( )."}
 
  ;; floating numbers
  {:problem "小数点数 x を四捨五入した整数を返す関数 f_to_i(x).
@@ -64,8 +64,6 @@
 
  {:problem "4/(1+x<sup>2</sup>) を x について 0 から 1 まで積分すると円周率 pi になる。
            スマートにプログラムしてください。"}
-
- {:problem "モンテカルロメソッド"}
 
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; predicates
@@ -237,7 +235,7 @@ def test_max_in_list( ):
   :test ""}
 
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; random numbers 
+ ;; random numbers
  {:problem "0 &le; r &lt; n の整数乱数が m 個のリストを返す関数
             list_randoms(n, m)."
   :test "def test_list_randoms( ):
@@ -254,6 +252,13 @@ def test_max_in_list( ):
  {:problem "ビンゴゲーム用の bingo(n).
             戻り値は 1 ~ n の n 個の整数が重複なく順番バラバラに入った配列。
             shuffle( ) を使うのは反則としておこう。"}
+
+ {:problem "(モンテカルロメソッド)
+            -1 &le; x &le; 1, -1 &le; y &le; 1 となる乱数(x,y)を 1000 個発生させる。
+            そのうち、x^2+y^2 &le; 1 となる (x,y) の数を n とすると、
+            n/1000 が円周率 pi に近づく。関数 monte-carlo-pi(m) を定義せよ。
+            m は繰り返しの回数。
+            m をより大きくすると近似値が良くなることを確認せよ。"}
 
  ;; coercion between int and str
  {:problem "整数 n は何桁かを返す関数 digits(n)."
@@ -389,7 +394,7 @@ def test_max_in_list( ):
 
  {:problem "多次元リストを一次元リストに平くする関数 flatten(xxs).
             flatten([[1,2],[3,4],[5,6]]) は [1,2,3,4,5,6] を返す。"}
- 
+
  {:problem "リスト xs とリスト ys にともに含まれる要素のリストを返す commons(xs, ys)."}
 
  {:problem "リスト xs から重複を除いたリストを作って返す distinct(xs)."}

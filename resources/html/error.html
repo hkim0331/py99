@@ -39,10 +39,20 @@
         <hr>
         {% if title %}
         <h2 class="without-margin">{{title}}</h2>
+        <pre>{{title}}</pre>
         {% endif %}
         {% if message %}
         <h4 class="text-danger">{{message}}</h4>
         {% endif %}
+    </div>
+    <div class="columns">
+        <div class="column"></div>
+        <div class="column is-two-thirds">
+            {% if exception %}
+            <pre>{{exception}}</pre>
+            {% endif %}
+        </div>
+        <div class="column"></div>
     </div>
 </div>
 </body>

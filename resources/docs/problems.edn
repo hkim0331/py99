@@ -50,18 +50,31 @@
 
  ;; floating numbers
  {:problem "ax^2 + bx +c==0 の a,b,c を引数に取り、
-           2次方程式の解をリストで返す関数 eqn2(a, b, c)."}
- 
+            2次方程式の解をリストで返す関数 eqn2(a, b, c).
+            虚数解の時はどうすっか。"
+  :test "def test_eqn2():
+  assert set(eqn2(1,-3,2)) == {1,2}
+  assert set(eqn2(1,-2,1)) == {1}
+  assert set(eqn2(1,-1,-6)) == {-2, 3}"}
+
+ ;; FIXME: test is not enough. in particular, not test.
  {:problem "小数点数 x を四捨五入した整数を返す関数 f_to_i(x).
             注意: python の関数 round( ) だと、
-            round(2.5) が 2 になってちょっとまずい。"}
+            round(2.5) が 2 になってちょっとまずい。負数にも注意せよ。"
+  :test "def test_f_to_i():
+  assert f_to_i(0.5) == 1
+  assert f_to_i(1.5) == 2
+  assert f_to_i(2.5) == 3"}
 
  {:problem "小数点数 x を小数点第 2 位で四捨五入した数を返す関数 f_to_f1(x).
-            f_to_f1(3.14159265) の戻り値は 3.100000 になる"}
+            f_to_f1(3.14159265) の戻り値は 3.100000 になる"
+  :test "def test_f_to_f1():
+  assert f_to_f1(3.14159265) == 3.1"}
 
  {:problem "小数点数 x を小数点第 n+1 位で四捨五入した数を返す関数 f_to_f( x, n).
-            f_to_f(3.14159265, 4) の戻り値は 3.141600になる。"}
-
+            f_to_f(3.14159265, 4) の戻り値は 3.141600になる。"
+  :test "def test_f_to_f():
+  assert f_to_f(3.14159265, 4) == 3.1416"}
 
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; predicates
@@ -97,7 +110,11 @@
 
  {:problem "3 つの整数を引数とし、
             それらの長さを各辺とする三角形がありうるかどうかを判定する関数
-            is_triangle(x,  y,  z)."}
+            is_triangle(x,  y,  z)."
+  :test "def test_is_triable():
+  assert     is_triangle(1,1,1)
+  assert not is_triangle(1,1,0)"}
+
 
  {:problem "3 つの整数を引数とし、
             それらの長さを各辺とする直角三角形がありうるかどうかを判定する関数

@@ -133,7 +133,13 @@
   assert max3(100,20,30) == 100"}
 
  {:problem "リスト xs 中の要素の最大値を返す関数 max_in_list(xs).
-            ビルトイン関数の max を使うのは反則とする。"}
+            ビルトイン関数の max を使うのは反則とする。"
+  :test "import random
+def test_max_in_list():
+  assert max_in_list([])==[]
+  assert max_in_list([100])==100
+  assert max_in_list(range(10))==9
+  assert 0 <= max_in_list(random.choices(range(10),k=10)) < 10"}
 
 
  ;; smart conditionals
@@ -154,7 +160,8 @@
             5 の倍数だったら 2、
             3 の倍数でもあり、かつ、5 の倍数でもあったら 3、
             いずれでもなかったら 0 を返す関数 fz(int n)."
-  :test ""}
+  :test "def test_fz():
+  assert list(map(fz, range(16))) == [3, 0, 0, 1, 0, 2, 1, 0, 0, 1, 2, 0, 1, 0, 0, 3]"}
 
  {:problem "fz(1) + fz(2) + ... + fz(n) を求める関数 sum_fz(n)."}
 
@@ -180,11 +187,12 @@
 
 
  {:problem "rs = list_randoms(n, m) で作った配列 rs 中にみつからない
-            x <= r < y の数をリストで返す関数 not_found(rs, x, y)."}
+            0 <= r < n の数をリストで返す関数 not_found(rs, n)."}
 
  {:problem "rs 中に一番たくさん重複して現れる数を返す関数は前に出てきた。"}
 
- {:problem "ビンゴゲーム用の bingo(n). 戻り値は 0 ~ n-1 の n 個の整数が重複なく順番バラバラに入った配列。
+ {:problem "ビンゴゲーム用の bingo(n).
+            戻り値は 0 ~ n-1 の n 個の整数が重複なく順番バラバラに入った配列。
             shuffle() を使うのは反則としておこう。"}
 
  ;; coercion between int and str
@@ -231,17 +239,25 @@
             3桁の数の積で表される回文数の最大値を求めよ"}
 
  ;; divisors, gcd
- {:problem "整数 n を引数とし、その約数のリストを返す関数 divisors(n)."
-  :test ""}
+ {:problem "正整数 n を引数とし、その約数のリストを返す関数 divisors(n).
+            1 とn 自身もn の約数だ(0 を除く)。"
+  :test "def test_divisors():
+  assert divisors(0) == []
+  assert divisors(1) == [1]
+  assert divisors(10) == [1, 2, 5, 10]
+  assert divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50, 100]"}
+
+ {:problem "正整数 n を引数とし、
+            その約数の合計を戻り値とする関数 sum_of_divisors(int n)."
+  :test "def test_sum_of_divisors():
+  assert sum_of_divisors(0) == 0
+  assert sum_of_divisors(1) == 1
+  assert sum_of_divisors(10) == 18
+  assert sum_of_divisors(100) == 217"}
 
  {:problem "n 以下の整数のうち、もっとも約数の多い数を返す関数 most_divisors(n).
             most_divisors(1000)の戻り値は 840."
   :test ""}
-
- {:problem "整数 n を引数とし、
-            その約数の合計を戻り値とする関数 sum_of_divisors(int n)."
-  :test ""}
-
 
  {:problem "math.gcd( ) を使わずに、
            正の整数 x, y の最大公約数を返す関数 gcd2(x, y) を定義しなさい。"
@@ -255,9 +271,17 @@
   :test ""}
 
  ;; perfect number
- {:problem "n よりも大きい完全数を求める関数 next_perfect(n).
-            next_perfect(28) はきっと 496。"
-   :test ""}
+ {:problem "正整数 n が完全数かどうかを判定する関数 is_perfect(n).
+            n が完全数であるとは n の約数の総和が 2n と等しくなる数である。"
+  :test "def test_is_perfect():
+  assert list(filter(is_perfect, range(500))) == [0, 6, 28, 496]"}
+
+ {:problem "n よりも大きい完全数を求める関数 next_perfect(n)."
+   :test "def test_next_perfect():
+  assert next_perfect(1)==6
+  assert next_perfect(6)==28
+  assert next_perfect(28)==496
+  assert next_perfect(496)==8128"}
 
  ;; primes
  {:problem "正の整数 n を引数に取り、n が素数であれば True、
@@ -275,10 +299,11 @@
 
  {:problem "正数 n を超えない 2 番目に大きい素数を返す関数 submax_prime_under(n)."}
 
- {:problem "n 未満の素数の和を求める関数 sum_primes_under(int n).
+ {:problem "n 未満の素数の和を求める関数 sum_primes_under(n).
             sum_primes_under(1000) は 76127 のはず。"}
 
  {:problem "4 番目までの素数を足すと 2 + 3 + 5 + 7 = 17.
+            n 番目までの素数を足す sum_primes_nth(n).
             1000 番目までの素数の和を求めなさい。それはたぶん 3682913."}
 
  ;; lists

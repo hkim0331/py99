@@ -38,7 +38,6 @@
 ;;    (if-let [login (get-in request [:session :identity] nil)]
 ;;      (boolean (:is_admin (db/get-user {:login (name login)})))
 ;;      false))
-
 (defn admin? [request]
  (= :hkimura (get-in request [:session :identity])))
 

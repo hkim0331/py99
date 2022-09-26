@@ -12,6 +12,7 @@
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
+   [py99.routes.login :refer [get-user]] ;; 0.40.0
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]
    #_[buddy.hashers :as hashers]
@@ -315,7 +316,7 @@
     ;;(log/info "profile who?" {:login login})
     (layout/render {} "profile.html"
                    {:login login
-                    :user (db/get-user {:login login})
+                    :user (get-user login)
                     :chart (individual-chart individual period 600 150)
                     :comment-chart (comment-chart comments period 600 150)
                     :comments-rcvd (db/comments-rcvd {:login login})

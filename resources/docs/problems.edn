@@ -40,7 +40,7 @@
             それらを足した数をプリントする関数 add2_(x, y)."}
 
  {:problem "円の半径を引数にとり、その円の面積を戻り値とする関数en(r)."
-  :test "def test_en( ):
+  :test "def test_en():
     assert en(1) - 3.14 < 0.01
     assert en(10) - 314 < 1.0
     assert en(-1) == None"}
@@ -162,13 +162,26 @@
  ;; {:problem "月の名前を文字列 s で取り、その月の日数を返す関数 days(s)."}
 
  ;; iteration, loop
- {:problem "1 + 2 + ... + n を求める関数 sum_int(n)."
-  :test ""}
+ {:problem "n + (n+1) + ... + m を求める関数 sum_int(n, m).
+            sum_int(100, 1000000000) を1秒以内に計算できるか？"
+  :test "def test_sum_int():
+    assert sum_int(0,10) == 55
+    assert sum_int(2,30) == sum_int(0,30)-sum_int(0,1)
+    assert sum_int(-10, 10) == 0
+    assert 1.0 * sum_int(100, 1000000000) == 1.0 * 500000000499995050"}
 
- {:problem "整数 n から m までの二乗和を求める関数 sum2(n, m)."}
+ {:problem "n から m の整数のうち、偶数だけの和を求める関数 sum_evens(n, m)"
+  :test "def test_sum_even():
+    assert sum_even(0,100)== 2550
+    assert sum_even(0, 1) == 0
+    assert sum_even(-100,300) == 20100"}
 
- {:problem "n から m の整数のうち、偶数だけの和を求める関数 sum_evens(n,m)"
-  :test ""}
+ {:problem "整数 n から m までの二乗和を求める関数 sum2(n, m)."
+  :test "def test_sum2():
+    assert sum2(0,10)== 385
+    assert sum2(100,200) == 2358350
+    assert sum2(0,5) == 1 + 4 + 9 + 16 + 25
+    assert sum2(-10, 10) == 385*2"}
 
  {:problem "整数 n を引数とし、それが 3 の倍数だったら 1、
             5 の倍数だったら 2、
@@ -177,14 +190,23 @@
   :test "def test_fz( ):
   assert list(map(fz, range(16))) == [3, 0, 0, 1, 0, 2, 1, 0, 0, 1, 2, 0, 1, 0, 0, 3]"}
 
- {:problem "fz(1) + fz(2) + ... + fz(n) を求める関数 sum_fz(n)."}
+ {:problem "fz(n) + fz(n+1) + ... + fz(m) を求める関数 sum_fz(n, m)."
+  :test "def test_sum_fz():
+    assert sum_fz(0, 2) == 3
+    assert sum_fz(0, 10) == 10
+    assert sum_fz(20,100) == 61
+    assert sum_fz(100,200) == 75"}
 
  {:problem "(孫子の問題) 3 で割って 1 余り、5 で割って 2 余り、
-           7 で割って 3 余る正の整数の最小のものはなにか？"}
+           7 で割って 3 余る正の整数の最小のものはなにか？
+           関数 son() を定義しなさい。"
+  :test "def test_son():
+    assert son() == 52"}
 
  {:problem "キーボードから複数の整数を入力、
            0 が入力されたらそれまでに入力された整数を合計してプリントする
-           関数 sunlive_( ). 関数の名前はspina( )_ あるいは HelloDay_( ) でも良い。"}
+           関数 sunlive_( ).
+           関数の名前はspina( )_ あるいは HelloDay_( ) でも良い。"}
 
  ;; statistics
  {:problem "リスト xs 中の要素の平均値を返す関数 mean(xs).
@@ -517,15 +539,15 @@ def test_max_in_list( ):
             その戻り値を再び関数 c( ) の引数とし、同じ計算を繰り返すと、
             どんな n から始めてもいつかは 1 にたどり着くという（Collatz の予想）。
             n から始めて c( ) を繰り返し、1 にたどり着くまでの回数を返す関数
-            int collatz(int n) を定義し、1 ≤n ≤ 100 の n について、
+            int collatz(n) を定義し、1 ≤ n ≤ 100 の n について、
             Collatz の予想を確かめよ。
             collatz(n) を最大とする n は何か？
-            collatz(1)=1, collatz(2)=2 である。"}
+            collatz(1) = 1, collatz(2) = 2 である。"}
 
  ;; speed
  ;; numpy, 50x faster?
- {:problem "numpy を使わず行列積 mat_mul(A, B) を実装しなさい。
-            定義した関数と numpy.matmul() との速度差はどのくらいか？
+ {:problem "numpy を使わず行列積を求める関数 mat_mul(A, B) を実装しなさい。
+            定義した関数と numpy.matmul( ) との速度差はどのくらいか？
             巷では 50 倍とされているが、本当か？
             100x100 の乱数行列で確かめなさい。"}]
 

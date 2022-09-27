@@ -162,13 +162,18 @@
  ;; {:problem "月の名前を文字列 s で取り、その月の日数を返す関数 days(s)."}
 
  ;; iteration, loop
- {:problem "1 + 2 + ... + n を求める関数 sum_int(n)."
+ {:problem "n + (n+1) + ... + m を求める関数 sum_int(n, m).
+            sum_int(100, 1000000000) を1秒以内に計算できるか？"
+  :test "def test_sum_int():
+    assert sum_int(0,10) == 55
+    assert sum_int(2,30) == sum_int(0,30)-sum_int(0,1)
+    assert sum_int(-10, 10) == 0
+    assert 1.0 * sum_int(100, 1000000000) == 1.0 * 500000000499995050"}
+
+ {:problem "n から m の整数のうち、偶数だけの和を求める関数 sum_evens(n, m)"
   :test ""}
 
  {:problem "整数 n から m までの二乗和を求める関数 sum2(n, m)."}
-
- {:problem "n から m の整数のうち、偶数だけの和を求める関数 sum_evens(n,m)"
-  :test ""}
 
  {:problem "整数 n を引数とし、それが 3 の倍数だったら 1、
             5 の倍数だったら 2、

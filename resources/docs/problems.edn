@@ -40,7 +40,7 @@
             それらを足した数をプリントする関数 add2_(x, y)."}
 
  {:problem "円の半径を引数にとり、その円の面積を戻り値とする関数en(r)."
-  :test "def test_en( ):
+  :test "def test_en():
     assert en(1) - 3.14 < 0.01
     assert en(10) - 314 < 1.0
     assert en(-1) == None"}
@@ -522,15 +522,15 @@ def test_max_in_list( ):
             その戻り値を再び関数 c( ) の引数とし、同じ計算を繰り返すと、
             どんな n から始めてもいつかは 1 にたどり着くという（Collatz の予想）。
             n から始めて c( ) を繰り返し、1 にたどり着くまでの回数を返す関数
-            int collatz(int n) を定義し、1 ≤n ≤ 100 の n について、
+            int collatz(n) を定義し、1 ≤ n ≤ 100 の n について、
             Collatz の予想を確かめよ。
             collatz(n) を最大とする n は何か？
-            collatz(1)=1, collatz(2)=2 である。"}
+            collatz(1) = 1, collatz(2) = 2 である。"}
 
  ;; speed
  ;; numpy, 50x faster?
- {:problem "numpy を使わず行列積 mat_mul(A, B) を実装しなさい。
-            定義した関数と numpy.matmul() との速度差はどのくらいか？
+ {:problem "numpy を使わず行列積を求める関数 mat_mul(A, B) を実装しなさい。
+            定義した関数と numpy.matmul( ) との速度差はどのくらいか？
             巷では 50 倍とされているが、本当か？
             100x100 の乱数行列で確かめなさい。"}]
 

@@ -4,13 +4,11 @@ services:
   clojure:
     image: hkim0331/py99
     ports:
-      - "3011:3000"
+      - "3030:3000"
     volumes:
       - .:/usr/src/app:cached
       - m2:/root/.m2
     working_dir: /usr/src/app
-    # tty: true
-    # stdin_open: true
     command: /bin/sh -c "while sleep 1000; do :; done"
 
   db:
@@ -21,8 +19,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_INITDB_ARGS: --encoding=UTF-8 --locale=C
       TZ: Asia/Toky
-    ports:
-      - "5433:5432"
+    # ports:
+    #   - "5433:5432"
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d
       - data:/var/lib/postgresql/data

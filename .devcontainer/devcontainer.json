@@ -1,7 +1,9 @@
 {
     "name": "Existing Docker Compose (Extend)",
+
     "dockerComposeFile": [
         "../docker-compose.yml"],
+
     "customizations": {
         "vscode": {
             "settings": {},
@@ -9,7 +11,9 @@
                 "borkdude.clj-kondo",
                 "betterthantomorrow.calva",
                 "jsynowiec.vscode-insertdatestring"]}},
-    "service": "clojure",
+
+    "service": "py99",
+
     "workspaceFolder": "/usr/src/app"
     // "remoteUser": "vscode"
 }

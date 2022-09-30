@@ -15,15 +15,15 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_DB: postgres
+      POSTGRES_DB: py99
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_INITDB_ARGS: --encoding=UTF-8 --locale=C
       TZ: Asia/Toky
     ports:
       - "5433:5432"
     volumes:
-      - ./initdb.d:/docker-entrypoint-initdb.d
-      - data:/var/lib/postgresql/data
+      - ./initdb.d: /docker-entrypoint-initdb.d
+      - data: /var/lib/postgresql/data
 
 volumes:
   data:

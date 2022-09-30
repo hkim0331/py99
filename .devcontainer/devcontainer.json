@@ -13,7 +13,6 @@
                 "jsynowiec.vscode-insertdatestring"]}},
 
     "service": "py99",
-
     "workspaceFolder": "/usr/src/app"
     // "remoteUser": "vscode"
 }

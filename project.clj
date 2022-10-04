@@ -4,8 +4,8 @@
   :url "https://r99.melt.kyutech.ac.jp"
 
   :dependencies
-  [[ch.qos.logback/logback-classic "1.4.1"]
-   [clojure.java-time "0.3.3"]
+  [[ch.qos.logback/logback-classic "1.4.3"]
+   [clojure.java-time "1.1.0"]
    [conman "0.9.5"]
    [cprop "0.1.19"]
    [expound "0.9.0"]
@@ -31,7 +31,7 @@
    [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
    [ring-webjars "0.2.0"]
    [ring/ring-core "1.9.6"]
-   [ring/ring-defaults "0.3.3"]
+   [ring/ring-defaults "0.3.4"]
    [selmer "1.12.55"]
    ;;
    [buddy/buddy-auth "3.0.323"]
@@ -73,7 +73,7 @@
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                                  [jonase/eastwood "1.3.0"]
-                                 [cider/cider-nrepl "0.28.5"]]
+                                 [cider/cider-nrepl "0.28.6"]]
 
                   :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]

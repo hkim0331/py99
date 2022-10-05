@@ -1,15 +1,13 @@
-all: deploy
+DEST="ubuntu@app.melt.kyutech.ac.jp"
 
-uberjar:
+build:
+	docker build -t hkim0331/py99 .
+
+userbar:
 	lein uberjar
 
 deploy: uberjar
-	scp target/default+uberjar/py99.jar app.melt:py99/ && \
-	ssh app.melt 'sudo systemctl restart py99' && \
-	ssh app.melt 'systemctl status py99'
+	scp target/default+uberjar/py99.jar ${DEST}:py99/py99.jar && \
+	ssh ${DEST} 'sudo systemctl restart py99' && \
+	ssh ${DEST} 'systemctl status py99'
 
-hkim0331/py99:
-	docker build -t $@ .
-
-clean:
-	${RM} -r target/

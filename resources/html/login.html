@@ -6,8 +6,8 @@
     <div style="color:red;">{{flash}}</div>
     <form method='post'>
       {% csrf-field %}
-      <input name='login' placeholder='nobody'>
-      <input name='password' placeholder='nobody' type='password'>
+      <input name='login' required>
+      <input name='password' type='password' required>
       <input type='submit' value='login'>
     </form>
     <br>

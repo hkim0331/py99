@@ -7,6 +7,8 @@
 - 時刻が UTC. => そうでもないか？
 - r99のプロトタイプ宣言に相当するもの。
 
+## 0.41.1 - 2022-10-05
+- fix typo in Makefile
 
 ## 0.41.0 - 2022-10-05
 - stop seeding problems

@@ -7,6 +7,18 @@
 - 時刻が UTC. => そうでもないか？
 - r99のプロトタイプ宣言に相当するもの。
 
+## 0.42.0 - 2022-10-14
+- Py99-10 等でテストが通らない理由はこれ。
+```
+$ env pytest
+platform linux2 -- Python 2.7.18, pytest-4.6.9, py-1.8.1, pluggy-0.13.0
+```
+
+pip3 で pytest をインストールし直し。
+```
+$ sudo pip3 install -U pytest
+```
+
 ## 0.41.3 - 2022-10-11
 - replaced favicon.ico
 

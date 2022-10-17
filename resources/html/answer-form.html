@@ -19,16 +19,14 @@
   <p>test code:</p>
   <pre>{{problem.test}}</pre>
 
-  <h3>Same Answers (including yours)</h3>
-
-  {% for a in same %}
+  <h3>Same Answers (including yours, newer is right)</h3>
+    {% for a in same %}
   <a href='/comment/{{a.id}}'>{{a.login}}</a>
   &nbsp;
   {% endfor %}
 
-  <h3>Different Answers</h3>
-
-  {% for a in differ %}
+  <h3>Different Answers (newer is right)</h3>
+    {% for a in differ %}
   <a href='/comment/{{a.id}}'>{{a.login}}</a>
   &nbsp;
   {% endfor %}

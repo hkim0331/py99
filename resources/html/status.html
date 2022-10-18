@@ -22,7 +22,7 @@
     <p>&rArr; <a href='/answers'>count answers</a></p>
     <p>&rArr; <a href='/ranking'>ranking</a></p>
 
-    <h4>recent submissions (newer is left)</h4>
+    <h4>recent submissions (&lArr; newer is left)</h4>
       <p>
       {% for a in recents %}
         <a href='/comment/{{a.id}}'>{{a.login}}</a>-{{a.num}}

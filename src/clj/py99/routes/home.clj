@@ -289,7 +289,8 @@
 ;; weekly counts
 ;;
 (defn- before? [s1 s2]
-  (< (compare s1 s2) 0))
+  ;; 2022-10-20 s/</<=/
+  (<= (compare s1 s2) 0))
 
 (defn- count-up [m]
   (reduce + (map :count m)))

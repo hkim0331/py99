@@ -86,9 +86,10 @@
 
 ;; FIXME
 (defn- admin?
-  "return `user` is admin?"
+  "return is `user` admin?"
   [user]
-  (= user :hkimua))
+  (println "admin? user" user)
+  (or (= user "hkimura") (= user :hkimua)))
 
 ;; https://stackoverflow.com/questions/16264813/
 ;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence

@@ -86,9 +86,10 @@
 
 ;; FIXME
 (defn- admin?
-  "return `user` is admin?"
+  "return is `user` admin?"
   [user]
-  (= user :hkimua))
+  (println "admin? user" user)
+  (or (= user "hkimura") (= user :hkimua)))
 
 ;; https://stackoverflow.com/questions/16264813/
 ;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
@@ -289,7 +290,8 @@
 ;; weekly counts
 ;;
 (defn- before? [s1 s2]
-  (< (compare s1 s2) 0))
+  ;; 2022-10-20 s/</<=/
+  (<= (compare s1 s2) 0))
 
 (defn- count-up [m]
   (reduce + (map :count m)))

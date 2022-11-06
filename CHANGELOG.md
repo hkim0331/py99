@@ -7,6 +7,15 @@
 - 時刻が UTC. => そうでもないか？
 - r99のプロトタイプ宣言に相当するもの。
 
+## 0.43.1 - 2022-11-06
+- FIX: /profile/:login が auth error
+  /admin は middleware/admin で認可している。
+  /profile/login はプライベート関数の admin?
+  :hkimura と "hkimura" の両方を許すようにした。
+
+## 0.43.0 - 2022-10-20
+- Changed home.clj/before? 月曜〆切が日曜〆切になってないか？
+
 ## 0.42.2 - 2022-10-18
 - display arrows
 

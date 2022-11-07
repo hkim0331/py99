@@ -88,7 +88,8 @@
 (defn- admin?
   "return is `user` admin?"
   [user]
-  (println "admin? user" user)
+  ;;(println "admin? user" user)
+  ;; see above. name function.
   (or (= user "hkimura") (= user :hkimua)))
 
 ;; https://stackoverflow.com/questions/16264813/

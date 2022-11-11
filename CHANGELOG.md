@@ -8,6 +8,7 @@
 - r99のプロトタイプ宣言に相当するもの。
 
 ## 0.44.0 - 2022-11-11
+- post stock ... ハッタリだけ。
 - clj -Tantq outdated :upgrade true
 ```
 |       :file |                             :name | :current | :latest |

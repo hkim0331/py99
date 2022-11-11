@@ -7,6 +7,20 @@
 - 時刻が UTC. => そうでもないか？
 - r99のプロトタイプ宣言に相当するもの。
 
+## 0.44.0 - 2022-11-11
+- clj -Tantq outdated :upgrade true
+```
+|       :file |                             :name | :current | :latest |
+|-------------+-----------------------------------+----------+---------|
+| project.clj |    ch.qos.logback/logback-classic |    1.4.3 |   1.4.4 |
+|             |                 cider/cider-nrepl |   0.28.6 |  0.28.7 |
+|             |                         hato/hato |    0.8.2 |   0.9.0 |
+|             | luminus-undertow/luminus-undertow |   0.1.15 |  0.1.16 |
+|             |             org.clojure/tools.cli |  1.0.206 | 1.0.214 |
+|             |       org.webjars/webjars-locator |     0.45 |    0.46 |
+```
+
+
 ## 0.43.1 - 2022-11-06
 - FIX: /profile/:login が auth error
   /admin は middleware/admin で認可している。

@@ -395,6 +395,14 @@
                    {:data data
                     :title "Answers by Problems"})))
 
+(defn create-stock [request]
+ (layout/render
+  request
+  "error.html"
+  {:status 406
+   :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+   :message "Admin Only"}))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -416,6 +424,7 @@
    ["/rank/submissions" {:get rank-submissions}]
    ["/rank/solved"      {:get rank-solved}]
    ["/rank/comments"    {:get rank-comments}]
+   ["/stock" {:post create-stock}]
    ["/wp" {:get (fn [_]
                   {:status 200
                    :headers {"Content-Type" "text/html"}

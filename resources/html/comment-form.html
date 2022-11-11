@@ -19,8 +19,12 @@
   {% for c in comments %}
   <p>from <b>{{c.from_login}}</b>, at {{c.create_at|date:shortDateTime}}</p>
   <pre>{{c.comment|wrap66}}</pre>
+  <form action="/stock" method="post">
+    {% csrf-field %}
+    <input type="submit" class='button is-primary is-small' value="stock">
+  </form>
+  <br>
   {% endfor %}
-
 
   <form method='post'>
     {% csrf-field %}

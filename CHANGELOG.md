@@ -7,8 +7,11 @@
 - 時刻が UTC. => そうでもないか？
 - r99のプロトタイプ宣言に相当するもの。
 
+## 0.44.1 - 2022-11-11
+- get /stock
+
 ## 0.44.0 - 2022-11-11
-- post stock ... ハッタリだけ。
+- post /stock ... ハッタリだけ。
 - clj -Tantq outdated :upgrade true
 ```
 |       :file |                             :name | :current | :latest |

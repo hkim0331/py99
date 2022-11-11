@@ -400,8 +400,7 @@
   request
   "error.html"
   {:status 406
-   :exception "コメントをストックできるのは今のところ管理者だけです。
-               ブラウザの Back で戻ってください。"
+   :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
    :message "Admin Only"}))
 
 (defn list-stocks [request]
@@ -409,8 +408,7 @@
   request
   "error.html"
   {:status 406
-   :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。
-               ブラウザの Back で戻ってください。"
+   :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
    :message "Admin Only"}))
 (defn home-routes []
   ["" {:middleware [middleware/auth

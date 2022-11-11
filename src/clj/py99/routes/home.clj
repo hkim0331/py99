@@ -198,6 +198,7 @@
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
+  (log/info "ceate-answer!" (login request) num)
   (try
     (validate (Integer/parseInt num) answer)
     (db/create-answer!
@@ -224,7 +225,7 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})]
-    ;; (log/info "comment-form" (login request))
+    (log/info "comment-form" (login request) num)
     ;; self-only? を使って書いてた。それは何？
     (if my-answer
       (layout/render request "comment-form.html"

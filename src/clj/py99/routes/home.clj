@@ -18,13 +18,8 @@
    #_[buddy.hashers :as hashers]
    #_[clj-commons-exec :as exec]
    #_[environ.core :refer [env]]
-   #_[py99.check-indent :refer [check-indent]]))
-
-;; (when-let [level (env :py99-log-level)]
-;;  (timbre/set-level! (keyword level)))
-
-;; ;; FIXME: オフにするのはデバッグ時のみか。
-;; (def ^:private validate? true)
+   #_[py99.check-indent :refer [check-indent]]
+   [clojure.edn :as edn]))
 
 (defn- to-date-str [s]
   (-> (str s)
@@ -210,8 +205,8 @@
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406
-                      :exception (.getMessage e)
-                      :message "ブラウザのバックで戻って、修正後、再提出してください。"}))))
+                      :message "ブラウザのバックで戻って、修正後、再提出してください。"
+                      :exception (.getMessage e)}))))
 
 ;; (defn- require-my-answer?
 ;;   []
@@ -396,21 +391,36 @@
                    {:data data
                     :title "Answers by Problems"})))
 
-(defn create-stock [request]
- (layout/render
-  request
-  "error.html"
-  {:status 406
-   :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
-   :message "Admin Only"}))
+(defn create-stock! [request]
+  (let [login (login request)]
+    (if (= "hkimura" login)
+      (let [a_id (-> (get-in request [:params :a_id])
+                     Integer/parseInt)]
+        (try
+          (db/create-stock! {:login login :a_id a_id})
+          (redirect (str "/comment/" a_id))
+          (catch Exception e
+            (layout/render nil "error.html"
+                           {:status 406
+                            :message "create stock error"
+                            :exception (.getMessage e)}))))
+      (layout/render
+       request
+       "error.html"
+       {:status 406
+        :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+        :message (str "Admin Only." login " is not admin")}))))
 
 (defn list-stocks [request]
- (layout/render
-  request
-  "error.html"
-  {:status 406
-   :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
-   :message "Admin Only"}))
+  (let [login (login request)]
+    (if (= "hkimura" login)
+      (layout/render request "stocks.html"
+       {:stocks (db/stocks? {:login login})})
+      (layout/render request "error.html"
+       {:status 406
+        :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+        :message "Admin Only"}))))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -432,7 +442,7 @@
    ["/rank/submissions" {:get rank-submissions}]
    ["/rank/solved"      {:get rank-solved}]
    ["/rank/comments"    {:get rank-comments}]
-   ["/stock" {:post create-stock
+   ["/stock" {:post create-stock!
               :get  list-stocks}]
    ["/wp" {:get (fn [_]
                   {:status 200

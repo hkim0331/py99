@@ -6,6 +6,42 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 - 時刻が UTC. => そうでもないか？
 - r99のプロトタイプ宣言に相当するもの。
+- 次回答をする前に他回答を n 個以上、読まないといけない。
+- 注目のコメント（実はインチキコメント）
+
+- 管理者だけがコメントをストックできるべきか？
+- コメントを共有するべきか？
+- ユーザごとにコメントをストックできるべきか？
+- ストックに重複あったらどうする？セットで？ DB だからな。
+
+## 0.45.0 - 2022-11-14
+### Added
+- pytest にタイムアウト 60 秒
+  https://github.com/honzabrecka/timeout-shell
+  assert が複数あるときは、それ全部を実行する時間が timeout に収まらないと
+  エラーになる。
+
+## 0.44.2 - 2022-11-12
+- db migration for stocks
+- stocks implementation
+
+## 0.44.1 - 2022-11-11
+- get /stock
+
+## 0.44.0 - 2022-11-11
+- post /stock ... ハッタリだけ。
+- clj -Tantq outdated :upgrade true
+```
+|       :file |                             :name | :current | :latest |
+|-------------+-----------------------------------+----------+---------|
+| project.clj |    ch.qos.logback/logback-classic |    1.4.3 |   1.4.4 |
+|             |                 cider/cider-nrepl |   0.28.6 |  0.28.7 |
+|             |                         hato/hato |    0.8.2 |   0.9.0 |
+|             | luminus-undertow/luminus-undertow |   0.1.15 |  0.1.16 |
+|             |             org.clojure/tools.cli |  1.0.206 | 1.0.214 |
+|             |       org.webjars/webjars-locator |     0.45 |    0.46 |
+```
+
 
 ## 0.43.1 - 2022-11-06
 - FIX: /profile/:login が auth error

@@ -14,6 +14,12 @@
 - ユーザごとにコメントをストックできるべきか？
 - ストックに重複あったらどうする？セットで？ DB だからな。
 
+## 0.45.0 - 2022-11-14
+### Added
+- pytest にタイムアウト 60 秒
+  https://github.com/honzabrecka/timeout-shell
+  assert が複数あるときは、それ全部を実行する時間が timeout に収まらないと
+  エラーになる。
 
 ## 0.44.2 - 2022-11-12
 - db migration for stocks

@@ -42,8 +42,7 @@
    [environ/environ "1.2.0"]
    [hato/hato "0.9.0"]
    [hiccup "1.0.5"]
-   #_[com.taoensso/timbre "5.2.1"]
-   #_[org.clojars.hozumi/clj-commons-exec "1.2.0"]]
+   [timeout-shell "1.0.0"]]
 
   :min-lein-version "2.0.0"
 

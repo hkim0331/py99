@@ -15,11 +15,12 @@
    [py99.routes.login :refer [get-user]] ;; 0.40.0
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]
+   [jx.java.shell :refer [timeout-sh]]
    #_[buddy.hashers :as hashers]
    #_[clj-commons-exec :as exec]
    #_[environ.core :refer [env]]
    #_[py99.check-indent :refer [check-indent]]
-   [clojure.edn :as edn]))
+   #_[clojure.edn :as edn]))
 
 (defn- to-date-str [s]
   (-> (str s)
@@ -163,19 +164,20 @@
   (when-not (re-find #"\S" (strip answer))
     (throw (Exception. "answer is empty"))))
 
+(def ^:private timeout 60)
+
 (defn- pytest-test
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
-    ;; double check
     (when (re-find #"\S" test)
-      (log/info "test is not empty" test)
+      ;; (log/info "test is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]
           (binding [*out* file]
             (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
-        (let [ret (sh "pytest" (.getAbsolutePath tempfile))]
+        (let [ret (timeout-sh timeout "pytest" (.getAbsolutePath tempfile))]
           (log/info "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))

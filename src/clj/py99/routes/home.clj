@@ -18,13 +18,8 @@
    #_[buddy.hashers :as hashers]
    #_[clj-commons-exec :as exec]
    #_[environ.core :refer [env]]
-   #_[py99.check-indent :refer [check-indent]]))
-
-;; (when-let [level (env :py99-log-level)]
-;;  (timbre/set-level! (keyword level)))
-
-;; ;; FIXME: オフにするのはデバッグ時のみか。
-;; (def ^:private validate? true)
+   #_[py99.check-indent :refer [check-indent]]
+   [clojure.edn :as edn]))
 
 (defn- to-date-str [s]
   (-> (str s)
@@ -199,6 +194,7 @@
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
+  (log/info "ceate-answer!" (login request) num)
   (try
     (validate (Integer/parseInt num) answer)
     (db/create-answer!
@@ -210,8 +206,8 @@
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406
-                      :exception (.getMessage e)
-                      :message "ブラウザのバックで戻って、修正後、再提出してください。"}))))
+                      :message "ブラウザのバックで戻って、修正後、再提出してください。"
+                      :exception (.getMessage e)}))))
 
 ;; (defn- require-my-answer?
 ;;   []
@@ -225,7 +221,7 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})]
-    ;; (log/info "comment-form" (login request))
+    (log/info "comment-form" (login request) num)
     ;; self-only? を使って書いてた。それは何？
     (if my-answer
       (layout/render request "comment-form.html"
@@ -396,6 +392,36 @@
                    {:data data
                     :title "Answers by Problems"})))
 
+(defn create-stock! [request]
+  (let [login (login request)]
+    (if (= "hkimura" login)
+      (let [a_id (-> (get-in request [:params :a_id])
+                     Integer/parseInt)]
+        (try
+          (db/create-stock! {:login login :a_id a_id})
+          (redirect (str "/comment/" a_id))
+          (catch Exception e
+            (layout/render nil "error.html"
+                           {:status 406
+                            :message "create stock error"
+                            :exception (.getMessage e)}))))
+      (layout/render
+       request
+       "error.html"
+       {:status 406
+        :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+        :message (str "Admin Only." login " is not admin")}))))
+
+(defn list-stocks [request]
+  (let [login (login request)]
+    (if (= "hkimura" login)
+      (layout/render request "stocks.html"
+       {:stocks (db/stocks? {:login login})})
+      (layout/render request "error.html"
+       {:status 406
+        :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+        :message "Admin Only"}))))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -417,6 +443,8 @@
    ["/rank/submissions" {:get rank-submissions}]
    ["/rank/solved"      {:get rank-solved}]
    ["/rank/comments"    {:get rank-comments}]
+   ["/stock" {:post create-stock!
+              :get  list-stocks}]
    ["/wp" {:get (fn [_]
                   {:status 200
                    :headers {"Content-Type" "text/html"}

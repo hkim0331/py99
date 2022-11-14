@@ -4,7 +4,7 @@
    [clj-time.local :as l]
    [clj-time.periodic :as p]
    [clojure.java.io :as io]
-   [clojure.java.shell :refer [sh]]
+   #_[clojure.java.shell :refer [sh]]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [digest]

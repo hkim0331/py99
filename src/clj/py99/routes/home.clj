@@ -4,7 +4,7 @@
    [clj-time.local :as l]
    [clj-time.periodic :as p]
    [clojure.java.io :as io]
-   [clojure.java.shell :refer [sh]]
+   #_[clojure.java.shell :refer [sh]]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [digest]
@@ -15,11 +15,12 @@
    [py99.routes.login :refer [get-user]] ;; 0.40.0
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]
+   [jx.java.shell :refer [timeout-sh]]
    #_[buddy.hashers :as hashers]
    #_[clj-commons-exec :as exec]
    #_[environ.core :refer [env]]
    #_[py99.check-indent :refer [check-indent]]
-   [clojure.edn :as edn]))
+   #_[clojure.edn :as edn]))
 
 (defn- to-date-str [s]
   (-> (str s)
@@ -83,7 +84,8 @@
 (defn- admin?
   "return is `user` admin?"
   [user]
-  (println "admin? user" user)
+  ;;(println "admin? user" user)
+  ;; see above. name function.
   (or (= user "hkimura") (= user :hkimua)))
 
 ;; https://stackoverflow.com/questions/16264813/
@@ -162,19 +164,20 @@
   (when-not (re-find #"\S" (strip answer))
     (throw (Exception. "answer is empty"))))
 
+(def ^:private timeout 60)
+
 (defn- pytest-test
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
-    ;; double check
     (when (re-find #"\S" test)
-      (log/info "test is not empty" test)
+      ;; (log/info "test is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]
           (binding [*out* file]
             (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
-        (let [ret (sh "pytest" (.getAbsolutePath tempfile))]
+        (let [ret (timeout-sh timeout "pytest" (.getAbsolutePath tempfile))]
           (log/info "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
@@ -392,34 +395,46 @@
                     :title "Answers by Problems"})))
 
 (defn create-stock! [request]
-  (let [login (login request)]
-    (if (= "hkimura" login)
-      (let [a_id (-> (get-in request [:params :a_id])
-                     Integer/parseInt)]
-        (try
-          (db/create-stock! {:login login :a_id a_id})
-          (redirect (str "/comment/" a_id))
-          (catch Exception e
-            (layout/render nil "error.html"
-                           {:status 406
-                            :message "create stock error"
-                            :exception (.getMessage e)}))))
-      (layout/render
-       request
-       "error.html"
-       {:status 406
-        :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
-        :message (str "Admin Only." login " is not admin")}))))
+  (let [login (login request)
+        a_id (-> (get-in request [:params :a_id])
+                 Integer/parseInt)]
+    (try
+      (db/create-stock! {:login login :a_id a_id})
+      (redirect (str "/comment/" a_id))
+      (catch Exception e
+        (layout/render nil "error.html"
+                       {:status 406
+                        :message "create stock error"
+                        :exception (.getMessage e)})))))
+    ;; (if (= "hkimura" login)
+    ;;   (let [a_id (-> (get-in request [:params :a_id])
+    ;;                  Integer/parseInt)]
+    ;;     (try
+    ;;       (db/create-stock! {:login login :a_id a_id})
+    ;;       (redirect (str "/comment/" a_id))
+    ;;       (catch Exception e
+    ;;         (layout/render nil "error.html"
+    ;;                        {:status 406
+    ;;                         :message "create stock error"
+    ;;                         :exception (.getMessage e)}))))
+    ;;   (layout/render
+    ;;    request
+    ;;    "error.html"
+    ;;    {:status 406
+    ;;     :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+    ;;     :message (str "Admin Only." login " is not admin")}))))
 
 (defn list-stocks [request]
   (let [login (login request)]
-    (if (= "hkimura" login)
-      (layout/render request "stocks.html"
-       {:stocks (db/stocks? {:login login})})
-      (layout/render request "error.html"
-       {:status 406
-        :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
-        :message "Admin Only"}))))
+    (layout/render request "stocks.html"
+                   {:stocks (db/stocks? {:login login})})))
+    ;; (if (= "hkimura" login)
+    ;;   (layout/render request "stocks.html"
+    ;;    {:stocks (db/stocks? {:login login})})
+    ;;   (layout/render request "error.html"
+    ;;    {:status 406
+    ;;     :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+    ;;     :message "Admin Only"}))))
 
 (defn home-routes []
   ["" {:middleware [middleware/auth

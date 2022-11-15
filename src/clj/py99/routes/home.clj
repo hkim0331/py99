@@ -395,34 +395,46 @@
                     :title "Answers by Problems"})))
 
 (defn create-stock! [request]
-  (let [login (login request)]
-    (if (= "hkimura" login)
-      (let [a_id (-> (get-in request [:params :a_id])
-                     Integer/parseInt)]
-        (try
-          (db/create-stock! {:login login :a_id a_id})
-          (redirect (str "/comment/" a_id))
-          (catch Exception e
-            (layout/render nil "error.html"
-                           {:status 406
-                            :message "create stock error"
-                            :exception (.getMessage e)}))))
-      (layout/render
-       request
-       "error.html"
-       {:status 406
-        :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
-        :message (str "Admin Only." login " is not admin")}))))
+  (let [login (login request)
+        a_id (-> (get-in request [:params :a_id])
+                 Integer/parseInt)]
+    (try
+      (db/create-stock! {:login login :a_id a_id})
+      (redirect (str "/comment/" a_id))
+      (catch Exception e
+        (layout/render nil "error.html"
+                       {:status 406
+                        :message "create stock error"
+                        :exception (.getMessage e)})))))
+    ;; (if (= "hkimura" login)
+    ;;   (let [a_id (-> (get-in request [:params :a_id])
+    ;;                  Integer/parseInt)]
+    ;;     (try
+    ;;       (db/create-stock! {:login login :a_id a_id})
+    ;;       (redirect (str "/comment/" a_id))
+    ;;       (catch Exception e
+    ;;         (layout/render nil "error.html"
+    ;;                        {:status 406
+    ;;                         :message "create stock error"
+    ;;                         :exception (.getMessage e)}))))
+    ;;   (layout/render
+    ;;    request
+    ;;    "error.html"
+    ;;    {:status 406
+    ;;     :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+    ;;     :message (str "Admin Only." login " is not admin")}))))
 
 (defn list-stocks [request]
   (let [login (login request)]
-    (if (= "hkimura" login)
-      (layout/render request "stocks.html"
-       {:stocks (db/stocks? {:login login})})
-      (layout/render request "error.html"
-       {:status 406
-        :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
-        :message "Admin Only"}))))
+    (layout/render request "stocks.html"
+                   {:stocks (db/stocks? {:login login})})))
+    ;; (if (= "hkimura" login)
+    ;;   (layout/render request "stocks.html"
+    ;;    {:stocks (db/stocks? {:login login})})
+    ;;   (layout/render request "error.html"
+    ;;    {:status 406
+    ;;     :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+    ;;     :message "Admin Only"}))))
 
 (defn home-routes []
   ["" {:middleware [middleware/auth

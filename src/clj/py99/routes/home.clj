@@ -398,6 +398,7 @@
   (let [login (login request)
         a_id (-> (get-in request [:params :a_id])
                  Integer/parseInt)]
+    (log/info "create-stock!" login)
     (try
       (db/create-stock! {:login login :a_id a_id})
       (redirect (str "/comment/" a_id))
@@ -426,6 +427,7 @@
 
 (defn list-stocks [request]
   (let [login (login request)]
+    (log/info "list-stocks" login)
     (layout/render request "stocks.html"
                    {:stocks (db/stocks? {:login login})})))
     ;; (if (= "hkimura" login)

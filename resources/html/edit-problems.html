@@ -5,6 +5,7 @@
     <p>問題文に改行には &lt;br&gt; が必要。
       テストコードは &lt;pre&gt;~&lt;/pre&gt; で表示する。</p>
     {% for p in problems %}
+    <a name='{{p.num}}'>
     <form method='post'>
       {% csrf-field %}
       <input name='id'  class='id'  value='{{p.id}}' readonly='readonly'>

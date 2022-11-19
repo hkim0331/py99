@@ -4,8 +4,77 @@
 - r99のタブが今「Welcome to r99」ですが、
   問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
   何番を解いているタブを開いているか分かるようにしてほしいです！
-- 時刻が UTC. => そうでもないか？
 - r99のプロトタイプ宣言に相当するもの。
+- 次回答をする前に他回答を n 個以上、読まないといけない。
+- stocks にサブジェクト
+
+## 0.45.3 - 2022-11-19
+### Added
+- /admin/problems#{num} で num へジャンプ。
+
+## 0.45.2 - 2022-11-15
+## 0.45.1 - 2022-11-15
+### Changed
+- ユーザごとにコメントをストックできる
+
+## 0.45.0 - 2022-11-14
+### Added
+- pytest にタイムアウト 60 秒
+  https://github.com/honzabrecka/timeout-shell
+  assert が複数あるときは、それ全部を実行する時間が timeout に収まらないと
+  エラーになる。
+
+## 0.44.2 - 2022-11-12
+- db migration for stocks
+- stocks implementation
+
+## 0.44.1 - 2022-11-11
+- get /stock
+
+## 0.44.0 - 2022-11-11
+- post /stock ... ハッタリだけ。
+- clj -Tantq outdated :upgrade true
+```
+|       :file |                             :name | :current | :latest |
+|-------------+-----------------------------------+----------+---------|
+| project.clj |    ch.qos.logback/logback-classic |    1.4.3 |   1.4.4 |
+|             |                 cider/cider-nrepl |   0.28.6 |  0.28.7 |
+|             |                         hato/hato |    0.8.2 |   0.9.0 |
+|             | luminus-undertow/luminus-undertow |   0.1.15 |  0.1.16 |
+|             |             org.clojure/tools.cli |  1.0.206 | 1.0.214 |
+|             |       org.webjars/webjars-locator |     0.45 |    0.46 |
+```
+
+
+## 0.43.1 - 2022-11-06
+- FIX: /profile/:login が auth error
+  /admin は middleware/admin で認可している。
+  /profile/login はプライベート関数の admin?
+  :hkimura と "hkimura" の両方を許すようにした。
+
+## 0.43.0 - 2022-10-20
+- Changed home.clj/before? 月曜〆切が日曜〆切になってないか？
+
+## 0.42.2 - 2022-10-18
+- display arrows
+
+## 0.42.1 - 2022-10-17
+- newer is {right,left} を表示。
+
+## 0.42.0 - 2022-10-14
+- Py99-10 等でテストが通らない理由はこれ。
+```
+$ env pytest
+platform linux2 -- Python 2.7.18, pytest-4.6.9, py-1.8.1, pluggy-0.13.0
+```
+
+pip3 で pytest をインストールし直し。
+```
+$ sudo pip3 install -U pytest
+```
+
+## 0.41.3 - 2022-10-11
+- replaced favicon.ico
 
 ## 0.41.1 - 2022-10-05
 - fix typo in Makefile

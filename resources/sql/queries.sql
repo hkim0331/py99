@@ -245,3 +245,20 @@ SELECT * FROM frozens where num = :num
 -- :name frozens :? :*
 -- :doc retrieve frozen num list
 SELECT * FROM frozens
+
+
+-- ----------------
+-- stocks section
+-- ----------------
+
+-- :name stocks? :? :*
+-- :doc fetch all stocks by user `login`
+SELECT * FROM stocks
+WHERE login = :login
+
+-- :name create-stock! :! :n
+-- :doc create a stock
+INSERT INTO stocks
+(login, a_id)
+VALUES
+(:login, :a_id)

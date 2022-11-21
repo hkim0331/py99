@@ -185,12 +185,28 @@
                                     (filter #(re-find #"^[>E]" %))
                                     (str/join "\n"))))))))))
 
+(defn- get-answer
+  "get user login's answer to `num` from db."
+  [num login]
+  (:answer (db/get-answer {:num (Integer/parseInt num) :login login})))
+
+(defn- expand-includes
+  "expand #include recursively."
+  [s login]
+  (str/join
+   "\n"
+   (for [line (str/split-lines s)]
+     (if (str/starts-with? line "#include")
+       (let [[_ num] (str/split line #"\s+")]
+         (expand-includes (get-answer num login) login))
+       line))))
+
 (defn- validate
   "Return nil if all validations success, or raize exeption."
-  [num answer]
+  [num answer login]
   (try
     (not-empty-test (strip answer))
-    (pytest-test num answer)
+    (pytest-test num (expand-includes answer login))
     nil
     (catch Exception e (throw (Exception. (.getMessage e))))))
 
@@ -198,7 +214,7 @@
   [{{:keys [num answer]} :params :as request}]
   (log/info "ceate-answer!" (login request) num)
   (try
-    (validate (Integer/parseInt num) answer)
+    (validate (Integer/parseInt num) answer (login request))
     (db/create-answer!
      {:login (login request)
       :num (Integer/parseInt num)

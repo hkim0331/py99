@@ -8,6 +8,11 @@
 - 次回答をする前に他回答を n 個以上、読まないといけない。
 - stocks にサブジェクト
 
+
+## 0.46.0 - 2022-11-21
+### Added
+- expand-includes (not yet test recursive actions)
+
 ## 0.45.3 - 2022-11-19
 ### Added
 - /admin/problems#{num} で num へジャンプ。

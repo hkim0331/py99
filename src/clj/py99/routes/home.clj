@@ -191,16 +191,19 @@
   ;; (log/info "get-answer" num login)
   (if-let [ans (:answer (db/get-answer {:num num :login login}))]
     ans
-    (throw (Exception. (str "did not find your answer to P-" num ".")))))
+    (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
 (defn- expand-includes
   "expand `#include` recursively."
   [s login]
+  (log/info "expand-includes:" s)
   (str/join
    "\n"
    (for [line (str/split-lines s)]
-     (if (str/starts-with? line "#include")
+     (if (str/starts-with? line "#include ")
        (let [[_ num] (str/split line #"\s+")]
+         (when-not (re-matches #"\d+" num)
+          (throw (Exception. "#include の後に問題番号がありません。")))
          (expand-includes (get-answer (Integer/parseInt num) login) login))
        line))))
 

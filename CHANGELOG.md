@@ -1,18 +1,19 @@
 # CHANGELOG.md
 
 ## Unreleased
-- r99のタブが今「Welcome to r99」ですが、
+- r99 のタブが今「Welcome to r99」ですが、
   問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
   何番を解いているタブを開いているか分かるようにしてほしいです！
-- r99のプロトタイプ宣言に相当するもの。
+- r99 のプロトタイプ宣言に相当するもの。
 - 次回答をする前に他回答を n 個以上、読まないといけない。
 - stocks にサブジェクト
-- 2022-11-22 can not docker start on m64 
-Failed to read artifact descriptor for org.webjars:webjars-locator-jboss-vfs:jar:0.1.0
-This could be due to a typo in :dependencies, file system permissions, or network issues.
-If you are behind a proxy, try setting the 'http_proxy' environment variable.
-Jack-in process exited. Status: 1
 
+
+## 0.46.2 - 2022-11-22
+### Changed
+- Integer/ParseInt を home/get-answer から home/expand-iclude へ移動
+- get-answer が回答を見つけられないときは例外を投げる
+- expand-includes は #include の後に数字が見つからないときは例外を投げる
 
 ## 0.46.0 - 2022-11-21
 ### Added

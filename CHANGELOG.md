@@ -7,6 +7,11 @@
 - r99のプロトタイプ宣言に相当するもの。
 - 次回答をする前に他回答を n 個以上、読まないといけない。
 - stocks にサブジェクト
+- 2022-11-22 can not docker start on m64 
+Failed to read artifact descriptor for org.webjars:webjars-locator-jboss-vfs:jar:0.1.0
+This could be due to a typo in :dependencies, file system permissions, or network issues.
+If you are behind a proxy, try setting the 'http_proxy' environment variable.
+Jack-in process exited. Status: 1
 
 
 ## 0.46.0 - 2022-11-21

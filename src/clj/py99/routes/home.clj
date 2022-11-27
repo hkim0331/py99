@@ -22,6 +22,8 @@
    #_[py99.check-indent :refer [check-indent]]
    #_[clojure.edn :as edn]))
 
+(defn- exam-mode? [] (env :exam-mode))
+
 (defn- to-date-str [s]
   (-> (str s)
       (subs 0 10)))
@@ -246,7 +248,7 @@
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})]
     (log/info "comment-form" (login request) num)
-    ;; self-only? を使って書いてた。それは何？
+    ;; self-only? を使って書いてた。それは何？テスト用。
     (if my-answer
       (layout/render request "comment-form.html"
                      {:answer   answer

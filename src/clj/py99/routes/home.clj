@@ -4,18 +4,19 @@
    [clj-time.local :as l]
    [clj-time.periodic :as p]
    [clojure.java.io :as io]
-   #_[clojure.java.shell :refer [sh]]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [digest]
+   [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
+   [py99.config :refer [env]]
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
    [py99.routes.login :refer [get-user]] ;; 0.40.0
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]
-   [jx.java.shell :refer [timeout-sh]]
+   #_[clojure.java.shell :refer [sh]]
    #_[buddy.hashers :as hashers]
    #_[clj-commons-exec :as exec]
    #_[environ.core :refer [env]]
@@ -80,7 +81,7 @@
   [request]
   (name (get-in request [:session :identity] :nobody)))
 
-;; FIXME
+;; FIXME: symbol? or string?
 (defn- admin?
   "return is `user` admin?"
   [user]
@@ -220,7 +221,8 @@
   [{{:keys [num answer]} :params :as request}]
   (log/info "ceate-answer!" (login request) num)
   (try
-    (validate (Integer/parseInt num) answer (login request))
+    (when-not (env :exam-mode)
+      (validate (Integer/parseInt num) answer (login request)))
     (db/create-answer!
      {:login (login request)
       :num (Integer/parseInt num)
@@ -246,13 +248,14 @@
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})]
     (log/info "comment-form" (login request) num)
-    ;; self-only? を使って書いてた。それは何？
+    ;; self-only? を使って書いてた。それは何？テスト用。
     (if my-answer
       (layout/render request "comment-form.html"
-                     {:answer   answer
+                     {:answer   (if (env :exam-mode) my-answer answer)
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (db/get-comments {:a_id id})})
+                      :comments (when-not (env :exam-mode)
+                                  (db/get-comments {:a_id id}))})
       (layout/render request "error.html"
                      {:status 403
                       :title "Access Forbidden"

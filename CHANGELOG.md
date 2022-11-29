@@ -12,6 +12,10 @@
 * dummy NG ボタン。
 * over-200-mode
 
+
+## 0.47.4 - 2022-11-29
+- change words: `group assignment` -> `exam submissions`
+
 ## 0.47.3 - 2022-11-29
 - シンプルに 200 番以上の回答を見せない。
 

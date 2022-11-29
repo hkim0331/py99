@@ -249,7 +249,9 @@
         my-answer (db/get-answer {:num num :login (login request)})]
     (log/info "comment-form" (login request) num)
     ;; self-only? を使って書いてた。それは何？テスト用。
-    (if my-answer
+    ;; (log/debug "comment-form" (< num 200) (env :allow-over-200))
+    ;; 0.47.3
+    (if (and my-answer (< num 200))
       (layout/render request "comment-form.html"
                      {:answer   (if (env :exam-mode) my-answer answer)
                       :problem  (db/get-problem {:num num})

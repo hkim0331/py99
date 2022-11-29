@@ -4,14 +4,12 @@
 * r99 のタブが今「Welcome to r99」ですが、
   問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
   何番を解いているタブを開いているか分かるようにしてほしいです！
-* r99 のプロトタイプ宣言に相当するもの。
 * 次回答をする前に他回答を n 個以上、読まないといけない。
 * stocks にサブジェクト
-* /comment をコメントアウト。/only と /only/:num を作る。
-* コードを書き換えるではなく、プロパティを変更して動作が変わるが望ましい。
 * dummy NG ボタン。
-* over-200-mode
 
+## 0.48.* - 2022-11-29
+- `export EXAM_MODE=false` false は小文字。
 
 ## 0.47.4 - 2022-11-29
 - change words: `group assignment` -> `exam submissions`

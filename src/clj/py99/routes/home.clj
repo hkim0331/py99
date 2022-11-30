@@ -197,7 +197,7 @@
 (defn- expand-includes
   "expand `#include` recursively."
   [s login]
-  (log/info "expand-includes:" s)
+  ;; (log/info "expand-includes:" s)
   (str/join
    "\n"
    (for [line (str/split-lines s)]

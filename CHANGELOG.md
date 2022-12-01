@@ -9,11 +9,19 @@
 * dummy NG ボタン。
 * auto-reload
 
+
 ## 0.48.0 - 2022-12-01
 ### Added
 - `export EXAM_MODE=false` false は小文字。
 ### Changed
 - routes.home - comment-form を layout に一本化して problem ナンバーを表示する。
+- log がダブるのはスクリプトからリダイレクトが原因。
+```
+# bad
+java -jar py99.jar >> log/py99.jar
+# goo
+java -jar py99.jar
+```
 
 ## 0.47.4 - 2022-11-29
 - change words: `group assignment` -> `exam submissions`

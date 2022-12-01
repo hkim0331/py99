@@ -7,6 +7,7 @@
 * 次回答をする前に他回答を n 個以上、読まないといけない。
 * stocks にサブジェクト
 * dummy NG ボタン。
+* auto-reload
 
 ## 0.48.* - 2022-11-29
 - `export EXAM_MODE=false` false は小文字。

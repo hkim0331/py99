@@ -17,7 +17,9 @@
 (defn render
   "renders the HTML template located relative to resources/html"
   [request template & [params]]
-  (log/info (get-in request [:session :identity] "nobody") template)
+  (log/info (get-in request [:session :identity] "nobody")
+            template
+            (get-in params [:problem :num] ""))
   (content-type
     (ok
       (parser/render-file

@@ -9,8 +9,11 @@
 * dummy NG ボタン。
 * auto-reload
 
-## 0.48.* - 2022-11-29
+## 0.48.0 - 2022-12-01
+### Added
 - `export EXAM_MODE=false` false は小文字。
+### Changed
+- routes.home - comment-form を layout に一本化して problem ナンバーを表示する。
 
 ## 0.47.4 - 2022-11-29
 - change words: `group assignment` -> `exam submissions`

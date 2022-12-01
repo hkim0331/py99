@@ -247,9 +247,8 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})]
-    (log/info "comment-form" (login request) num)
-    ;; self-only? を使って書いてた。それは何？テスト用。
-    ;; (log/debug "comment-form" (< num 200) (env :allow-over-200))
+    ;; 0.47.5 moved to layout.clj
+    ;; (log/info "comment-form" (login request) num)
     ;; 0.47.3
     (if (and my-answer (< num 200))
       (layout/render request "comment-form.html"

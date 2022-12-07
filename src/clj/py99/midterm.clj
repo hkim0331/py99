@@ -14,10 +14,12 @@
   [num]
   (db/answers-to {:num num}))
 
-(defn- save-as! [grade {:keys [num login id]}]
+(defn- save-as!
+  [grade {:keys [num login id]}]
   (log/debug "save-as!" num grade id login))
 
 (defn grading
+  "grading midterm `num` answers."
   [num]
   (doseq [answer (fetch-answers num)]
     (try

@@ -8,6 +8,8 @@
 * stocks にサブジェクト
 * dummy NG ボタン。
 * auto-reload
+* midterm 自動採点
+* midterm 公開
 
 ## 0.49.x - 2022-12-07
 feature midterm

@@ -19,6 +19,7 @@ feature midterm
 - resources/html/midterm.html
 ### Changed
 - src/clj/py99/home.clj: added /midterm
+- make home/pytest-test public
 
 ## 0.48.0 - 2022-12-01
 ### Added

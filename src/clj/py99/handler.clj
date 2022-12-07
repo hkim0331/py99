@@ -7,6 +7,7 @@
    [py99.routes.admin :refer [admin-routes]]
    [py99.routes.home :refer [home-routes]]
    [py99.routes.login :refer [login-routes]]
+   [py99.routes.services :refer [service-routes]]
    [reitit.ring :as ring]
    [ring.middleware.content-type :refer [wrap-content-type]]
    [ring.middleware.webjars :refer [wrap-webjars]]))
@@ -19,7 +20,7 @@
   :start
   (ring/ring-handler
    (ring/router
-    [(login-routes) (home-routes) (admin-routes)])
+    [(login-routes) (home-routes) (admin-routes) (service-routes)])
    (ring/routes
     (ring/create-resource-handler
      {:path "/"})
@@ -35,4 +36,3 @@
 
 (defn app []
   (middleware/wrap-base #'app-routes))
-

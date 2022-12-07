@@ -464,6 +464,9 @@
     ;;     :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
     ;;     :message "Admin Only"}))))
 
+(defn midterm [request]
+  (layout/render request "midterm.html"))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -478,6 +481,7 @@
    ["/comments" {:get comments}]
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments/:num" {:get comments-by-num}]
+   ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]
    ["/profile" {:get profile-self}]
    ["/profile/:login" {:get profile-login}]

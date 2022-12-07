@@ -9,6 +9,14 @@
 * dummy NG ボタン。
 * auto-reload
 
+## 0.49.x - 2022-12-07
+feature midterm
+### Added
+- src/clj/py99/services.clj
+- src/clj/py99/midterm.clj
+- resources/html/midterm.html
+### Changed
+- src/clj/py99/home.clj: added /midterm
 
 ## 0.48.0 - 2022-12-01
 ### Added

@@ -14,23 +14,23 @@
   [num]
   (db/answers-to {:num num}))
 
-(defn- save-as! [{:keys [num login id]} grade]
-  (log/debug "save-as!" num login id grade))
+(defn- save-as! [grade {:keys [num login id]}]
+  (log/debug "save-as!" num grade id login))
 
-(defn save-good! [answer]
-  ;; (log/debug "good" (short answer))
-  (save-as! answer "good"))
+;; (defn save-good! [answer]
+;;   ;; (log/debug "good" (short answer))
+;;   (save-as! answer "good"))
 
-(defn save-bad! [answer]
-  ;; (log/info "bad" (short answer))
-  (save-as! answer "ng"))
+;; (defn save-bad! [answer]
+;;   ;; (log/info "bad" (short answer))
+;;   (save-as! answer "ng"))
 
 (defn grading
   [num]
   (doseq [answer (fetch-answers num)]
     (try
-      ;; (log/debug "answer" (short answer))
+      (log/debug "answer" (short answer))
       (pytest-test num (:answer answer))
-      (save-good! answer)
+      (save-as! "good" answer)
       (catch Exception e
-        (save-bad! answer)))))
+        (save-as! "bad" answer)))))

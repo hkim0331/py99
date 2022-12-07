@@ -17,14 +17,6 @@
 (defn- save-as! [grade {:keys [num login id]}]
   (log/debug "save-as!" num grade id login))
 
-;; (defn save-good! [answer]
-;;   ;; (log/debug "good" (short answer))
-;;   (save-as! answer "good"))
-
-;; (defn save-bad! [answer]
-;;   ;; (log/info "bad" (short answer))
-;;   (save-as! answer "ng"))
-
 (defn grading
   [num]
   (doseq [answer (fetch-answers num)]

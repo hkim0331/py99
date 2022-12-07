@@ -262,3 +262,14 @@ INSERT INTO stocks
 (login, a_id)
 VALUES
 (:login, :a_id)
+
+-- ----------------
+--　midterm section
+-- ----------------
+
+-- :name create-midterm-result! :! :n
+-- :doc create midterm grading
+INSERT INTO midterm
+(num, login, answer_id, grading)
+VALUES
+(:num, :login, :answer_id, :grading)

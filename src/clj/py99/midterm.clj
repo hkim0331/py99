@@ -16,7 +16,9 @@
 
 (defn- save-as!
   [grade {:keys [num login id]}]
-  (log/debug "save-as!" num grade id login))
+  (log/debug "save-as!" num grade id login)
+  (db/create-midterm-result!
+   {:num num :login login :answer_id id :grading grade}))
 
 (defn grading
   "grading midterm `num` answers."

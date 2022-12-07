@@ -4,27 +4,29 @@
    [clj-time.local :as l]
    [clj-time.periodic :as p]
    [clojure.java.io :as io]
-   [clojure.java.shell :refer [sh]]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [digest]
+   [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
+   [py99.config :refer [env]]
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
    [py99.routes.login :refer [get-user]] ;; 0.40.0
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]
+   #_[clojure.java.shell :refer [sh]]
    #_[buddy.hashers :as hashers]
    #_[clj-commons-exec :as exec]
    #_[environ.core :refer [env]]
-   #_[py99.check-indent :refer [check-indent]]))
+   #_[py99.check-indent :refer [check-indent]]
+   #_[clojure.edn :as edn]))
 
-;; (when-let [level (env :py99-log-level)]
-;;  (timbre/set-level! (keyword level)))
-
-;; ;; FIXME: オフにするのはデバッグ時のみか。
-;; (def ^:private validate? true)
+;; https://stackoverflow.com/questions/16264813/
+;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+(defn- lazy-contains? [col key]
+  (some #{key} col))
 
 (defn- to-date-str [s]
   (-> (str s)
@@ -84,16 +86,14 @@
   [request]
   (name (get-in request [:session :identity] :nobody)))
 
-;; FIXME
+;; FIXME: symbol? or string?
 (defn- admin?
-  "return `user` is admin?"
+  "return is `user` admin?"
   [user]
-  (= user :hkimua))
+  ;;(println "admin? user" user)
+  ;; see above. name function.
+  (or (= user "hkimura") (= user :hkimua)))
 
-;; https://stackoverflow.com/questions/16264813/
-;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
-(defn- lazy-contains? [col key]
-  (some #{key} col))
 
 (defn- solved?
   [col n]
@@ -166,19 +166,22 @@
   (when-not (re-find #"\S" (strip answer))
     (throw (Exception. "answer is empty"))))
 
-(defn- pytest-test
+(def ^:private timeout 60)
+
+(defn pytest-test
+  "Fetch testcode from `num`, test string `answer`.
+   Throw exception when test fails."
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
-    ;; double check
     (when (re-find #"\S" test)
-      (log/info "test is not empty" test)
+      ;; (log/info "test is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]
           (binding [*out* file]
             (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
-        (let [ret (sh "pytest" (.getAbsolutePath tempfile))]
+        (let [ret (timeout-sh timeout "pytest" (.getAbsolutePath tempfile))]
           (log/info "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
@@ -186,19 +189,43 @@
                                     (filter #(re-find #"^[>E]" %))
                                     (str/join "\n"))))))))))
 
+(defn- get-answer
+  "get user login's answer to `num` from db."
+  [num login]
+  ;; (log/info "get-answer" num login)
+  (if-let [ans (:answer (db/get-answer {:num num :login login}))]
+    ans
+    (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
+
+(defn- expand-includes
+  "expand `#include` recursively."
+  [s login]
+  ;; (log/info "expand-includes:" s)
+  (str/join
+   "\n"
+   (for [line (str/split-lines s)]
+     (if (str/starts-with? line "#include ")
+       (let [[_ num] (str/split line #"\s+")]
+         (when-not (re-matches #"\d+" num)
+          (throw (Exception. "#include の後に問題番号がありません。")))
+         (expand-includes (get-answer (Integer/parseInt num) login) login))
+       line))))
+
 (defn- validate
   "Return nil if all validations success, or raize exeption."
-  [num answer]
+  [num answer login]
   (try
     (not-empty-test (strip answer))
-    (pytest-test num answer)
+    (pytest-test num (expand-includes answer login))
     nil
     (catch Exception e (throw (Exception. (.getMessage e))))))
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
+  (log/info "ceate-answer!" (login request) num)
   (try
-    (validate (Integer/parseInt num) answer)
+    (when-not (env :exam-mode)
+      (validate (Integer/parseInt num) answer (login request)))
     (db/create-answer!
      {:login (login request)
       :num (Integer/parseInt num)
@@ -208,8 +235,8 @@
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406
-                      :exception (.getMessage e)
-                      :message "ブラウザのバックで戻って、修正後、再提出してください。"}))))
+                      :message "ブラウザのバックで戻って、修正後、再提出してください。"
+                      :exception (.getMessage e)}))))
 
 ;; (defn- require-my-answer?
 ;;   []
@@ -223,14 +250,16 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})]
-    ;; (log/info "comment-form" (login request))
-    ;; self-only? を使って書いてた。それは何？
-    (if my-answer
+    ;; 0.47.5 moved to layout.clj
+    ;; (log/info "comment-form" (login request) num)
+    ;; 0.47.3
+    (if (and my-answer (< num 200))
       (layout/render request "comment-form.html"
-                     {:answer   answer
+                     {:answer   (if (env :exam-mode) my-answer answer)
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (db/get-comments {:a_id id})})
+                      :comments (when-not (env :exam-mode)
+                                  (db/get-comments {:a_id id}))})
       (layout/render request "error.html"
                      {:status 403
                       :title "Access Forbidden"
@@ -394,6 +423,53 @@
                    {:data data
                     :title "Answers by Problems"})))
 
+(defn create-stock! [request]
+  (let [login (login request)
+        a_id (-> (get-in request [:params :a_id])
+                 Integer/parseInt)]
+    (log/info "create-stock!" login)
+    (try
+      (db/create-stock! {:login login :a_id a_id})
+      (redirect (str "/comment/" a_id))
+      (catch Exception e
+        (layout/render nil "error.html"
+                       {:status 406
+                        :message "create stock error"
+                        :exception (.getMessage e)})))))
+    ;; (if (= "hkimura" login)
+    ;;   (let [a_id (-> (get-in request [:params :a_id])
+    ;;                  Integer/parseInt)]
+    ;;     (try
+    ;;       (db/create-stock! {:login login :a_id a_id})
+    ;;       (redirect (str "/comment/" a_id))
+    ;;       (catch Exception e
+    ;;         (layout/render nil "error.html"
+    ;;                        {:status 406
+    ;;                         :message "create stock error"
+    ;;                         :exception (.getMessage e)}))))
+    ;;   (layout/render
+    ;;    request
+    ;;    "error.html"
+    ;;    {:status 406
+    ;;     :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+    ;;     :message (str "Admin Only." login " is not admin")}))))
+
+(defn list-stocks [request]
+  (let [login (login request)]
+    (log/info "list-stocks" login)
+    (layout/render request "stocks.html"
+                   {:stocks (db/stocks? {:login login})})))
+    ;; (if (= "hkimura" login)
+    ;;   (layout/render request "stocks.html"
+    ;;    {:stocks (db/stocks? {:login login})})
+    ;;   (layout/render request "error.html"
+    ;;    {:status 406
+    ;;     :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
+    ;;     :message "Admin Only"}))))
+
+(defn midterm [request]
+  (layout/render request "midterm.html"))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -408,6 +484,7 @@
    ["/comments" {:get comments}]
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments/:num" {:get comments-by-num}]
+   ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]
    ["/profile" {:get profile-self}]
    ["/profile/:login" {:get profile-login}]
@@ -415,6 +492,8 @@
    ["/rank/submissions" {:get rank-submissions}]
    ["/rank/solved"      {:get rank-solved}]
    ["/rank/comments"    {:get rank-comments}]
+   ["/stock" {:post create-stock!
+              :get  list-stocks}]
    ["/wp" {:get (fn [_]
                   {:status 200
                    :headers {"Content-Type" "text/html"}

@@ -1,11 +1,117 @@
 # CHANGELOG.md
 
 ## Unreleased
-- r99のタブが今「Welcome to r99」ですが、
+* r99 のタブが今「Welcome to r99」ですが、
   問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
   何番を解いているタブを開いているか分かるようにしてほしいです！
-- 時刻が UTC. => そうでもないか？
-- r99のプロトタイプ宣言に相当するもの。
+* 次回答をする前に他回答を n 個以上、読まないといけない。
+* stocks にサブジェクト
+* dummy NG ボタン。
+* auto-reload
+* midterm 自動採点
+* midterm 公開
+* upsert 作るか？あるいはclear を作って、毎回、採点をゼロからスタートするか。
+* namespace を一気に読み込む calva のキーは？
+* dev container で動くのに、poetry + pytest が動かない。本当か？
+  pytest くらい、macos に入れとくか。
+* testcode を流し込むスクリプト。
+* comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
+
+
+## 0.49.1 - 2022-12-07
+feature midterm. テスト終わる前には公開しない。
+### Added
+- src/clj/py99/services.clj
+- src/clj/py99/midterm.clj
+- resources/html/midterm.html
+### Changed
+- src/clj/py99/home.clj: added /midterm
+- make home/pytest-test public
+
+## 0.48.0 - 2022-12-01
+### Added
+- `export EXAM_MODE=false` false は小文字。
+### Changed
+- routes.home - comment-form を layout に一本化して problem ナンバーを表示する。
+- log がダブるのはスクリプトからリダイレクトが原因。
+```
+# bad
+java -jar py99.jar >> log/py99.jar
+# goo
+java -jar py99.jar
+```
+
+## 0.47.4 - 2022-11-29
+- change words: `group assignment` -> `exam submissions`
+
+## 0.47.3 - 2022-11-29
+- シンプルに 200 番以上の回答を見せない。
+
+## 0.47.2 - 2022-11-28
+- answer-form.html: 動作確認してから submit すること。
+  関数コメント(doc string)のない回答は基本的にコメントしない。間違いあっても指摘しないってこと。
+
+## 0.47.1 - 2022-11-27
+- VScode のバッファ上書き問題。これ、なんとか抑え込めないか。
+
+## 0.47.0 - 2022-11-27
+- #'py99.config/env と (env) を混同しないように。
+- 復活 r99c で使ってた self-only を exam-mode として変更し採用。
+
+
+## 0.46.2 - 2022-11-22
+### Changed
+- Integer/ParseInt を home/get-answer から home/expand-iclude へ移動
+- get-answer が回答を見つけられないときは例外を投げる
+- expand-includes は #include の後に数字が見つからないときは例外を投げる
+
+## 0.46.0 - 2022-11-21
+### Added
+- expand-includes (not yet test recursive actions)
+
+## 0.45.3 - 2022-11-19
+### Added
+- /admin/problems#{num} で num へジャンプ。
+
+## 0.45.2 - 2022-11-15
+## 0.45.1 - 2022-11-15
+### Changed
+- ユーザごとにコメントをストックできる
+
+## 0.45.0 - 2022-11-14
+### Added
+- pytest にタイムアウト 60 秒
+  https://github.com/honzabrecka/timeout-shell
+  assert が複数あるときは、それ全部を実行する時間が timeout に収まらないと
+  エラーになる。
+
+## 0.44.2 - 2022-11-12
+- db migration for stocks
+- stocks implementation
+
+## 0.44.1 - 2022-11-11
+- get /stock
+
+## 0.44.0 - 2022-11-11
+- post /stock ... ハッタリだけ。
+- clj -Tantq outdated :upgrade true
+```
+|       :file |                             :name | :current | :latest |
+|-------------+-----------------------------------+----------+---------|
+| project.clj |    ch.qos.logback/logback-classic |    1.4.3 |   1.4.4 |
+|             |                 cider/cider-nrepl |   0.28.6 |  0.28.7 |
+|             |                         hato/hato |    0.8.2 |   0.9.0 |
+|             | luminus-undertow/luminus-undertow |   0.1.15 |  0.1.16 |
+|             |             org.clojure/tools.cli |  1.0.206 | 1.0.214 |
+|             |       org.webjars/webjars-locator |     0.45 |    0.46 |
+```
+
+
+## 0.43.1 - 2022-11-06
+- FIX: /profile/:login が auth error
+  /admin は middleware/admin で認可している。
+  /profile/login はプライベート関数の admin?
+  :hkimura と "hkimura" の両方を許すようにした。
 
 ## 0.43.0 - 2022-10-20
 - Changed home.clj/before? 月曜〆切が日曜〆切になってないか？

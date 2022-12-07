@@ -23,6 +23,11 @@
    #_[py99.check-indent :refer [check-indent]]
    #_[clojure.edn :as edn]))
 
+;; https://stackoverflow.com/questions/16264813/
+;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+(defn- lazy-contains? [col key]
+  (some #{key} col))
+
 (defn- to-date-str [s]
   (-> (str s)
       (subs 0 10)))
@@ -89,10 +94,6 @@
   ;; see above. name function.
   (or (= user "hkimura") (= user :hkimua)))
 
-;; https://stackoverflow.com/questions/16264813/
-;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
-(defn- lazy-contains? [col key]
-  (some #{key} col))
 
 (defn- solved?
   [col n]
@@ -167,7 +168,9 @@
 
 (def ^:private timeout 60)
 
-(defn- pytest-test
+(defn pytest-test
+  "Fetch testcode from `num`, test string `answer`.
+   Throw exception when test fails."
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
     (when (re-find #"\S" test)
@@ -464,6 +467,9 @@
     ;;     :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
     ;;     :message "Admin Only"}))))
 
+(defn midterm [request]
+  (layout/render request "midterm.html"))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -478,6 +484,7 @@
    ["/comments" {:get comments}]
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments/:num" {:get comments-by-num}]
+   ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]
    ["/profile" {:get profile-self}]
    ["/profile/:login" {:get profile-login}]

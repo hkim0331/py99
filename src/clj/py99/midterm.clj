@@ -29,8 +29,9 @@
   [num]
   (doseq [answer (fetch-answers num)]
     (try
-      (log/debug "answer" (short answer))
+      ;; (log/debug "answer" (short answer))
       (pytest-test num (:answer answer))
       (save-as! "good" answer)
       (catch Exception e
+        (println (.getMessage e))
         (save-as! "bad" answer)))))

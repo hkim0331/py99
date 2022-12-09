@@ -4,10 +4,10 @@
    [py99.db.core :as db]
    [py99.routes.home :refer [pytest-test]]))
 
-(defn- short [s]
-  (if (< (count s) 20)
-    s
-    (subs s 0 20)))
+;; (defn- short [s]
+;;   (if (< (count s) 20)
+;;     s
+;;     (subs s 0 20)))
 
 (defn fetch-answers
   "fetch answers to problem number `num`."
@@ -31,3 +31,11 @@
       (catch Exception e
         (println (.getMessage e))
         (save-as! "bad" answer)))))
+
+(def mt-nums [211 212 213 214
+              221 222 223 224
+              231 232 233 234
+              241 242 243 244
+              251 252 253 254])
+
+(map grading mt-nums)

@@ -253,7 +253,8 @@
     ;; 0.47.5 moved to layout.clj
     ;; (log/info "comment-form" (login request) num)
     ;; 0.47.3
-    (if (and my-answer (< num 200))
+    ;; exam-mode と合わせて (< num 200), いるか？
+    (if (and my-answer true #_(< num 200))
       (layout/render request "comment-form.html"
                      {:answer   (if (env :exam-mode) my-answer answer)
                       :problem  (db/get-problem {:num num})

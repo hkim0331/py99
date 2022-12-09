@@ -273,3 +273,5 @@ INSERT INTO midterm
 (num, login, answer_id, grading)
 VALUES
 (:num, :login, :answer_id, :grading)
+
+-- :name get-midterm-result :? :

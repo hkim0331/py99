@@ -14,7 +14,12 @@
   [num]
   (db/answers-to {:num num}))
 
-(defn- save-as!
+;; (defn is-good?
+;;   [num login answer_id]
+;;   (db/midterm-))
+
+(defn save-as!
+  "if already saved as `good`, will not overwrite."
   [grade {:keys [num login id]}]
   (log/debug "save-as!" num grade id login)
   (db/create-midterm-result!
@@ -28,8 +33,8 @@
       ;; (log/debug "answer" (short answer))
       (pytest-test num (:answer answer))
       (save-as! "good" answer)
-      (catch Exception e
-        (println (.getMessage e))
+      (catch Exception _
+        ;; (println (.getMessage e))
         (save-as! "bad" answer)))))
 
 (def mt-nums [211 212 213 214
@@ -38,4 +43,4 @@
               241 242 243 244
               251 252 253 254])
 
-(map grading mt-nums)
+;; (map grading mt-nums)

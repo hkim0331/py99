@@ -8,17 +8,15 @@
 * stocks にサブジェクト
 * dummy NG ボタン。
 * auto-reload
-* midterm 自動採点
-* upsert 作るか？あるいは clear を作って、毎回、採点をゼロからスタートするか。
-  → 複数回答があるから upsert あった方がいい。
-* namespace を一気に読み込む calva のキーは？
-  pytest くらい、macos に入れとくか。→ m2 では問題ない。
-* testcode を流し込むスクリプト。（これは py99-answer 側のスクリプトでは？)
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 * midterm 公開
+* upsert 作るか？あるいは clear を作って、毎回、採点をゼロからスタートするか。
+  → 複数回答があるから upsert あった方がいい。
 
-## 0.49.2 - 2022-12-07
-* dev container で動くのに、poetry + pytest が動かない。本当か？
+## 0.50.0-SNAPSHOT - 2022-12-10
+- midterm 自動採点
+- namespace を一気に読み込む calva のキーは？ alt+ctl+c+enter
+- testcode を流し込むスクリプトを py99-aux に作成
 
 
 ## 0.49.1 - 2022-12-07

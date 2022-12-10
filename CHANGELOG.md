@@ -10,7 +10,7 @@
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 
-## 0.50.0 - 2022-12-10
+## 0.50.1 - 2022-12-10
 midterm.html
 * FIXME: 自分(hkimura)の回答が/midterm から見えない。
 

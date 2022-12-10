@@ -9,13 +9,14 @@
 * dummy NG ボタン。
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-* midterm 公開
-* upsert 作るか？あるいは clear を作って、毎回、採点をゼロからスタートするか。
-  → 複数回答があるから upsert あった方がいい。
-* exam-mode: 試験中は自分の回答しかブラウズできない
-* unpublish: 回答を見せない
+
+## 0.50.0 - 2022-12-10
+midterm.html
+* FIXME: 自分(hkimura)の回答が/midterm から見えない。
+
 
 ## 0.50.0-SNAPSHOT - 2022-12-10
+- exam-mode: 試験中は自分の回答しかブラウズできない
 - midterm 自動採点
 - namespace を一気に読み込む calva のキーは？ alt+ctl+c+enter
 - testcode を流し込むスクリプトを別プロジェクト py99-aux に作成

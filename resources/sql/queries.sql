@@ -264,7 +264,7 @@ VALUES
 (:login, :a_id)
 
 -- ----------------
---　midterm section
+-- midterm section
 -- ----------------
 
 -- :name create-midterm-result! :! :n
@@ -274,4 +274,7 @@ INSERT INTO midterm
 VALUES
 (:num, :login, :answer_id, :grading)
 
--- :name get-midterm-result :? :
+-- :name clear-midterm! :! :n
+-- :doc clear midterm table
+DELETE from midterm
+

@@ -18,8 +18,8 @@
 ## 0.50.0-SNAPSHOT - 2022-12-10
 - midterm 自動採点
 - namespace を一気に読み込む calva のキーは？ alt+ctl+c+enter
-- testcode を流し込むスクリプトを py99-aux に作成
-
+- testcode を流し込むスクリプトを別プロジェクト py99-aux に作成
+- hkimura answers を流し込むスクリプトを py99-aux に作成
 
 ## 0.49.1 - 2022-12-07
 feature midterm. テスト終わる前には公開しない。
@@ -40,7 +40,7 @@ feature midterm. テスト終わる前には公開しない。
 ```
 # bad
 java -jar py99.jar >> log/py99.jar
-# goo
+# good
 java -jar py99.jar
 ```
 

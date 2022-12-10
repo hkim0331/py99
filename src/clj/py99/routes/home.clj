@@ -254,7 +254,7 @@
     ;; (log/info "comment-form" (login request) num)
     ;; 0.47.3
     ;; exam-mode と合わせて (< num 200), いるか？
-    (if (and my-answer true #_(< num 200))
+    (if my-answer
       (layout/render request "comment-form.html"
                      {:answer   (if (env :exam-mode) my-answer answer)
                       :problem  (db/get-problem {:num num})

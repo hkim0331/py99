@@ -37,10 +37,12 @@
         ;; (println (.getMessage e))
         (save-as! "bad" answer)))))
 
-(def mt-nums [211 212 213 214
-              221 222 223 224
-              231 232 233 234
-              241 242 243 244
-              251 252 253 254])
-
-;; (map grading mt-nums)
+;; FIXME: 実行する前に midterm テーブルをクリアする。
+(comment
+  (let [mt-nums [211 212 213 214
+                 221 222 223 224
+                 231 232 233 234
+                 241 242 243 244
+                 251 252 253 254]]
+    (map grading mt-nums)
+    :rcf))

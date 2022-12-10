@@ -12,6 +12,8 @@
 * midterm 公開
 * upsert 作るか？あるいは clear を作って、毎回、採点をゼロからスタートするか。
   → 複数回答があるから upsert あった方がいい。
+* exam-mode: 試験中は自分の回答しかブラウズできない
+* unpublish: 回答を見せない
 
 ## 0.50.0-SNAPSHOT - 2022-12-10
 - midterm 自動採点

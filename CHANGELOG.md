@@ -8,15 +8,19 @@
 * stocks にサブジェクト
 * dummy NG ボタン。
 * auto-reload
-* midterm 自動採点
-* midterm 公開
-* upsert 作るか？あるいはclear を作って、毎回、採点をゼロからスタートするか。
-* namespace を一気に読み込む calva のキーは？
-* dev container で動くのに、poetry + pytest が動かない。本当か？
-  pytest くらい、macos に入れとくか。
-* testcode を流し込むスクリプト。
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 
+## 0.50.1 - 2022-12-10
+midterm.html
+* FIXME: 自分(hkimura)の回答が/midterm から見えない。
+
+
+## 0.50.0-SNAPSHOT - 2022-12-10
+- exam-mode: 試験中は自分の回答しかブラウズできない
+- midterm 自動採点
+- namespace を一気に読み込む calva のキーは？ alt+ctl+c+enter
+- testcode を流し込むスクリプトを別プロジェクト py99-aux に作成
+- hkimura answers を流し込むスクリプトを py99-aux に作成
 
 ## 0.49.1 - 2022-12-07
 feature midterm. テスト終わる前には公開しない。
@@ -37,7 +41,7 @@ feature midterm. テスト終わる前には公開しない。
 ```
 # bad
 java -jar py99.jar >> log/py99.jar
-# goo
+# good
 java -jar py99.jar
 ```
 

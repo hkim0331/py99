@@ -253,8 +253,9 @@
     ;; 0.47.5 moved to layout.clj
     ;; (log/info "comment-form" (login request) num)
     ;; 0.47.3
-    ;; exam-mode と合わせて (< num 200), いるか？
-    (if my-answer
+    ;; 追試が終わるまで (< num 200) を有効に。
+    ;; 試験日は (< num 200) に代わっって true を使う。
+    (if (and my-answer (< num 200))
       (layout/render request "comment-form.html"
                      {:answer   (if (env :exam-mode) my-answer answer)
                       :problem  (db/get-problem {:num num})

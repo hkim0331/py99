@@ -197,7 +197,7 @@
     ans
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
-(defn- expand-includes
+(defn expand-includes
   "expand `#include` recursively."
   [s login]
   ;; (log/info "expand-includes:" s)

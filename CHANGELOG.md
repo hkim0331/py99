@@ -12,6 +12,7 @@
 
 ## 0.52.0 - 2022-12-14
 - created midterm.html
+- lein 2.10.0 が
 
 ## 0.51.1 - 2022-12-12
 antq update :upgrade true

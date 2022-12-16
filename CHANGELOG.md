@@ -62,7 +62,6 @@ java -jar py99.jar
 - #'py99.config/env と (env) を混同しないように。
 - 復活 r99c で使ってた self-only を exam-mode として変更し採用。
 
-
 ## 0.46.2 - 2022-11-22
 ### Changed
 - Integer/ParseInt を home/get-answer から home/expand-iclude へ移動
@@ -176,13 +175,11 @@ successed remote-container on nuc.local via ssh.
 vscode ユーザでは /home/vscode/.m2 のボリュームマウントでエラーになる時がある。
 nuc.local では root ユーザで /root/.m2 をボリュームマウントした。
 
-
 ## 0.36.0 - 2022-09-22
 ### Fixed
 - コンテナ内からの hc/get に戻らない。
   原因は hato. cheshire を dependencies に加えないと、
   (hato.client/get {:as :json}) が失敗する。
-
 
 ## 0.35.1 - 2022-09-20
 ### Fixed

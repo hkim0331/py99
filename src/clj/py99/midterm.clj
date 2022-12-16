@@ -2,7 +2,7 @@
   (:require
    [clojure.tools.logging :as log]
    [py99.db.core :as db]
-   [py99.routes.home :refer [pytest-test]]))
+   [py99.routes.home :refer [pytest-test expand-includes]]))
 
 ;; (defn- short [s]
 ;;   (if (< (count s) 20)
@@ -31,13 +31,14 @@
   (doseq [answer (fetch-answers num)]
     (try
       ;; (log/debug "answer" (short answer))
-      (pytest-test num (:answer answer))
+      ;; FIXED: forgot expand-includes, 2022-12-14.
+      (pytest-test num (expand-includes (:answer answer) (:login answer)))
       (save-as! "good" answer)
       (catch Exception _
         ;; (println (.getMessage e))
         (save-as! "bad" answer)))))
 
-(defn update-midterm
+(defn update-midterm!
   "must `poetry shell` before this."
   []
   (let [mt-nums [211 212 213 214
@@ -47,3 +48,7 @@
                  251 252 253 254]]
     (db/clear-midterm!)
     (map grading mt-nums)))
+
+(comment
+  (update-midterm!)
+  :rcf)

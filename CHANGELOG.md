@@ -10,6 +10,17 @@
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 
+## 0.52.1 - 2022-12-15
+### FIXED
+- forgot expand-include
+
+## 0.52.0 - 2022-12-14
+- created midterm.html
+- lein 2.10.0 が
+
+## 0.51.1 - 2022-12-12
+antq update :upgrade true
+
 ## 0.50.1 - 2022-12-10
 midterm.html
 * FIXME: 自分(hkimura)の回答が/midterm から見えない。

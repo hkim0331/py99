@@ -197,7 +197,7 @@
     ans
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
-(defn- expand-includes
+(defn expand-includes
   "expand `#include` recursively."
   [s login]
   ;; (log/info "expand-includes:" s)
@@ -253,8 +253,8 @@
     ;; 0.47.5 moved to layout.clj
     ;; (log/info "comment-form" (login request) num)
     ;; 0.47.3
-    ;; exam-mode と合わせて (< num 200), いるか？
-    (if my-answer
+    ;; 試験日以外は (< num 200) に代わっって true を使う。
+    (if (and my-answer true #_(< num 200))
       (layout/render request "comment-form.html"
                      {:answer   (if (env :exam-mode) my-answer answer)
                       :problem  (db/get-problem {:num num})

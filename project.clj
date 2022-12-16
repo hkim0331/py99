@@ -1,21 +1,21 @@
-(defproject py99 "0.50.1"
+(defproject py99 "0.52.1"
 
   :description "r99 revised with clojure"
   :url "https://r99.melt.kyutech.ac.jp"
 
   :dependencies
-  [[ch.qos.logback/logback-classic "1.4.4"]
+  [[ch.qos.logback/logback-classic "1.4.5"]
    [clojure.java-time "1.1.0"]
-   [conman "0.9.5"]
+   [conman "0.9.6"]
    [cprop "0.1.19"]
    [expound "0.9.0"]
    [funcool/struct "1.4.0"]
    [json-html "0.4.7"]
    [luminus-migrations "0.7.5"]
    [luminus-transit "0.1.5"]
-   [luminus-undertow "0.1.16"]
+   [luminus-undertow "0.1.17"]
    [luminus/ring-ttl-session "0.3.3"]
-   [markdown-clj "1.11.3"]
+   [markdown-clj "1.11.4"]
    [metosin/muuntaja "0.6.8"]
    [metosin/reitit "0.5.18"]
    [metosin/ring-http-response "0.9.3"]
@@ -24,7 +24,7 @@
    [org.clojure/clojure "1.11.1"]
    [org.clojure/tools.cli "1.0.214"]
    [org.clojure/tools.logging "1.2.4"]
-   [org.postgresql/postgresql "42.5.0"]
+   [org.postgresql/postgresql "42.5.1"]
    [org.webjars.npm/bulma "0.9.4"]
    [org.webjars.npm/material-icons "1.10.8"]
    [org.webjars/webjars-locator "0.46"]
@@ -72,7 +72,7 @@
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                                  [jonase/eastwood "1.3.0"]
-                                 [cider/cider-nrepl "0.28.7"]]
+                                 [cider/cider-nrepl "0.29.0"]]
 
                   :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]

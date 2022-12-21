@@ -11,6 +11,10 @@
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 
 
+## 0.53.1 - 2022-12-21
+- removed no use codes and comments
+- reconsidered exam-mode
+
 ## 0.53.0 - 2022-12-21
 ### Added
 - re_exam.clj

@@ -10,6 +10,11 @@
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 
+
+## 0.53.0 - 2022-12-21
+### Added
+- re_exam.clj
+
 ## 0.52.1 - 2022-12-15
 ### FIXED
 - forgot expand-include
@@ -72,7 +77,6 @@ java -jar py99.jar
 ## 0.47.0 - 2022-11-27
 - #'py99.config/env と (env) を混同しないように。
 - 復活 r99c で使ってた self-only を exam-mode として変更し採用。
-
 
 ## 0.46.2 - 2022-11-22
 ### Changed
@@ -187,13 +191,11 @@ successed remote-container on nuc.local via ssh.
 vscode ユーザでは /home/vscode/.m2 のボリュームマウントでエラーになる時がある。
 nuc.local では root ユーザで /root/.m2 をボリュームマウントした。
 
-
 ## 0.36.0 - 2022-09-22
 ### Fixed
 - コンテナ内からの hc/get に戻らない。
   原因は hato. cheshire を dependencies に加えないと、
   (hato.client/get {:as :json}) が失敗する。
-
 
 ## 0.35.1 - 2022-09-20
 ### Fixed

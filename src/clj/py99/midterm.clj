@@ -9,10 +9,19 @@
 ;;     s
 ;;     (subs s 0 20)))
 
+(defn- yyyy-mm-dd [jt]
+  (subs (str jt) 0 10))
+
+(defn make-before? [date]
+  (fn [row]
+    (neg? (compare (yyyy-mm-dd (:create_at row)) date))))
+
+(def before-12-15? (make-before? "2022-12-15"))
+
 (defn fetch-answers
   "fetch answers to problem number `num`."
   [num]
-  (db/answers-to {:num num}))
+  (filter before-12-15? (db/answers-to {:num num})))
 
 ;; (defn is-good?
 ;;   [num login answer_id]
@@ -39,7 +48,8 @@
         (save-as! "bad" answer)))))
 
 (defn update-midterm!
-  "must `poetry shell` before this."
+  "must `poetry shell` before this.
+   after clear midterm table, update it."
   []
   (let [mt-nums [211 212 213 214
                  221 222 223 224

@@ -48,7 +48,8 @@
         (save-as! "bad" answer)))))
 
 (defn update-midterm!
-  "must `poetry shell` before this."
+  "must `poetry shell` before this.
+   after clear midterm table, update it."
   []
   (let [mt-nums [211 212 213 214
                  221 222 223 224

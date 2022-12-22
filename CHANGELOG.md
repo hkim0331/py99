@@ -1,13 +1,92 @@
 # CHANGELOG.md
 
 ## Unreleased
-- r99のタブが今「Welcome to r99」ですが、
+* r99 のタブが今「Welcome to r99」ですが、
   問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
   何番を解いているタブを開いているか分かるようにしてほしいです！
-- r99のプロトタイプ宣言に相当するもの。
-- 次回答をする前に他回答を n 個以上、読まないといけない。
-- stocks にサブジェクト
+* 次回答をする前に他回答を n 個以上、読まないといけない。
+* stocks にサブジェクト
+* dummy NG ボタン。
+* auto-reload
+* comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 
+
+## 0.53.1 - 2022-12-21
+- removed no use codes and comments
+- reconsidered exam-mode
+
+## 0.53.0 - 2022-12-21
+### Added
+- re_exam.clj
+
+## 0.52.1 - 2022-12-15
+### FIXED
+- forgot expand-include
+
+## 0.52.0 - 2022-12-14
+- created midterm.html
+- lein 2.10.0 が
+
+## 0.51.1 - 2022-12-12
+antq update :upgrade true
+
+## 0.50.1 - 2022-12-10
+midterm.html
+* FIXME: 自分(hkimura)の回答が/midterm から見えない。
+
+
+## 0.50.0-SNAPSHOT - 2022-12-10
+- exam-mode: 試験中は自分の回答しかブラウズできない
+- midterm 自動採点
+- namespace を一気に読み込む calva のキーは？ alt+ctl+c+enter
+- testcode を流し込むスクリプトを別プロジェクト py99-aux に作成
+- hkimura answers を流し込むスクリプトを py99-aux に作成
+
+## 0.49.1 - 2022-12-07
+feature midterm. テスト終わる前には公開しない。
+### Added
+- src/clj/py99/services.clj
+- src/clj/py99/midterm.clj
+- resources/html/midterm.html
+### Changed
+- src/clj/py99/home.clj: added /midterm
+- make home/pytest-test public
+
+## 0.48.0 - 2022-12-01
+### Added
+- `export EXAM_MODE=false` false は小文字。
+### Changed
+- routes.home - comment-form を layout に一本化して problem ナンバーを表示する。
+- log がダブるのはスクリプトからリダイレクトが原因。
+```
+# bad
+java -jar py99.jar >> log/py99.jar
+# good
+java -jar py99.jar
+```
+
+## 0.47.4 - 2022-11-29
+- change words: `group assignment` -> `exam submissions`
+
+## 0.47.3 - 2022-11-29
+- シンプルに 200 番以上の回答を見せない。
+
+## 0.47.2 - 2022-11-28
+- answer-form.html: 動作確認してから submit すること。
+  関数コメント(doc string)のない回答は基本的にコメントしない。間違いあっても指摘しないってこと。
+
+## 0.47.1 - 2022-11-27
+- VScode のバッファ上書き問題。これ、なんとか抑え込めないか。
+
+## 0.47.0 - 2022-11-27
+- #'py99.config/env と (env) を混同しないように。
+- 復活 r99c で使ってた self-only を exam-mode として変更し採用。
+
+## 0.46.2 - 2022-11-22
+### Changed
+- Integer/ParseInt を home/get-answer から home/expand-iclude へ移動
+- get-answer が回答を見つけられないときは例外を投げる
+- expand-includes は #include の後に数字が見つからないときは例外を投げる
 
 ## 0.46.0 - 2022-11-21
 ### Added
@@ -116,13 +195,11 @@ successed remote-container on nuc.local via ssh.
 vscode ユーザでは /home/vscode/.m2 のボリュームマウントでエラーになる時がある。
 nuc.local では root ユーザで /root/.m2 をボリュームマウントした。
 
-
 ## 0.36.0 - 2022-09-22
 ### Fixed
 - コンテナ内からの hc/get に戻らない。
   原因は hato. cheshire を dependencies に加えないと、
   (hato.client/get {:as :json}) が失敗する。
-
 
 ## 0.35.1 - 2022-09-20
 ### Fixed

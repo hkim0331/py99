@@ -4,23 +4,23 @@
    [clj-time.local :as l]
    [clj-time.periodic :as p]
    [clojure.java.io :as io]
-   #_[clojure.java.shell :refer [sh]]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [digest]
+   [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
+   [py99.config :refer [env]]
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
    [py99.routes.login :refer [get-user]] ;; 0.40.0
    [ring.util.response :refer [redirect]]
-   [selmer.filters :refer [add-filter!]]
-   [jx.java.shell :refer [timeout-sh]]
-   #_[buddy.hashers :as hashers]
-   #_[clj-commons-exec :as exec]
-   #_[environ.core :refer [env]]
-   #_[py99.check-indent :refer [check-indent]]
-   #_[clojure.edn :as edn]))
+   [selmer.filters :refer [add-filter!]]))
+
+;; https://stackoverflow.com/questions/16264813/
+;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+(defn- lazy-contains? [col key]
+  (some #{key} col))
 
 (defn- to-date-str [s]
   (-> (str s)
@@ -80,7 +80,7 @@
   [request]
   (name (get-in request [:session :identity] :nobody)))
 
-;; FIXME
+;; FIXME: symbol? or string?
 (defn- admin?
   "return is `user` admin?"
   [user]
@@ -88,10 +88,6 @@
   ;; see above. name function.
   (or (= user "hkimura") (= user :hkimua)))
 
-;; https://stackoverflow.com/questions/16264813/
-;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
-(defn- lazy-contains? [col key]
-  (some #{key} col))
 
 (defn- solved?
   [col n]
@@ -166,7 +162,9 @@
 
 (def ^:private timeout 60)
 
-(defn- pytest-test
+(defn pytest-test
+  "Fetch testcode from `num`, test string `answer`.
+   Throw exception when test fails."
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
     (when (re-find #"\S" test)
@@ -188,17 +186,23 @@
 (defn- get-answer
   "get user login's answer to `num` from db."
   [num login]
-  (:answer (db/get-answer {:num (Integer/parseInt num) :login login})))
+  ;; (log/info "get-answer" num login)
+  (if-let [ans (:answer (db/get-answer {:num num :login login}))]
+    ans
+    (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
-(defn- expand-includes
-  "expand #include recursively."
+(defn expand-includes
+  "expand `#include` recursively."
   [s login]
+  ;; (log/info "expand-includes:" s)
   (str/join
    "\n"
    (for [line (str/split-lines s)]
-     (if (str/starts-with? line "#include")
+     (if (str/starts-with? line "#include ")
        (let [[_ num] (str/split line #"\s+")]
-         (expand-includes (get-answer num login) login))
+         (when-not (re-matches #"\d+" num)
+          (throw (Exception. "#include の後に問題番号がありません。")))
+         (expand-includes (get-answer (Integer/parseInt num) login) login))
        line))))
 
 (defn- validate
@@ -214,7 +218,8 @@
   [{{:keys [num answer]} :params :as request}]
   (log/info "ceate-answer!" (login request) num)
   (try
-    (validate (Integer/parseInt num) answer (login request))
+    (when-not (env :exam-mode)
+      (validate (Integer/parseInt num) answer (login request)))
     (db/create-answer!
      {:login (login request)
       :num (Integer/parseInt num)
@@ -227,10 +232,6 @@
                       :message "ブラウザのバックで戻って、修正後、再提出してください。"
                       :exception (.getMessage e)}))))
 
-;; (defn- require-my-answer?
-;;   []
-;;   (= (env :py99-require-my-answer) "TRUE"))
-
 (defn comment-form
   "Taking answer id as path-parameter, show the answer with
    comment form."
@@ -238,15 +239,20 @@
   (let [id (Integer/parseInt (get-in request [:path-params :id]))
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
-        my-answer (db/get-answer {:num num :login (login request)})]
-    (log/info "comment-form" (login request) num)
-    ;; self-only? を使って書いてた。それは何？
-    (if my-answer
+        my-answer (db/get-answer {:num num :login (login request)})
+        exam-mode (env :exam-mode)]
+    ;; 0.47.5 moved to layout.clj
+    ;; (log/info "comment-form" (login request) num)
+    ;; 0.47.3
+    ;; 試験日は true に変えて (< num 200) を使う。
+    ;;(if (and my-answer (or (not exam-mode) (< num 200)))
+    (if (and my-answer (< num 300))
       (layout/render request "comment-form.html"
-                     {:answer   answer
+                     {:answer   (if exam-mode my-answer answer)
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (db/get-comments {:a_id id})})
+                      :comments (when-not exam-mode
+                                  (db/get-comments {:a_id id}))})
       (layout/render request "error.html"
                      {:status 403
                       :title "Access Forbidden"
@@ -289,17 +295,6 @@
     ;;(log/info "comments-by-num" (login request))
     (layout/render request "comments.html"
                    {:comments (db/comments-by-num {:num num})})))
-
-;; (defn ch-pass [{{:keys [old new]} :params :as request}]
-;;   (let [login (login request)
-;;         user (db/get-user {:login login})]
-;;     ;;(log/info "ch-pass" login)
-;;     (if (and (seq user) (hashers/check old (:password user)))
-;;       (do
-;;         (db/update-user! {:login login :password (hashers/derive new)})
-;;         (redirect "/login"))
-;;       (layout/render request "error.html"
-;;                      {:message "did not match old password"}))))
 
 ;;
 ;; weekly counts
@@ -423,36 +418,15 @@
                        {:status 406
                         :message "create stock error"
                         :exception (.getMessage e)})))))
-    ;; (if (= "hkimura" login)
-    ;;   (let [a_id (-> (get-in request [:params :a_id])
-    ;;                  Integer/parseInt)]
-    ;;     (try
-    ;;       (db/create-stock! {:login login :a_id a_id})
-    ;;       (redirect (str "/comment/" a_id))
-    ;;       (catch Exception e
-    ;;         (layout/render nil "error.html"
-    ;;                        {:status 406
-    ;;                         :message "create stock error"
-    ;;                         :exception (.getMessage e)}))))
-    ;;   (layout/render
-    ;;    request
-    ;;    "error.html"
-    ;;    {:status 406
-    ;;     :exception "コメントをストックできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
-    ;;     :message (str "Admin Only." login " is not admin")}))))
 
 (defn list-stocks [request]
   (let [login (login request)]
     (log/info "list-stocks" login)
     (layout/render request "stocks.html"
                    {:stocks (db/stocks? {:login login})})))
-    ;; (if (= "hkimura" login)
-    ;;   (layout/render request "stocks.html"
-    ;;    {:stocks (db/stocks? {:login login})})
-    ;;   (layout/render request "error.html"
-    ;;    {:status 406
-    ;;     :exception "ストックしたコメントをリストできるのは今のところ管理者だけです。ブラウザの Back で戻ってください。"
-    ;;     :message "Admin Only"}))))
+
+(defn midterm [request]
+  (layout/render request "midterm.html"))
 
 (defn home-routes []
   ["" {:middleware [middleware/auth
@@ -462,12 +436,12 @@
    ["/answers" {:get answers-by-problems}]
    ["/answer/:num" {:get  answer-page
                     :post create-answer!}]
-   #_["/ch-pass" {:post ch-pass}]
    ["/comment/:id" {:get  comment-form
                     :post create-comment!}]
    ["/comments" {:get comments}]
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments/:num" {:get comments-by-num}]
+   ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]
    ["/profile" {:get profile-self}]
    ["/profile/:login" {:get profile-login}]

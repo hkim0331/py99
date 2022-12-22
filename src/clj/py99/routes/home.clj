@@ -245,7 +245,8 @@
     ;; (log/info "comment-form" (login request) num)
     ;; 0.47.3
     ;; 試験日は true に変えて (< num 200) を使う。
-    (if (and my-answer (or (not exam-mode) (< num 200)))
+    ;;(if (and my-answer (or (not exam-mode) (< num 200)))
+    (if (and my-answer (< num 300))
       (layout/render request "comment-form.html"
                      {:answer   (if exam-mode my-answer answer)
                       :problem  (db/get-problem {:num num})

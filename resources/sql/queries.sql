@@ -285,4 +285,5 @@ DELETE from midterm
 -- :doc  fetch todays users submission count
 SELECT login, COUNT(login) FROM answers
 WHERE DATE(create_at) = DATE(:date)
-GROUP BY login;
+GROUP BY login
+ORDER BY COUNT DESC

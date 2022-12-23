@@ -422,9 +422,14 @@
 
 (defn list-todays [{{:keys [date]} :path-params :as request}]
   (log/info "list-todays" date)
-  (layout/render request "todays.html"
-                 {:date date
-                  :todays (db/todays? {:date date})}))
+  (if (re-matches #"\d\d\d\d-\d\d-\d\d" date)
+    (layout/render request "todays.html"
+                   {:date date
+                    :todays (db/todays? {:date date})})
+    (layout/render request "error.html"
+                   {:status 403
+                    :title "date format error"
+                    :message "日付のフォーマットになってない。"})))
 
 (defn list-todays-today [request]
   (let [today (to-date-str (l/local-now))]

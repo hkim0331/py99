@@ -9,6 +9,7 @@
 * dummy NG ボタン。
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
+* todays page に input form
 
 
 ## 0.54.0 - 2022-12-23

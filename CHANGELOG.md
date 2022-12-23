@@ -9,13 +9,15 @@
 * dummy NG ボタン。
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
+* /todays に yyyy-mm-dd ではない引数が来たとき。
+* /todays のオーダーを解いた数に。
 
 
 ## 0.54.1 - 2022-12-23
 - todays ページに input form, JS でリンク。
 
 ## 0.54.0 - 2022-12-23
-- feature todays - yyyy-mm-dd に誰が何題、回答を提出したか。
+- feature/todays: yyyy-mm-dd に誰が何題、回答を提出したか。
 
 ## 0.53.1 - 2022-12-21
 - removed no use codes and comments

@@ -88,7 +88,6 @@
   ;; see above. name function.
   (or (= user "hkimura") (= user :hkimua)))
 
-
 (defn- solved?
   [col n]
   {:n n :stat (if (lazy-contains? col n) "solved" "yet")})
@@ -241,12 +240,8 @@
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})
         exam-mode (env :exam-mode)]
-    ;; 0.47.5 moved to layout.clj
-    ;; (log/info "comment-form" (login request) num)
-    ;; 0.47.3
-    ;; 試験日は true に変えて (< num 200) を使う。
-    ;;(if (and my-answer (or (not exam-mode) (< num 200)))
-    (if (and my-answer (< num 300))
+    (if (and my-answer (or (not exam-mode) (< num 200)))
+    ;;(if (and my-answer (< num 300))
       (layout/render request "comment-form.html"
                      {:answer   (if exam-mode my-answer answer)
                       :problem  (db/get-problem {:num num})
@@ -425,6 +420,19 @@
     (layout/render request "stocks.html"
                    {:stocks (db/stocks? {:login login})})))
 
+(defn list-todays [{{:keys [date]} :path-params :as request}]
+  (log/info "list-todays" date)
+  (layout/render request "todays.html"
+                 {:date date
+                  :todays (db/todays? {:date date})}))
+
+(defn list-todays-today [request]
+  (let [today (to-date-str (l/local-now))]
+    (log/info "list-todays-today")
+    (layout/render request "todays.html"
+                   {:date today
+                    :todays (db/todays? {:date today})})))
+
 (defn midterm [request]
   (layout/render request "midterm.html"))
 
@@ -451,6 +459,8 @@
    ["/rank/comments"    {:get rank-comments}]
    ["/stock" {:post create-stock!
               :get  list-stocks}]
+   ["/todays" {:get list-todays-today}]
+   ["/todays/:date" {:get list-todays}]
    ["/wp" {:get (fn [_]
                   {:status 200
                    :headers {"Content-Type" "text/html"}

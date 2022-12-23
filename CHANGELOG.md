@@ -9,8 +9,10 @@
 * dummy NG ボタン。
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-* todays page に input form
 
+
+## 0.54.1 - 2022-12-23
+- todays ページに input form, JS でリンク。
 
 ## 0.54.0 - 2022-12-23
 - feature todays - yyyy-mm-dd に誰が何題、回答を提出したか。

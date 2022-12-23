@@ -2,10 +2,18 @@
 {% block content %}
   <div class="content">
     <h2>Todays {{date}}</h2>
+    <p><input id="date" type="text">
+      <button onClick="todays()">go</button></p>
     <ol>
     {% for s in todays %}
       <li>{{s.login}} {{s.count}}</li>
     {% endfor %}
     </ol>
+    <script>
+      function todays() {
+        var url="/todays/"+document.getElementById("date").value;
+        document.location = url;
+      }
+    </script>
   </div>
 {% endblock %}

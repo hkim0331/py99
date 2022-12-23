@@ -11,6 +11,9 @@
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 
 
+## 0.54.0 - 2022-12-23
+- feature todays - yyyy-mm-dd に誰が何題、回答を提出したか。
+
 ## 0.53.1 - 2022-12-21
 - removed no use codes and comments
 - reconsidered exam-mode

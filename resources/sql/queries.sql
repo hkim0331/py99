@@ -278,3 +278,11 @@ VALUES
 -- :doc clear midterm table
 DELETE from midterm
 
+-- ----------------
+-- todays section
+-- ----------------
+-- :name todays? :? :*
+-- :doc  fetch todays users submission count
+SELECT login, COUNT(login) FROM answers
+WHERE DATE(create_at) = DATE(:date)
+GROUP BY login;

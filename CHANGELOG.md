@@ -9,13 +9,25 @@
 * dummy NG ボタン。
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
+* /todays: return-key で go
+
+
+## 0.54.2 - 2022-12-23
+- /todays のオーダーを解いた数に。
+```
+SELECT login, COUNT(login) FROM answers
+WHERE DATE(create_at) = DATE(:date)
+GROUP BY login
+ORDER BY COUNT DESC
+```
+- /todays に yyyy-mm-dd ではない引数が来たときエラーページを出す。
 
 
 ## 0.54.1 - 2022-12-23
 - todays ページに input form, JS でリンク。
 
 ## 0.54.0 - 2022-12-23
-- feature todays - yyyy-mm-dd に誰が何題、回答を提出したか。
+- feature/todays: yyyy-mm-dd に誰が何題、回答を提出したか。
 
 ## 0.53.1 - 2022-12-21
 - removed no use codes and comments

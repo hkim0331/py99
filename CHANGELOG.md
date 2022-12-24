@@ -12,6 +12,12 @@
 * /todays: return-key で go
 
 
+## 0.54.3-SNAPSHOT
+### Added
+- midterm.update! sequentially execute
+(db/clear-midterm!) (update-midterm!) (update-re-exam!)
+
+
 ## 0.54.2 - 2022-12-23
 - /todays のオーダーを解いた数に。
 ```

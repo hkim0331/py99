@@ -4,11 +4,6 @@
    [py99.db.core :as db]
    [py99.routes.home :refer [pytest-test expand-includes]]))
 
-;; (defn- short [s]
-;;   (if (< (count s) 20)
-;;     s
-;;     (subs s 0 20)))
-
 (defn- yyyy-mm-dd [jt]
   (subs (str jt) 0 10))
 
@@ -23,10 +18,6 @@
   [num]
   (filter before-12-15? (db/answers-to {:num num})))
 
-;; (defn is-good?
-;;   [num login answer_id]
-;;   (db/midterm-))
-
 (defn save-as!
   "if already saved as `good`, will not overwrite."
   [grade {:keys [num login id]}]
@@ -39,7 +30,6 @@
   [num]
   (doseq [answer (fetch-answers num)]
     (try
-      ;; (log/debug "answer" (short answer))
       ;; FIXED: forgot expand-includes, 2022-12-14.
       (pytest-test num (expand-includes (:answer answer) (:login answer)))
       (save-as! "good" answer)
@@ -56,9 +46,20 @@
                  231 232 233 234
                  241 242 243 244
                  251 252 253 254]]
-    (db/clear-midterm!)
     (map grading mt-nums)))
 
-(comment
+(defn update-reexam!
+  []
+  (let [re-nums [311 312 312 314
+                 321 322 323 324]]
+    (map grading re-nums)))
+
+(defn update!
+  []
+  (db/clear-midterm!)
   (update-midterm!)
+  (update-reexam!))
+
+(comment
+  (update!)
   :rcf)

@@ -56,9 +56,13 @@
 
 (defn update!
   []
-  (db/clear-midterm!)
-  (update-midterm!)
-  (update-reexam!))
+  (try
+    (db/clear-midterm!)
+    (update-midterm!)
+    (update-reexam!)
+    nil
+    (catch Exception e (.getMessage e))))
+
 
 (comment
   (update!)

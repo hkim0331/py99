@@ -12,6 +12,8 @@
 * /todays: return-key で go
 
 ## 0.55.0 - 2022-12-25
+### updated
+- resources/html/midterm.html (copied from py99-aux)
 ### Changed
 - speed up using (doall (pmap ...))
 ### Fixed

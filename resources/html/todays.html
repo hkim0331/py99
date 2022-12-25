@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="content">
-    <h2>Todays {{date}}</h2>
-    <p><input id="date" type="text">
+    <h2>Todays ({{date}})</h2>
+    <p><input id="date" type="text" placeholder="yyyy-mm-dd" size="11">
       <button onClick="todays()">go</button></p>
     <ol>
     {% for s in todays %}

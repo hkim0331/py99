@@ -11,12 +11,17 @@
   (fn [row]
     (neg? (compare (yyyy-mm-dd (:create_at row)) date))))
 
-(def before-12-15? (make-before? "2022-12-15"))
+;; (def before-12-15? (make-before? "2022-12-15"))
+;;
+;; (defn fetch-answers
+;;   "fetch answers to problem number `num`."
+;;   [num]
+;;   (filter before-12-15? (db/answers-to {:num num})))
 
 (defn fetch-answers
-  "fetch answers to problem number `num`."
-  [num]
-  (filter before-12-15? (db/answers-to {:num num})))
+  [date num]
+  (let [flt (make-before? date)]
+    (filter flt (db/answers-to {:num num}))))
 
 (defn save-as!
   "if already saved as `good`, will not overwrite."
@@ -27,8 +32,8 @@
 
 (defn grading
   "grading midterm `num` answers."
-  [num]
-  (doseq [answer (fetch-answers num)]
+  [date num]
+  (doseq [answer (fetch-answers date num)]
     (try
       ;; FIXED: forgot expand-includes, 2022-12-14.
       (pytest-test num (expand-includes (:answer answer) (:login answer)))
@@ -45,25 +50,32 @@
                  221 222 223 224
                  231 232 233 234
                  241 242 243 244
+                 ;; for absent students
                  251 252 253 254]]
-    (map grading mt-nums)))
+    (log/info "update-midterm!")
+    (doall (pmap (partial grading "2022-12-15") mt-nums))))
 
 (defn update-reexam!
   []
-  (let [re-nums [311 312 312 314
+  (let [re-nums [311 312 313 314
                  321 322 323 324]]
-    (map grading re-nums)))
+    (log/info "update-reexam!")
+    (doall (pmap (partial grading "2022-12-24") re-nums))))
+
+(comment
+  (grading "2022-12-24" 313)
+  :rcf)
 
 (defn update!
   []
   (try
+    (log/info "db/clear-midterm!")
     (db/clear-midterm!)
     (update-midterm!)
     (update-reexam!)
-    nil
+    (log/info "done")
     (catch Exception e (.getMessage e))))
 
-
 (comment
-  (update!)
+  (time (update!))
   :rcf)

@@ -11,12 +11,17 @@
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 * /todays: return-key で go
 
+## 0.55.0 - 2022-12-25
+### Changed
+- speed up using (doall (pmap ...))
+### Fixed
+- update-midterm takes num argument, must filter before-12-15?
+  but re-exam. feature/re-exam.
 
 ## 0.54.3-SNAPSHOT
 ### Added
 - midterm.update! sequentially execute
 (db/clear-midterm!) (update-midterm!) (update-re-exam!)
-
 
 ## 0.54.2 - 2022-12-23
 - /todays のオーダーを解いた数に。

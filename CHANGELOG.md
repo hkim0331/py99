@@ -12,6 +12,9 @@
 * /todays: return-key で go
 * どこかに current uptime
 
+## 0.56.0 - 2022-12-25
+### Changed
+- (def ^:private timeout 30) was 60
 
 ## 0.55.0 - 2022-12-25
 ### updated

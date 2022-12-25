@@ -79,4 +79,5 @@
 (comment
   ;; don't forget poetry
   (time (update!))
+  ;; "Elapsed time: 91981.014667 msecs"
   :rcf)

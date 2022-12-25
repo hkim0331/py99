@@ -10,6 +10,8 @@
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 * /todays: return-key で go
+* どこかに current uptime
+
 
 ## 0.55.0 - 2022-12-25
 ### updated

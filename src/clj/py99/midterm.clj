@@ -77,5 +77,6 @@
     (catch Exception e (.getMessage e))))
 
 (comment
+  ;; don't forget poetry
   (time (update!))
   :rcf)

@@ -159,7 +159,8 @@
   (when-not (re-find #"\S" (strip answer))
     (throw (Exception. "answer is empty"))))
 
-(def ^:private timeout 60)
+;; changed 2022-12-25, was 60
+(def ^:private timeout 30)
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.

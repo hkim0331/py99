@@ -216,7 +216,7 @@
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
-  (log/info "ceate-answer!" (login request) num)
+  (log/info "create-answer!" (login request) num)
   (try
     (when-not (env :exam-mode)
       (validate (Integer/parseInt num) answer (login request)))

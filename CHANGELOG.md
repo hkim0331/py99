@@ -10,9 +10,10 @@
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 * /todays: return-key で go
-* どこかに current uptime
-* testcode atom
+* testcode atom(もうちょっと具体的に書いておかないと)
 
+## 0.57.0-SNAPSHOT
+- feature/uptime started
 
 ## 0.56.0 - 2022-12-25
 ### Changed

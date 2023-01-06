@@ -11,6 +11,8 @@
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 * /todays: return-key で go
 * どこかに current uptime
+* testcode atom
+
 
 ## 0.56.0 - 2022-12-25
 ### Changed

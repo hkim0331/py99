@@ -11,6 +11,7 @@
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 * /todays: return-key で go
 * testcode atom(もうちょっと具体的に書いておかないと)
+* login ユーザのリスト。logout したら削除する。いらないか。
 
 
 ## 0.57.1 - 2023-01-07
@@ -20,8 +21,8 @@
 - display uptime on answer-form.html
 ```
 busy-mark (cond
-                    (< 4 busy) "🔴"
-                    (< 0 busy) "🟡"
+                    (<= 5 busy) "🔴"
+                    (<= 1 busy) "🟡"
                     :else "🟢")
 ```
 

@@ -84,8 +84,8 @@
                  (drop 10 $))
         busy (- (int (ffirst uptime)) (int \0))
         busy-mark (cond
-                    (< 4 busy) "🔴"
-                    (< 0 busy) "🟡"
+                    (<= 5 busy) "🔴"
+                    (<= 1 busy) "🟡"
                     :else "🟢")
         uptimes (str/join uptime)]
     (str busy-mark " " uptimes)))

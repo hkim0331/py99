@@ -75,6 +75,25 @@
 (add-filter! :first-line (fn [x] (first-line x)))
 (add-filter! :rest-lines (fn [x] (rest-lines-count x)))
 
+(defn uptime
+  "return uptime string. using required `timeout-sh` utility."
+  []
+  (let [uptime (as-> (timeout-sh 1 "uptime") $
+                 (:out $)
+                 (str/split $ #"\s+")
+                 (drop 10 $))
+        busy (- (int (ffirst uptime)) (int \0))
+        busy-mark (cond
+                    (<= 5 busy) "🔴"
+                    (<= 1 busy) "🟡"
+                    :else "🟢")
+        uptimes (str/join uptime)]
+    (str busy-mark " " uptimes)))
+
+(comment
+  (uptime)
+  :rcf)
+
 (defn login
   "return user's login as a string. or nobody."
   [request]
@@ -116,24 +135,7 @@
   ;; (log/info "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
-(defn uptime
-  "return uptime string. using required `timeout-sh` utility."
-  []
-  (let [uptime (as-> (timeout-sh 1 "uptime") $
-                 (:out $)
-                 (str/split $ #"\s+")
-                 (drop 10 $))
-        busy (- (int (ffirst uptime)) (int \0))
-        busy-mark (cond
-                    (< 4 busy) "🔴"
-                    (< 0 busy) "🟡"
-                    :else "🟢")
-        uptimes (str/join uptime)]
-    (str busy-mark " " uptimes)))
 
-(comment
-  (uptime)
-  :rcf)
 
 ;; FIXME: destructuring
 (defn answer-page
@@ -262,7 +264,8 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})
-        exam-mode (env :exam-mode)]
+        exam-mode (env :exam-mode)
+        uptime (uptime)]
     (if (and my-answer (or (not exam-mode) (< num 200)))
     ;;(if (and my-answer (< num 300))
       (layout/render request "comment-form.html"
@@ -270,7 +273,8 @@
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
                       :comments (when-not exam-mode
-                                  (db/get-comments {:a_id id}))})
+                                  (db/get-comments {:a_id id}))
+                      :uptime   uptime})
       (layout/render request "error.html"
                      {:status 403
                       :title "Access Forbidden"

@@ -116,6 +116,25 @@
   ;; (log/info "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
+(defn uptime
+  "return uptime string. using required `timeout-sh` utility."
+  []
+  (let [uptime (as-> (timeout-sh 1 "uptime") $
+                 (:out $)
+                 (str/split $ #"\s+")
+                 (drop 10 $))
+        busy (- (int (ffirst uptime)) (int \0))
+        busy-mark (cond
+                    (< 4 busy) "🔴"
+                    (< 0 busy) "🟡"
+                    :else "🟢")
+        uptimes (str/join uptime)]
+    (str busy-mark " " uptimes)))
+
+(comment
+  (uptime)
+  :rcf)
+
 ;; FIXME: destructuring
 (defn answer-page
   "Take problem number `num` as path parameter, prep answer to the
@@ -124,7 +143,8 @@
   (let [num (Integer/parseInt (get-in request [:path-params :num]))
         problem (db/get-problem {:num num})
         answers (db/answers-to {:num num})
-        frozen?  (db/frozen? {:num num})]
+        frozen?  (db/frozen? {:num num})
+        uptime (uptime)]
     ;; (log/info "answer-page" (login request))
     ;; この if の理由？
     (if-let [answer (db/get-answer {:num num :login (login request)})]
@@ -134,13 +154,15 @@
                        {:problem problem
                         :same (answers true)
                         :differ (answers false)
-                        :frozen? frozen?}))
+                        :frozen? frozen?
+                        :uptime uptime}))
       (layout/render request
                      "answer-form.html"
                      {:problem problem
                       :same []
                       :differ answers
-                      :frozen? frozen?}))))
+                      :frozen? frozen?
+                      :uptime uptime}))))
 
 ;; validations
 (defn- remove-comments
@@ -216,7 +238,7 @@
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
-  (log/info "ceate-answer!" (login request) num)
+  (log/info "create-answer!" (login request) num)
   (try
     (when-not (env :exam-mode)
       (validate (Integer/parseInt num) answer (login request)))

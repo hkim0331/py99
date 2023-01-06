@@ -10,8 +10,17 @@
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 * /todays: return-key で go
-* どこかに current uptime
+* testcode atom(もうちょっと具体的に書いておかないと)
 
+## 0.57.0 - 2023-01-06
+- display uptime on answer-form.html
+```
+busy-mark (cond
+                    (< 4 busy) "🔴"
+                    (< 0 busy) "🟡"
+                    :else "🟢")
+```
+                    
 ## 0.56.0 - 2022-12-25
 ### Changed
 - (def ^:private timeout 30) was 60

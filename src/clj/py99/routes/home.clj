@@ -78,17 +78,18 @@
 (defn uptime
   "return uptime string. using required `timeout-sh` utility."
   []
-  (let [uptime (as-> (timeout-sh 1 "uptime") $
-                 (:out $)
-                 (str/split $ #"\s+")
-                 (drop 10 $))
-        busy (- (int (ffirst uptime)) (int \0))
+  (let [[_ _ & [one five fifteen]]
+        (as-> (timeout-sh 1 "uptime") $
+          (:out $)
+          (re-find #"load average: .*" $)
+          (str/split $ #"\s+"))
+        _ (println one five fifteen)
+        busy (- (int (first one)) (int \0))
         busy-mark (cond
                     (<= 5 busy) "🔴"
                     (<= 1 busy) "🟡"
-                    :else "🟢")
-        uptimes (str/join uptime)]
-    (str busy-mark " " uptimes)))
+                    :else "🟢")]
+   (str busy-mark " " (str one five fifteen))))
 
 (comment
   (uptime)

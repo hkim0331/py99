@@ -13,7 +13,7 @@
 * testcode atom(もうちょっと具体的に書いておかないと)
 * login ユーザのリスト。logout したら削除する。いらないか。
 
-## 0.58.1 - 2023-01-07
+## 0.58.0 - 2023-01-07
 use dev-container, docker.
 ### Changed
 - docker-compose.yml: stop exporting ports 5432

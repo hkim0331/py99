@@ -12,10 +12,10 @@
 * /todays: return-key で go
 * testcode atom(もうちょっと具体的に書いておかないと)
 * login ユーザのリスト。logout したら削除する。いらないか。
-* dev モードで l22 を必要とするのは面倒。
 * 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
 
 ## 0.59.0-SNAPSHOT - 2023-01-09
+- login dev モード。dev で l22 を必要とするのは面倒。
 
 ## 0.58.0 - 2023-01-07
 use dev-container, docker.

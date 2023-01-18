@@ -267,7 +267,8 @@
         my-answer (db/get-answer {:num num :login (login request)})
         exam-mode (env :exam-mode)
         uptime (uptime)]
-    (if (and my-answer (or (not exam-mode) (< num 200)))
+    ;; 
+    (if (and my-answer (or (not exam-mode) (< num 500)))
     ;;(if (and my-answer (< num 300))
       (layout/render request "comment-form.html"
                      {:answer   (if exam-mode my-answer answer)

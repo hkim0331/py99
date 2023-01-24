@@ -66,6 +66,12 @@
   (grading "2022-12-24" 313)
   :rcf)
 
+(defn update-re-re-exam!
+  []
+  (let [re-re-nums [401 402 403 404]]
+    (log/info "update-re-re-exam!")
+    (doall (pmap (partial grading "2023-01-19") re-re-nums))))
+
 (defn update!
   []
   (try
@@ -73,6 +79,7 @@
     (db/clear-midterm!)
     (update-midterm!)
     (update-reexam!)
+    (update-re-re-exam!)
     (log/info "done")
     (catch Exception e (.getMessage e))))
 
@@ -80,4 +87,5 @@
   ;; don't forget poetry
   (time (update!))
   ;; "Elapsed time: 91981.014667 msecs"
+  ;; m64: Elapsed time: 51842.922625 msecs
   :rcf)

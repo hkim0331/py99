@@ -4,7 +4,7 @@ services:
   py99:
     image: hkim0331/py99
     ports:
-      - "30001:3000"
+      - "3000:3000"
     volumes:
       - .:/usr/src/app:cached
       - m2:/root/.m2
@@ -20,10 +20,9 @@ services:
       POSTGRES_INITDB_ARGS: --encoding=UTF-8 --locale=C
       TZ: Asia/Toky
     ports:
-      - "54321:5432"
+      - "5432:5432"
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d
-      # - ./db-dumps:/db-dumps
       - data:/var/lib/postgresql/data
 
 volumes:

@@ -1,37 +1,37 @@
-(defproject py99 "0.84.4"
+(defproject py99 "0.61.0"
 
   :description "r99 revised with clojure"
   :url "https://r99.melt.kyutech.ac.jp"
 
   :dependencies
-  [[ch.qos.logback/logback-classic "1.4.1"]
-   [clojure.java-time "0.3.3"]
-   [conman "0.9.5"]
+  [[ch.qos.logback/logback-classic "1.4.5"]
+   [clojure.java-time "1.1.0"]
+   [conman "0.9.6"]
    [cprop "0.1.19"]
    [expound "0.9.0"]
    [funcool/struct "1.4.0"]
    [json-html "0.4.7"]
    [luminus-migrations "0.7.5"]
    [luminus-transit "0.1.5"]
-   [luminus-undertow "0.1.15"]
+   [luminus-undertow "0.1.17"]
    [luminus/ring-ttl-session "0.3.3"]
-   [markdown-clj "1.11.3"]
+   [markdown-clj "1.11.4"]
    [metosin/muuntaja "0.6.8"]
    [metosin/reitit "0.5.18"]
    [metosin/ring-http-response "0.9.3"]
    [mount "0.1.16"]
    [nrepl "1.0.0"]
    [org.clojure/clojure "1.11.1"]
-   [org.clojure/tools.cli "1.0.206"]
+   [org.clojure/tools.cli "1.0.214"]
    [org.clojure/tools.logging "1.2.4"]
-   [org.postgresql/postgresql "42.5.0"]
+   [org.postgresql/postgresql "42.5.1"]
    [org.webjars.npm/bulma "0.9.4"]
    [org.webjars.npm/material-icons "1.10.8"]
-   [org.webjars/webjars-locator "0.45"]
+   [org.webjars/webjars-locator "0.46"]
    [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
    [ring-webjars "0.2.0"]
    [ring/ring-core "1.9.6"]
-   [ring/ring-defaults "0.3.3"]
+   [ring/ring-defaults "0.3.4"]
    [selmer "1.12.55"]
    ;;
    [buddy/buddy-auth "3.0.323"]
@@ -40,10 +40,9 @@
    [clj-time/clj-time "0.15.2"]
    [digest "1.4.10"]
    [environ/environ "1.2.0"]
-   [hato/hato "0.8.2"]
+   [hato/hato "0.9.0"]
    [hiccup "1.0.5"]
-   #_[com.taoensso/timbre "5.2.1"]
-   #_[org.clojars.hozumi/clj-commons-exec "1.2.0"]]
+   [timeout-shell "1.0.0"]]
 
   :min-lein-version "2.0.0"
 
@@ -73,7 +72,7 @@
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                                  [jonase/eastwood "1.3.0"]
-                                 [cider/cider-nrepl "0.28.5"]]
+                                 [cider/cider-nrepl "0.29.0"]]
 
                   :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]

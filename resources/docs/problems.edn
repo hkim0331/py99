@@ -1,5 +1,4 @@
-[
- ;; 小手調べ
+[;; 小手調べ
  {:problem "'Hello, Python!' を画面にプリントするプログラム。"}
 
 ;; {:problem "+, -, *, **, /, //, % はそれぞれ何を計算する演算子か。"}
@@ -9,8 +8,9 @@
 ;;           '123' * 3 は？
 ;;           '123' * '3' は？"}
 
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; difference between `print` and `return`
- {:problem "関数 greeting_( ) を定義しなさい。実行すると、文字列の入力待ちになり、
+ {:problem "関数 greeting_( ) を定義しなさい。実行すると文字列の入力待ちになり、
             キーボードで入力した文字列(例えば abc)を使って、
             'Hello, abc' をプリントする。"}
 
@@ -23,11 +23,6 @@
   :test "def test_hello( ):
   assert hello('Japan') == 'Hello, Japan'
   assert hello('Good bye') == 'Hello, Good bye'"}
-
-;; {:problem "1 > 0 の戻り値は何か？ 2 > 1 の戻り値は何か？戻り値とは何か？"}
-
-;; {:problem "数をキーボードから入力、それに 1 を足した数をプリントする関数
-;;            add1_( )."}
 
  ;; numeric
  {:problem "整数 x, y を引数にとり、それらの和、差、積、商をプリントする関数
@@ -53,15 +48,27 @@
  {:problem "円の半径をキーボードから読み、
             その円の面積をプリントする関数 void en_( )."}
 
- {:problem "数 x を引数に取り、それが負数だったら -1, ゼロと等しければ 0,
-            正数であれば 1 を返す関数 sign(x)."
-  :test "def test_sign( )
-  assert sign(-100)==-1
-  assert sign(0)==0
-  assert sign(-0)==0
-  assert sign(0.0)==0
-  assert sign(3.14)==1"}
+ ;; floating numbers
+ {:problem "小数点数 x を四捨五入した整数を返す関数 f_to_i(x).
+            注意: python の関数 round( ) だと、
+            round(2.5) が 2 になってちょっとまずい。"}
 
+ {:problem "小数点数 x を小数点第 2 位で四捨五入した数を返す関数 f_to_f1(x).
+            f_to_f1(3.14159265) の戻り値は 3.100000 になる"}
+
+ {:problem "小数点数 x を小数点第 n+1 位で四捨五入した数を返す関数 f_to_f( x, n).
+            f_to_f(3.14159265, 4) の戻り値は 3.141600になる。"}
+
+ {:problem "ax^2 + bx +c==0 の a,b,c を引数に取り、
+            2次方程式の解をリストで返す関数 eqn2(a, b, c)."}
+
+ {:problem "4/(1+x<sup>2</sup>) を x について 0 から 1 まで積分すると円周率 pi になる。
+           スマートにプログラムしてください。"}
+
+ {:problem "モンテカルロメソッド"}
+
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; predicates
  {:problem "整数 x を引数にとり、それが偶数であれば True、
             奇数だったら False を返す関数 is_even(x)."
   :test "def test_is_even( ):
@@ -74,8 +81,17 @@
  {:problem "キーボードから整数ひとつを入力し、それが偶数だったら '偶数です'、
             奇数だったら '奇数です' とプリントする関数 parity_( )."}
 
+ {:problem "数 x を引数に取り、それが負数だったら -1, ゼロと等しければ 0,
+            正数であれば 1 を返す関数 sign(x)."
+  :test "def test_sign( )
+  assert sign(-100)==-1
+  assert sign(0)==0
+  assert sign(-0)==0
+  assert sign(0.0)==0
+  assert sign(3.14)==1"}
+
  {:problem "彼・彼女の年齢を y とする。彼・彼女がティーンエイジャーだったら True、
-  そうでなければ False を返す関数 is_teenage(y)."
+            そうでなければ False を返す関数 is_teenage(y)."
   :test "def test_is_teenage( ):
   assert not is_teenage(10)
   assert not is_teenage(12)
@@ -83,8 +99,13 @@
   assert is_teenage(17)
   assert not is_teenage(20)"}
 
- {:problem "ax^2 + bx +c==0 の a,b,c を引数に取り、
-           2次方程式の解をリストで返す関数 eqn2(a,b,c)."}
+ {:problem "3 つの整数を引数とし、
+            それらの長さを各辺とする三角形がありうるかどうかを判定する関数
+            is_triangle(x,  y,  z)."}
+
+ {:problem "3 つの整数を引数とし、
+            それらの長さを各辺とする直角三角形がありうるかどうかを判定する関数
+            is_normal_triangle(x,  y,  z)."}
 
  ;; calendar
  {:problem "西暦 year を引数にとり昭和、平成、令和の和暦を表す文字列を返す関数
@@ -124,17 +145,10 @@
             days_between(y1, m1, d1, y2, m2, d2).
             自分は今日まで何日生きてきましたか?"}
 
+ ;; dictionary
  {:problem "月の名前を文字列 s で取り、その月の日数を返す関数 days(s)."}
 
-
  ;; iteration, loop
- {:problem "キーボードから複数の整数を入力、
-           0 が入力されたらそれまでに入力された整数を合計してプリントする
-           関数 sunlive_( ). 関数の名前はspina( )_ あるいは HelloDay_( ) でも良い。"}
-
- {:problem "(孫子の問題) 3 で割って 1 余り、5 で割って 2 余り、
-           7 で割って 3 余る正の整数の最小のものはなにか？"}
-
  {:problem "1 + 2 + ... + n を求める関数 sum_int(n)."
   :test ""}
 
@@ -152,6 +166,13 @@
 
  {:problem "fz(1) + fz(2) + ... + fz(n) を求める関数 sum_fz(n)."}
 
+ {:problem "(孫子の問題) 3 で割って 1 余り、5 で割って 2 余り、
+           7 で割って 3 余る正の整数の最小のものはなにか？"}
+
+ {:problem "キーボードから複数の整数を入力、
+           0 が入力されたらそれまでに入力された整数を合計してプリントする
+           関数 sunlive_( ). 関数の名前はspina( )_ あるいは HelloDay_( ) でも良い。"}
+
  ;; statistics
  {:problem "リスト xs 中の要素の平均値を返す関数 mean(xs).
             numpy.mean を使うのは反則とする。"}
@@ -159,8 +180,31 @@
  {:problem "リスト xs の中央値を返す関数 median(xs).
             numpy.median を使うのは反則とする。"}
 
- {:problem "整数 xs の最頻値を返す関数 mod(xs).
-            numpy.mod を使うのは反則とする。"}
+ {:problem "整数 xs の最頻値を返す関数 mode(xs).
+            numpy.mode を使うのは反則とする。"}
+ ;; strings
+ ;;
+ ;; s.replace(s1,s2)
+ ;; s.index(s1)
+ ;; s.count(s2)
+ ;; s.strip( ), lstrip( ), rstrip( )
+
+ ;; C だからあり得た問題。
+ ;;{:problem "文字列 s が空文字列 '' かどうかを判定する関数 is_empty(s)."}
+
+ {:problem "文字列 s を逆にした文字列を返す関数 str_reverse(s)."}
+
+ {:problem "文字列 s に含まれる文字 c の数を返す関数 count_char(s, c).
+            count_char('apple','p') は 2 を返す。"}
+
+ {:problem "文字列 s に含まれる単語の数を返す関数 count_word(s).
+            単語はスペースで区切られた文字列。
+            count_words('I love you. I need you.') の戻り値は 6."}
+
+ {:problem "'Kimura Takuya' のような文字列 s を引数とし、
+           そのイニシャル 'K.T.' を返す関数 initial(s)"}
+
+ ;;{:problem "文字列 s に含まれる単語 w をリストで返す関数 count_word(s)."}
 
  ;; define functions using defined functions.
  {:problem "二つの数 x, y のどちらか大きい方を返す関数 max2(x, y).
@@ -188,26 +232,12 @@ def test_max_in_list( ):
   assert 0 <= max_in_list(random.choices(range(10),k=100)) < 10"}
 
  {:problem "リスト xs 中の要素の最大値のリストを返す関数 maxen(xs).
-             関数 max_in_list(xs) との違いは、
-             最大値が複数ある場合にそれらをリストで返すことだ。"
+            関数 max_in_list(xs) との違いは、
+            最大値が複数ある場合にそれらをリストで返すことだ。"
   :test ""}
 
- {:problem "3 つの整数を引数とし、
-            それらの長さを各辺とする三角形がありうるかどうかを判定する関数
-            is_triangle(x,  y,  z)."}
-
- {:problem "3 つの整数を引数とし、
-            それらの長さを各辺とする直角三角形がありうるかどうかを判定する関数
-            is_normal_triangle(x,  y,  z)."}
-
- ;; randoms
- ;;
- ;; >>> import random
- ;; >>> random.seed( )
- ;;
- ;;
-;; {:problem "n &le; r &lt; m の整数乱数 r を返す関数 rand_int(n, m)."}
-
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;; random numbers 
  {:problem "0 &le; r &lt; n の整数乱数が m 個のリストを返す関数
             list_randoms(n, m)."
   :test "def test_list_randoms( ):
@@ -221,14 +251,12 @@ def test_max_in_list( ):
  {:problem "rs = list_randoms(n, m) で作った配列 rs 中にみつからない
             0 <= r < n の数をリストで返す関数 not_found(rs, n)."}
 
-;; {:problem "rs 中に一番たくさん重複して現れる数を返す関数は前に出てきた mod(rs) だな。"}
-
  {:problem "ビンゴゲーム用の bingo(n).
             戻り値は 1 ~ n の n 個の整数が重複なく順番バラバラに入った配列。
             shuffle( ) を使うのは反則としておこう。"}
 
  ;; coercion between int and str
- {:problem "整数 n は何桁あるかを返す関数 digits(n)."
+ {:problem "整数 n は何桁かを返す関数 digits(n)."
   :test "def test_digits( ):
   assert digits(12345)==5
   assert digits(0)==1
@@ -248,9 +276,16 @@ def test_max_in_list( ):
     if n%10 != 0:
       assert n == reverse_int(reverse_int(n))"}
 
+ {:problem "文字列 s が学生番号かどうかを判定する is_id(s).
+            学生番号とは、数字が 3 つの後に、英大文字一つ、
+            その後、数字が 4 つの 8 文字からなる文字列。"}
+
  ;; palindrome
+ {:problem "左右どちらから読んでも同じになる文を回文という。
+            文字列 s が回文かどうかを判定する関数 is_palindrome(s)."}
+
  {:problem "左右どちらから読んでも同じ値になる数を回文数という。
-            整数 n が回文数かどうかを判定する関数 is_palindrome(n)."}
+            整数 n が回文数かどうかを判定する関数 is_palindrome_number(n)."}
 
  {:problem "2 桁の数の積で表される回文数のうち、最大のものは 9009 = 91 × 99 である。
             3 桁の数の積で表される回文数の最大値を求めよ"}
@@ -332,6 +367,13 @@ def test_max_in_list( ):
             スピード勝負！2秒を切れるか？"}
 
  ;; lists
+ {:problem "リスト xs の各要素を n 倍したリストを返す関数 times_n(xs, n)."}
+
+ {:problem "リスト xs の偶数番めの要素だけを抜き出したリストを返す even_index(xs).
+            最初の要素は 0 番目と数える。"}
+
+ {:problem "整数リスト xs に含まれる偶数だけを抜き出す evens_only(xs)."}
+
  {:problem "要素 item が m 個あるリストを返す関数 repeat_item(item, m)."
   :test "def test_repeat_item( ):
   assert repeat_item(0, 3) == [0, 0, 0]
@@ -347,14 +389,7 @@ def test_max_in_list( ):
 
  {:problem "多次元リストを一次元リストに平くする関数 flatten(xxs).
             flatten([[1,2],[3,4],[5,6]]) は [1,2,3,4,5,6] を返す。"}
-
- {:problem "リスト xs の各要素を n 倍したリストを返す関数 times_n(xs, n)."}
-
- {:problem "リスト xs の偶数番めの要素だけを抜き出したリストを返す even_index(xs).
-            最初の要素は 0 番目と数える。"}
-
- {:problem "整数リスト xs に含まれる偶数だけを抜き出す evens_only(xs)."}
-
+ 
  {:problem "リスト xs とリスト ys にともに含まれる要素のリストを返す commons(xs, ys)."}
 
  {:problem "リスト xs から重複を除いたリストを作って返す distinct(xs)."}
@@ -366,18 +401,18 @@ def test_max_in_list( ):
            dupli([1, 2, 3]) は [1, 1, 2, 2, 3, 3] を返す。"}
 
  {:problem "リスト xs の要素をそれぞれn 個に増やす関数 repli(xs).
-           repli([1, 2, 3], 3) は [1, 1, 1, 2, 2, 3, 3, 3, 3] を返す。"}
+            repli([1, 2, 3], 3) は [1, 1, 1, 2, 2, 3, 3, 3, 3] を返す。"}
 
  {:problem "リスト xs から連続する要素を削除したリストを返す dedupe(xs).
-           dedupe([1, 1, 1, 2, 2, 3, 3, 3, 3]) の戻り値は [1, 2, 3]. "}
+            dedupe([1, 1, 1, 2, 2, 3, 3, 3, 3]) の戻り値は [1, 2, 3]. "}
 
  {:problem "リスト xs を圧縮する関数 compress(xs).
-           compress([3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b']) の戻り値は
-           [[3, 3], ['a', 2], [1, 1], ['b', 3]] になる。"}
+            compress([3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b']) の戻り値は
+            [[3, 3], ['a', 2], [1, 1], ['b', 3]] になる。"}
 
  {:problem "compress( ) によって圧縮されたリストを元に戻す関数 expand( ).
-           expand([[3, 3], ['a', 2], [1, 1], ['b', 3]]) の戻り値は
-           [3, 3, 3, 'a', 'a', 1, 'b', b', 'b'] になる。"}
+            expand([[3, 3], ['a', 2], [1, 1], ['b', 3]]) の戻り値は
+            [3, 3, 3, 'a', 'a', 1, 'b', b', 'b'] になる。"}
 
  ;; mathematics
  {:problem "連立方程式 ax + by = c, dx + ey =f を [[a, b, c], [d,e,f]] で表す。
@@ -406,91 +441,61 @@ def test_max_in_list( ):
 
 ;; {:problem "n を整数とする。factorial(n) + 2 が立方数となるような n を全て求めよ。"}
 
- ;; floating numbers
- {:problem "小数点数 x を四捨五入した整数を返す関数 f_to_i(x).
-            注意: python の関数 round( ) だと、
-            round(2.5) が 2 になってちょっとまずい。"}
-
- {:problem "小数点数 x を小数点第 2 位で四捨五入した数を返す関数 f_to_f1(x).
-            f_to_f1(3.14159265) の戻り値は 3.100000 になる"}
-
- {:problem "小数点数 x を小数点第 n+1 位で四捨五入した数を返す関数 f_to_f( x, n).
-            f_to_f(3.14159265, 4) の戻り値は 3.141600になる。"}
-
- {:problem "4/(1+x<sup>2</sup>) を x について 0 から 1 まで積分すると円周率 pi になる。
-           スマートにプログラムしてください。"}
-
  ;; sorting
  {:problem "ビルトイン関数の sorted( ), list クラスの sort( ) メソッドを使わずに、
             リスト xs の要素を小さい順に並べ替えたリストを返す関数 my_sort(xs)
             を定義しなさい。"}
 
  ;; files, csv
- {:problem "ファイル<a href='integers.txt'>integers.txt</a> をダウンロードし、適当な場所にセーブしてください。ファイル 'numbers.txt' には一行にひとつ、整数が書き込まれている。そのファイルの1行目の数を返す関数int head(void)."}
+ ;; {:problem ""}
 
- {:problem "ファイル 'numbers.txt' が何行あるかを返す関数int lines(void)."}
+ ;; {:problem "ファイル file が何行あるかを返す関数lines(file)を定義しなさい。
+ ;;            ファイルa href='000975797.csv'></a> は
+ ;;            https://www.city.kitakyushu.lg.jp/soumu/file_0311.html にある
+ ;;            北九州市の人口Excel データを csv に変換したものです。
+ ;;            ダウンロードし、適当な場所にセーブしてください。
+ ;;            ファイル 000975797.csv は何行あるか。"}
 
- {:problem "ファイル 'numbers.txt' の n 行目の数字を返す関数int nth(int n)."}
+ ;; {:problem "ファイル 'numbers.txt' の n 行目の数字を返す関数int nth(int n)."}
 
- {:problem "ファイル 'numbers.txt' の最初の十行に含まれる整数の総和を返す関数int sum10(void)."}
+ ;; {:problem "ファイル 'numbers.txt' の最初の十行に含まれる整数の総和を返す関数int sum10(void)."}
 
- {:problem "ファイル 'numbers.txt' の最初の n 行に含まれる整数の総和を返す関数int sum_n(int n)."}
+ ;; {:problem "ファイル 'numbers.txt' の最初の n 行に含まれる整数の総和を返す関数int sum_n(int n)."}
 
- {:problem "ファイル 'numbers.txt' の最後の n 行に含まれる整数の総和を返す関数int sum_tail(int n)."}
+ ;; {:problem "ファイル 'numbers.txt' の最後の n 行に含まれる整数の総和を返す関数int sum_tail(int n)."}
 
- {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を表示する関数 void cat(char *fname)"}
+ ;; {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を表示する関数 void cat(char *fname)"}
 
- {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を行番号つきで表示する関数 void n_cat(char *fname)"}
+ ;; {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を行番号つきで表示する関数 void n_cat(char *fname)"}
 
 
  ;; recursion
  {:problem "フィボナッチ数列を計算する関数  fibo(n) を定義せよ。
-           fibo(0) = 0, fibo(1) = 1, fibo(n) = fibo(n-1) + fibo(n-2)."}
+            fibo(0) = 0, fibo(1) = 1, fibo(n) = fibo(n-1) + fibo(n-2)."}
 
  {:problem "フィボナッチ数列を素早く計算する fast_fibo(n).
-           これがないと次の2問は苦しいだろう。"}
+            これがないと次の2問は苦しいだろう。"}
 
  {:problem "フィボナッチ数が最初に n を超えるのはいくらかを求める関数
-           fibo_over(n). fibo_over(20000) の戻り値はきっと 23."}
+            fibo_over(n). fibo_over(20000) の戻り値はきっと 23."}
 
  {:problem "n 以上 m 未満となるフィボナッチ数の総和を返す関数
-           sum_fibo_between(n, m).
-           sum_fibo_between(10000, 100000) の戻り値は 178700 よりちょっと大きい。"}
+            sum_fibo_between(n, m).
+            sum_fibo_between(10000, 100000) の戻り値は 178700 よりちょっと大きい。"}
 
  {:problem "n が 1 の時 1、 n が偶数の時 n/2, 奇数の時 3n+1 を返す関数
-           int c(int n) を定義せよ。問題はここから。
-           その戻り値を再び関数 c( ) の引数とし、同じ計算を繰り返すと、
-           どんな n から始めてもいつかは 1 にたどり着くという（Collatz の予想）。
-           n から始めて c( ) を繰り返し、1 にたどり着くまでの回数を返す関数
-           int collatz(int n) を定義し、1 ≤n ≤ 100 の n について、Collatz の予想を確かめよ。
-           collatz(n) を最大とする n は何か？collatz(1)=1, collatz(2)=2 である。"}
-
- ;; strings
- ;;
- ;; s.replace(s1,s2)
- ;; s.index(s1)
- ;; s.count(s2)
- ;; s.strip( ), lstrip( ), rstrip( )
-
- {:problem "文字列 s が空文字列 '' かどうかを判定する関数 is_empty(s)."}
-
- {:problem "文字列 s を逆にした文字列を返す関数 str_reverse(s)."}
-
- {:problem "文字列 s に含まれる文字 c の数を返す関数 count_char(s, c)."}
-
- {:problem "文字列 s に含まれる単語の数を返す関数 count_word(s).
-           単語はスペースで区切られた文字列。"}
-
- {:problem "文字列 s が学生番号かどうかを判定する is_id(s).
-           学生番号とは、数字が 3 つの後に、英大文字一つ、
-           その後、数字が 4 つの 8 文字からなる文字列。"}
-
- {:problem "'Kimura Takuya' のような文字列 s を引数とし、
-           そのイニシャル 'K.T.' を返す関数 initial(s)"}
+            int c(int n) を定義せよ。問題はここから。
+            その戻り値を再び関数 c( ) の引数とし、同じ計算を繰り返すと、
+            どんな n から始めてもいつかは 1 にたどり着くという（Collatz の予想）。
+            n から始めて c( ) を繰り返し、1 にたどり着くまでの回数を返す関数
+            int collatz(int n) を定義し、1 ≤n ≤ 100 の n について、
+            Collatz の予想を確かめよ。
+            collatz(n) を最大とする n は何か？
+            collatz(1)=1, collatz(2)=2 である。"}
 
  ;; speed
  ;; numpy, 50x faster?
- {:problem "numpy 50x faster?"}
+ {:problem "numpy 50x faster? numpy を使わずに行列の掛け算 mat"}
 
  ;; matplotlib
  {:problem "matplotlib, how to?"}]

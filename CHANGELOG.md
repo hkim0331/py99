@@ -4,7 +4,10 @@
 - r99のタブが今「Welcome to r99」ですが、
   問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
   何番を解いているタブを開いているか分かるようにしてほしいです！
-- python 問題
+
+
+## 0.38.4 - 2022-09-26
+- magic comment for UTF-8
 
 ## 0.38.1 - 2022-09-25
 - docker-compose.yml, .devcontainer を gitignore しない。

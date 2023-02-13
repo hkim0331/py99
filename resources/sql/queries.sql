@@ -1,37 +1,37 @@
--- -------------
--- users section
--- -------------
--- :name create-user! :! :n
--- :doc creates a new user record
-INSERT INTO users
-(sid, name, login, password)
-VALUES (:sid, :name, :login, :password)
+-- -- -------------
+-- -- users section
+-- -- -------------
+-- -- :name create-user! :! :n
+-- -- :doc creates a new user record
+-- INSERT INTO users
+-- (sid, name, login, password)
+-- VALUES (:sid, :name, :login, :password)
 
--- :name update-user! :! :n
--- :doc updates an existing user record
-UPDATE users
-SET password = :password, update_at = CURRENT_TIMESTAMP
-WHERE login= :login
+-- -- :name update-user! :! :n
+-- -- :doc updates an existing user record
+-- UPDATE users
+-- SET password = :password, update_at = CURRENT_TIMESTAMP
+-- WHERE login= :login
 
--- :name get-user :? :1
--- :doc retrieves a user record given the login
-SELECT * FROM users
-WHERE login = :login
+-- -- :name get-user :? :1
+-- -- :doc retrieves a user record given the login
+-- SELECT * FROM users
+-- WHERE login = :login
 
--- :name delete-user! :! :n
--- :doc deletes a user record given the login
-DELETE FROM users
-WHERE login = :login
+-- -- :name delete-user! :! :n
+-- -- :doc deletes a user record given the login
+-- DELETE FROM users
+-- WHERE login = :login
 
--- :name users :? :*
--- :doc get all users
-SELECT * from users;
+-- -- :name users :? :*
+-- -- :doc get all users
+-- SELECT * from users;
 
--- :name login :! :1
--- :doc update user's login time
-UPDATE users
-SET last_login = CURRENT_TIMESTAMP
-WHERE login = :login
+-- -- :name login :! :1
+-- -- :doc update user's login time
+-- UPDATE users
+-- SET last_login = CURRENT_TIMESTAMP
+-- WHERE login = :login
 
 -- ----------------
 -- problems section
@@ -245,3 +245,45 @@ SELECT * FROM frozens where num = :num
 -- :name frozens :? :*
 -- :doc retrieve frozen num list
 SELECT * FROM frozens
+
+
+-- ----------------
+-- stocks section
+-- ----------------
+
+-- :name stocks? :? :*
+-- :doc fetch all stocks by user `login`
+SELECT * FROM stocks
+WHERE login = :login
+
+-- :name create-stock! :! :n
+-- :doc create a stock
+INSERT INTO stocks
+(login, a_id)
+VALUES
+(:login, :a_id)
+
+-- ----------------
+-- midterm section
+-- ----------------
+
+-- :name create-midterm-result! :! :n
+-- :doc create midterm grading
+INSERT INTO midterm
+(num, login, answer_id, grading)
+VALUES
+(:num, :login, :answer_id, :grading)
+
+-- :name clear-midterm! :! :n
+-- :doc clear midterm table
+DELETE from midterm
+
+-- ----------------
+-- todays section
+-- ----------------
+-- :name todays? :? :*
+-- :doc  fetch todays users submission count
+SELECT login, COUNT(login) FROM answers
+WHERE DATE(create_at) = DATE(:date)
+GROUP BY login
+ORDER BY COUNT DESC

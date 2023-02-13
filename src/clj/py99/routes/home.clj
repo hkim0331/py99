@@ -4,28 +4,24 @@
    [clj-time.local :as l]
    [clj-time.periodic :as p]
    [clojure.java.io :as io]
-   [clojure.java.shell :refer [sh]]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [digest]
+   [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
+   [py99.config :refer [env]]
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
+   [py99.routes.login :refer [get-user]] ;; 0.40.0
    [ring.util.response :refer [redirect]]
-   [selmer.filters :refer [add-filter!]]
-   #_[buddy.hashers :as hashers]
-   #_[clj-commons-exec :as exec]
-   #_[environ.core :refer [env]]
-   #_[py99.check-indent :refer [check-indent]]))
+   [selmer.filters :refer [add-filter!]]))
 
-;; (when-let [level (env :py99-log-level)]
-;;  (timbre/set-level! (keyword level)))
+;; https://stackoverflow.com/questions/16264813/
+;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+(defn- lazy-contains? [col key]
+  (some #{key} col))
 
-;; ;; FIXME: オフにするのはデバッグ時のみか。
-;; (def ^:private validate? true)
-
-;; py99 は2022-10-10 から 130 日間営業
 (defn- to-date-str [s]
   (-> (str s)
       (subs 0 10)))
@@ -36,11 +32,9 @@
     (->> (take days (p/periodic-seq start-day (t/days 1)))
          (map to-date-str))))
 
-;;(def ^:private period (make-period 2022 10 10 130))
-(def ^:private period (make-period 2022 9 20 150))
+(def ^:private period (make-period 2022 10 3 140))
 (def ^:private weeks
-  ["2022-09-21"
-   "2022-10-10" "2022-10-17" "2022-10-24" "2022-10-31"
+  ["2022-10-03" "2022-10-10" "2022-10-17" "2022-10-24" "2022-10-31"
    "2022-11-07" "2022-11-14" "2022-11-21" "2022-11-28"
    "2022-12-05" "2022-12-12" "2022-12-19" "2022-12-26"
    "2023-01-02" "2023-01-09" "2023-01-16" "2023-01-23" "2023-01-30"
@@ -81,21 +75,38 @@
 (add-filter! :first-line (fn [x] (first-line x)))
 (add-filter! :rest-lines (fn [x] (rest-lines-count x)))
 
+(defn uptime
+  "return uptime string. using required `timeout-sh` utility."
+  []
+  (let [[_ _ & [one five fifteen]]
+        (as-> (timeout-sh 1 "uptime") $
+          (:out $)
+          (re-find #"load average: .*" $)
+          (str/split $ #"\s+"))
+        _ (println one five fifteen)
+        busy (- (int (first one)) (int \0))
+        busy-mark (cond
+                    (<= 5 busy) "🔴"
+                    (<= 1 busy) "🟡"
+                    :else "🟢")]
+   (str busy-mark " " (str one five fifteen))))
+
+(comment
+  (uptime)
+  :rcf)
+
 (defn login
   "return user's login as a string. or nobody."
   [request]
   (name (get-in request [:session :identity] :nobody)))
 
-;; FIXME
+;; FIXME: symbol? or string?
 (defn- admin?
-  "return `user` is admin?"
+  "return is `user` admin?"
   [user]
-  (= user :hkimua))
-
-;; https://stackoverflow.com/questions/16264813/
-;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
-(defn- lazy-contains? [col key]
-  (some #{key} col))
+  ;;(println "admin? user" user)
+  ;; see above. name function.
+  (or (= user "hkimura") (= user :hkimua)))
 
 (defn- solved?
   [col n]
@@ -125,6 +136,8 @@
   ;; (log/info "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
+
+
 ;; FIXME: destructuring
 (defn answer-page
   "Take problem number `num` as path parameter, prep answer to the
@@ -133,7 +146,8 @@
   (let [num (Integer/parseInt (get-in request [:path-params :num]))
         problem (db/get-problem {:num num})
         answers (db/answers-to {:num num})
-        frozen?  (db/frozen? {:num num})]
+        frozen?  (db/frozen? {:num num})
+        uptime (uptime)]
     ;; (log/info "answer-page" (login request))
     ;; この if の理由？
     (if-let [answer (db/get-answer {:num num :login (login request)})]
@@ -143,13 +157,15 @@
                        {:problem problem
                         :same (answers true)
                         :differ (answers false)
-                        :frozen? frozen?}))
+                        :frozen? frozen?
+                        :uptime uptime}))
       (layout/render request
                      "answer-form.html"
                      {:problem problem
                       :same []
                       :differ answers
-                      :frozen? frozen?}))))
+                      :frozen? frozen?
+                      :uptime uptime}))))
 
 ;; validations
 (defn- remove-comments
@@ -168,19 +184,23 @@
   (when-not (re-find #"\S" (strip answer))
     (throw (Exception. "answer is empty"))))
 
-(defn- pytest-test
+;; changed 2022-12-25, was 60
+(def ^:private timeout 30)
+
+(defn pytest-test
+  "Fetch testcode from `num`, test string `answer`.
+   Throw exception when test fails."
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
-    ;; double check
     (when (re-find #"\S" test)
-      (log/info "test is not empty" test)
+      ;; (log/info "test is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]
           (binding [*out* file]
             (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
-        (let [ret (sh "pytest" (.getAbsolutePath tempfile))]
+        (let [ret (timeout-sh timeout "pytest" (.getAbsolutePath tempfile))]
           (log/info "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
@@ -188,19 +208,43 @@
                                     (filter #(re-find #"^[>E]" %))
                                     (str/join "\n"))))))))))
 
+(defn- get-answer
+  "get user login's answer to `num` from db."
+  [num login]
+  ;; (log/info "get-answer" num login)
+  (if-let [ans (:answer (db/get-answer {:num num :login login}))]
+    ans
+    (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
+
+(defn expand-includes
+  "expand `#include` recursively."
+  [s login]
+  ;; (log/info "expand-includes:" s)
+  (str/join
+   "\n"
+   (for [line (str/split-lines s)]
+     (if (str/starts-with? line "#include ")
+       (let [[_ num] (str/split line #"\s+")]
+         (when-not (re-matches #"\d+" num)
+          (throw (Exception. "#include の後に問題番号がありません。")))
+         (expand-includes (get-answer (Integer/parseInt num) login) login))
+       line))))
+
 (defn- validate
   "Return nil if all validations success, or raize exeption."
-  [num answer]
+  [num answer login]
   (try
     (not-empty-test (strip answer))
-    (pytest-test num answer)
+    (pytest-test num (expand-includes answer login))
     nil
     (catch Exception e (throw (Exception. (.getMessage e))))))
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
+  (log/info "create-answer!" (login request) num)
   (try
-    (validate (Integer/parseInt num) answer)
+    (when-not (env :exam-mode)
+      (validate (Integer/parseInt num) answer (login request)))
     (db/create-answer!
      {:login (login request)
       :num (Integer/parseInt num)
@@ -210,12 +254,8 @@
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406
-                      :exception (.getMessage e)
-                      :message "ブラウザのバックで戻って、修正後、再提出してください。"}))))
-
-;; (defn- require-my-answer?
-;;   []
-;;   (= (env :py99-require-my-answer) "TRUE"))
+                      :message "ブラウザのバックで戻って、修正後、再提出してください。"
+                      :exception (.getMessage e)}))))
 
 (defn comment-form
   "Taking answer id as path-parameter, show the answer with
@@ -224,15 +264,18 @@
   (let [id (Integer/parseInt (get-in request [:path-params :id]))
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
-        my-answer (db/get-answer {:num num :login (login request)})]
-    ;; (log/info "comment-form" (login request))
-    ;; self-only? を使って書いてた。それは何？
-    (if my-answer
+        my-answer (db/get-answer {:num num :login (login request)})
+        exam-mode (env :exam-mode)
+        uptime (uptime)]
+    ;; FIXME (< num 500) は必要か？
+    (if (and my-answer (or (not exam-mode) (< num 500)))
       (layout/render request "comment-form.html"
-                     {:answer   answer
+                     {:answer   (if exam-mode my-answer answer)
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (db/get-comments {:a_id id})})
+                      :comments (when-not exam-mode
+                                  (db/get-comments {:a_id id}))
+                      :uptime   uptime})
       (layout/render request "error.html"
                      {:status 403
                       :title "Access Forbidden"
@@ -276,22 +319,12 @@
     (layout/render request "comments.html"
                    {:comments (db/comments-by-num {:num num})})))
 
-;; (defn ch-pass [{{:keys [old new]} :params :as request}]
-;;   (let [login (login request)
-;;         user (db/get-user {:login login})]
-;;     ;;(log/info "ch-pass" login)
-;;     (if (and (seq user) (hashers/check old (:password user)))
-;;       (do
-;;         (db/update-user! {:login login :password (hashers/derive new)})
-;;         (redirect "/login"))
-;;       (layout/render request "error.html"
-;;                      {:message "did not match old password"}))))
-
 ;;
 ;; weekly counts
 ;;
 (defn- before? [s1 s2]
-  (< (compare s1 s2) 0))
+  ;; 2022-10-20 s/</<=/
+  (<= (compare s1 s2) 0))
 
 (defn- count-up [m]
   (reduce + (map :count m)))
@@ -315,7 +348,7 @@
     ;;(log/info "profile who?" {:login login})
     (layout/render {} "profile.html"
                    {:login login
-                    :user (db/get-user {:login login})
+                    :user (get-user login)
                     :chart (individual-chart individual period 600 150)
                     :comment-chart (comment-chart comments period 600 150)
                     :comments-rcvd (db/comments-rcvd {:login login})
@@ -395,6 +428,47 @@
                    {:data data
                     :title "Answers by Problems"})))
 
+(defn create-stock! [request]
+  (let [login (login request)
+        a_id (-> (get-in request [:params :a_id])
+                 Integer/parseInt)]
+    (log/info "create-stock!" login)
+    (try
+      (db/create-stock! {:login login :a_id a_id})
+      (redirect (str "/comment/" a_id))
+      (catch Exception e
+        (layout/render nil "error.html"
+                       {:status 406
+                        :message "create stock error"
+                        :exception (.getMessage e)})))))
+
+(defn list-stocks [request]
+  (let [login (login request)]
+    (log/info "list-stocks" login)
+    (layout/render request "stocks.html"
+                   {:stocks (db/stocks? {:login login})})))
+
+(defn list-todays [{{:keys [date]} :path-params :as request}]
+  (log/info "list-todays" date)
+  (if (re-matches #"\d\d\d\d-\d\d-\d\d" date)
+    (layout/render request "todays.html"
+                   {:date date
+                    :todays (db/todays? {:date date})})
+    (layout/render request "error.html"
+                   {:status 403
+                    :title "date format error"
+                    :message "日付のフォーマットになってない。"})))
+
+(defn list-todays-today [request]
+  (let [today (to-date-str (l/local-now))]
+    (log/info "list-todays-today")
+    (layout/render request "todays.html"
+                   {:date today
+                    :todays (db/todays? {:date today})})))
+
+(defn midterm [request]
+  (layout/render request "midterm.html"))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -403,12 +477,12 @@
    ["/answers" {:get answers-by-problems}]
    ["/answer/:num" {:get  answer-page
                     :post create-answer!}]
-   #_["/ch-pass" {:post ch-pass}]
    ["/comment/:id" {:get  comment-form
                     :post create-comment!}]
    ["/comments" {:get comments}]
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments/:num" {:get comments-by-num}]
+   ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]
    ["/profile" {:get profile-self}]
    ["/profile/:login" {:get profile-login}]
@@ -416,6 +490,10 @@
    ["/rank/submissions" {:get rank-submissions}]
    ["/rank/solved"      {:get rank-solved}]
    ["/rank/comments"    {:get rank-comments}]
+   ["/stock" {:post create-stock!
+              :get  list-stocks}]
+   ["/todays" {:get list-todays-today}]
+   ["/todays/:date" {:get list-todays}]
    ["/wp" {:get (fn [_]
                   {:status 200
                    :headers {"Content-Type" "text/html"}

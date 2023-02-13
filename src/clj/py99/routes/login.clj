@@ -4,12 +4,13 @@
    [clojure.tools.logging :as log]
    [hato.client :as hc]
    [py99.layout :as layout]
+   [py99.config :refer [env]]
    [py99.middleware :as middleware]
    [ring.util.response :refer [redirect]]
    [struct.core :as st]
    #_[py99.db.core :as db]))
 
-(def ^:private version "0.84.4")
+(def ^:private version "0.61.0")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 
@@ -18,8 +19,7 @@
    note: parameter is a string. cf. (db/get-user {:login login})"
   [login]
   (let [ep (str l22 "/api/user/" login)
-        resp (hc/get ep {:as :json})] ;; {:as :json} failed in docker
-        ;;resp (hc/get ep)]
+        resp (hc/get ep {:as :json})]
     (log/info "login" (get-in resp [:body :login]))
     ;; (log/debug "(:body resp)" (:body resp))
     (:body resp)))
@@ -63,20 +63,25 @@
   (layout/render request "login.html" {:flash (:flash request)}))
 
 (defn login-post [{{:keys [login password]} :params}]
-  (let [user (get-user login)]
-    (if (and (seq user)
-           (= (:login user) login)
-           (hashers/check password (:password user)))
-      (do
-        (log/info "login success" login)
+  (if (env :dev)
+    (do
+      (log/info "debug mode")
+      (-> (redirect "/")
+          (assoc-in [:session :identity] :hkimura)))
+    (let [user (get-user login)]
+      (if (and (seq user)
+               (= (:login user) login)
+               (hashers/check password (:password user)))
+        (do
+          (log/info "login success" login)
         ;; in read-only mode, can not this.
         ;; (db/login {:login login})
-        (-> (redirect "/")
-            (assoc-in [:session :identity] (keyword login))))
-      (do
-        (log/info "login faild" login)
-        (-> (redirect "/login")
-            (assoc :flash "login failure"))))))
+          (-> (redirect "/")
+              (assoc-in [:session :identity] (keyword login))))
+        (do
+          (log/info "login faild" login)
+          (-> (redirect "/login")
+              (assoc :flash "login failure")))))))
 
 (defn logout [_]
   (-> (redirect "/")
@@ -109,4 +114,3 @@
    ["/logout" {:get logout}]
    #_["/register" {:get  register
                    :post register-post}]])
-

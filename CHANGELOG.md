@@ -1,10 +1,247 @@
 # CHANGELOG.md
 
 ## Unreleased
-- r99のタブが今「Welcome to r99」ですが、
+* r99 のタブが今「Welcome to r99」ですが、
   問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
   何番を解いているタブを開いているか分かるようにしてほしいです！
+* 次回答をする前に他回答を n 個以上、読まないといけない。
+* stocks にサブジェクト
+* dummy NG ボタン。
+* auto-reload
+* comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
+* /todays: return-key で go
+* testcode atom(もうちょっと具体的に書いておかないと)
+* login ユーザのリスト。logout したら削除する。いらないか。
+* 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
+* 0.60.0 (< num 500) はいらないんじゃね？
 
+## 0.61.0 - 2023-01-24
+- re-re-exam 採点。
+
+## 0.60.0 - 2023-01-18
+### Changed
+- test mode: 自分の回答は読めるけど、他の人のをクリックしても、自分の回答。
+
+## 0.59.0-SNAPSHOT - 2023-01-09
+- login dev モード。dev で l22 を必要とするのは面倒。
+
+## 0.58.0 - 2023-01-07
+use dev-container, docker.
+### Changed
+- docker-compose.yml: stop exporting ports 5432
+- docker-compose.yml: volume mount db-dumps
+- home.clj: update `uptime`
+
+## 0.57.1 - 2023-01-07
+- uptime on comment-form
+
+## 0.57.0 - 2023-01-06
+- display uptime on answer-form.html
+```
+busy-mark (cond
+                    (<= 5 busy) "🔴"
+                    (<= 1 busy) "🟡"
+                    :else "🟢")
+```
+
+## 0.56.0 - 2022-12-25
+### Changed
+- (def ^:private timeout 30) was 60
+
+## 0.55.0 - 2022-12-25
+### updated
+- resources/html/midterm.html (copied from py99-aux)
+### Changed
+- speed up using (doall (pmap ...))
+### Fixed
+- update-midterm takes num argument, must filter before-12-15?
+  but re-exam. feature/re-exam.
+
+## 0.54.3-SNAPSHOT
+### Added
+- midterm.update! sequentially execute
+(db/clear-midterm!) (update-midterm!) (update-re-exam!)
+
+## 0.54.2 - 2022-12-23
+- /todays のオーダーを解いた数に。
+```
+SELECT login, COUNT(login) FROM answers
+WHERE DATE(create_at) = DATE(:date)
+GROUP BY login
+ORDER BY COUNT DESC
+```
+- /todays に yyyy-mm-dd ではない引数が来たときエラーページを出す。
+
+
+## 0.54.1 - 2022-12-23
+- todays ページに input form, JS でリンク。
+
+## 0.54.0 - 2022-12-23
+- feature/todays: yyyy-mm-dd に誰が何題、回答を提出したか。
+
+## 0.53.1 - 2022-12-21
+- removed no use codes and comments
+- reconsidered exam-mode
+
+## 0.53.0 - 2022-12-21
+### Added
+- re_exam.clj
+
+## 0.52.1 - 2022-12-15
+### FIXED
+- forgot expand-include
+
+## 0.52.0 - 2022-12-14
+- created midterm.html
+- lein 2.10.0 が
+
+## 0.51.1 - 2022-12-12
+antq update :upgrade true
+
+## 0.50.1 - 2022-12-10
+midterm.html
+* FIXME: 自分(hkimura)の回答が/midterm から見えない。
+
+
+## 0.50.0-SNAPSHOT - 2022-12-10
+- exam-mode: 試験中は自分の回答しかブラウズできない
+- midterm 自動採点
+- namespace を一気に読み込む calva のキーは？ alt+ctl+c+enter
+- testcode を流し込むスクリプトを別プロジェクト py99-aux に作成
+- hkimura answers を流し込むスクリプトを py99-aux に作成
+
+## 0.49.1 - 2022-12-07
+feature midterm. テスト終わる前には公開しない。
+### Added
+- src/clj/py99/services.clj
+- src/clj/py99/midterm.clj
+- resources/html/midterm.html
+### Changed
+- src/clj/py99/home.clj: added /midterm
+- make home/pytest-test public
+
+## 0.48.0 - 2022-12-01
+### Added
+- `export EXAM_MODE=false` false は小文字。
+### Changed
+- routes.home - comment-form を layout に一本化して problem ナンバーを表示する。
+- log がダブるのはスクリプトからリダイレクトが原因。
+```
+# bad
+java -jar py99.jar >> log/py99.jar
+# good
+java -jar py99.jar
+```
+
+## 0.47.4 - 2022-11-29
+- change words: `group assignment` -> `exam submissions`
+
+## 0.47.3 - 2022-11-29
+- シンプルに 200 番以上の回答を見せない。
+
+## 0.47.2 - 2022-11-28
+- answer-form.html: 動作確認してから submit すること。
+  関数コメント(doc string)のない回答は基本的にコメントしない。間違いあっても指摘しないってこと。
+
+## 0.47.1 - 2022-11-27
+- VScode のバッファ上書き問題。これ、なんとか抑え込めないか。
+
+## 0.47.0 - 2022-11-27
+- #'py99.config/env と (env) を混同しないように。
+- 復活 r99c で使ってた self-only を exam-mode として変更し採用。
+
+## 0.46.2 - 2022-11-22
+### Changed
+- Integer/ParseInt を home/get-answer から home/expand-iclude へ移動
+- get-answer が回答を見つけられないときは例外を投げる
+- expand-includes は #include の後に数字が見つからないときは例外を投げる
+
+## 0.46.0 - 2022-11-21
+### Added
+- expand-includes (not yet test recursive actions)
+
+## 0.45.3 - 2022-11-19
+### Added
+- /admin/problems#{num} で num へジャンプ。
+
+## 0.45.2 - 2022-11-15
+## 0.45.1 - 2022-11-15
+### Changed
+- ユーザごとにコメントをストックできる
+
+## 0.45.0 - 2022-11-14
+### Added
+- pytest にタイムアウト 60 秒
+  https://github.com/honzabrecka/timeout-shell
+  assert が複数あるときは、それ全部を実行する時間が timeout に収まらないと
+  エラーになる。
+
+## 0.44.2 - 2022-11-12
+- db migration for stocks
+- stocks implementation
+
+## 0.44.1 - 2022-11-11
+- get /stock
+
+## 0.44.0 - 2022-11-11
+- post /stock ... ハッタリだけ。
+- clj -Tantq outdated :upgrade true
+```
+|       :file |                             :name | :current | :latest |
+|-------------+-----------------------------------+----------+---------|
+| project.clj |    ch.qos.logback/logback-classic |    1.4.3 |   1.4.4 |
+|             |                 cider/cider-nrepl |   0.28.6 |  0.28.7 |
+|             |                         hato/hato |    0.8.2 |   0.9.0 |
+|             | luminus-undertow/luminus-undertow |   0.1.15 |  0.1.16 |
+|             |             org.clojure/tools.cli |  1.0.206 | 1.0.214 |
+|             |       org.webjars/webjars-locator |     0.45 |    0.46 |
+```
+
+
+## 0.43.1 - 2022-11-06
+- FIX: /profile/:login が auth error
+  /admin は middleware/admin で認可している。
+  /profile/login はプライベート関数の admin?
+  :hkimura と "hkimura" の両方を許すようにした。
+
+## 0.43.0 - 2022-10-20
+- Changed home.clj/before? 月曜〆切が日曜〆切になってないか？
+
+## 0.42.2 - 2022-10-18
+- display arrows
+
+## 0.42.1 - 2022-10-17
+- newer is {right,left} を表示。
+
+## 0.42.0 - 2022-10-14
+- Py99-10 等でテストが通らない理由はこれ。
+```
+$ env pytest
+platform linux2 -- Python 2.7.18, pytest-4.6.9, py-1.8.1, pluggy-0.13.0
+```
+
+pip3 で pytest をインストールし直し。
+```
+$ sudo pip3 install -U pytest
+```
+
+## 0.41.3 - 2022-10-11
+- replaced favicon.ico
+
+## 0.41.1 - 2022-10-05
+- fix typo in Makefile
+
+## 0.41.0 - 2022-10-05
+- stop seeding problems
+
+## 0.40.1 - 2022-09-27
+- test を増やす。
+
+## 0.40.0 - 2022-09-26
+- release 準備。
+
+## 0.39.0 - 2022-09-26
+- 99 problems.
 
 ## 0.38.4 - 2022-09-26
 - magic comment for UTF-8
@@ -26,13 +263,11 @@ successed remote-container on nuc.local via ssh.
 vscode ユーザでは /home/vscode/.m2 のボリュームマウントでエラーになる時がある。
 nuc.local では root ユーザで /root/.m2 をボリュームマウントした。
 
-
 ## 0.36.0 - 2022-09-22
 ### Fixed
 - コンテナ内からの hc/get に戻らない。
   原因は hato. cheshire を dependencies に加えないと、
   (hato.client/get {:as :json}) が失敗する。
-
 
 ## 0.35.1 - 2022-09-20
 ### Fixed

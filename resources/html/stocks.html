@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="content">
+    <h2>Stocks</h2>
+    <ol>
+    {% for s in stocks %}
+      <li>
+        <a href="/comment/{{s.a_id}}"
+        class="button is-small is-rounded is-primary is-responsive">
+        {{s.a_id}}</a> {{s.timestamp}}</li>
+    {% endfor %}
+    </ol>
+  </div>
+{% endblock %}

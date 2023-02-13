@@ -11,7 +11,10 @@
     {% csrf-field %}
     <input type='hidden' name='num' value='{{problem.num}}'>
     <textarea name='answer' class='textarea answer'
-     placeholder='replit.com 等で動作確認してから submit すること。動作確認せずに submit は減点。'></textarea><br>
+     placeholder='関数コメント(doc string)のない回答は基本的にコメントしない。間違いあっても指摘しない。
+コピー回答するヤツもコメントまでコピーじゃばれる。
+動作確認してから submit するのはごく普通のマナー。'></textarea><br>
+    <div>{{uptime}}</div>
     <input type='submit' name='action' value='submit' class='button is-warning is-small'>
   </form>
   {% endif %}
@@ -19,16 +22,14 @@
   <p>test code:</p>
   <pre>{{problem.test}}</pre>
 
-  <h3>Same Answers (including yours)</h3>
-
-  {% for a in same %}
+  <h3>Same Answers (including yours, newer is right &rArr;)</h3>
+    {% for a in same %}
   <a href='/comment/{{a.id}}'>{{a.login}}</a>
   &nbsp;
   {% endfor %}
 
-  <h3>Different Answers</h3>
-
-  {% for a in differ %}
+  <h3>Different Answers (newer is right &rArr;)</h3>
+    {% for a in differ %}
   <a href='/comment/{{a.id}}'>{{a.login}}</a>
   &nbsp;
   {% endfor %}

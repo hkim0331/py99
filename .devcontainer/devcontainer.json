@@ -11,8 +11,6 @@
             "extensions": [
                 "betterthantomorrow.calva",
                 "borkdude.clj-kondo",
-                "eduarddyckman.vscode-parinfer",
-                "jsynowiec.vscode-insertdatestring",
                 "jsynowiec.vscode-insertdatestring",
                 "lfs.vscode-emacs-friendly",
                 "mosapride.zenkaku",

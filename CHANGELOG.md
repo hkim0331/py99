@@ -15,6 +15,10 @@
 * 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
 * 0.60.0 (< num 500) はいらないんじゃね？
 
+## 0.62.0 - 2023-02-19
+- defined py99.endterm table
+- delete "can not firefox" line from login.html
+
 ## 0.61.0 - 2023-01-24
 - re-re-exam 採点。
 

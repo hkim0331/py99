@@ -341,6 +341,10 @@
             s (g false)]
         (recur s (rest bin) (conj ret (count-up f)))))))
 
+(comment
+  (db/points? {:login "aykz2731"})
+  :rcf)
+
 (defn profile [login]
   (let [solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
@@ -366,7 +370,8 @@
                                  weeks
                                  (bin-count individual weeks)
                                  (bin-count comments weeks))
-                    :groups (filter #(< 200 (:num %)) solved)})))
+                    :groups (filter #(< 200 (:num %)) solved)
+                    :points (db/points? {:login login})})))
 
 (defn profile-self
   [request]

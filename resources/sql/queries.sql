@@ -287,3 +287,10 @@ SELECT login, COUNT(login) FROM answers
 WHERE DATE(create_at) = DATE(:date)
 GROUP BY login
 ORDER BY COUNT DESC
+
+-- ----------------
+-- fetch login's points from gradings table
+-- ----------------
+-- :name points? :? :1
+-- :doc  fetch login's points from gradings table
+SELECT * FROM gradings WHERE login = :login

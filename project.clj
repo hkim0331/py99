@@ -24,7 +24,7 @@
    [org.clojure/clojure "1.11.1"]
    [org.clojure/tools.cli "1.0.214"]
    [org.clojure/tools.logging "1.2.4"]
-   [org.postgresql/postgresql "42.5.1"]
+   [org.postgresql/postgresql "42.5.4"]
    [org.webjars.npm/bulma "0.9.4"]
    [org.webjars.npm/material-icons "1.10.8"]
    [org.webjars/webjars-locator "0.46"]
@@ -72,7 +72,7 @@
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                                  [jonase/eastwood "1.3.0"]
-                                 [cider/cider-nrepl "0.29.0"]]
+                                 [cider/cider-nrepl "0.30.0"]]
 
                   :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]

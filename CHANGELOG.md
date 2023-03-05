@@ -15,6 +15,10 @@
 * 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
 * 0.60.0 (< num 500) はいらないんじゃね？
 
+## 0.64.0 - 2023-03-05
+- updated libraries(reitit 0.6.0, cider-nrepl 0.30.0, postgres 42.5.4)
+- updated Dockerfile(include postgresql-client-14)
+
 ## 0.63.0 - 2023-02-21
 - display result
 

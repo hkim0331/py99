@@ -17,6 +17,6 @@
                 "ybaumes.highlight-trailing-white-spaces"
             ]}},
     "service": "py99",
-    "workspaceFolder": "/usr/src/app"
-    // "remoteUser": "vscode"
+    "workspaceFolder": "/usr/src/app",
+    "remoteUser": "vscode"
 }

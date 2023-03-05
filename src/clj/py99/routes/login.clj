@@ -63,26 +63,27 @@
   (layout/render request "login.html" {:flash (:flash request)}))
 
 (defn login-post [{{:keys [login password]} :params}]
-  ;; 2023-02-21, no use.
-  ;; (if (env :dev)
-  ;;   (do
-  ;;     (log/info "debug mode")
-  ;;     (-> (redirect "/")
-  ;;         (assoc-in [:session :identity] :hkimura)))
-  (let [user (get-user login)]
-    (if (and (seq user)
-             (= (:login user) login)
-             (hashers/check password (:password user)))
-      (do
-        (log/info "login success" login)
+  ;; When dev mode, it is convenient to login as admnisrator
+  ;; without authentication.
+  (if (env :dev)
+    (do
+      (log/info "debug mode")
+      (-> (redirect "/")
+          (assoc-in [:session :identity] :hkimura)))
+    (let [user (get-user login)]
+      (if (and (seq user)
+               (= (:login user) login)
+               (hashers/check password (:password user)))
+        (do
+          (log/info "login success" login)
         ;; in read-only mode, can not this.
         ;; (db/login {:login login})
-        (-> (redirect "/")
-            (assoc-in [:session :identity] (keyword login))))
-      (do
-        (log/info "login faild" login)
-        (-> (redirect "/login")
-            (assoc :flash "login failure"))))))
+          (-> (redirect "/")
+              (assoc-in [:session :identity] (keyword login))))
+        (do
+          (log/info "login faild" login)
+          (-> (redirect "/login")
+              (assoc :flash "login failure")))))))
 
 (defn logout [_]
   (-> (redirect "/")

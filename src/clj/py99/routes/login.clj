@@ -51,7 +51,6 @@
     (first ret)))
 
 (defn about-page [request]
-  ;;(log/info "about-page" (login request))
   (layout/render request "about.html" {:version version}))
 
 (defn admin-only [request]
@@ -62,12 +61,22 @@
 (defn login [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
+(defn- get-logins [login]
+  login)
+
+(defn show-logins [request]
+  (let [login (name (get-in request [:session :identity]))]
+    (layout/render request
+                   "logins.html"
+                   {:login login
+                    :logins (get-logins login)})))
+
 (defn login-post [{{:keys [login password]} :params}]
   ;; When dev mode, it is convenient to login as admnisrator
   ;; without authentication.
   (if (env :dev)
     (do
-      (log/info "debug mode")
+      (log/debug "debug mode")
       (-> (redirect "/")
           (assoc-in [:session :identity] :hkimura)))
     (let [user (get-user login)]
@@ -78,7 +87,7 @@
           (log/info "login success" login)
         ;; in read-only mode, can not this.
         ;; (db/login {:login login})
-          (-> (redirect "/")
+          (-> (redirect "/logins")
               (assoc-in [:session :identity] (keyword login))))
         (do
           (log/info "login faild" login)
@@ -89,6 +98,8 @@
   (-> (redirect "/")
       (assoc :session {})))
 
+;; this facility went to l22.melt
+;;
 ;; (defn register [{:keys [flash] :as request}]
 ;;   (layout/render request
 ;;                  "register.html"
@@ -114,5 +125,6 @@
    ["/login" {:get  login
               :post login-post}]
    ["/logout" {:get logout}]
+   ["/logins" {:get show-logins}]
    #_["/register" {:get  register
                    :post register-post}]])

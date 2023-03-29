@@ -1,6 +1,8 @@
 (ns py99.routes.login
   (:require
    [buddy.hashers :as hashers]
+   [clojure.java.shell :refer [sh]]
+   [clojure.string :as str]
    [clojure.tools.logging :as log]
    [hato.client :as hc]
    [py99.layout :as layout]
@@ -61,8 +63,21 @@
 (defn login [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
+;; TODO: filter?
+(defn- filter-date [s]
+  (str/split-lines s))
+
 (defn- get-logins [login]
-  login)
+  (let [search (str "login success " login)
+        resp (sh "grep" "-r" search "log")]
+    (if (zero? (:exit resp))
+      (filter-date (:out resp))
+      ["error"])))
+
+(comment
+  (get-logins "hkimura")
+  (sh "grep" "-r" "login success" "log")
+  :rcf)
 
 (defn show-logins [request]
   (let [login (name (get-in request [:session :identity]))]

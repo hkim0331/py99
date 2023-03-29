@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="content">
+    <h2>過去1ヶ月の Py99 ログイン状況({{login}})</h2>
+    {% for login in logins %}
+      {{login}}</br>
+    {% endfor %}
+    <br>
+    <p><b>Go</b> <a href="/" class="button is-danger is-small">Py99</a> !</p>
+  </div>
+{% endblock %}

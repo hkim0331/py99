@@ -15,6 +15,10 @@
 * 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
 * 0.60.0 (< num 500) はいらないんじゃね？
 
+## 0.65.0 - 2023-03-29
+ログイン直後に過去1ヶ月のログインログを表示するページ
+- clojure -Tantq outdated :upgrade true
+
 ## 0.64.0 - 2023-03-05
 - updated libraries(reitit 0.6.0, cider-nrepl 0.30.0, postgres 42.5.4)
 - updated Dockerfile(include postgresql-client-14)

@@ -136,8 +136,6 @@
   ;; (log/info "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
-
-
 ;; FIXME: destructuring
 (defn answer-page
   "Take problem number `num` as path parameter, prep answer to the

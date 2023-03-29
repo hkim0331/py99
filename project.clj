@@ -1,10 +1,10 @@
-(defproject py99 "0.64.0"
+(defproject py99 "0.65.0"
 
   :description "r99 revised with clojure"
   :url "https://r99.melt.kyutech.ac.jp"
 
   :dependencies
-  [[ch.qos.logback/logback-classic "1.4.5"]
+  [[ch.qos.logback/logback-classic "1.4.6"]
    [clojure.java-time "1.2.0"]
    [conman "0.9.6"]
    [cprop "0.1.19"]
@@ -12,7 +12,7 @@
    [funcool/struct "1.4.0"]
    [json-html "0.4.7"]
    [luminus-migrations "0.7.5"]
-   [luminus-transit "0.1.5"]
+   [luminus-transit "0.1.6"]
    [luminus-undertow "0.1.17"]
    [luminus/ring-ttl-session "0.3.3"]
    [markdown-clj "1.11.4"]
@@ -24,15 +24,15 @@
    [org.clojure/clojure "1.11.1"]
    [org.clojure/tools.cli "1.0.214"]
    [org.clojure/tools.logging "1.2.4"]
-   [org.postgresql/postgresql "42.5.4"]
+   [org.postgresql/postgresql "42.6.0"]
    [org.webjars.npm/bulma "0.9.4"]
-   [org.webjars.npm/material-icons "1.10.8"]
+   [org.webjars.npm/material-icons "1.13.2"]
    [org.webjars/webjars-locator "0.46"]
    [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
    [ring-webjars "0.2.0"]
    [ring/ring-core "1.9.6"]
    [ring/ring-defaults "0.3.4"]
-   [selmer "1.12.55"]
+   [selmer "1.12.57"]
    ;;
    [buddy/buddy-auth "3.0.323"]
    [buddy/buddy-hashers "1.8.158"]
@@ -65,7 +65,7 @@
    :test          [:project/dev :project/test :profiles/test]
 
    :project/dev  {:jvm-opts ["-Dconf=dev-config.edn"]
-                  :dependencies [[org.clojure/tools.namespace "1.4.2"]
+                  :dependencies [[org.clojure/tools.namespace "1.4.4"]
                                  [pjstadig/humane-test-output "0.11.0"]
                                  [prone "2021-04-23"]
                                  [ring/ring-devel "1.9.6"]

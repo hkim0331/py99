@@ -1,6 +1,8 @@
 (ns py99.routes.login
   (:require
    [buddy.hashers :as hashers]
+   [clojure.java.shell :refer [sh]]
+   [clojure.string :as str]
    [clojure.tools.logging :as log]
    [hato.client :as hc]
    [py99.layout :as layout]
@@ -51,7 +53,6 @@
     (first ret)))
 
 (defn about-page [request]
-  ;;(log/info "about-page" (login request))
   (layout/render request "about.html" {:version version}))
 
 (defn admin-only [request]
@@ -62,12 +63,35 @@
 (defn login [request]
   (layout/render request "login.html" {:flash (:flash request)}))
 
+;; TODO: filter?
+(defn- filter-date [s]
+  (str/split-lines s))
+
+(defn- get-logins [login]
+  (let [search (str "login success " login)
+        resp (sh "grep" "-r" search "log")]
+    (if (zero? (:exit resp))
+      (filter-date (:out resp))
+      ["error"])))
+
+(comment
+  (get-logins "hkimura")
+  (sh "grep" "-r" "login success" "log")
+  :rcf)
+
+(defn show-logins [request]
+  (let [login (name (get-in request [:session :identity]))]
+    (layout/render request
+                   "logins.html"
+                   {:login login
+                    :logins (get-logins login)})))
+
 (defn login-post [{{:keys [login password]} :params}]
   ;; When dev mode, it is convenient to login as admnisrator
   ;; without authentication.
   (if (env :dev)
     (do
-      (log/info "debug mode")
+      (log/debug "debug mode")
       (-> (redirect "/")
           (assoc-in [:session :identity] :hkimura)))
     (let [user (get-user login)]
@@ -78,7 +102,7 @@
           (log/info "login success" login)
         ;; in read-only mode, can not this.
         ;; (db/login {:login login})
-          (-> (redirect "/")
+          (-> (redirect "/logins")
               (assoc-in [:session :identity] (keyword login))))
         (do
           (log/info "login faild" login)
@@ -89,6 +113,8 @@
   (-> (redirect "/")
       (assoc :session {})))
 
+;; this facility went to l22.melt
+;;
 ;; (defn register [{:keys [flash] :as request}]
 ;;   (layout/render request
 ;;                  "register.html"
@@ -114,5 +140,6 @@
    ["/login" {:get  login
               :post login-post}]
    ["/logout" {:get logout}]
+   ["/logins" {:get show-logins}]
    #_["/register" {:get  register
                    :post register-post}]])

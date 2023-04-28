@@ -12,7 +12,7 @@
    [struct.core :as st]
    #_[py99.db.core :as db]))
 
-(def ^:private version "0.65.0")
+(def ^:private version "0.66.0")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 
@@ -79,10 +79,18 @@
   (sh "grep" "-r" "login success" "log")
   :rcf)
 
+;; おバカな連中には全く効果なし。やるだけ無駄。
 (defn show-logins [request]
   (let [login (name (get-in request [:session :identity]))]
     (layout/render request
                    "logins.html"
+                   {:login login
+                    :logins (get-logins login)})))
+
+(defn re-exam-end [request]
+  (let [login (name (get-in request [:session :identity]))]
+    (layout/render request
+                   "re-exam-end.html"
                    {:login login
                     :logins (get-logins login)})))
 
@@ -100,8 +108,8 @@
                (hashers/check password (:password user)))
         (do
           (log/info "login success" login)
-        ;; in read-only mode, can not this.
-        ;; (db/login {:login login})
+          ;; in read-only mode, can not this.
+          ;; (db/login {:login login})
           (-> (redirect "/logins")
               (assoc-in [:session :identity] (keyword login))))
         (do
@@ -141,5 +149,6 @@
               :post login-post}]
    ["/logout" {:get logout}]
    ["/logins" {:get show-logins}]
+   ["/re-exam-end" {:get re-exam-end}]
    #_["/register" {:get  register
                    :post register-post}]])

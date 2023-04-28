@@ -1,6 +1,8 @@
 {
-    "name": "Existing Docker Compose (Extend)",
-
+    "name": "Py99",
+    "service": "py99",
+    "remoteUser": "vscode",
+    "workspaceFolder": "/usr/src/app",
     "dockerComposeFile": [
         "../docker-compose.yml"
     ],
@@ -15,8 +17,5 @@
                 "lfs.vscode-emacs-friendly",
                 "mosapride.zenkaku",
                 "ybaumes.highlight-trailing-white-spaces"
-            ]}},
-    "service": "py99",
-    "workspaceFolder": "/usr/src/app",
-    "remoteUser": "vscode"
+            ]}}
 }

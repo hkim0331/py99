@@ -1,13 +1,14 @@
-version: "3.9"
+version: "3.3"
 
 services:
   py99:
     image: hkim0331/py99
+    user : vscode
     ports:
       - "3000:3000"
     volumes:
       - .:/usr/src/app:cached
-      - m2:/root/.m2
+      # - m2:/home/vscode/.m2
     working_dir: /usr/src/app
     command: /bin/sh -c "while sleep 1000; do :; done"
 
@@ -20,7 +21,7 @@ services:
       POSTGRES_INITDB_ARGS: --encoding=UTF-8 --locale=C
       TZ: Asia/Toky
     # ports:
-    #   - "5432:5432"
+    #   - "55432:5432"
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d
       - data:/var/lib/postgresql/data
@@ -28,5 +29,5 @@ services:
 volumes:
   data:
     driver: local
-  m2:
-    external: true
+  # py99-m2:
+  #   external: true

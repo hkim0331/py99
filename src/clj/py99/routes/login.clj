@@ -12,7 +12,7 @@
    [struct.core :as st]
    #_[py99.db.core :as db]))
 
-(def ^:private version "0.67.0")
+(def ^:private version "0.67.2")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 
@@ -110,7 +110,8 @@
           (log/info "login success" login)
           ;; in read-only mode, can not this.
           ;; (db/login {:login login})
-          (-> (redirect "/re-exam-end")
+          ;; after re-exam, use "/re-exam-end" instead of "/"
+          (-> (redirect "/")
               (assoc-in [:session :identity] (keyword login))))
         (do
           (log/info "login faild" login)

@@ -110,7 +110,8 @@
           (log/info "login success" login)
           ;; in read-only mode, can not this.
           ;; (db/login {:login login})
-          (-> (redirect "/re-exam-end")
+          ;; after re-exam, use "/re-exam-end" instead of "/"
+          (-> (redirect "/")
               (assoc-in [:session :identity] (keyword login))))
         (do
           (log/info "login faild" login)

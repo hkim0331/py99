@@ -1,11 +1,11 @@
-(defproject py99 "0.68.0"
+(defproject py99 "0.68.1"
 
   :description "r99 revised with clojure"
   :url "https://r99.melt.kyutech.ac.jp"
 
   :dependencies
-  [[ch.qos.logback/logback-classic "1.4.6"]
-   [clojure.java-time "1.2.0"]
+  [[ch.qos.logback/logback-classic "1.4.11"]
+   [clojure.java-time "1.3.0"]
    [conman "0.9.6"]
    [cprop "0.1.19"]
    [expound "0.9.0"]
@@ -13,7 +13,7 @@
    [json-html "0.4.7"]
    [luminus-migrations "0.7.5"]
    [luminus-transit "0.1.6"]
-   [luminus-undertow "0.1.17"]
+   [luminus-undertow "0.1.18"]
    [luminus/ring-ttl-session "0.3.3"]
    [markdown-clj "1.11.4"]
    [metosin/muuntaja "0.6.8"]
@@ -22,20 +22,20 @@
    [mount "0.1.17"]
    [nrepl "1.0.0"]
    [org.clojure/clojure "1.11.1"]
-   [org.clojure/tools.cli "1.0.214"]
+   [org.clojure/tools.cli "1.0.219"]
    [org.clojure/tools.logging "1.2.4"]
    [org.postgresql/postgresql "42.6.0"]
    [org.webjars.npm/bulma "0.9.4"]
    [org.webjars.npm/material-icons "1.13.2"]
-   [org.webjars/webjars-locator "0.46"]
+   [org.webjars/webjars-locator "0.47"]
    [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
    [ring-webjars "0.2.0"]
-   [ring/ring-core "1.9.6"]
-   [ring/ring-defaults "0.3.4"]
-   [selmer "1.12.57"]
+   [ring/ring-core "1.10.0"]
+   [ring/ring-defaults "0.4.0"]
+   [selmer "1.12.59"]
    ;;
    [buddy/buddy-auth "3.0.323"]
-   [buddy/buddy-hashers "1.8.158"]
+   [buddy/buddy-hashers "2.0.167"]
    [cheshire/cheshire "5.11.0"]
    [clj-time/clj-time "0.15.2"]
    [digest "1.4.10"]
@@ -68,11 +68,11 @@
                   :dependencies [[org.clojure/tools.namespace "1.4.4"]
                                  [pjstadig/humane-test-output "0.11.0"]
                                  [prone "2021-04-23"]
-                                 [ring/ring-devel "1.9.6"]
+                                 [ring/ring-devel "1.10.0"]
                                  [ring/ring-mock "0.4.0"]]
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
-                                 [jonase/eastwood "1.3.0"]
-                                 [cider/cider-nrepl "0.30.0"]]
+                                 [jonase/eastwood "1.4.0"]
+                                 [cider/cider-nrepl "0.37.1"]]
 
                   :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]

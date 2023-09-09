@@ -17,6 +17,11 @@
 * 0.60.0 (< num 500) はいらないんじゃね？
 * admin ページ。出題を変更するのに SQL は面倒だ。
 * ChatGPT 対策。
+* 最初の週は過去の py99 を見せる。本番は第2週以降。
+
+
+## 0.68.1 - 2023-09-10
+    clojure -Tantq outdated :upgrade true :force true
 
 ## 0.68.0 - 2023-09-09
 - start 2023 version.

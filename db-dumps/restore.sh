@@ -5,8 +5,7 @@ if [ -z "$1" ]; then
 fi
 
 PORT=5432
-PSQL="psql -h localhost --port=${PORT} -U postgres"
+PSQL="psql -h db --port=${PORT} -U postgres"
 ${PSQL} -c "drop database py99"
 ${PSQL} -c "create database py99 owner='postgres'"
 ${PSQL} py99 < $1
-

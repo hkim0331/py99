@@ -8,7 +8,7 @@ RUN apt-get update \
 RUN apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
-ENV DEBIAN_FRONTEND=dialog
+# ENV DEBIAN_FRONTEND=dialog
 
 ARG USERNAME=vscode
 ARG USER_UID=1000

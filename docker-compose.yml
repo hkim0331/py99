@@ -1,19 +1,21 @@
-version: "3.3"
+version: "3"
 
 services:
   py99:
-    image: hkim0331/py99
+    image: hkim0331/py99:0.2
     user : vscode
     ports:
       - "3000:3000"
-    volumes:
-      - .:/usr/src/app:cached
-      - m2:/home/vscode/.m2
     working_dir: /usr/src/app
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    volumes:
+      - .:/usr/src/app
+      - m2:/home/vscode/.m2
+    command:
+      - sleep
+      - infinity
 
   db:
-    image: postgres:14.7
+    image: postgres:14.9
     restart: always
     environment:
       POSTGRES_DB: py99

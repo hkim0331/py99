@@ -10,7 +10,8 @@ pom.xml
 /.vscode/
 /checkouts
 /classes
-/db-dumps/
+/db-dumps/*
+!/db-dumps/*.sh
 /dev-config.edn
 /initdb.d/
 /lib/

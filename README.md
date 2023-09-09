@@ -43,7 +43,6 @@ To start a web server for the application, run:
 
     lein run
 
-
 ## License
 
-Copyright © 2021, 2022 Hiroshi Kimura
+Copyright © 2021, 2022, 2023 Hiroshi Kimura

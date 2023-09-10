@@ -1,11 +1,8 @@
 # CHANGELOG.md
 
 ## Unreleased
-* r99 のタブが今「Welcome to r99」ですが、
-  問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
-  何番を解いているタブを開いているか分かるようにしてほしいです！
-  => js の document.title="title" でできそう。
-* 次回答をする前に他回答を n 個以上、読まないといけない。
+
+* 次回答をする前に他回答を n 個以上、読まないといけないようにする。
 * stocks にサブジェクト
 * dummy NG ボタン。
 * auto-reload
@@ -14,14 +11,25 @@
 * testcode atom(もうちょっと具体的に書いておかないと)
 * login ユーザのリスト。logout したら削除する。いらないか。
 * 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
-* 0.60.0 (< num 500) はいらないんじゃね？
-* admin ページ。出題を変更するのに SQL は面倒だ。
 * ChatGPT 対策。
 * 最初の週は過去の py99 を見せる。本番は第2週以降。
+  DB を差し替えなければいいのかな？
+* stock にアノテーション。prompt をどう form で受けるのか。
 
+
+## 0.68.2 - 2023-09-10
+- py99 user's password
+
+      psql> alter role py99 with password '*******'
+
+- r99 のタブが今「Welcome to r99」ですが、
+  問題ページを開いている場合例えば40番なら「Welcome to r99-40」など
+  何番を解いているタブを開いているか分かるようにしてほしいです！
+
+      <script>document.title = "Py99 -{{problem.num}}-"</script>
 
 ## 0.68.1 - 2023-09-10
-    clojure -Tantq outdated :upgrade true :force true
+    % clojure -Tantq outdated :upgrade true :force true
 
 ## 0.68.0 - 2023-09-09
 - start 2023 version.

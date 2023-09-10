@@ -83,7 +83,7 @@
           (:out $)
           (re-find #"load average: .*" $)
           (str/split $ #"\s+"))
-        _ (println one five fifteen)
+        ;; _ (println one five fifteen)
         busy (- (int (first one)) (int \0))
         busy-mark (cond
                     (<= 5 busy) "🔴"
@@ -136,7 +136,7 @@
   ;; (log/info "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
-;; FIXME: destructuring
+;; title
 (defn answer-page
   "Take problem number `num` as path parameter, prep answer to the
    problem."
@@ -265,8 +265,7 @@
         my-answer (db/get-answer {:num num :login (login request)})
         exam-mode (env :exam-mode)
         uptime (uptime)]
-    ;; FIXME (< num 500) は必要か？
-    (if (and my-answer (or (not exam-mode) (< num 500)))
+    (if (and my-answer (not exam-mode))
       (layout/render request "comment-form.html"
                      {:answer   (if exam-mode my-answer answer)
                       :problem  (db/get-problem {:num num})

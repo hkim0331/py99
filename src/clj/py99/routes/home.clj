@@ -32,7 +32,10 @@
     (->> (take days (p/periodic-seq start-day (t/days 1)))
          (map to-date-str))))
 
+;; description?
 (def ^:private period (make-period 2022 10 3 140))
+
+;; description?
 (def ^:private weeks
   ["2022-10-03" "2022-10-10" "2022-10-17" "2022-10-24" "2022-10-31"
    "2022-11-07" "2022-11-14" "2022-11-21" "2022-11-28"

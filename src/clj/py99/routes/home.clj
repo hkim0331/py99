@@ -265,7 +265,7 @@
         my-answer (db/get-answer {:num num :login (login request)})
         exam-mode (env :exam-mode)
         uptime (uptime)]
-    (if (and my-answer (not exam-mode)))
+    (if (and my-answer (not exam-mode))
       (layout/render request "comment-form.html"
                      {:answer   (if exam-mode my-answer answer)
                       :problem  (db/get-problem {:num num})

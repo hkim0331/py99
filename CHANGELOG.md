@@ -11,12 +11,13 @@
 * testcode atom(もうちょっと具体的に書いておかないと)
 * login ユーザのリスト。logout したら削除する。いらないか。
 * 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
-* 0.60.0 (< num 500) はいらないんじゃね？
 * ChatGPT 対策。
 * 最初の週は過去の py99 を見せる。本番は第2週以降。
   DB を差し替えなければいいのかな？
+* stock にアノテーション。prompt をどう form で受けるのか。
 
-## 0.68.2-SNAPSHOT
+
+## 0.68.2 - 2023-09-10
 - py99 user's password
 
       psql> alter role py99 with password '*******'
@@ -26,6 +27,7 @@
   何番を解いているタブを開いているか分かるようにしてほしいです！
 
       <script>document.title = "Py99 -{{problem.num}}-"</script>
+
 ## 0.68.1 - 2023-09-10
     % clojure -Tantq outdated :upgrade true :force true
 

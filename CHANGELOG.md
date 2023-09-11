@@ -14,7 +14,9 @@
 * stock にアノテーション。prompt をどう form で受けるのか。
 * seed-in/seed-out
 
-## 0.68.3-snapshot
+## 0.68.4-SNAPSHOT
+
+## 0.68.3 - 2023-09-11
 - deploy すると 2023 年版のスケジュールになる。授業開始まで抑制すること。
   最初の週は過去の py99 を見せる。本番は第2週以降。
 - navbar admin menu for admin user → やるなら home.clj で。
@@ -23,7 +25,6 @@
 - /admin/ page describe fields
 - describe uptime marks
 - adjust `weeks` and `period` in home.clj
-
 
 ## 0.68.2 - 2023-09-10
 - py99 user's password

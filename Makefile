@@ -1,7 +1,8 @@
 DEST="ubuntu@app.melt.kyutech.ac.jp"
+TAG=hkim0331/py99:0.2
 
 build:
-	docker build -t hkim0331/py99 .
+	docker build -t ${TAG} .
 
 uberjar:
 	lein uberjar
@@ -13,4 +14,3 @@ deploy: uberjar
 
 clean:
 	${RM} -rf target
-

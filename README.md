@@ -37,13 +37,19 @@ You will need [Leiningen][1] 2.0 or above installed.
 must provide them out from git repository before proceed develpment,
 or in production.
 
+## anual prep
+
+adjust `weeks` and `period` in home.clj before use.
+
+- weeks
+- period
+
 ## Running
 
 To start a web server for the application, run:
 
     lein run
 
-
 ## License
 
-Copyright © 2021, 2022 Hiroshi Kimura
+Copyright © 2021, 2022, 2023 Hiroshi Kimura

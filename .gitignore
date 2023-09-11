@@ -1,5 +1,6 @@
 *.class
 *.jar
+*.sql
 pom.xml
 /.calva/
 /.clj-kondo/.cache/
@@ -18,6 +19,7 @@ pom.xml
 /log/
 /node_modules/
 /profiles.clj
+!/resources/migrations/*.sql
 /target/
 /test-config.edn
 start.sh

@@ -1,6 +1,6 @@
 (ns py99.routes.services
   (:require
-   [py99.db.core :as db]
+   #_[py99.db.core :as db]
    [py99.middleware :as middleware]
    [ring.util.http-response :as response]))
 
@@ -10,4 +10,5 @@
 (defn service-routes []
   ["/api"
    {:middleware [middleware/wrap-formats]}
-   ["/midterm/:n" {:get midterm}]])
+   ;;["/midterm/:n" {:get midterm}]
+   ])

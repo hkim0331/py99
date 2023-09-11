@@ -17,17 +17,16 @@
 (defn render
   "renders the HTML template located relative to resources/html"
   [request template & [params]]
-  (log/info (get-in request [:session :identity] "nobody")
-            template
-            (get-in params [:problem :num] ""))
-  (content-type
-    (ok
+  (let [login (get-in request [:session :identity] :nobody)]
+    (log/info login template (get-in params [:problem :num] ""))
+    (content-type
+     (ok
       (parser/render-file
-        template
-        (assoc params
-          :page template
-          :csrf-token *anti-forgery-token*)))
-    "text/html; charset=utf-8"))
+       template
+       (assoc params
+              :page template
+              :csrf-token *anti-forgery-token*)))
+     "text/html; charset=utf-8")))
 
 (defn error-page
   "error-details should be a map containing the following keys:

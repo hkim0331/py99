@@ -23,7 +23,6 @@
   (let [ep (str l22 "/api/user/" login)
         resp (hc/get ep {:as :json})]
     (log/info "login" (get-in resp [:body :login]))
-    ;; (log/debug "(:body resp)" (:body resp))
     (:body resp)))
 
 (def users-schema
@@ -95,7 +94,7 @@
                     :logins (get-logins login)})))
 
 (defn login-post [{{:keys [login password]} :params}]
-  ;; When dev mode, it is convenient to login as admnisrator
+  ;; When dev mode, it is convenient to login as administrator
   ;; without authentication.
   (if (env :dev)
     (do

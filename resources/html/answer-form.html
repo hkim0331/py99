@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+  <script>document.title = "Py99 -{{problem.num}}-"</script>
   <div class="content">
   <h2>New answer to Problem {{problem.num}}</h2>
   <p>{{problem.problem|safe}}</p>
@@ -13,7 +14,7 @@
     <textarea name='answer' class='textarea answer'
      placeholder='関数コメント(doc string)のない回答は基本的にコメントしない。間違いあっても指摘しない。
 コピー回答するヤツもコメントまでコピーじゃばれる。
-動作確認してから submit するのはごく普通のマナー。'></textarea><br>
+動作確認してから submit するのはごく普通のマナーだ。'></textarea><br>
     <div>{{uptime}}</div>
     <input type='submit' name='action' value='submit' class='button is-warning is-small'>
   </form>

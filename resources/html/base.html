@@ -4,65 +4,47 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Py99</title>
-
     <!-- styles -->
     {% style """/assets/bulma/css/bulma.min.css" %}
     {% style """/assets/material-icons/css/material-icons.min.css" %}
-
     {% style """/css/screen.css" %}
     <!-- add by hkimura -->
     {% style """/css/py99.css" %}
   </head>
   <body>
-      <!-- navbar -->
-      <nav class="navbar is-info">
-          <div class="container">
-              <div class="navbar-brand">
-                  <a class="navbar-item" href="/" style="font-weight:bold;">Py99</a>
-                  <span class="navbar-burger burger" data-target="nav-menu">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                  </span>
-              </div>
-              <div id="nav-menu" class="navbar-menu">
-                  <div class="navbar-start">
-                      <a href="/problems" class="navbar-item">Problems</a>
-                      <a href="/todays" class="navbar-item">Todays</a>
-                      <!--
-                      <a href="https://qa.melt.kyutech.ac.jp" class="navbar-item">QA</a>
-                      -->
-                      <a href="/profile" class="navbar-item{% ifequal page 'profile.html' %} is-active{%endifequal%}">Profile</a>
-                      <a href="/stock" class="navbar-item{% ifequal page 'stocks' %} is-active{%endifequal%}">Stocks</a>
-<!--
-                      <a href="https://me.melt.kyutech.ac.jp" class="navbar-item">ME</a>
-                      <a href="https://me.melt.kyutech.ac.jp/ee" class="navbar-item">EE</a>
-                      <a href="https://gr.melt.kyutech.ac.jp" class="navbar-item">GR</a>
-                      <a href="/wp" class="navbar-item{% ifequal page "wp.html" %} is-active{%endifequal%}">WP</a>
--->
-                      <a href="/about" class="navbar-item{% ifequal page 'about.html' %} is-active{%endifequal%}">About</a>
-                      <a href="/login" class="navbar-item{% ifequal page 'login.html' %} is-active{%endifequal%}">Login</a>
-                      <a href="/logout" class="navbar-item{% ifequal page 'logout.html' %} is-active{%endifequal%}">Logout</a>
-                  </div>
-              </div>
+    <!-- navbar -->
+    <nav class="navbar is-info">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/" style="font-weight:bold;">Py99</a>
+          <span class="navbar-burger burger" data-target="nav-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </div>
+        <div id="nav-menu" class="navbar-menu">
+          <div class="navbar-start">
+            <a href="/problems" class="navbar-item">Problems</a>
+            <a href="/todays" class="navbar-item">Todays</a>
+            <a href="/profile" class="navbar-item{% ifequal page 'profile.html' %} is-active{%endifequal%}">Profile</a>
+            <a href="/stock" class="navbar-item{% ifequal page 'stocks' %} is-active{%endifequal%}">Stocks</a>
+            <a href="/about" class="navbar-item{% ifequal page 'about.html' %} is-active{%endifequal%}">About</a>
+            <a href="/login" class="navbar-item{% ifequal page 'login.html' %} is-active{%endifequal%}">Login</a>
+            <a href="/logout" class="navbar-item{% ifequal page 'logout.html' %} is-active{%endifequal%}">Logout</a>
           </div>
-      </nav>
+        </div>
+      </div>
+    </nav>
 
-      <section class="section">
-          <div class="container">
-            <!--
-              <div style="color:red;">Py99 was frozen: 回答、コメントできません。</div>
-              -->
-              <!--
-              <div>🔥UNDER CONSTRUCTION🔥
-              <p>your answers are not preserved.</p></div>
-              -->
-              {% block content %}
-              {% endblock %}
-          <hr>
-          programmed by hkimura
-          </div>
-      </section>
+    <section class="section">
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+        <hr>
+        programmed by hkimura
+      </div>
+    </section>
 
     <!-- scripts -->
     <script type="text/javascript">

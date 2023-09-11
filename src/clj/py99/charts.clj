@@ -33,12 +33,15 @@
 
 (defn class-chart
   [answers period width height]
-  (chart #(/ % 4.5) answers period width height "orange"))
+  ;; (chart #(/ % 4.5) answers period width height "orange")
+  (chart #(/ % 4) answers period width height "orange"))
 
 (defn individual-chart
   [answers period width height]
-  (chart #(* % 13) answers period width height))
+  ;; (chart #(* % 13) answers period width height)
+  (chart #(* % 15) answers period width height))
 
 (defn comment-chart
   [answers period width height]
-  (chart #(* % 30) answers period width height "green"))
+  ;; (chart #(* % 20) answers period width height "green")
+  (chart #(* % 20) answers period width height "green"))

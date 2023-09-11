@@ -16,7 +16,7 @@ services:
 
   db:
     image: postgres:14.9
-    restart: always
+    # restart: always
     environment:
       POSTGRES_DB: py99
       POSTGRES_HOST_AUTH_METHOD: trust

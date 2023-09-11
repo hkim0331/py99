@@ -3,7 +3,6 @@
 ## Unreleased
 
 * 次回答をする前に他回答を n 個以上、読まないといけないようにする。
-* stocks にサブジェクト
 * dummy NG ボタン。
 * auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
@@ -12,9 +11,18 @@
 * login ユーザのリスト。logout したら削除する。いらないか。
 * 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
 * ChatGPT 対策。
-* 最初の週は過去の py99 を見せる。本番は第2週以降。
-  DB を差し替えなければいいのかな？
 * stock にアノテーション。prompt をどう form で受けるのか。
+* seed-in/seed-out
+
+## 0.68.3-snapshot
+- deploy すると 2023 年版のスケジュールになる。授業開始まで抑制すること。
+  最初の週は過去の py99 を見せる。本番は第2週以降。
+- navbar admin menu for admin user → やるなら home.clj で。
+- exam-mode を分離する。→ 成績見れたほうがいい。
+- y-max in graphs -> 分散が大きすぎ。ちょうどのサイズにはならない。
+- /admin/ page describe fields
+- describe uptime marks
+- adjust `weeks` and `period` in home.clj
 
 
 ## 0.68.2 - 2023-09-10

@@ -1,5 +1,6 @@
 *.class
 *.jar
+*.sql
 pom.xml
 /.calva/
 /.clj-kondo/.cache/

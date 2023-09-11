@@ -13,7 +13,7 @@
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
-   [py99.routes.login :refer [get-user]] ;; 0.40.0
+   [py99.routes.login :refer [get-user]]
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
 
@@ -33,15 +33,15 @@
          (map to-date-str))))
 
 ;; description?
-(def ^:private period (make-period 2022 10 3 140))
+(def ^:private period (make-period 2023 10 1 150))
 
-;; description?
+;; weekly reports の〆切日
 (def ^:private weeks
-  ["2022-10-03" "2022-10-10" "2022-10-17" "2022-10-24" "2022-10-31"
-   "2022-11-07" "2022-11-14" "2022-11-21" "2022-11-28"
-   "2022-12-05" "2022-12-12" "2022-12-19" "2022-12-26"
-   "2023-01-02" "2023-01-09" "2023-01-16" "2023-01-23" "2023-01-30"
-   "2023-02-06" "2023-02-13"])
+  ["2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
+   "2023-11-06" "2023-11-13" "2023-11-20" "2023-11-27"
+   "2023-12-04" "2023-12-11" "2023-12-18" "2023-12-25"
+   "2024-01-01" "2024-01-08" "2024-01-15" "2024-01-22" "2024-01-29"
+   "2024-02-05" "2024-02-12"])
 
 ;; Selmer private extensions
 (defn- wrap-aux
@@ -92,7 +92,10 @@
                     (<= 5 busy) "🔴"
                     (<= 1 busy) "🟡"
                     :else "🟢")]
-   (str busy-mark " " (str one five fifteen))))
+   (str busy-mark
+        " "
+        (str one five fifteen)
+        " (過去 1,5,15 分のサーバ負荷)")))
 
 (comment
   (uptime)
@@ -102,6 +105,7 @@
   "return user's login as a string. or nobody."
   [request]
   (name (get-in request [:session :identity] :nobody)))
+
 
 ;; FIXME: symbol? or string?
 (defn- admin?

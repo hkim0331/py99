@@ -1,8 +1,6 @@
 (defproject py99 "0.68.2"
-
   :description "r99 revised with clojure"
   :url "https://r99.melt.kyutech.ac.jp"
-
   :dependencies
   [[ch.qos.logback/logback-classic "1.4.11"]
    [clojure.java-time "1.3.0"]
@@ -43,27 +41,21 @@
    [hato/hato "0.9.0"]
    [hiccup "1.0.5"]
    [timeout-shell "1.0.0"]]
-
   :min-lein-version "2.0.0"
-
   :source-paths ["src/clj"]
   :test-paths ["test/clj"]
   :resource-paths ["resources"]
   :target-path "target/%s/"
   :main ^:skip-aot py99.core
-
   :plugins []
-
   :profiles
   {:uberjar {:omit-source true
              :aot :all
              :uberjar-name "py99.jar"
              :source-paths ["env/prod/clj"]
              :resource-paths ["env/prod/resources"]}
-
    :dev           [:project/dev :profiles/dev]
    :test          [:project/dev :project/test :profiles/test]
-
    :project/dev  {:jvm-opts ["-Dconf=dev-config.edn"]
                   :dependencies [[org.clojure/tools.namespace "1.4.4"]
                                  [pjstadig/humane-test-output "0.11.0"]
@@ -73,7 +65,6 @@
                   :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                                  [jonase/eastwood "1.4.0"]
                                  [cider/cider-nrepl "0.37.1"]]
-
                   :source-paths ["env/dev/clj"]
                   :resource-paths ["env/dev/resources"]
                   :repl-options {:init-ns user

@@ -13,12 +13,13 @@
 * ChatGPT 対策、間違い修正問題では？
 * 最初の週は過去の py99 を見せる。本番は第2週以降。
   DB を差し替えなければいいのかな？
-* stock にアノテーション。prompt をどう form で受けるのか。
 * seed-in/seed-out
 
 ## 0.68.4 - 2023-09-12
+stock takes  an annotation.
 - add note column to stocks table
   (create-migration "stocks")
+
 
 ## 0.68.3 - 2023-09-11
 - deploy すると 2023 年版のスケジュールになる。授業開始まで抑制すること。

@@ -3,9 +3,10 @@
   <div class="content">
     <h2>Stocks</h2>
     {% for s in stocks %}
-      <p><a href="/comment/{{s.a_id}}">👁️</a>
+      <p>👁️
+        <a class="stocks" href="/comment/{{s.a_id}}">
         {{s.note}}
-        {{s.timestamp|date:shortDateTime}}
+        {{s.timestamp|date:shortDateTime}}</a>
       </p>
     {% endfor %}
   </div>

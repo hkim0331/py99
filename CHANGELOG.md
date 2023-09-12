@@ -15,6 +15,8 @@
 * seed-in/seed-out
 
 ## 0.68.4-SNAPSHOT
+m1 に git 忘れがあるか？ resources/migrations
+
 
 ## 0.68.3 - 2023-09-11
 - deploy すると 2023 年版のスケジュールになる。授業開始まで抑制すること。

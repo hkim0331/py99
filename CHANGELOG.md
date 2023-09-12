@@ -20,7 +20,6 @@ stock takes  an annotation.
 - add note column to stocks table
   (create-migration "stocks")
 
-
 ## 0.68.3 - 2023-09-11
 - deploy すると 2023 年版のスケジュールになる。授業開始まで抑制すること。
   最初の週は過去の py99 を見せる。本番は第2週以降。

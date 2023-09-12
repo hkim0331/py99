@@ -15,6 +15,15 @@
   DB を差し替えなければいいのかな？
 * seed-in/seed-out
 
+
+## 0.68.5 - 2023-09-12
+works on m64 devcontainer.
+
+    % cd /home/vscode
+    % sudo chown -R vscode:vscode .m2
+    % cd /usr/src/app
+    % sudo ./restore.sh py99*.sql
+
 ## 0.68.4 - 2023-09-12
 stock takes  an annotation.
 - add note column to stocks table

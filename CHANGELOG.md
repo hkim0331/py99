@@ -10,11 +10,18 @@
 * testcode atom(もうちょっと具体的に書いておかないと)
 * login ユーザのリスト。logout したら削除する。いらないか。
 * 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
-* ChatGPT 対策。
-* stock にアノテーション。prompt をどう form で受けるのか。
+* ChatGPT 対策、間違い修正問題では？
+* 最初の週は過去の py99 を見せる。本番は第2週以降。
+  DB を差し替えなければいいのかな？
 * seed-in/seed-out
 
-## 0.68.3-snapshot
+## 0.68.4 - 2023-09-12
+stock takes  an annotation.
+- add note column to stocks table
+  (create-migration "stocks")
+
+
+## 0.68.3 - 2023-09-11
 - deploy すると 2023 年版のスケジュールになる。授業開始まで抑制すること。
   最初の週は過去の py99 を見せる。本番は第2週以降。
 - navbar admin menu for admin user → やるなら home.clj で。
@@ -23,7 +30,6 @@
 - /admin/ page describe fields
 - describe uptime marks
 - adjust `weeks` and `period` in home.clj
-
 
 ## 0.68.2 - 2023-09-10
 - py99 user's password

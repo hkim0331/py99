@@ -17,12 +17,19 @@
 
   <h3>Comments</h3>
   {% for c in comments %}
-  <p>from <b>{{c.from_login}}</b>, at {{c.create_at|date:shortDateTime}}</p>
+  <p>from <b>{{c.from_login}}</b>, at {{c.create_at|date:shortDateTime}},</p>
   <pre>{{c.comment|wrap66}}</pre>
   <form action="/stock" method="post">
     {% csrf-field %}
     <input type="hidden" name="a_id" value='{{c.a_id}}'>
-    <input type="submit" class='button is-primary is-small' value="stock">
+    <div class="columns">
+      <div class="column">
+      <input class="input" type="text" name="note">
+      </div>
+      <div class="column">
+      <input type="submit" class="button is-primary" value="stock">
+      </div>
+    </div>
   </form>
   <br>
   {% endfor %}
@@ -34,7 +41,7 @@
     <input type='hidden' name='to_login' value='{{answer.login}}'>
     <textarea name='comment' class='textarea'
               placeholder='Your comment please.'></textarea><br>
-    <div>{{uptime}}</div>          
+    <div>{{uptime}}</div>
     <input type='submit' value='comment' class='button is-warning is-small'>
   </form>
 

@@ -255,13 +255,14 @@ SELECT * FROM frozens
 -- :doc fetch all stocks by user `login`
 SELECT * FROM stocks
 WHERE login = :login
+order by id desc;
 
 -- :name create-stock! :! :n
 -- :doc create a stock
 INSERT INTO stocks
-(login, a_id)
+(login, a_id, note)
 VALUES
-(:login, :a_id)
+(:login, :a_id, :note)
 
 -- ----------------
 -- midterm section

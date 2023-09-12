@@ -440,10 +440,11 @@
 (defn create-stock! [request]
   (let [login (login request)
         a_id (-> (get-in request [:params :a_id])
-                 Integer/parseInt)]
-    (log/info "create-stock!" login)
+                 Integer/parseInt)
+        note (-> (get-in request [:params :note]))]
+    (log/info "create-stock!" login a_id note)
     (try
-      (db/create-stock! {:login login :a_id a_id})
+      (db/create-stock! {:login login :a_id a_id :note note})
       (redirect (str "/comment/" a_id))
       (catch Exception e
         (layout/render nil "error.html"

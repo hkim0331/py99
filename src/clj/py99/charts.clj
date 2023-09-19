@@ -23,25 +23,28 @@
         :fill color}]))))
 
 (defn- chart
-  ([scale-fn data period width height]
-   (chart scale-fn data period width height "red"))
-  ([scale-fn data period width height color]
-   (let [tmp (->date-count data)
-         ys  (for [d period]
-               (get tmp d 0))]
-     (html (bar-chart (map scale-fn ys) width height color)))))
+  ;; ([scale-fn data period width height]
+  ;;  (chart scale-fn data period width height "red"))
+  [scale-fn data period width height color]
+  (let [tmp (->date-count data)
+        ys  (for [d period]
+              (get tmp d 0))]
+    (html (bar-chart (map scale-fn ys) width height color))))
 
 (defn class-chart
   [answers period width height]
+  ;; 2022
   ;; (chart #(/ % 4.5) answers period width height "orange")
   (chart #(/ % 4) answers period width height "orange"))
 
 (defn individual-chart
   [answers period width height]
+  ;; 2022
   ;; (chart #(* % 13) answers period width height)
-  (chart #(* % 15) answers period width height))
+  (chart #(* % 15) answers period width height "red"))
 
 (defn comment-chart
   [answers period width height]
+  ;; 2022
   ;; (chart #(* % 20) answers period width height "green")
   (chart #(* % 20) answers period width height "green"))

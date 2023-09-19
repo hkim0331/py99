@@ -5,9 +5,13 @@
     {% for s in stocks %}
       <p>👁️
         <a class="stocks" href="/comment/{{s.a_id}}">
+        {% if s.note = "" %}
+        (empty)
+        {% else %}
         {{s.note}}
-        ({{s.timestamp|date:shortDateTime}})</a>
-      </p>
+        {% endif %}
+        </a>
+        {{s.timestamp|date:shortDateTime}}</p>
     {% endfor %}
   </div>
 {% endblock %}

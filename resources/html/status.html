@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="content">
+    {% if login = "hkimura" %}
+    <a href="/admin">admin page</a>
+    {% endif %}
     <h2>{{login}}'s Status</h2>
 
     <div class="box">

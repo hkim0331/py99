@@ -52,7 +52,7 @@
    {:middleware [middleware/admin
                  middleware/wrap-csrf
                  middleware/wrap-formats]}
-   ["/" {:get  admin-page}]
+   ["" {:get  admin-page}]
    ["/problems" {:get problems-page
                  :post update-problem!}]
    ["/seed-problems" {:post seed-problems!}]])

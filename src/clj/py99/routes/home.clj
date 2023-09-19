@@ -32,16 +32,17 @@
     (->> (take days (p/periodic-seq start-day (t/days 1)))
          (map to-date-str))))
 
-;; description?
+;; 情報応用の授業期間。2023-10-01 から 150 日間。
+;; chart の横軸になる。
 (def ^:private period (make-period 2023 10 1 150))
 
 ;; weekly reports の〆切日
 (def ^:private weeks
-  ["2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
+  ["2023-10-02" "2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
    "2023-11-06" "2023-11-13" "2023-11-20" "2023-11-27"
    "2023-12-04" "2023-12-11" "2023-12-18" "2023-12-25"
    "2024-01-01" "2024-01-08" "2024-01-15" "2024-01-22" "2024-01-29"
-   "2024-02-05" "2024-02-12"])
+   "2024-02-05" "2024-02-12" "2024-02-19"])
 
 ;; Selmer private extensions
 (defn- wrap-aux
@@ -95,7 +96,7 @@
    (str busy-mark
         " "
         (str one five fifteen)
-        " (過去 1,5,15 分のサーバ負荷)")))
+        " (過去 1, 5, 15 分間のサーバ負荷)")))
 
 (comment
   (uptime)
@@ -344,10 +345,6 @@
             f (g true)
             s (g false)]
         (recur s (rest bin) (conj ret (count-up f)))))))
-
-(comment
-  (db/points? {:login "aykz2731"})
-  :rcf)
 
 (defn profile [login]
   (let [solved (db/answers-by {:login login})

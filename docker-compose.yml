@@ -5,7 +5,7 @@ services:
     image: hkim0331/py99:0.2
     user : vscode
     ports:
-      - "3000:3000"
+      - "3010:3010"
     working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app

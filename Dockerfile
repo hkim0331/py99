@@ -22,4 +22,4 @@ RUN groupadd --gid $USER_GID $USERNAME \
 
 USER $USERNAME
 
-RUN pip install numpy matplotlib pytest
+RUN pip install numpy matplotlib pytest wheel==0.41.2

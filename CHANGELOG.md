@@ -2,18 +2,22 @@
 
 ## Unreleased
 
+* ChatGPT 対策、間違い修正問題では？
 * 次回答をする前に他回答を n 個以上、読まないといけないようにする。
-* dummy NG ボタン。
-* auto-reload
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-* /todays: return-key で go
-* testcode atom(もうちょっと具体的に書いておかないと)
 * login ユーザのリスト。logout したら削除する。いらないか。
 * 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
-* ChatGPT 対策、間違い修正問題では？
 * 最初の週は過去の py99 を見せる。本番は第2週以降。
   DB を差し替えなければいいのかな？
 * seed-in/seed-out
+* clojure:temurin-20:lein を入れても二つのパッケージが残る。
+  wheel 0.37.1 -> 0.38.0
+  setuptools 59.6.0 ->
+* dummy NG ボタン。
+* auto-reload
+* /todays: return-key で go
+* testcode atom(もうちょっと具体的に書いておかないと)
+* pip install wheel を Dockerfile で実施したらどうなる？
 
 
 ## 0.68.5 - 2023-09-12

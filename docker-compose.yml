@@ -2,7 +2,7 @@ version: "3"
 
 services:
   py99:
-    image: hkim0331/py99:0.2
+    image: hkim0331/py99:0.3.4
     user : vscode
     # calva auto forwards
     # ports:

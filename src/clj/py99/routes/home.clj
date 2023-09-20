@@ -125,7 +125,7 @@
   [request]
   (let [login (login request)
         solved (map #(:num %) (db/answers-by {:login login}))
-        individual (db/answers-by-date-login {:login login})
+        individual  (db/answers-by-date-login {:login login})
         all-answers (db/answers-by-date)]
     ;; (log/info "status-page" login)
     (layout/render

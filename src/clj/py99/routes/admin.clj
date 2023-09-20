@@ -2,6 +2,7 @@
   (:require
    #_[clojure.edn :as edn]
    [clojure.java.io :as io]
+   clojure.pprint
    #_[clojure.string :refer [split-lines starts-with? replace-first]]
    [py99.db.core :as db]
    [py99.layout :as layout]
@@ -22,7 +23,8 @@
 ;;     (layout/render request "home.html" {:docs "done seed problems."})))
 
 (defn seed-problems!
-  "rebuild problems table from docs/problems.edn"
+  "rebuild problems table from resources/docs/problems.edn.
+   before rebuilding, delete the problems table."
   [request]
   (let [problems (-> (io/resource "docs/problems.edn")
                      slurp
@@ -31,6 +33,16 @@
     (doseq [[i m] (map-indexed #(vector (inc %1) %2) problems)]
       (db/create-problem! {:num i :problem (:problem m) :test (:test m)}))
     (layout/render request "home.html" {:docs "seeded problems."})))
+
+;; FIXME: pretty print
+(defn dump-problems!
+  "output problems to resources/docs/problems-dump.edn"
+  [_]
+  (spit (io/resource "docs/problems-dump.edn")
+        (with-out-str (clojure.pprint/pprint (db/fetch-problems))))
+  {:status 200
+   :headers {"content-type" "text/html"}
+   :body "dumped to resouces/docs/problems-dump.edn"})
 
 (defn admin-page [request]
   (layout/render request "admin.html"))
@@ -55,4 +67,5 @@
    ["" {:get  admin-page}]
    ["/problems" {:get problems-page
                  :post update-problem!}]
-   ["/seed-problems" {:post seed-problems!}]])
+   ["/seed-problems" {:post seed-problems!}]
+   ["/dump-problems" {:post dump-problems!}]])

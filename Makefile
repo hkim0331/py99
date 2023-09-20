@@ -1,4 +1,4 @@
-TAG=hkim0331/py99:0.3.3
+TAG=hkim0331/py99:0.3.4
 DEST="ubuntu@app.melt.kyutech.ac.jp"
 
 all: clean security manifest
@@ -31,4 +31,5 @@ deploy: uberjar
 	ssh ${DEST} 'systemctl status py99'
 
 clean:
-	${RM} py99.zip -rf target
+	${RM} py99.zip
+

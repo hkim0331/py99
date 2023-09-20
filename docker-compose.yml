@@ -2,10 +2,13 @@ version: "3"
 
 services:
   py99:
-    image: hkim0331/py99:0.2
+    image: hkim0331/py99:0.3.4
     user : vscode
-    ports:
-      - "3000:3000"
+    # calva auto forwards
+    # ports:
+    #   - "3010:3010"
+    # what is this? what does this mean?
+    #   - ${NREPL_PORT:-7010}:7010
     working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app

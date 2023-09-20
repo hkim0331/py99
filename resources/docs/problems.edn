@@ -1,71 +1,59 @@
 [;; 小手調べ
  {:problem "'Hello, Python!' を画面にプリントするプログラム。"}
 
-;; {:problem "+, -, *, **, /, //, % はそれぞれ何を計算する演算子か。"}
-
-;; {:problem "1 + 2 を評価すると 3 を返し、123 + 3 は 126 を返す。
-;;           '123' + '3' は何を返すか？
-;;           '123' * 3 は？
-;;           '123' * '3' は？"}
-
  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
  ;; difference between `print` and `return`
- {:problem "関数 greeting_( ) を定義しなさい。実行すると文字列の入力待ちになり、
-            キーボードで入力した文字列(例えば abc)を使って、
-            'Hello, abc' をプリントする。"}
+ {:problem "関数 greeting_( ) を定義しなさい。実行すると文字列の入力待ちになり、キーボードで入力した文字列(例えば abc)を使って、'Hello, abc' をプリントする。"}
 
- {:problem "関数 hello_(s) を定義しなさい。
-            引数の s は文字列。
-            hello_('Japan') は 'Hello, Japan' をプリントする。"}
+ {:problem "関数 hello_(s) を定義しなさい。引数の s は文字列。hello_('Japan') は 'Hello, Japan!' をプリントする。"}
 
- {:problem "関数 hello(s) を定義しなさい。
-           引数の s は文字列。hello('Japan') は文字列 'Hello, Japan' を返す。"
+ {:problem "関数 hello(s) を定義しなさい。引数の s は文字列。hello('Japan') は文字列 'Hello, Japan!' を返す。"
   :test "def test_hello( ):
-  assert hello('Japan') == 'Hello, Japan'
-  assert hello('Good bye') == 'Hello, Good bye'"}
+  assert hello('Japan') == 'Hello, Japan!'
+  assert hello('Good bye') == 'Hello, Good bye!'"}
 
  ;; numeric
- {:problem "整数 x, y を引数にとり、それらの和、差、積、商をプリントする関数
-            arithmetic_(x, y)."}
+ {:problem "整数 x, y を引数にとり、それらの和、差、積、商をプリントする関数 arithmetic_(x, y)."}
 
- {:problem "数 x, y を引数にとり、
-            それらを足した数を戻り値とする関数 add2(x, y)."
+ {:problem "数 x, y を引数にとり、それらを足した数を戻り値とする関数 add2(x, y)."
   :test "def test_add2( ):
-    assert add2(1,2) == 3
-    assert add2(-10,-10) == -20
-    assert add2(123, 234) == 357
-    assert add2(0.0, 0) == 0"}
+  assert add2(1,2) == 3
+  assert add2(-10,-10) == -20
+  assert add2(123, 234) == 357
+  assert add2(0.0, 0) == 0"}
 
- {:problem "数 x, y を引数にとり、
-            それらを足した数をプリントする関数 add2_(x, y)."}
+ {:problem "数 x, y を引数にとり、それらを足した数をプリントする関数 add2_(x, y)."}
 
  {:problem "円の半径を引数にとり、その円の面積を戻り値とする関数en(r)."
   :test "def test_en():
-    assert en(1) - 3.14 < 0.01
-    assert en(10) - 314 < 1.0
-    assert en(-1) == None"}
+  assert en(1) - 3.14 < 0.01
+  assert en(10) - 314 < 1.0
+  assert en(-1) == None"}
 
- {:problem "円の半径をキーボードから読み、
-            その円の面積をプリントする関数 en_( )."}
+ {:problem "円の半径をキーボードから読み、その円の面積をプリントする関数 en_( )."}
 
+ ;; 例外
  ;; floating numbers
- {:problem "ax^2 + bx +c==0 の a,b,c を引数に取り、
-            2次方程式の解をリストで返す関数 eqn2(a, b, c).
-            虚数解の時はどうすっか。"
+ {:problem "二次方程式 ax^2 + bx + c == 0 の a,b,c を引数に取り、方程式の解をリストで返す関数 eqn2(a, b, c). 重解や虚数解に注意せよ。"
   :test "def test_eqn2():
   assert set(eqn2(1,-3,2)) == {1,2}
   assert set(eqn2(1,-2,1)) == {1}
   assert set(eqn2(1,-1,-6)) == {-2, 3}"}
 
- ;; FIXME: test is not enough. in particular, not test.
- {:problem "小数点数 x を四捨五入した整数を返す関数 f_to_i(x).
-            注意: python の関数 round( ) だと、
-            round(2.5) が 2 になってちょっとまずい。負数にも注意せよ。"
-  :test "def test_f_to_i():
-  assert f_to_i(0.5) == 1
-  assert f_to_i(1.5) == 2
-  assert f_to_i(2.5) == 3"}
+ ;; 否定のテスト追加
+ {:problem "正の小数点数 x を四捨五入した整数を返す関数 pos_to_i(x). 注意: python の関数 round( ) だと、round(2.5) が 2 になってちょっとまずい。"
+  :test "def test_pos_to_i():
+  assert pos_to_i(0.5) == 1
+  assert pos_to_i(1.5) == 2
+  assert pos_to_i(2.5) == 3"}
 
+ {:problem "前問を負の小数まで拡張子た関数 f_to_i(x)."
+  :test "def test_f_to_i():
+   assert f_to_i(0.5) == 1
+   assert f_to_i(1.5) == 2
+   assert f_to_i(2.5) == 3
+         "}
+ 
  {:problem "小数点数 x を小数点第 2 位で四捨五入した数を返す関数 f_to_f1(x).
             f_to_f1(3.14159265) の戻り値は 3.100000 になる"
   :test "def test_f_to_f1():
@@ -87,11 +75,9 @@
   assert is_even(-100)
   assert not is_even(-99)"}
 
- {:problem "キーボードから整数ひとつを入力し、それが偶数だったら '偶数です'、
-            奇数だったら '奇数です' とプリントする関数 parity_( )."}
+ {:problem "キーボードから整数ひとつを入力し、それが偶数だったら '偶数です'、奇数だったら '奇数です' とプリントする関数 parity_( )."}
 
- {:problem "数 x を引数に取り、それが負数だったら -1, ゼロと等しければ 0,
-            正数であれば 1 を返す関数 sign(x)."
+ {:problem "数 x を引数に取り、それが負数だったら -1, ゼロと等しければ 0, 正数であれば 1 を返す関数 sign(x)."
   :test "def test_sign( )
   assert sign(-100)==-1
   assert sign(0)==0
@@ -99,8 +85,7 @@
   assert sign(0.0)==0
   assert sign(3.14)==1"}
 
- {:problem "彼・彼女の年齢を y とする。彼・彼女がティーンエイジャーだったら True、
-            そうでなければ False を返す関数 is_teenage(y)."
+ {:problem "彼・彼女の年齢を y とする。彼・彼女がティーンエイジャーだったら True、そうでなければ False を返す関数 is_teenage(y)."
   :test "def test_is_teenage( ):
   assert not is_teenage(10)
   assert not is_teenage(12)
@@ -108,23 +93,16 @@
   assert is_teenage(17)
   assert not is_teenage(20)"}
 
- {:problem "3 つの整数を引数とし、
-            それらの長さを各辺とする三角形がありうるかどうかを判定する関数
-            is_triangle(x,  y,  z)."
+ {:problem "3 つの整数を引数とし、それらの長さを各辺とする三角形がありうるかどうかを判定する関数 is_triangle(x, y, z)."
   :test "def test_is_triable():
   assert     is_triangle(1,1,1)
   assert not is_triangle(1,1,0)"}
 
 
- {:problem "3 つの整数を引数とし、
-            それらの長さを各辺とする直角三角形がありうるかどうかを判定する関数
-            is_normal_triangle(x,  y,  z)."}
+ {:problem "3 つの整数を引数とし、それらの長さを各辺とする直角三角形がありうるかどうかを判定する関数 is_normal_triangle(x, y, z)."}
 
  ;; calendar
- {:problem "西暦 year を引数にとり昭和、平成、令和の和暦を表す文字列を返す関数
-            era(year). era(2022)は '令和4年' を返す。
-            1926年、1989年、2019年はそれぞれ
-            '昭和元年'、'平成元年'、'令和元年'を返すこと。"
+ {:problem "西暦 year を引数にとり昭和、平成、令和の和暦を表す文字列を返す関数 era(year). era(2022)は '令和4年' を返す。1926年、1989年、2019年はそれぞれ '昭和元年'、'平成元年'、'令和元年'を返すこと。"
   :test "def test_era( ):
   assert era(1926)=='昭和元年'
   assert era(1989)=='平成元年'
@@ -133,19 +111,15 @@
   assert era(2013)=='平成25年'
   assert era(2022)=='令和4年'"}
 
- {:problem "西暦 year を引数にとり、閏年であれば True、
-            そうでなければ False を返す関数 is_leap(year).
-            西暦が 4 で割り切れれば閏年。ただし、100 で割り切れる時は平年。
-            ただし、400 で割り切れる時は閏年。"
+ {:problem "西暦 year を引数にとり、閏年であれば True、そうでなければ False を返す関数 is_leap(year).西暦が 4 で割り切れれば閏年。ただし、100 で割り切れる時は平年。ただし、400 で割り切れる時は閏年。"
   :test "def test_is_leap( ):
-    assert is_leap(2000)
-    assert is_leap(2004)
-    assert not is_leap(2100)
-    assert not is_leap(2022)
-    assert is_leap(2024)"}
+  assert is_leap(2000)
+  assert is_leap(2004)
+  assert not is_leap(2100)
+  assert not is_leap(2022)
+  assert is_leap(2024)"}
 
- {:problem "hh 時 mm 分 ss 秒の hh, mm, ss を引数にとり、
-            00 時 00 分 00 秒からの通算秒に変換した整数を戻り値とする関数
+ {:problem "hh 時 mm 分 ss 秒の hh, mm, ss を引数にとり、00 時 00 分 00 秒からの通算秒に変換した整数を戻り値とする関数
             time_to_int(h, m, s)."}
 
  {:problem "時刻 h1:m1:s1 と 時刻 h2:m2:s2 の間の秒数を整数で返す関数
@@ -160,7 +134,7 @@
 
  ;; ;; dictionary
  ;; {:problem "月の名前を文字列 s で取り、その月の日数を返す関数 days(s)."}
-
+ 
  ;; iteration, loop
  {:problem "n + (n+1) + ... + m を求める関数 sum_int(n, m).
             sum_int(100, 1000000000) を1秒以内に計算できるか？"
@@ -224,10 +198,10 @@
  ;; s.index(s1)
  ;; s.count(s2)
  ;; s.strip( ), lstrip( ), rstrip( )
-
+ 
  ;; C だからあり得た問題。
  ;;{:problem "文字列 s が空文字列 '' かどうかを判定する関数 is_empty(s)."}
-
+ 
  {:problem "文字列 s を逆にした文字列を返す関数 str_reverse(s)."}
 
  {:problem "文字列 s に含まれる文字 c をリストで返す関数 find_char(s, c).
@@ -487,38 +461,38 @@ def test_max_in_list( ):
  ;; {:problem "整数 n のルートを超えない最大の整数を返す関数int sqrt_int(int n).
  ;;            sqrt_int(24) の戻り値は4, sqrt_int(25)の戻り値は 5 を期待する。
  ;;            ライブラリ sqrt を使わずに解くこと。"}
-
+ 
  {:problem "1000000 未満の整数で、平方数かつ立方数でもある最大の数は何か。
             square_cubic(int n). square_cubic(1000000) の戻り値はきっと、531***."}
 
 ;; {:problem "n を整数とする。factorial(n) + 2 が立方数となるような n を全て求めよ。"}
-
+ 
 ;; {:problem "ビルトイン関数の sorted( ), list クラスの sort( ) メソッドを使わずに、
 ;;            リスト xs の要素を小さい順に並べ替えたリストを返す関数 my_sort(xs)
 ;;            を定義しなさい。"}
-
+ 
  ;; files, csv
  ;; {:problem ""}
-
+ 
  ;; {:problem "ファイル file が何行あるかを返す関数lines(file)を定義しなさい。
  ;;            ファイルa href='000975797.csv'></a> は
  ;;            https://www.city.kitakyushu.lg.jp/soumu/file_0311.html にある
  ;;            北九州市の人口Excel データを csv に変換したものです。
  ;;            ダウンロードし、適当な場所にセーブしてください。
  ;;            ファイル 000975797.csv は何行あるか。"}
-
+ 
  ;; {:problem "ファイル 'numbers.txt' の n 行目の数字を返す関数int nth(int n)."}
-
+ 
  ;; {:problem "ファイル 'numbers.txt' の最初の十行に含まれる整数の総和を返す関数int sum10(void)."}
-
+ 
  ;; {:problem "ファイル 'numbers.txt' の最初の n 行に含まれる整数の総和を返す関数int sum_n(int n)."}
-
+ 
  ;; {:problem "ファイル 'numbers.txt' の最後の n 行に含まれる整数の総和を返す関数int sum_tail(int n)."}
-
+ 
  ;; {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を表示する関数 void cat(char *fname)"}
-
+ 
  ;; {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を行番号つきで表示する関数 void n_cat(char *fname)"}
-
+ 
 
  ;; recursion
  {:problem "フィボナッチ数列を計算する関数  fibo(n) を定義せよ。
@@ -553,4 +527,3 @@ def test_max_in_list( ):
 
  ;; matplotlib
 ;; {:problem "matplotlib, how to?"}
-

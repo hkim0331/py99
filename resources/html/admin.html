@@ -10,6 +10,13 @@
    <li><a href='/admin/problems'>edit problems</a></li>
    </ul>
 
+   <form method='post' action='/admin/dump-problems'>
+    {% csrf-field %}
+    <input type='submit'
+     class='button is-small is-primary'
+     value='dump problems'>
+   </form>
+
    <p>for safety, currently disable `seed problem` button.</p>
    <!-- for safety, disable submit button -->
    <form method='post' action='/admin/seed-problems'>

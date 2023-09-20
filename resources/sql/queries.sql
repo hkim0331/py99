@@ -72,6 +72,10 @@ DELETE FROM problems
 -- :doc returns problems count
 SELECT COUNT(*) FROM problems
 
+-- :name fetch-problems :? :*
+SELECT problem, test FROM problems
+order by id;
+
 -- --------------
 -- answers section
 -- --------------

@@ -18,7 +18,42 @@
 * /todays: return-key で go
 * testcode atom(もうちょっと具体的に書いておかないと)
 * pip install wheel を Dockerfile で実施したらどうなる？
+- num の他にもう一つ順序をもつコラムを設ける。問題を追加が楽だろう。
+- num を付け直す関数 renum
+- テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
 
+
+## 0.68.6 - 2023-09-21
+### Added
+poetry for local development
+- pyproject.toml
+- poetry.lock
+- .venv (gitignored)
+
+```shell
+% pip list
+Package           Version
+----------------- -------
+contourpy         1.1.1
+cycler            0.11.0
+fonttools         4.42.1
+iniconfig         2.0.0
+kiwisolver        1.4.5
+matplotlib        3.8.0
+numpy             1.25.2
+packaging         23.1
+Pillow            10.0.1
+pip               23.2.1
+pluggy            1.3.0
+pyparsing         3.1.1
+pytest            7.4.2
+python-dateutil   2.8.2
+setuptools        68.2.2
+setuptools-scm    8.0.1
+six               1.16.0
+typing_extensions 4.8.0
+wheel             0.41.2
+```
 
 ## 0.68.5 - 2023-09-12
 works on m64 devcontainer.

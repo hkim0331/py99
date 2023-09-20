@@ -56,9 +56,16 @@ adjust `weeks` and `period` in home.clj before use.
 
 ## Running
 
-To start a web server for the application, run:
+    cd <to_this_dir>
+    code .
+    start dev container
+    REPL
+    choose Leingingen
+    in output.calva-repl,
+    user> (start)
 
-    lein run
+after starting, calva auto foward ports.
+using it, emacs cider can connect the working nrepl.
 
 ## License
 

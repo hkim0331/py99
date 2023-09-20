@@ -1,8 +1,26 @@
+TAG=hkim0331/py99:0.3.1
 DEST="ubuntu@app.melt.kyutech.ac.jp"
-TAG=hkim0331/py99:0.2
+
+all: clean security manifest
 
 build:
 	docker build -t ${TAG} .
+
+security:
+	security -v unlock-keychain ~/Library/Keychains/login.keychain-db
+
+manifest: arm64 amd64
+	docker manifest create --amend ${TAG} ${TAG}-amd64 ${TAG}-arm64
+	docker manifest push ${TAG}
+
+amd64:
+	docker buildx build --platform linux/$@ --push -t ${TAG}-$@ .
+
+arm64:
+	docker buildx build --platform linux/$@ --push -t ${TAG}-$@ .
+
+zip:
+	zip -r py99.zip Dockerfile Makefile docker-compose.yml .devcontainer
 
 uberjar:
 	lein uberjar
@@ -13,4 +31,4 @@ deploy: uberjar
 	ssh ${DEST} 'systemctl status py99'
 
 clean:
-	${RM} -rf target
+	${RM} py99.zip -rf target

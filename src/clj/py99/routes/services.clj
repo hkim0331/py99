@@ -4,8 +4,8 @@
    [py99.middleware :as middleware]
    [ring.util.http-response :as response]))
 
-(defn midterm [{{:keys [n]} :path-params}]
-  (response/ok {:n n}))
+;; (defn midterm [{{:keys [n]} :path-params}]
+;;   (response/ok {:n n}))
 
 (defn service-routes []
   ["/api"

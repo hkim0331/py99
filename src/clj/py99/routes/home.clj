@@ -455,7 +455,8 @@
     (layout/render request "stocks.html"
                    {:stocks (db/stocks? {:login login})})))
 
-(defn list-todays [{{:keys [date]} :path-params :as request}]
+(defn list-todays
+  [{{:keys [date]} :path-params :as request}]
   ;; (log/debug "list-todays" date)
   (if (re-matches #"\d\d\d\d-\d\d-\d\d" date)
     (layout/render request "todays.html"

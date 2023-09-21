@@ -1,529 +1,663 @@
-[;; 小手調べ
- {:problem "'Hello, Python!' を画面にプリントするプログラム。"}
-
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; difference between `print` and `return`
- {:problem "関数 greeting_( ) を定義しなさい。実行すると文字列の入力待ちになり、キーボードで入力した文字列(例えば abc)を使って、'Hello, abc' をプリントする。"}
-
- {:problem "関数 hello_(s) を定義しなさい。引数の s は文字列。hello_('Japan') は 'Hello, Japan!' をプリントする。"}
-
- {:problem "関数 hello(s) を定義しなさい。引数の s は文字列。hello('Japan') は文字列 'Hello, Japan!' を返す。"
-  :test "def test_hello( ):
-  assert hello('Japan') == 'Hello, Japan!'
-  assert hello('Good bye') == 'Hello, Good bye!'"}
-
- ;; numeric
- {:problem "整数 x, y を引数にとり、それらの和、差、積、商をプリントする関数 arithmetic_(x, y)."}
-
- {:problem "数 x, y を引数にとり、それらを足した数を戻り値とする関数 add2(x, y)."
-  :test "def test_add2( ):
-  assert add2(1,2) == 3
-  assert add2(-10,-10) == -20
-  assert add2(123, 234) == 357
-  assert add2(0.0, 0) == 0"}
-
- {:problem "数 x, y を引数にとり、それらを足した数をプリントする関数 add2_(x, y)."}
-
- {:problem "円の半径を引数にとり、その円の面積を戻り値とする関数en(r)."
-  :test "def test_en():
-  assert en(1) - 3.14 < 0.01
-  assert en(10) - 314 < 1.0
-  assert en(-1) == None"}
-
- {:problem "円の半径をキーボードから読み、その円の面積をプリントする関数 en_( )."}
-
- ;; 例外
- ;; floating numbers
- {:problem "二次方程式 ax^2 + bx + c == 0 の a,b,c を引数に取り、方程式の解をリストで返す関数 eqn2(a, b, c). 重解や虚数解に注意せよ。"
-  :test "def test_eqn2():
-  assert set(eqn2(1,-3,2)) == {1,2}
-  assert set(eqn2(1,-2,1)) == {1}
-  assert set(eqn2(1,-1,-6)) == {-2, 3}"}
-
- ;; 否定のテスト追加
- {:problem "正の小数点数 x を四捨五入した整数を返す関数 pos_to_i(x). 注意: python の関数 round( ) だと、round(2.5) が 2 になってちょっとまずい。"
-  :test "def test_pos_to_i():
-  assert pos_to_i(0.5) == 1
-  assert pos_to_i(1.5) == 2
-  assert pos_to_i(2.5) == 3"}
-
- {:problem "前問を負の小数まで拡張子た関数 f_to_i(x)."
-  :test "def test_f_to_i():
-   assert f_to_i(0.5) == 1
-   assert f_to_i(1.5) == 2
-   assert f_to_i(2.5) == 3
-         "}
- 
- {:problem "小数点数 x を小数点第 2 位で四捨五入した数を返す関数 f_to_f1(x).
-            f_to_f1(3.14159265) の戻り値は 3.100000 になる"
-  :test "def test_f_to_f1():
-  assert f_to_f1(3.14159265) == 3.1"}
-
- {:problem "小数点数 x を小数点第 n+1 位で四捨五入した数を返す関数 f_to_f( x, n).
-            f_to_f(3.14159265, 4) の戻り値は 3.141600になる。"
-  :test "def test_f_to_f():
-  assert f_to_f(3.14159265, 4) == 3.1416"}
-
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; predicates
- {:problem "整数 x を引数にとり、それが偶数であれば True、
-            奇数だったら False を返す関数 is_even(x)."
-  :test "def test_is_even( ):
-  assert is_even(0)
-  assert not is_even(1)
-  assert is_even(100)
-  assert is_even(-100)
-  assert not is_even(-99)"}
-
- {:problem "キーボードから整数ひとつを入力し、それが偶数だったら '偶数です'、奇数だったら '奇数です' とプリントする関数 parity_( )."}
-
- {:problem "数 x を引数に取り、それが負数だったら -1, ゼロと等しければ 0, 正数であれば 1 を返す関数 sign(x)."
-  :test "def test_sign( )
-  assert sign(-100)==-1
-  assert sign(0)==0
-  assert sign(-0)==0
-  assert sign(0.0)==0
-  assert sign(3.14)==1"}
-
- {:problem "彼・彼女の年齢を y とする。彼・彼女がティーンエイジャーだったら True、そうでなければ False を返す関数 is_teenage(y)."
-  :test "def test_is_teenage( ):
-  assert not is_teenage(10)
-  assert not is_teenage(12)
-  assert not is_teenage(5)
-  assert is_teenage(17)
-  assert not is_teenage(20)"}
-
- {:problem "3 つの整数を引数とし、それらの長さを各辺とする三角形がありうるかどうかを判定する関数 is_triangle(x, y, z)."
-  :test "def test_is_triable():
-  assert     is_triangle(1,1,1)
-  assert not is_triangle(1,1,0)"}
-
-
- {:problem "3 つの整数を引数とし、それらの長さを各辺とする直角三角形がありうるかどうかを判定する関数 is_normal_triangle(x, y, z)."}
-
- ;; calendar
- {:problem "西暦 year を引数にとり昭和、平成、令和の和暦を表す文字列を返す関数 era(year). era(2022)は '令和4年' を返す。1926年、1989年、2019年はそれぞれ '昭和元年'、'平成元年'、'令和元年'を返すこと。"
-  :test "def test_era( ):
-  assert era(1926)=='昭和元年'
-  assert era(1989)=='平成元年'
-  assert era(2019)=='令和元年'
-  assert era(1984)=='昭和59年'
-  assert era(2013)=='平成25年'
-  assert era(2022)=='令和4年'"}
-
- {:problem "西暦 year を引数にとり、閏年であれば True、そうでなければ False を返す関数 is_leap(year).西暦が 4 で割り切れれば閏年。ただし、100 で割り切れる時は平年。ただし、400 で割り切れる時は閏年。"
-  :test "def test_is_leap( ):
-  assert is_leap(2000)
-  assert is_leap(2004)
-  assert not is_leap(2100)
-  assert not is_leap(2022)
-  assert is_leap(2024)"}
-
- {:problem "hh 時 mm 分 ss 秒の hh, mm, ss を引数にとり、00 時 00 分 00 秒からの通算秒に変換した整数を戻り値とする関数
-            time_to_int(h, m, s)."}
-
- {:problem "時刻 h1:m1:s1 と 時刻 h2:m2:s2 の間の秒数を整数で返す関数
-            sec_between(h1, m1, s1, h2, m2, s2)."}
-
- {:problem "平年の 1 月 1 日から同年 mm 月 dd 日までの日数を返す関数
-            days(mm, dd)."}
-
- {:problem "y1 年 m1 月 d1 日から y2 年 m2 月 d2 月までの日数を返す関数
-            days_between(y1, m1, d1, y2, m2, d2).
-            自分は今日まで何日生きてきましたか?"}
-
- ;; ;; dictionary
- ;; {:problem "月の名前を文字列 s で取り、その月の日数を返す関数 days(s)."}
- 
- ;; iteration, loop
- {:problem "n + (n+1) + ... + m を求める関数 sum_int(n, m).
-            sum_int(100, 1000000000) を1秒以内に計算できるか？"
-  :test "def test_sum_int():
-    assert sum_int(0,10) == 55
-    assert sum_int(2,30) == sum_int(0,30)-sum_int(0,1)
-    assert sum_int(-10, 10) == 0
-    assert 1.0 * sum_int(100, 1000000000) == 1.0 * 500000000499995050"}
-
- {:problem "n から m の整数のうち、偶数だけの和を求める関数 sum_evens(n, m)"
-  :test "def test_sum_even():
-    assert sum_even(0,100)== 2550
-    assert sum_even(0, 1) == 0
-    assert sum_even(-100,300) == 20100"}
-
- {:problem "整数 n から m までの二乗和を求める関数 sum2(n, m)."
-  :test "def test_sum2():
-    assert sum2(0,10)== 385
-    assert sum2(100,200) == 2358350
-    assert sum2(0,5) == 1 + 4 + 9 + 16 + 25
-    assert sum2(-10, 10) == 385*2"}
-
- {:problem "整数 n を引数とし、それが 3 の倍数だったら 1、
-            5 の倍数だったら 2、
-            3 の倍数でもあり、かつ、5 の倍数でもあったら 3、
-            いずれでもなかったら 0 を返す関数 fz(int n)."
-  :test "def test_fz( ):
-  assert list(map(fz, range(16))) == [3, 0, 0, 1, 0, 2, 1, 0, 0, 1, 2, 0, 1, 0, 0, 3]"}
-
- {:problem "fz(n) + fz(n+1) + ... + fz(m) を求める関数 sum_fz(n, m)."
-  :test "def test_sum_fz():
-    assert sum_fz(0, 2) == 3
-    assert sum_fz(0, 10) == 10
-    assert sum_fz(20,100) == 61
-    assert sum_fz(100,200) == 75"}
-
- {:problem "(孫子の問題) 3 で割って 1 余り、5 で割って 2 余り、
-           7 で割って 3 余る正の整数の最小のものはなにか？
-           関数 son() を定義しなさい。"
-  :test "def test_son():
-    assert son() == 52"}
-
- {:problem "キーボードから複数の整数を入力、
-           0 が入力されたらそれまでに入力された整数を合計してプリントする
-           関数 sunlive_( ).
-           関数の名前はspina( )_ あるいは HelloDay_( ) でも良い。"}
-
- ;; statistics
- {:problem "リスト xs 中の要素の平均値を返す関数 mean(xs).
-            numpy.mean を使うのは反則とする。"}
-
- {:problem "リスト xs の中央値を返す関数 median(xs).
-            numpy.median を使うのは反則とする。"}
-
- {:problem "整数 xs の最頻値を返す関数 mode(xs).
-            numpy.mode を使うのは反則とする。"}
-
- ;; strings
- ;;
- ;; s.replace(s1,s2)
- ;; s.index(s1)
- ;; s.count(s2)
- ;; s.strip( ), lstrip( ), rstrip( )
- 
- ;; C だからあり得た問題。
- ;;{:problem "文字列 s が空文字列 '' かどうかを判定する関数 is_empty(s)."}
- 
- {:problem "文字列 s を逆にした文字列を返す関数 str_reverse(s)."}
-
- {:problem "文字列 s に含まれる文字 c をリストで返す関数 find_char(s, c).
-            find_char('apple','p') は ['p', 'p'] を返す。"}
-
- {:problem "文字列 s に含まれる文字 c の数を返す関数 count_char(s, c).
-            count_char('apple','p') は 2 を返す。"}
-
- {:problem "文字列 s に含まれる単語の数を返す関数 count_word(s).
-            単語はスペースで区切られた文字列。
-            count_words('I love you. I need you.') の戻り値は 6."}
-
- {:problem "'Kimura Takuya' のような文字列 s を引数とし、
-           そのイニシャル 'K.T.' を返す関数 initial(s)."}
-
-
- ;; define functions using defined functions.
- {:problem "二つの数 x, y のどちらか大きい方を返す関数 max2(x, y).
-            ビルトイン関数の max を使うのは反則とする。"
-  :teset "def max2(x,y):
-  if x>y:
-    return x
-  else:
-    return y"}
-
- {:problem "三つの数 x, y, z の最大値を返す関数 max3(x, y, z).
-           ビルトイン関数の max を使うのは反則とする。"
-  :test "def test_max3( ):
-  assert max3(1,2,3) == 3
-  assert max3(10,20,3) == 20
-  assert max3(100,20,30) == 100"}
-
- {:problem "リスト xs 中の要素の最大値を返す関数 max_in_list(xs).
-            ビルトイン関数の max を使うのは反則とする。"
-  :test "import random
-def test_max_in_list( ):
-  assert max_in_list([])==[]
-  assert max_in_list([100])==100
-  assert max_in_list(range(10))==9
-  assert 0 <= max_in_list(random.choices(range(10),k=100)) < 10"}
-
- {:problem "リスト xs 中の要素の最大値のリストを返す関数 maxen(xs).
-            関数 max_in_list(xs) との違いは、
-            最大値が複数ある場合にそれらをリストで返すことだ。"
+({:problem "'Hello, Python!' を画面にプリントするプログラム。編集してから seed してみる。",
+  :test "iiii\r\nwww"}
+ {:problem
+  "関数 greeting_( ) を定義しなさい。実行すると文字列の入力待ちになり、 キーボードで入力した文字列(例えば abc)を使って、 'Hello, abc' をプリントする。",
   :test ""}
-
-
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
- ;; random numbers
- {:problem "0 <= r < n の整数乱数 m 個のリストを返す関数
-            list_randoms(n, m)."
-  :test "def test_list_randoms( ):
-  xs = list_randoms(10,20)
-  ys = list_randoms(10,20)
-  assert not xs == ys
-  assert len(xs) == 20
-  assert len(list(filter(lambda x: x < 0, xs))) == 0
-  assert len(list(filter(lambda x: x< 20, xs))) == 20"}
-
- {:problem "rs = list_randoms(n, m) で作った配列 rs 中にみつからない
-            0 <= r < n の数をリストで返す関数 not_found(rs, n)."}
-
- {:problem "ビンゴゲーム用の bingo(n).
-            戻り値は 1 ~ n の n 個の整数が重複なく順番バラバラに入った配列。
-            shuffle( ) を使うのは反則としておこう。"}
-
- {:problem "(モンテカルロメソッド)
-            -1 <= x < 1, -1 <= y < 1 となる乱数(x,y)を 1000 個発生させる。
-            そのうち、
-            x<sup>2</sup>+y<sup>2</sup> &le; 1
-            となる (x,y) の数を n とすると、
-            n/1000 が円周率 pi に近づく。関数 monte-carlo-pi(m) を定義せよ。
-            m は繰り返しの回数。
-            m をより大きくすると近似値が良くなることを確認せよ。"}
-
- {:problem "4/(1+x<sup>2</sup>) を x について 0 から 1 まで積分すると円周率 pi になる。
-            できるだけスマートにプログラムし、上のモンテカルロ法で求める pi と
-            精度、計算時間を比較せよ。"}
-
- ;; coercion between int and str
- {:problem "整数 n は何桁かを返す関数 digits(n)."
-  :test "def test_digits( ):
-  assert digits(12345)==5
-  assert digits(0)==1
-  assert digits(123450123)==9
-  assert digits(24213412414124141412431241414)==29"}
-
- {:problem "整数 n の各桁の総和を返す関数 sum_of_digits(n)."
-  :test "def test_sum_of_digits( ):
-  assert sum_of_digits(12345) == 15
-  assert sum_of_digits(0) == 0"}
-
- {:problem "一の位が０でない整数 n の各桁の数字を逆転した整数を返す関数
-           reverse_int(n)."
-  :test "def test_reverse_int( ):
-  for _ in range(10):
-    n = random.randrange(100000000)
-    if n%10 != 0:
-      assert n == reverse_int(reverse_int(n))"}
-
- {:problem "文字列 s が学生番号かどうかを判定する is_id(s).
-            学生番号とは、数字が 3 つの後に、英大文字一つ、
-            その後、数字が 4 つの 8 文字からなる文字列。"}
-
- ;; palindrome
- {:problem "左右どちらから読んでも同じになる文を回文という。
-            文字列 s が回文かどうかを判定する関数 is_palindrome(s)."}
-
- {:problem "左右どちらから読んでも同じ値になる数を回文数という。
-            整数 n が回文数かどうかを判定する関数 is_palindrome_number(n)."}
-
- {:problem "2 桁の数の積で表される回文数のうち、最大のものは 9009 = 91 × 99 である。
-            3 桁の数の積で表される回文数の最大値を求めよ"}
-
- ;; divisors, gcd
- {:problem "正整数 n を引数とし、その約数のリストを返す関数 divisors(n).
-            1 とn 自身もn の約数だ(0 を除く)。"
-  :test "def test_divisors( ):
-  assert divisors(0) == []
-  assert divisors(1) == [1]
-  assert divisors(10) == [1, 2, 5, 10]
-  assert divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50, 100]"}
-
- {:problem "正整数 n を引数とし、
-            その約数の合計を戻り値とする関数 sum_of_divisors(int n)."
-  :test "def test_sum_of_divisors( ):
-  assert sum_of_divisors(0) == 0
-  assert sum_of_divisors(1) == 1
-  assert sum_of_divisors(10) == 18
-  assert sum_of_divisors(100) == 217"}
-
- {:problem "n 以下の整数のうち、もっとも約数の多い数を返す関数 most_divisors(n).
-            most_divisors(1000)の戻り値は 840."
+ {:problem "new problem here.", :test ""}
+ {:problem
+  "関数 hello_(s) を定義しなさい。 引数の s は文字列。 hello_('Japan') は 'Hello, Japan' をプリントする。",
   :test ""}
-
- {:problem "math.gcd( ) を使わずに、
-           正の整数 x, y の最大公約数を返す関数 gcd2(x, y) を定義しなさい。"
+ {:problem "さらにここに追加。", :test "def test():\n     return nil"}
+ {:problem
+  "関数 hello(s) を定義しなさい。 引数の s は文字列。hello('Japan') は文字列 'Hello, Japan' を返す。",
+  :test
+  "def test_hello( ):\r\n  assert hello('Japan') == 'Hello, Japan'\r\n  assert hello('Good bye') == 'Hello, Good bye'"}
+ {:problem "整数 x, y を引数にとり、それらの和、差、積、商をプリントする関数 arithmetic_(x, y).",
   :test ""}
-
- {:problem "正の整数 x, y z の最大公約数を返す関数 gcd3(x, y, z) を定義しなさい."
+ {:problem "数 x, y を引数にとり、 それらを足した数を戻り値とする関数 add2(x, y).",
+  :test
+  "def test_add2( ):\r\n    assert add2(1,2) == 3\r\n    assert add2(-10,-10) == -20\r\n    assert add2(123, 234) == 357\r\n    assert add2(0.0, 0) == 0\r\n    assert -0.0001 < add2(3.14, 2.58) - 5.72 < 0.0001\r\n    assert -0.0001 < add2(1.1, 2.2) - 3.3 < 0.0001"}
+ {:problem "数 x, y を引数にとり、 それらを足した数をプリントする関数 add2_(x, y).", :test ""}
+ {:problem "円の半径を引数にとり、その円の面積を戻り値とする関数en(r).",
+  :test
+  "def test_en( ):\r\n    assert -0.01 < en(1) - 3.14 < 0.01\r\n    assert -1.0 < en(10) - 314 < 1.0"}
+ {:problem "円の半径をキーボードから読み、その円の面積をプリントする関数 en_( ).", :test ""}
+ {:problem
+  "ax^2 + bx +c==0 の a,b,c を引数に取り、 2次方程式の解をリストで返す関数 eqn2(a, b, c). 虚数解の時はどうすっか。",
+  :test
+  "def test_eqn2():\r\n   assert set(eqn2(1,-3,2)) == {1,2}\r\n   assert set(eqn2(1,-2,1)) == {1}\r\n   assert set(eqn2(1,-1,-6)) == {-2, 3}"}
+ {:problem
+  "小数点数 x を四捨五入した整数を返す関数 f_to_i(x). 注意: python の関数 round( ) だと、 round(2.5) が 2 になってちょっとまずい。負数にも注意せよ。",
+  :test
+  "def test_f_to_i():\r\n   assert f_to_i(0.5) == 1\r\n   assert f_to_i(1.5) == 2\r\n   assert f_to_i(2.5) == 3\r\n   assert f_to_i(3.000005) == 3\r\n   assert f_to_i(-3.5) == -4\r\n   assert f_to_i(-2.5) == -3\r\n   assert f_to_i(-1.5) == -2"}
+ {:problem
+  "小数点数 x を小数点第 2 位で四捨五入した数を返す関数 f_to_f1(x). f_to_f1(3.14159265) の戻り値は 3.1 になる",
+  :test
+  "def test_f_to_f1():\r\n  assert f_to_f1(3.14) == 3.1\r\n  assert f_to_f1(1.55) == 1.6\r\n  assert f_to_f1(3.000005) == 3.0\r\n  # round(x,1)ではここから下は全滅だろ。                                                  \r\n  assert f_to_f1(2.55) == 2.6\r\n  assert f_to_f1(-3.55) == -3.6\r\n  assert f_to_f1(4.55) == 4.6\r\n  assert f_to_f1(6.85) == 6.9\r\n  # 2022-11-12 追加\r\n  assert f_to_f1(314.15) == 314.2\r\n  assert f_to_f1(314.159265) == 314.2\r\n  "}
+ {:problem
+  "小数点数 x を小数点第 n+1 位で四捨五入した数を返す関数 f_to_f( x, n). f_to_f(3.14159265, 4) の戻り値は 3.1416になる。",
+  :test
+  "def test_f_to_f():\r\n   assert f_to_f(3.141592265, 4) == 3.1416\r\n   assert f_to_f(2.512303001, 5) == 2.5123\r\n   assert f_to_f(33.23419242, 6) == 33.234192\r\n   assert f_to_f(-3.53448731, 6) == -3.534487\r\n  assert f_to_f(1.14,1) == 1.1\r\n  assert f_to_f(1.15,1) == 1.2\r\n  assert f_to_f(1.16,1) == 1.2\r\n  assert f_to_f(2.14,1) == 2.1\r\n  assert f_to_f(2.15,1) == 2.2\r\n  assert f_to_f(2.16,1) == 2.2\r\n"}
+ {:problem
+  "整数 x を引数にとり、それが偶数であれば True、 奇数だったら False を返す関数 is_even(x).",
+  :test
+  "def test_is_even( ):\n  assert is_even(0)\n  assert not is_even(1)\n  assert is_even(100)\n  assert is_even(-100)\n  assert not is_even(-99)"}
+ {:problem
+  "キーボードから整数ひとつを入力し、それが偶数だったら '偶数です'、 奇数だったら '奇数です' とプリントする関数 parity_( ).",
   :test ""}
-
- {:problem "正の整数のリスト xs を引数に取り、
-            xs に含まれる整数すべてのの最大公約数を返す関数 gcd_all(xs)."
+ {:problem
+  "数 x を引数に取り、それが負数だったら -1, ゼロと等しければ 0, 正数であれば 1 を返す関数 sign(x).",
+  :test
+  "def test_sign( ):\r\n  assert sign(-100)==-1\r\n  assert sign(0)==0\r\n  assert sign(-0)==0\r\n  assert sign(0.0)==0\r\n  assert sign(3.14)==1"}
+ {:problem
+  "彼・彼女の年齢を y とする。彼・彼女がティーンエイジャーだったら True、 そうでなければ False を返す関数 is_teenage(y).",
+  :test
+  "# 2022-11-13\r\ndef test_is_teenage( ):\r\n  assert list(map(is_teenage,range(10,21))) == [False, False, False, True, True, True, True, True, True, True, False]"}
+ {:problem
+  "3 つの正数を引数とし、 それらの数を各辺とする三角形がありうるかどうかを判定する関数 is_triangle(x,  y,  z). (2022-10-25, 修正)",
+  :test
+  "def test_is_triangle():\r\n  assert     is_triangle(1,1,1)\r\n  assert     is_triangle(3,3,4)\r\n  assert not is_triangle(1/2, 1/3,1/6)\r\n  assert not is_triangle(1,1,0)\r\n  # assert not is_triangle(-3, -3, -3)\r\n  assert     is_triangle(4.5,3,2.5)"}
+ {:problem
+  "3 つの正整数を引数とし、 それらの長さを各辺とする直角三角形がありうるかどうかを判定する関数 is_normal_triangle(x,  y,  z). (2022-10-25 修正)",
+  :test
+  "def test_is_normal_triangle():\r\n  assert     is_normal_triangle(3, 4, 5)\r\n  assert     is_normal_triangle(4, 3, 5)\r\n  assert     is_normal_triangle(5, 3, 4)\r\n  assert     is_normal_triangle(10, 8, 6)\r\n  assert not is_normal_triangle(3, 4, 6)\r\n"}
+ {:problem
+  "西暦 year を引数にとり昭和、平成、令和の和暦を表す文字列を返す関数 era(year). era(2022)は '令和4年' を返す。 1926年、1989年、2019年はそれぞれ '昭和元年'、'平成元年'、'令和元年'を返すこと。",
+  :test
+  "def test_era( ):\r\n  assert era(1926)=='昭和元年'\r\n  assert era(1989)=='平成元年'\r\n  assert era(2019)=='令和元年'\r\n  assert era(1984)=='昭和59年'\r\n  assert era(2013)=='平成25年'\r\n  assert era(2022)=='令和4年'\r\n  assert era(1988)=='昭和63年'\r\n  assert era(2018)=='平成30年'"}
+ {:problem
+  "西暦 year を引数にとり、閏年であれば True、 そうでなければ False を返す関数 is_leap(year). 西暦が 4 で割り切れれば閏年。ただし、100 で割り切れる時は平年。 ただし、400 で割り切れる時は閏年。",
+  :test
+  "def test_is_leap( ):\n    assert is_leap(2000)\n    assert is_leap(2004)\n    assert not is_leap(2100)\n    assert not is_leap(2022)\n    assert is_leap(2024)"}
+ {:problem
+  "hh 時 mm 分 ss 秒の hh, mm, ss を引数にとり、 00 時 00 分 00 秒からの通算秒に変換した整数を戻り値とする関数 time_to_int(hh, mm, ss). (2022-10-28、修正)",
+  :test
+  "def test_time_to_int():\r\n    assert time_to_int(0,0,0) == 0\r\n    assert time_to_int(12,34,56) == 45296\r\n    #assert time_to_int(24,68,10) == None\r\n    assert time_to_int(23,59,59) == 86399\r\n\r\n"}
+ {:problem
+  "時刻 h1:m1:s1 と 時刻 h2:m2:s2 の間の秒数を整数で返す関数 sec_between(h1, m1, s1, h2, m2, s2). h1:m1:s1 の方を過去時間とする。",
+  :test
+  "# こんなんでいいんか？自信なし。\r\nimport pytest\r\n\r\ndef test_sec_between():\r\n    assert sec_between(0,0,0,23,59,59) == 86399\r\n    assert sec_between(0,0,0,0,0,1) == 1\r\n    with pytest.raises(Exception) as e:\r\n        ret = sec_between(24,68,10, 34,56,78)\r\n    assert True\r\n"}
+ {:problem
+  "平年の m1 月 d1 日から同年 m2 月 d2 日までの日数を返す関数 days(m1, d1, m2, d2).",
+  :test
+  "def test_days():\r\n    assert days(1,1,1,1) == 0\r\n    assert days(1,1,10,14) == 286\r\n    assert days(12,31,1,1) == -364\r\n    assert days(10,17,7,1) == -108\r\n    assert days(10,17,9,17) == -30"}
+ {:problem
+  "y1 年 m1 月 d1 日から y2 年 m2 月 d2 月までの日数を返す関数 days_between(y1, m1, d1, y2, m2, d2). 自分は今日まで何日生きてきましたか? 前問の is_leap( ), days ( ) を利用して関数 days_between( )をプログラムしてみよう。（hkimura の手抜き回答は、わかる人だけ怒って、笑ってください）。",
+  :test
+  "# sorry, for my fun (hkimura, 2022-10-26)\r\ndef test_days_between():\r\n    assert days_between(2022,1,1,2023,1,1) == 365\r\n    d = days_between(2020,1,1,2024,12,31)\r\n    assert d == 1825 or d == 1826\r\n    assert days_between(1962,3,31,2022,10,14) == 22112\r\n    assert days_between(2004,3,1,2004,3,1) == 0\r\n"}
+ {:problem "n+(n+1)+ (n+2)+ ... + m を求める関数 sum_int(n, m).",
+  :test
+  "def test_sum_int():\r\n    assert sum_int(0,10) == 55\r\n    assert sum_int(2,30) == sum_int(0,30)-sum_int(0,1)\r\n    assert sum_int(-10, 10) == 0\r\n    # assert 1.0 * sum_int(100, 1000000000) == 1.0 * 500000000499995050"}
+ {:problem
+  " 整数 n から m までの二乗和を求める関数 sum2(n, m).  n<=m とする。(2022-10-28 修正）",
+  :test
+  "def test_sum2():\r\n    assert sum2(0,10)== 385\r\n    assert sum2(100,200) == 2358350\r\n    assert sum2(0,5) == 1 + 4 + 9 + 16 + 25\r\n    assert sum2(-10, 10) == 385*2"}
+ {:problem "n から m の整数のうち、偶数だけの和を求める関数 sum_evens(n,m)",
+  :test
+  "def test_sum_evens():\r\n    assert sum_evens(0,100)== 2550\r\n    assert sum_evens(1, 101) == 2550\r\n    assert sum_evens(0, 1) == 0\r\n    assert sum_evens(-100,300) == 20100"}
+ {:problem
+  "整数 n を引数とし、それが 3 の倍数だったら 1、 5 の倍数だったら 2、 3 の倍数でもあり、かつ、5 の倍数でもあったら 3、 いずれでもなかったら 0 を返す関数 fz(n).　（2022-11-03, 修正）",
+  :test
+  "def test_fz( ):\r\n  assert list(map(fz, range(16))) == [3, 0, 0, 1, 0, 2, 1, 0, 0, 1, 2, 0, 1, 0, 0, 3]"}
+ {:problem "fz(n) + fz(n+1) + ... + fz(m) を求める関数 sum_fz(n, m).",
+  :test
+  "def test_sum_fz():\r\n    assert sum_fz(0, 2) == 3\r\n    assert sum_fz(0, 10) == 10\r\n    assert sum_fz(20,100) == 61\r\n    assert sum_fz(100,200) == 75"}
+ {:problem
+  "(孫子の問題) 3 で割って 1 余り、5 で割って 2 余り、 7 で割って 3 余る正の整数の最小のものはなにか？ 関数 sun_tzu( ) を定義しなさい。(Nanossan情報で関数名を変更してます）",
   :test ""}
-
- ;; perfect number
- {:problem "正整数 n が完全数かどうかを判定する関数 is_perfect(n).
-            n が完全数であるとは n の約数の総和が 2n と等しくなる数である。"
-  :test "def test_is_perfect( ):
-  assert list(filter(is_perfect, range(500))) == [0, 6, 28, 496]"}
-
- {:problem "n よりも大きい完全数を求める関数 next_perfect(n)."
-  :test "def test_next_perfect( ):
-  assert next_perfect(1)==6
-  assert next_perfect(6)==28
-  assert next_perfect(28)==496
-  assert next_perfect(496)==8128"}
-
- ;; primes
- {:problem "正の整数 n を引数に取り、n が素数であれば True、
-            そうでなければ False を返す関数 is_prime(n)."}
-
- {:problem "正の整数 n を引数に取り、
-            n 以下の素数は何個あるかを戻り値とする関数 primes(n).
-            primes(10000) の戻り値はおそらく 1229."}
-
- {:problem "正数 n を超えない最大の素数を返す関数 max_prime_under(n).
-            効率も考えること。"
-  :test "def test_max_prime_under( )
-  assert max_prime_under(10) == 7
-  assert max_prime_under(pow(2,16)) == 6552
-  assert max_prime_under(pow(2,31)) == 2147483647"}
-
- {:problem "正数 n を超えない 2 番目に大きい素数を返す関数 submax_prime_under(n).
-            効率も考えること。"}
-
- {:problem "n 未満の素数の和を求める関数 sum_primes_under(n).
-            sum_primes_under(1000) は 76127 のはず。"}
-
- {:problem "4 番目までの素数を足すと 2 + 3 + 5 + 7 = 17.
-            n 番目までの素数を足す sum_primes_nth(n).
-            1000 番目までの素数の和を求めなさい。それはたぶん 3682913."}
-
- {:problem "正の整数 n を素因数分解する関数 factor_integer(n).
-            戻り値は素因数のリスト。"}
-
- {:problem "600851475143 の素因数のうち最大のものを求めよ。
-            スピード勝負！2秒を切れるか？"}
-
- ;; lists
- {:problem "リスト xs の各要素を n 倍したリストを返す関数 times_n(xs, n)."}
-
- {:problem "リスト xs の偶数番めの要素だけを抜き出したリストを返す even_index(xs).
-            最初の要素は 0 番目と数える。"}
-
- {:problem "整数リスト xs に含まれる偶数だけを抜き出す evens_only(xs)."}
-
- {:problem "要素 item が m 個あるリストを返す関数 repeat_item(item, m)."
-  :test "def test_repeat_item( ):
-  assert repeat_item(0, 3) == [0, 0, 0]
-  assert repeat_item(0, 0) == []
-  assert repeat_item('a', 3) == ['a', 'a', 'a']
-  assert repeat_item(0, -1) == []"}
-
- {:problem "リストxs = [x1, x2, ...] とリストys = [y1, y2, ...] から
-            リスト [[x1, y1], [x2, y2], ...] を作る関数 zip(xs, ys)."}
-
- {:problem "リストをn個ずつのサブリストに分けたリストを返す関数 partition(xs).
-            partition([1,2,3,4,5,6], 2) は[[1,2],[3,4],[5,6]] を返す。"}
-
- {:problem "多次元リストを一次元リストに平くする関数 flatten(xxs).
-            flatten([[1,2],[3,4],[5,6]]) は [1,2,3,4,5,6] を返す。"}
-
- {:problem "リスト xs とリスト ys にともに含まれる要素のリストを返す commons(xs, ys)."}
-
- {:problem "リスト xs から重複を除いたリストを作って返す distinct(xs)."}
-
- {:problem "リスト xs とリスト ys から作った重複要素のないリストを返す
-           join_distinctly(xs, ys)."}
-
- {:problem "リスト xs の要素をそれぞれ2個に増やす関数 dupli(xs).
-           dupli([1, 2, 3]) は [1, 1, 2, 2, 3, 3] を返す。"}
-
- {:problem "リスト xs の要素をそれぞれn 個に増やす関数 repli(xs).
-            repli([1, 2, 3], 3) は [1, 1, 1, 2, 2, 3, 3, 3, 3] を返す。"}
-
- {:problem "リスト xs から連続する要素を削除したリストを返す dedupe(xs).
-            dedupe([1, 1, 1, 2, 2, 3, 3, 3, 3]) の戻り値は [1, 2, 3]. "}
-
- {:problem "リスト xs を圧縮する関数 compress(xs).
-            compress([3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b']) の戻り値は
-            [[3, 3], ['a', 2], [1, 1], ['b', 3]] になる。"}
-
- {:problem "compress( ) によって圧縮されたリストを元に戻す関数 expand( ).
-            expand([[3, 3], ['a', 2], [1, 1], ['b', 3]]) の戻り値は
-            [3, 3, 3, 'a', 'a', 1, 'b', b', 'b'] になる。"}
-
- ;; mathematics
- {:problem "連立方程式 ax + by = c, dx + ey =f を [[a, b, c], [d,e,f]] で表す。
-           solve_2([[1, 2, 3], [4, 5, 6]]) により x + 2y = 3, 4x + 5y = 6 の解を
-           求める関数 solve_2( )."}
-
- {:problem "2520 は 1 から 10 の数字のすべての整数で割り切れる最小の整数である。
-            1 から 20 までの整数すべてで割り切れる最小の整数は何か？"}
-
- {:problem "整数 n が平方数であるかどうかを判定する関数 is_square(n).
-            237169 は平方数である。"}
-
- {:problem "整数 n が立方数であるかどうかを判定する関数 is_cubic(n).
-            9663597 は立方数である。"}
-
- {:problem "整数 n が 二つの整数の2乗の和として表されるかどうかを判定する関数
-            is_squeare_sum(n).
-            is_square_sum(30505) は True を返す。"}
-
- ;; {:problem "整数 n のルートを超えない最大の整数を返す関数int sqrt_int(int n).
- ;;            sqrt_int(24) の戻り値は4, sqrt_int(25)の戻り値は 5 を期待する。
- ;;            ライブラリ sqrt を使わずに解くこと。"}
- 
- {:problem "1000000 未満の整数で、平方数かつ立方数でもある最大の数は何か。
-            square_cubic(int n). square_cubic(1000000) の戻り値はきっと、531***."}
-
-;; {:problem "n を整数とする。factorial(n) + 2 が立方数となるような n を全て求めよ。"}
- 
-;; {:problem "ビルトイン関数の sorted( ), list クラスの sort( ) メソッドを使わずに、
-;;            リスト xs の要素を小さい順に並べ替えたリストを返す関数 my_sort(xs)
-;;            を定義しなさい。"}
- 
- ;; files, csv
- ;; {:problem ""}
- 
- ;; {:problem "ファイル file が何行あるかを返す関数lines(file)を定義しなさい。
- ;;            ファイルa href='000975797.csv'></a> は
- ;;            https://www.city.kitakyushu.lg.jp/soumu/file_0311.html にある
- ;;            北九州市の人口Excel データを csv に変換したものです。
- ;;            ダウンロードし、適当な場所にセーブしてください。
- ;;            ファイル 000975797.csv は何行あるか。"}
- 
- ;; {:problem "ファイル 'numbers.txt' の n 行目の数字を返す関数int nth(int n)."}
- 
- ;; {:problem "ファイル 'numbers.txt' の最初の十行に含まれる整数の総和を返す関数int sum10(void)."}
- 
- ;; {:problem "ファイル 'numbers.txt' の最初の n 行に含まれる整数の総和を返す関数int sum_n(int n)."}
- 
- ;; {:problem "ファイル 'numbers.txt' の最後の n 行に含まれる整数の総和を返す関数int sum_tail(int n)."}
- 
- ;; {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を表示する関数 void cat(char *fname)"}
- 
- ;; {:problem "ファイル名を文字列 fname として引数にとり、そのファイルの中身を行番号つきで表示する関数 void n_cat(char *fname)"}
- 
-
- ;; recursion
- {:problem "フィボナッチ数列を計算する関数  fibo(n) を定義せよ。
-            fibo(0) = 0, fibo(1) = 1, fibo(n) = fibo(n-1) + fibo(n-2)."}
-
- {:problem "フィボナッチ数列を素早く計算する fast_fibo(n).
-            これがないと次の2問は苦しいだろう。"}
-
- {:problem "フィボナッチ数が最初に n を超えるのはいくらかを求める関数
-            fibo_over(n). fibo_over(20000) の戻り値はきっと 23."}
-
- {:problem "n 以上 m 未満となるフィボナッチ数の総和を返す関数
-            sum_fibo_between(n, m).
-            sum_fibo_between(10000, 100000) の戻り値は 178700 よりちょっと大きい。"}
-
- {:problem "n が 1 の時 1、 n が偶数の時 n/2, 奇数の時 3n+1 を返す関数
-            int c(int n) を定義せよ。問題はここから。
-            その戻り値を再び関数 c( ) の引数とし、同じ計算を繰り返すと、
-            どんな n から始めてもいつかは 1 にたどり着くという（Collatz の予想）。
-            n から始めて c( ) を繰り返し、1 にたどり着くまでの回数を返す関数
-            int collatz(n) を定義し、1 ≤ n ≤ 100 の n について、
-            Collatz の予想を確かめよ。
-            collatz(n) を最大とする n は何か？
-            collatz(1) = 1, collatz(2) = 2 である。"}
-
- ;; speed
- ;; numpy, 50x faster?
- {:problem "numpy を使わず行列積を求める関数 mat_mul(A, B) を実装しなさい。
-            定義した関数と numpy.matmul( ) との速度差はどのくらいか？
-            巷では 50 倍とされているが、本当か？
-            100x100 の乱数行列で確かめなさい。"}]
-
- ;; matplotlib
-;; {:problem "matplotlib, how to?"}
+ {:problem
+  "キーボードから複数の整数を入力、 負の数が入力されたらそれまでに入力された整数を合計してプリントする 関数 sunlive_( ). 関数の名前はspina_( ) あるいは HelloDay_( ) でも良い。（2022-11-06, 0-> 負の数に変更）",
+  :test ""}
+ {:problem
+  "リスト xs 中の要素の平均値を返す関数 mean(xs). numpy.mean を使うのは反則とする。その他、ライブラリに頼らず、自力でプログラムしてみよう。",
+  :test
+  "def test_mean():\r\n  assert mean(range(10)) == 4.5\r\n  assert mean(range(-10, 11, 1)) == 0.0\r\n  assert mean([1,1,1,1,1,1,1]) == 1.0"}
+ {:problem
+  "ソーティングされた整数リスト xs の中央値を返す関数 median(xs). numpy.median を使うのは反則とする。その他、ライブラリに頼らず、自力でプログラムしてみよう。",
+  :test
+  "def test_median():\r\n  assert median([3])==3\r\n  assert median([3,4])==3.5\r\n  assert median([3,4,5])==4\r\n  assert median([3,4,5,6])==4.5\r\n  # 2022-11-20\r\n  assert median([1,2,100]) == 2"}
+ {:problem
+  "整数のリスト xs の最頻値を返す関数 mode(xs). numpy.mode を使うのは反則とする。その他、ライブラリに頼らず、自力でプログラムしてみよう。",
+  :test
+  "import random\r\n\r\n# 2022-11-13 修正\r\ndef test_mode():\r\n  assert mode([10]) == 10\r\n  assert mode([1,1,1,20,20,20,20,3,3]) == 20\r\n  xs = [1,1,2,2,2,2,31,31,31,31,31]\r\n  random.shuffle(xs)\r\n  assert mode(xs) == 31\r\n  assert mode([10,10,10,10,0,0]) == 10\r\n  assert mode([\"a\",\"b\",\"c\",\"d\", \"b\"])==\"b\""}
+ {:problem "文字列 s を逆にした文字列を返す関数 reverse_str(s).",
+  :test
+  "def test_reverse_str():\r\n  assert reverse_str(\"abcdef\")==\"fedcba\"\r\n  assert reverse_str(\"123123\")==\"321321\"\r\n  assert reverse_str(\"\")==\"\"\r\n  s=\"kasfhakhfj\"\r\n  assert reverse_str(reverse_str(s))==s\r\n  assert reverse_str(\"しんぶんし\")==\"しんぶんし\"\r\n"}
+ {:problem
+  "文字列 s に含まれる文字 c をリストで返す関数 find_char(s, c). find_char('apple','p') は ['p', 'p'] を返す。",
+  :test
+  "def test_find_char():\r\n  assert find_char('apple', 'p') == ['p', 'p']\r\n  assert find_char('orange', 'z') == []\r\n  assert find_char('all you need is love', 'l') == ['l', 'l', 'l']\r\n  assert find_char('government, of the people, by the people, for the people.', ',') == [',', ',', ',']"}
+ {:problem
+  "文字列 s に含まれる文字 c の数を返す関数 count_char(s, c). count_char('apple','p') は 2 を返す。",
+  :test
+  "def test_count_char():\r\n  assert count_char('apple', 'p') == 2\r\n  assert count_char('orange', 'z') == 0"}
+ {:problem
+  "文字列 s に含まれる単語の数を返す関数 count_words(s). 単語はスペースで区切られた文字列。 count_words('I love you. I need you.') の戻り値は 6.",
+  :test
+  "def test_count_words():\r\n  assert count_words('  ') == 0\r\n  assert count_words('I love you. I need you.') == 6\r\n  assert count_words('I   love   you.   I   need    you.  ') == 6"}
+ {:problem
+  "'Kimura Takuya' のような文字列 s を引数とし、 そのイニシャル 'KT' を返す関数 initial(s).",
+  :test
+  "def test_initial():\r\n  assert initial('Kimura Takuya') == 'KT'\r\n  assert initial('Ashida Mana') == 'AM'\r\n  assert initial('Wolfgang Amadeus Mozart') == 'WAM'\r\n  assert initial('OneWord') == 'O'\r\n  # 2022-11-21\r\n  assert initial('  Totoro   Kurosuke   NEKOBUS  ') == 'TKN'\r\n"}
+ {:problem
+  "二つの数 x, y のどちらか大きい方を返す関数 max2(x, y). ビルトイン関数の max を使うのは反則とする。",
+  :test
+  "def test_max2():\r\n  assert max2(1,1)==1\r\n  assert max2(2,3)==3\r\n  assert max2(3,-1)==3"}
+ {:problem
+  "三つの数 x, y, z の最大値を返す関数 max3(x, y, z). ビルトイン関数の max を使うのは反則とする。sortedも反則。 前問で定義した max2( ) を利用するんだ！(2022-11-03)",
+  :test
+  "def test_max3( ):\r\n  assert max3(1,2,3) == 3\r\n  assert max3(10,20,3) == 20\r\n  assert max3(100,20,30) == 100"}
+ {:problem
+  "リスト xs 中の要素の最大値を返す関数 max_in_list(xs). ビルトイン関数の max,sorted, sort を使うのは反則とする。(2022-11-03)",
+  :test
+  "# refine 2022-11-24 (c-koga)\r\nimport random\r\n\r\ndef test_max_in_list( ):\r\n  assert max_in_list([]) == []\r\n  assert max_in_list([100]) == 100\r\n  lst = list(range(100))\r\n  random.shuffle(lst)\r\n  assert max_in_list(lst) == 99\r\n  lst = random.choices(range(10),k=100)\r\n  assert max_in_list(lst) == max(lst)\r\n  assert max_in_list([-10, -20, -30]) == -10 # 2022-11-28\r\n"}
+ {:problem
+  "リスト xs 中の要素の最大値のリストを返す関数 maxen(xs). 関数 max_in_list(xs) との違いは、 最大値が複数ある場合にそれらをリストで返すことだ。",
+  :test
+  "def test_maxen():\r\n  assert maxen([1,1,1,2,2,2,2,3,3,3,2,2,2])==[3,3,3]\r\n  assert maxen([]) == []\r\n  assert maxen([1,2,3]) == [3]\r\n  assert maxen([5,5,5,4,4,4,3,3,2,2,1,1])== [5,5,5]\r\n  assert maxen([1,2,3,4,5,1,2,3,4,5,1,2,3,4,5]) == [5,5,5]"}
+ {:problem "0 <= r < n の整数乱数 m 個のリストを返す関数 list_randoms(n, m).",
+  :test
+  "def test_list_randoms( ):\n  xs = list_randoms(10,20)\n  ys = list_randoms(10,20)\n  assert not xs == ys\n  assert len(xs) == 20\n  assert len(list(filter(lambda x: x < 0, xs))) == 0\n  assert len(list(filter(lambda x: x< 20, xs))) == 20"}
+ {:problem
+  "rs = list_randoms(n0, m) で作った整数乱数リスト rs 中にみつからない 0 <= r < n1 の整数をリストで返す関数 not_found(rs, n1). （セットで返そう、セットはリストだ。 2022-10-28 加筆.  2022-11-20 aykz の指摘による改題。テストコードも間違ってた。）",
+  :test
+  "import random\r\nimport pytest\r\n\r\ndef list_randoms(n, m):\r\n  return [random.randrange(n) for _ in range(m)]\r\n\r\ndef test_not_found():\r\n  random.seed(0)\r\n  rs = list_randoms(10, 10)\r\n  assert not_found(rs, 10) == {1,2,3,9}\r\n  assert not_found(rs, 12) == {1, 2, 3, 9, 10, 11}\r\n  with pytest.raises(Exception):\r\n    assert not_found(rs, 5) == {}"}
+ {:problem
+  "ビンゴゲーム用の bingo(n). 戻り値は 1 ~ n の n 個の整数が重複なく順番バラバラに入った配列。 shuffle( ) を使うのは反則としておこう。random.sample( )も。ライブラリを探せって問題じゃないから。",
+  :test
+  "def test_bingo():\r\n  assert set(bingo(10))  == set(range(1,11))\r\n  assert set(bingo(100)) == set(range(1,101))"}
+ {:problem
+  "(モンテカルロメソッド) -1 <= x < 1, -1 <= y < 1 となる乱数(x,y)を 1000 個発生させる。 そのうち、 x<sup>2</sup>+y<sup>2</sup> &le; 1 となる (x,y) の数を n とすると、 4n/1000 が円周率 pi に近づく。関数 monte_carlo_pi(m) を定義せよ。 m は繰り返しの回数。 m をより大きくすると近似値が良くなることを確認せよ。(2022-10-26, teatarou の指摘により修正, n->4n)",
+  :test ""}
+ {:problem
+  "4/(1+x<sup>2</sup>) を x について 0 から 1 まで積分すると円周率 pi になる。 できるだけスマートにプログラムし、上のモンテカルロ法で求める pi と 精度、計算時間を比較せよ。4*(math.atan(1)-math.atan(0)) やsympy.integrate( )は求めるものではない。",
+  :test ""}
+ {:problem "整数 n は何桁かを返す関数 digits(n).",
+  :test
+  "def test_digits( ):\r\n  assert digits(0)==1\r\n  assert digits(8)==1\r\n  assert digits(10)==2 # 2022-12-13\r\n  assert digits(11)==2\r\n  assert digits(32345)==5 # 2022-12-13\r\n  assert digits(423450123)==9\r\n  assert digits(94213412414124141412431241414)==29\r\n  assert digits(-52345) == 5\r\n  assert digits(- 55) == 2"}
+ {:problem "整数 n の各桁の総和を返す関数 sum_of_digits(n).",
+  :test
+  "def test_sum_of_digits( ):\r\n  assert sum_of_digits(12345) == 15\r\n  assert sum_of_digits(0) == 0\r\n  # 2022-12-04\r\n  assert sum_of_digits(-12345) == 15"}
+ {:problem "一の位が０でない整数 n の各桁の数字を逆転した整数を返す関数 reverse_int(n).",
+  :test
+  "import random\r\n\r\ndef test_reverse_int( ):\r\n  for _ in range(10):\r\n    n = random.randrange(100000000)\r\n    if n%10 != 0:\r\n      assert n == reverse_int(reverse_int(n))"}
+ {:problem
+  "文字列 s が学生番号かどうかを判定する is_id(s). 学生番号とは、数字が 3 つの後に、英大文字一つ、 その後、数字が 4 つの 8 文字からなる文字列。",
+  :test
+  "from random import randrange, sample\r\n\r\n# 2022-12-07\r\ndef new_id():\r\n  return str(randrange(100,1000)) + \\\r\n    sample(\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",1)[0] + \\\r\n    str(randrange(1000,10000))\r\n\r\ndef test_is_id():\r\n  assert is_id(\"123A1234\") == True\r\n  assert is_id(\"123a1234\") == False\r\n  assert is_id(\"12345678\") == False\r\n  assert is_id(\"\") == False\r\n  assert is_id(\"12A1234\") == False\r\n  assert is_id(\"123A123\") == False\r\n  assert is_id(\"abcAefgh\") == False\r\n  assert is_id(\"1bcAe234\") == False\r\n  # 2022-12-07, omitsu\r\n  assert all([new_id() for _ in range(10)])\r\n  # 2022-12-07, omitsu 2\r\n  assert is_id(\"123A4567890123\") == False"}
+ {:problem
+  "左右どちらから読んでも同じになる文を回文という。 文字列 s が回文かどうかを判定する関数 is_palindrome(s).",
+  :test
+  "def test_is_palindrome():\r\n  assert is_palindrome(\"しんぶんし\") == True\r\n  assert is_palindrome(\"新聞紙\") == False\r\n  assert is_palindrome(\"たけやぶやけた\") == True\r\n  assert is_palindrome(\"tomato wa tomato\") == False\r\n"}
+ {:problem
+  "左右どちらから読んでも同じ値になる数を回文数という。 整数 n が回文数かどうかを判定する関数 is_palindrome_number(n).",
+  :test
+  "def test_is_palindrome_number():\r\n  assert is_palindrome_number(111111)\r\n  assert is_palindrome_number(1234321)\r\n  assert is_palindrome_number(12344321)\r\n  assert is_palindrome_number(0)\r\n  assert not is_palindrome_number(12345)"}
+ {:problem
+  "2 桁の数の積で表される回文数のうち、最大のものは 9009 = 91 × 99 である。 3 桁の数の積で表される回文数の最大値を求めよ。 テストコードを見て、定義すべき関数の名前、引数を決めてください。",
+  :test
+  "def test_p56():\r\n  assert p56(1,10) == 9\r\n  assert p56(10, 100) == 9009\r\n  assert p56(100, 1000) == 906609"}
+ {:problem
+  "正整数 n を引数とし、その約数のリストを返す関数 divisors(n). 1 とn 自身もn の約数だ(0 を除く)。",
+  :test
+  "def test_divisors( ):\n  assert divisors(0) == []\n  assert divisors(1) == [1]\n  assert divisors(10) == [1, 2, 5, 10]\n  assert divisors(100) == [1, 2, 4, 5, 10, 20, 25, 50, 100]"}
+ {:problem "正整数 n を引数とし、その約数の合計を戻り値とする関数 sum_of_divisors(n).",
+  :test
+  "def test_sum_of_divisors( ):\r\n  assert sum_of_divisors(0) == 0\r\n  assert sum_of_divisors(1) == 1\r\n  assert sum_of_divisors(10) == 18\r\n  assert sum_of_divisors(100) == 217"}
+ {:problem
+  "n 以下の整数のうち、もっとも約数の多い数のリストを返す関数 most_divisors(n). most_divisors(10) は [6,8,10] を返す。(2022-11-16 修正)",
+  :test
+  "# changed 2022-11-16\r\ndef test_most_divisors():\r\n  assert most_divisors(10) == [6, 8, 10]\r\n  assert most_divisors(100)  == [60, 72, 84, 90, 96]\r\n  assert most_divisors(1000) == [840]\r\n"}
+ {:problem
+  "math.gcd( ) を使わずに、 正の整数 x, y の最大公約数を返す関数 gcd2(x, y) を定義しなさい。",
+  :test
+  "def test_gcd2():\r\n    assert gcd2(15,12)==3\r\n    assert gcd2(12,15)==3\r\n    assert gcd2(15,7)==1\r\n    assert gcd2(7,15)==1\r\n    assert gcd2(100,0)==100\r\n    assert gcd2(0,100)==100"}
+ {:problem
+  "正の整数 x, y z の最大公約数を返す関数 gcd3(x, y, z) を定義しなさい. math.gcd( ) を使わずに. (2022-11-01 追加)",
+  :test
+  "def test_gcd3():\r\n    assert gcd3(15,12,10)==1\r\n    assert gcd3(12,15,36)==3\r\n    assert gcd3(100,200,300)==100\r\n    assert gcd3(200,300,100)==100\r\n    assert gcd3(300,100,200)==100\r\n    assert gcd3(0,0,0)==0"}
+ {:problem
+  "正の整数のリスト xs を引数に取り、 xs に含まれる整数すべてのの最大公約数を返す関数 gcd_all(xs). math.gcd( ) は使わないよ。",
+  :test
+  "def test_p62():\r\n  assert gcd_all([2,4,6]) == 2\r\n  assert gcd_all([10,20,30]) == 10\r\n  assert gcd_all([30,15,10]) == 5\r\n  assert gcd_all([100,200,30]) == 10\r\n  assert gcd_all(list(range(1,1000))) == 1\r\n"}
+ {:problem
+  "正整数 n が完全数かどうかを判定する関数 is_perfect(n). n が完全数であるとは n の約数の総和が 2n と等しくなる数である。",
+  :test
+  "def test_is_perfect( ):\n  assert list(filter(is_perfect, range(500))) == [0, 6, 28, 496]"}
+ {:problem "n よりも大きい完全数を求める関数 next_perfect(n).",
+  :test
+  "def test_next_perfect( ):\n  assert next_perfect(1)==6\n  assert next_perfect(6)==28\n  assert next_perfect(28)==496\n  assert next_perfect(496)==8128"}
+ {:problem
+  "正の整数 n を引数に取り、n が素数であれば True、 そうでなければ False を返す関数 is_prime(n). len(divisors(n))==2 のような素朴な回答はこれ以降で計算に時間がかかりすぎの問題を引き起こす。 数学には時間の概念がないが、コンピュータは計算時間、計算に必要になるメモリの量と無関係にはできない。",
+  :test
+  "def test_is_prime():\r\n    # takak21, 2022-11-18\r\n    assert list(filter(is_prime, range(1,30))) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]"}
+ {:problem
+  "正の整数 n を引数に取り、 n 以下の素数は何個あるかを戻り値とする関数 primes(n). primes(10000) の戻り値はおそらく 1229.",
+  :test
+  "def test_primes():\r\n    assert primes(10) == 4\r\n    assert primes(1000) == 168\r\n    assert primes(10000) == 1229"}
+ {:problem "正数 n を超えない最大の素数を返す関数 max_prime_under(n). 効率も考えること。",
+  :test
+  "# とりあえず。\r\n# 後刻、確認後、テストコード足します。2022-10-31, 17:07\r\n# \r\ndef test_max_prime_under( ):\r\n  assert max_prime_under(10) == 7\r\n  assert max_prime_under(100) == 97\r\n  assert max_prime_under(2**16) == 65521\r\n  # 復活。P-65 の失敗を引きずってた。ちゃんとやれば大丈夫。2022-11-01, 08:33\r\n  assert max_prime_under(2**31) == 2147483647"}
+ {:problem
+  "正数 n を超えない 2 番目に大きい素数を返す関数 submax_prime_under(n). 効率も考えること。",
+  :test
+  "def test_submax_prime_under():\r\n  assert submax_prime_under(10) == 5\r\n  assert submax_prime_under(2**16) == 65519\r\n  assert submax_prime_under(2**31) == 2147483629"}
+ {:problem
+  "n 未満の素数の和を求める関数 sum_primes_under(n). sum_primes_under(10) は 17,  sum_primes_under(100000) は 454396537.",
+  :test
+  "def test_sum_primes_under():\r\n  assert sum_primes_under(10) == 17\r\n  assert sum_primes_under(100) == 1060\r\n  assert sum_primes_under(1000) == 76127\r\n  assert sum_primes_under(10000) == 5736396\r\n  assert sum_primes_under(100000) == 454396537"}
+ {:problem
+  "4 番目までの素数を足すと 2 + 3 + 5 + 7 = 17. n 番目までの素数を足す sum_primes_nth(n). 1000 番目までの素数の和を求めなさい。それはたぶん 3682913.",
+  :test
+  "def test_sum_primes_nth():\r\n  assert sum_primes_nth(4) == 17\r\n  assert sum_primes_nth(100) == 24133\r\n  assert sum_primes_nth(1000) == 3682913\r\n  # assert sum_primes_nth(10000) == 496165411\r\n"}
+ {:problem "正の整数 n を素因数分解する関数 factor_integer(n). 戻り値は素因数のリスト。",
+  :test
+  "# factor_integer で raise はまずいな。\r\n# 0, 1 で [0], [1] を返すように。2022-11-25\r\ndef test_factor_integer():\r\n  assert factor_integer(0) == [0]\r\n  assert factor_integer(1) == [1]\r\n  assert factor_integer(6) == [2,3]\r\n  assert factor_integer(96) == [2, 2, 2, 2, 2, 3]\r\n  assert factor_integer(720) == [2, 2, 2, 2, 3, 3, 5]\r\n  assert factor_integer(121645100408832) == [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 7, 7, 11, 13, 17, 19]\r\n  # added 2022-12-25\r\n  assert factor_integer(2147483647) == [2147483647]"}
+ {:problem "600851475143 の素因数のうち最大のものを求めよ。 スピード勝負！2秒を切れるか？",
+  :test
+  "# 2022-12-30\r\ndef test_p72():\r\n  assert p72(600851475143) == 6857"}
+ {:problem "リスト xs の各要素を n 倍したリストを返す関数 times_n(xs, n).",
+  :test
+  "def test_times_n():\r\n  assert times_n([],4) == []\r\n  assert times_n([1],3) == [3]\r\n  assert times_n([1,2,3],3) == [3,6,9]\r\n  assert times_n([\"a\",\"b\",\"c\"],3) == [\"aaa\",\"bbb\",\"ccc\"]"}
+ {:problem
+  "偶数長さのリスト xs の偶数番めの要素だけを抜き出したリストを返す even_index(xs). 最初の要素は 0 番目と数える。",
+  :test
+  "def test_even_index():\r\n  assert even_index(list(range(10)))==[0,2,4,6,8]\r\n  assert even_index([])==[]\r\n  assert even_index(['apple','banana','cherry','dragon fruit'])==['apple', 'cherry']\r\n"}
+ {:problem "整数リスト xs に含まれる偶数だけを抜き出す evens_only(xs).",
+  :test
+  "import random\r\n\r\ndef test_evens_only():\r\n  assert evens_only(list(range(10)))==[0,2,4,6,8]\r\n  assert all(map(lambda n: n%2==0, evens_only([random.randrange(100) for _ in range(100)])))\r\n"}
+ {:problem "要素 item が m 個あるリストを返す関数 repeat_item(item, m).",
+  :test
+  "def test_repeat_item( ):\n  assert repeat_item(0, 3) == [0, 0, 0]\n  assert repeat_item(0, 0) == []\n  assert repeat_item('a', 3) == ['a', 'a', 'a']\n  assert repeat_item(0, -1) == []"}
+ {:problem
+  "リストxs = [x1, x2, ...] とリストys = [y1, y2, ...] から リスト [[x1, y1], [x2, y2], ...] を作る関数 zip(xs, ys).",
+  :test
+  "def test_zip():\r\n  assert zip([],[]) == []\r\n  assert zip([1,2,3],[10,20,30]) == [[1,10],[2,20],[3,30]]\r\n  assert zip([\"a\",\"b\",\"c\"],[1,2,3]) == [[\"a\",1],[\"b\",2],[\"c\",3]]"}
+ {:problem
+  "リストをn個ずつのサブリストに分けたリストを返す関数 partition(n, xs). partition(2, [1,2,3,4,5,6]) は[[1,2],[3,4],[5,6]] を返す。 xs の長さはちょうど n の倍数になっていると仮定してよい。(2022-11-08、加筆修正)",
+  :test
+  "def test_partition():\r\n  assert partition(2, list(range(10)))==[[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]\r\n  assert partition(3, list(range(12)))==[[0,1,2],[3,4,5],[6,7,8],[9,10,11]]\r\n  assert partition(10, list(range(10)))==[[0,1,2,3,4,5,6,7,8,9]]"}
+ {:problem
+  "二次元リストを一次元リストに平くする関数 flatten(xss). flatten([[1,2],[3,4],[5,6]]) は [1,2,3,4,5,6] を返す。(2022-12-05、「多次元」→「二次元」に変更）",
+  :test
+  "def test_flatten():\r\n  assert flatten([[],[],[]]) == []\r\n  assert flatten([[1,2],[3,4],[5,6]]) == [1,2,3,4,5,6]\r\n  assert flatten([[1,2,3],[4,5,6]]) == [1,2,3,4,5,6]\r\n  assert flatten([[[1]],[[2,3]],[[4,5]]]) == [[1],[2,3],[4,5]]\r\n  # この raise するかテストは正しいか？\r\n  import pytest\r\n  with pytest.raises(Exception) as _:\r\n    flatten([1,2,3,4,5])\r\n  assert True"}
+ {:problem "リスト xs とリスト ys にともに含まれる要素のリストを返す commons(xs, ys).",
+  :test
+  "def test_commons():\r\n  assert commons(range(10), range(11,20)) == []\r\n  assert commons(range(10), range(10)) == list(range(10))\r\n  assert commons(range(0,20), range(15,30)) == list(range(15,20))"}
+ {:problem "リスト xs から重複を除いたリストを作って返す distinct(xs).",
+  :test
+  "def test_p81():\r\n  assert distinct([1,2,1,3,1,4,1,5]) == [1,2,3,4,5]\r\n  assert distinct([1/2, 2/4])==[0.5]\r\n  # うっそー、python はリストのリストをセットに変換できないの？\r\n  # assert distinct([[1],[2],[3],[3],[2],[1,2,3]]) == [[1],[2],[3],[1,2,3]]\r\n  # 文字列が難しいのは認める。\r\n  # assert distinct(\"tatoo\") == ['t','a','o']"}
+ {:problem
+  "リスト xs とリスト ys から作った重複要素のないリストを返す join_distinctly(xs, ys). テストコードが難しいぞ。テストコードもついでに考えてください。",
+  :test
+  "# 真面目なテストコードが難しいか。\r\n# join_distinctly( )が返すべきは重複のないリスト。\r\n# 引数リストに現れる順番通りに戻り値の要素が並んでいる必要はない。\r\n# 戻り値を set() で囲むと、重複を解消してしまう。\r\ndef test_join_distinctly():\r\n  assert join_distinctly([],[])==[]\r\n  assert join_distinctly([1,2,3],[4,5,6,7])==[1,2,3,4,5,6,7]\r\n  assert join_distinctly([1,2,3,4],[3,4,5,6])==[1,2,3,4,5,6]    \r\n  assert join_distinctly([1,1,1,1],[2,2])==[1,2]     "}
+ {:problem
+  "リスト xs の要素をそれぞれ2個に増やす関数 dupli(xs). dupli([4, 2, 3]) は [4, 4, 2, 2, 3, 3] を返す。(2022-11-24 修正)",
+  :test
+  "def test_dupli():\r\n  assert dupli([]) == []\r\n  assert dupli([1, 2, 3])==[1, 1, 2, 2, 3, 3]\r\n  assert dupli([[1],[2],[3,4]]) == [[1],[1],[2],[2],[3,4],[3,4]]\r\n  # 2022-11-24\r\n  assert dupli([3, 2, 4, 5]) == [3, 3, 2, 2, 4, 4, 5, 5]\r\n "}
+ {:problem
+  "リスト xs の要素をそれぞれn 個に増やす関数 repli(xs,n). repli([1, 2, 3], 3) は [1, 1, 1, 2, 2, 2, 3, 3, 3] を返す。(2022-11-19, takak21)",
+  :test
+  "def test_repli():\r\n  assert repli([1,2,3],3) == [1,1,1,2,2,2,3,3,3]\r\n  assert repli([1,2],4) == [1,1,1,1,2,2,2,2]\r\n  assert repli([1],0) == []\r\n  assert repli([1,2,3,4],0) == []\r\n  assert repli([[1,2],[3,4,5]],2) == [[1,2],[1,2],[3,4,5],[3,4,5]]\r\n  # 2023-01-10\r\n  assert repli([3,2,1],3) == [3,3,3,2,2,2,1,1,1]"}
+ {:problem
+  "リスト xs から連続する要素を削除したリストを返す dedupe(xs). dedupe([1, 1, 1, 2, 2, 3, 3, 3, 3]) の戻り値は [1, 2, 3]. ",
+  :test
+  "import random\r\n\r\ndef test_dedupe():\r\n  assert dedupe([]) == []\r\n  assert dedupe([1, 1, 1, 2, 2, 3, 3, 3, 3]) == [1, 2, 3]\r\n  assert dedupe([1, 2, 3, 4, 5, 6]) == [1, 2, 3, 4, 5, 6]\r\n  assert dedupe([1, 2, 3, 1, 2, 3,4]) == [1, 2, 3, 1, 2, 3, 4]\r\n  assert dedupe([[1,2],[1,2],[1,2],[3,4,5],[6]]) == [[1,2],[3,4,5],[6]]\r\n  data = ['apple', 'banana','cherry']\r\n  assert dedupe(repli(data, 3)) == data\r\n  # 2023-01-13\r\n  assert dedupe([1,2,3,4,1]) == [1,2,3,4,1]\r\n\r\ndef repli(xs,n):\r\n  return flatten([repeat(n, x) for x in xs])\r\n\r\ndef repeat(n, x):\r\n  return [x for _ in range(n)]\r\n\r\ndef flatten(xss):\r\n  ret = []\r\n  for xs in xss:\r\n    ret += xs\r\n  return ret"}
+ {:problem
+  "リスト xs を圧縮する関数 compress(xs). compress([3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b']) の戻り値は [[3, 3], ['a', 2], [1, 1], ['b', 3]] になる。 compress([1,1,1,2,2,1,1,1,1]) の戻り値は [[1,3],[2,2],[1,4]]. (2023-01-06 テストコード追加)",
+  :test
+  "def test_compress():\r\n  assert compress(list(range(10))) == list(map(lambda x: [x,1], range(10)))\r\n  assert compress([3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b'])== [[3, 3], ['a', 2], [1, 1], ['b', 3]] \r\n  assert compress([[1,2],[1,2],[1,2,3],[1,2,3,4],[1,2,3,4]])== [[[1,2],2], [[1,2,3],1],[[1,2,3,4],2]]\r\n  # 2023-01-06\r\n  assert compress([1,1,1,2,2,3,3,1,1,1,1]) == [[1,3],[2,2],[3,2],[1,4]]"}
+ {:problem
+  "compress(xs) によって圧縮されたリスト xss を元に戻す関数 expand(xss ). expand([[3, 3], ['a', 2], [1, 1], ['b', 3]]) の戻り値は [3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b'] になる。(修正 2022-11-21, takak21)",
+  :test
+  "# 修正 2022-11-21.\r\ndef test_expand():\r\n  assert expand([[3, 3], ['a', 2], [1, 1], ['b', 3]]) ==  [3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b']\r\n  assert expand([[[1,2],2], [[1,2,3],1],[[1,2,3,4],2]]) == [[1,2],[1,2],[1,2,3],[1,2,3,4],[1,2,3,4]]"}
+ {:problem
+  "連立方程式 ax + by = c, dx + ey =f を [[a, b, c], [d,e,f]] で表す。 solve_2([[1, 2, 3], [4, 5, 6]]) により x + 2y = 3, 4x + 5y = 6 の解を 求める関数 solve_2( ).",
+  :test
+  "def test_p88():\r\n  assert solve_2([[1,2,15],[4,5,42]]) == [3,6]\r\n  assert solve_2([[2,2,-2],[4,-3,17]]) == [2,-3]\r\n  import pytest\r\n  with pytest.raises(Exception):\r\n    assert solve_2([[1,2,3],[2,4,5]])==[0,0]"}
+ {:problem
+  "2520 は 1 から 10 の数字のすべての整数で割り切れる最小の整数である。 1 から 20 までの整数すべてで割り切れる最小の整数は何か？",
+  :test
+  "def test_p89():\r\n  x = p89()\r\n  assert all(map(lambda y: x%y == 0, range(1,21)))\r\n"}
+ {:problem
+  "整数 n が平方数であるかどうかを判定する関数 is_square(n). 237169 は平方数である。math.sqrt( ), **0.5 を使わずに判定してください。(2022-11-12)",
+  :test
+  "def test_is_square():\r\n  assert list(map(is_square, range(10)))==[True,True,False,False,True,False,False, False, False, True]\r\n  assert is_square(237169)"}
+ {:problem "整数 n が立方数であるかどうかを判定する関数 is_cubic(n).  9663597 は立方数である。",
+  :test
+  "def test_is_cubic():\r\n  assert is_cubic(0)\r\n  assert is_cubic(1)\r\n  assert is_cubic(8)\r\n  assert is_cubic(27)\r\n  assert is_cubic(1000)\r\n  assert not is_cubic(1001)\r\n  assert     is_cubic(970299)\r\n  assert not is_cubic(970300)\r\n  assert     is_cubic(9663597)\r\n  assert not is_cubic(9663598)"}
+ {:problem
+  "整数 n が 二つの整数の2乗の和として表されるかどうかを判定する関数 list_square_sum(n). list_square_sum(3) は [ ],  list_square_sum(30505) は [[576, 29929], [15129, 15376]] を返す。(2022-11-26, True/False からリストを返すように改題）",
+  :test
+  "# True/False ではなく、解のリストを返すように変更。2022-11-26\r\ndef test_list_square_sum():\r\n  assert list_square_sum(0) == [[0,0]]\r\n  assert list_square_sum(2)  == [[1,1]]\r\n  assert list_square_sum(10) == [[1,9]]\r\n  assert list_square_sum(11) == []\r\n  assert list_square_sum(20) == [[4,16]]\r\n  assert list_square_sum(21) == []\r\n  assert list_square_sum(22) == []\r\n  assert list_square_sum(100) == [[0,100],[36,64]]\r\n  assert list_square_sum(30000) == []\r\n  assert list_square_sum(30505) == [[576, 29929], [15129, 15376]]\r\n"}
+ {:problem
+  "1000000 未満の整数で、平方数かつ立方数でもある最大の数は何か。 square_cubic(n). square_cubic(1000000) の戻り値はきっと、531***.",
+  :test
+  "# fix typo, avrq1409, 2023-01-15\r\ndef test_square_cubic():\r\n  assert square_cubic(10) == 1\r\n  assert square_cubic(1000) == 729\r\n  assert square_cubic(1000000)//1000  == 531"}
+ {:problem
+  "フィボナッチ数列を計算する関数  fibo(n) を定義せよ。 fibo(0) = 0, fibo(1) = 1, fibo(n) = fibo(n-1) + fibo(n-2).",
+  :test
+  "def test_fibo():\r\n    assert list(map(fibo, range(10))) == [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]"}
+ {:problem "フィボナッチ数列を素早く計算する fast_fibo(n). これがないと次の2問は苦しいだろう。",
+  :test
+  "def test_fast_fibo():\r\n  assert list(map(fast_fibo, range(10))) == [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]\r\n  assert fast_fibo(30)==832040\r\n  assert fast_fibo(40)==102334155\r\n  assert fast_fibo(100)==354224848179261915075"}
+ {:problem
+  "フィボナッチ数が最初に n を超えるのはいくらかを求める関数 fibo_over(n). fibo_over(20000) の戻り値はきっと 23.",
+  :test
+  "def test_fibo_over():\r\n  assert fibo_over(200) == 13\r\n  assert fibo_over(20000) == 23\r\n  assert fibo_over(2000000) == 32\r\n  assert fibo_over(200000000) == 42"}
+ {:problem
+  "n 以上 m 未満となるフィボナッチ数の総和を返す関数 sum_fibo_between(n, m). sum_fibo_between(10000, 100000) の戻り値は 178700 よりちょっと大きい。",
+  :test
+  "# fix 2022-11-30\r\ndef test_sum_fibo_between():\r\n  assert sum_fibo_between(10,100) == 212\r\n  assert sum_fibo_between(100, 1000) == 2351\r\n  assert 178700 < sum_fibo_between(10000, 100000) < 178710\r\n  assert sum_fibo_between(1000000, 2000000) == 1346269\r\n"}
+ {:problem
+  "n が 1 の時 1、 n が偶数の時 n/2, 奇数の時 3n+1 を返す関数 c(n) を定義せよ。問題はここから。 その戻り値を再び関数 c( ) の引数とし、同じ計算を繰り返すと、 どんな n から始めてもいつかは 1 にたどり着くという 「Collatz の予想」がある。 現時点でまだ証明はされてない。 n から始めて c( ) を繰り返し、1 にたどり着くまでの c( ) の呼び出し回数を返す関数 collatz(n) を定義し、1 ≤n ≤ 100 の n について、 collatz(n) を求めよ。 collatz(n) を最大とする n は何か？(1 ≤n ≤ 100) collatz(1)=1, collatz(2)=1, collatz(3)=7 である。",
+  :test
+  "def test_collatz():\r\n  assert list(map(collatz, range(1,101))) == [1, 1, 7, 2, 5, 8, 16, 3, 19, 6, 14, 9, 9, 17, 17, 4, 12, 20, 20, 7, 7, 15, 15, 10, 23, 10, 111, 18, 18, 18, 106, 5, 26, 13, 13, 21, 21, 21, 34, 8, 109, 8, 29, 16, 16, 16, 104, 11, 24, 24, 24, 11, 11, 112, 112, 19, 32, 19, 32, 19, 19, 107, 107, 6, 27, 27, 27, 14, 14, 14, 102, 22, 115, 22, 14, 22, 22, 35, 35, 9, 22, 110, 110, 9, 9, 30, 30, 17, 30, 17, 92, 17, 17, 105, 105, 12, 118, 25, 25, 25]"}
+ {:problem
+  "numpy を使わず行列積 mat_mul(A, B) を実装しなさい。 定義した関数と numpy.matmul() との速度差はどのくらいか？ 巷では 50 倍とされているが、本当か？ 100x100 の乱数行列で確かめなさい。ループで回っただけで、計算結果を確認してないじゃ、比較にならないよ（2023-02-08 加筆）",
+  :test ""}
+ {:problem
+  "[extra] extra の100 番以降はアブノーマルな、あるいは笑える回答を求む。あるいは問題が一段、難しくなってる。 n から m の整数のうち、奇数だけの和を求める関数 sum_odds(n,m). アブな回答、求む。(fix: sum_odd( ) → sum_odds())",
+  :test
+  "def test_sum_odds():\r\n    assert sum_odds(10,20) == 75\r\n    assert sum_odds(10,100) + sum_evens(10,100)== sum(range(10,101))\r\n"}
+ {:problem
+  "[extra] 正負の数 x の絶対値を返す関数 my_abs(x). 組み込み関数の abs( ) を使わずに。100 番以降はアブノーマルな回答とか、 笑える回答、難しい問題です。if x>0: return x else: return -x みたいなのは求める回答ではない。",
+  :test
+  "def test_my_abs():\r\n  assert my_abs(0) == 0\r\n  assert my_abs(-1) == 1\r\n  assert my_abs(10) == 10\r\n  assert my_abs(-100) == 100\r\n  # assert my_abs(-1000) == 3000"}
+ {:problem
+  "プログラム中の掛け算の回数を数える関数 count_times(a,b) を作ってください。 掛け算 a * b の代わりに count_time(a,b) で 「aかける b」を計算するとともに、「掛け算一回」をグローバル変数に記録します。",
+  :test ""}
+ {:problem
+  "n^m と同じことを計算する my_power(n, m) を再定義してください。 my_power(n,m) を計算するのに必要な掛け算をできるだけ少なくすること。 何回掛け算しますか？",
+  :test ""}
+ {:problem
+  "[extra] my_range(x, y, step) を定義してください。関数 range( ) と似てるが、my_range(x, y, step) は x 以上 y 未満の step ごとのリストを返します。my_range(1, 2, 0.3) は [1.0, 1.3, 1.6] みたいなリストを返します。みたいな、っつうのは 1.3 とかが 1.30000001 になってもいいやってこと。P-49 などで利用できるはず。（ライブラリ numpy には同様の関数が見つかります。）",
+  :test ""}
+ {:problem
+  "リスト xs の長さを調べるに len(xs) がある。len(xs) と同じ答えを返す関数 my_len(xs) をできるだけ多くの方法で定義してみよ。 へんてこりんな、みんなが思いつかないようなアルゴリズムが望まれる。",
+  :test
+  "def test_p105():\r\n  assert my_len([])==0\r\n  assert my_len([1])==1\r\n  assert my_len([[1]])==1\r\n  assert my_len(range(10))==10\r\n  assert my_len([{1,2,3}, [4,5,6], (7,8,9)])==3\r\n  assert my_len([1,1,1,1,1]) == 5"}
+ {:problem
+  "[extra] 1 ~ nまでの全ての整数で割りれる最小の正整数を求めてください。(89 と被ったので変更 2023-01-10)",
+  :test
+  "def test_p106():\r\n  for n in [20,30,40]:\r\n    x = p106(n)\r\n    assert all(map(lambda y: x%y == 0, range(1,n)))\r\n"}
+ {:problem
+  "[extra] 2095632000 の約数の和をできるだけ短い時間で求めてください。答えは 9904265280 になるはずです。 単純に割り切る数をループで足していったら、replit で 26 秒かかりました。",
+  :test ""}
+ {:problem
+  "[extra] クラスに誕生日の同じ人は何人いますか？ ひとクラス 60 人とします。この問題を解くのに何が必要でしょう？ プログラムにならなくても、解くための方法、思いついたら QA に。",
+  :test ""}
+ {:problem
+  "[extra, 一昨年からの連発] n を整数とする。factorial(n) + 2 が立方数となるような n を全て求めよ。",
+  :test "def test_p109():\r\n  assert p109()==3\r\n"}
+ {:problem
+  "[extra] リスト [[x1, x2, ..., xn],[y1, y2, ..., yn]] からリスト [[x1,y1], [x2, y2], ..., [xn, yn]] を作る関数 transpose( ).  テストコードも考えること。 これ、P-77 の zip( ) でした。 一般化しよう。 N x M 行列 を模倣した python ２重リストを M x N の python ２重リストに変換する関数 transpose( ) を作ってください。",
+  :test
+  "from random import sample\r\n\r\ndef test_transpose():\r\n  assert transpose([[1,2,3]]) == [[1],[2],[3]]\r\n  assert transpose([[1,2,3],[4,5,6]]) == [[1,4],[2,5],[3,6]]\r\n  m = [sample(range(10),5) for _ in range(4)]\r\n  assert transpose(transpose(m)) == m\r\n"}
+ {:problem
+  "[extra] ファイル fname を開き、そのファイルに、#include \"別のファイル名\" の行があったら、「別のファイル」の内容を #include 行に展開した文字列を戻す expand_include(fname). Py99 に使いたい。コピペの代わりに #include で自分の定義済み関数を引っ張る。#include 先でさらに #include が見つかる場合にも対応できるとグッド！ ",
+  :test ""}
+ {:problem "[extra] s.split( ) と同じ動作をする my_split(s) を作ってください。",
+  :test
+  "def test_mysplit():\r\n  for s in [\"abc\", \"a b c d\", \"All My Loving\", \"Honesty is hardly ever heard\", \"pi != 3.14\"]:\r\n    assert my_split(s) == s.split()"}
+ {:problem
+  "[extra] py99 の回答 s を文字列で受け取り、関数コメント(docstring)を剥ぎ取った文字列を返す関数 strip_docstring(s).",
+  :test ""}
+ {:problem
+  "[extra] sum( ) を自作してください。 my_sum(range(10), 0) は 45 を返し、 my_sum([[0],[1],[2],[3],[4]], [ ]) は [0, 1, 2, 3, 4] を返す。 ",
+  :test
+  "def test_my_sum():\r\n  assert my_sum(range(10), 0) == 45\r\n  assert my_sum([[0],[1],[2],[3],[4]], [ ]) == [0, 1, 2, 3, 4]"}
+ {:problem
+  "[extra] is_sorted(xs). xs がソートされていたら（順番に並んでいたら）True、そうでなければ False を返す。",
+  :test ""}
+ {:problem
+  "[extra,easy] 整数引数をとる ipower(x, y). ipower(10, -1) は 0.1 を返すように。",
+  :test ""}
+ {:problem
+  "[extra] partition_with_step(n, step, xs). xs を n 個ずつのサブリストに分けたリストを返す。ただし、その際、オフセットを step とする。 問題がストレンジか。 partition_with_step(2,1,[1,2,3,4,5]) の戻り値は [[1,2],[2,3],[3,4],[4,5]],  partition_with_step(3,1,[1,2,3,4,5]) の戻り値は [[1,2,3],[2,3,4],[3,4,5]]. partition_with_step(2,2,[1,2,3,4,5]) の戻り値は partitiion(2, [1,2,3,4,5]) と同じ。",
+  :test
+  "def test_partition_with_step():\r\n  rng = [1,2,3,4,5]\r\n  assert partition_with_step(2,1,[])  == []\r\n  assert partition_with_step(2,1,rng) == [[1,2],[2,3],[3,4],[4,5]]\r\n  assert partition_with_step(3,1,rng) == [[1,2,3],[2,3,4],[3,4,5]]\r\n  assert partition_with_step(2,2,rng) == [[1,2],[3,4]]\r\n"}
+ {:problem
+  "[exra] partition_with_same(xs). xs をスキャンし、同じ要素ごとにまとめる。partition_with_same([3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b'])は [[3,3,3],['a','a'],[1],['b','b']] を返す。compress( ) の定義にこれあると便利だった。",
+  :test
+  "def test_partition_with_same():\r\n  assert partition_with_same([]) == []\r\n  assert partition_with_same(list(range(5))) == \\\r\n    [[0],[1],[2],[3],[4]]\r\n  assert partition_with_same([3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b']) == \\\r\n    [[3, 3, 3], ['a', 'a'], [1], ['b', 'b', 'b']]\r\n  assert partition_with_same([3,3,3,2,2,2,3,3,3]) == \\\r\n    [[3,3,3],[2,2,2],[3,3,3]]"}
+ {:problem
+  "def を一切使わずに関数 add1(n) を定義してください。add1(3) は 4、add1(4) は 5 を返す普通の関数です。(fix typo, 2023-01-21)",
+  :test
+  "def test_p119():\r\n  assert add1(3) == 4\r\n  assert add1(4) == 5\r\n  assert add1(-1) == 0\r\n  assert add1(999) == 1000\r\n  assert add1(add1(add1(0)))==3"}
+ {:problem "二つの数 x,y の小さい方を返す関数 min2(x,y) を定義しなさい。 ",
+  :test
+  "# from src.p211 import *\n\ndef test_min2():\n  assert min2(1,2) == 1\n  assert min2(2,1) == 1\n  assert min2(2,2) == 2\n"}
+ {:problem
+  "上で定義した min2( ) を利用し、４つの数、x,y,z,w の最小値を返す関数 min4(x,y,z,w)を定義しなさい。 ",
+  :test
+  "# from src.p212 import *\n\ndef test_min4():\n  assert min4(1,2,3,4) == 1\n  assert min4(2,1,4,3) == 1\n  assert min4(2,2,3,3) == 2\n"}
+ {:problem
+  "chars = \"abcdefghijklmnopqrstuvwxyz \" とする。z の後ろにスペースがあることに注意。chars[0] は \"a\", chars[1] は \"b\" である。chars[8]は \"i\", chars[26] は \" \". リスト [8, 26, 11, 14, 21, 4, 26, 24, 14, 20] をこの調子で変換し、さらに文字列に変換すると \"i love you\" になる。この整数リストから文字列への変換を行う関数 decrypt(xs) を定義せよ。ちなみに decrypt([0,15,15,11,4]) の戻り値は \"apple\" になる。 ",
+  :test
+  "# from src.p213 import *\n\ndef test_decrypt():\n  assert decrypt([8, 26, 11, 14, 21, 4, 26, 24, 14, 20])==\"i love you\"\n  assert decrypt([0,15,15,11,4])== \"apple\"\n  assert decrypt([0,1,2,3,4]) == \"abcde\"\n  assert decrypt([0,26,1,26,2]) == \"a b c\"\n"}
+ {:problem
+  "前問の逆関数が問題。すなわち、chars = \"abcdefghijklmnopqrstuvwxyz \" とする。z の後ろにスペースがあることに注意を前提に、\"i love you\" を引数に与えると、 リスト [8, 26, 11, 14, 21, 4, 26, 24, 14, 20] を返す関数 encrypt(s) を定義せよ。 ちなみに encrypt(\"orange\") の戻り値は [14, 17, 0, 13, 6, 4] になる。 ",
+  :test
+  "# from src.p214 import *\n\ndef test_encrypt():\n  assert encrypt(\"i love you\") == [8, 26, 11, 14, 21, 4, 26, 24, 14, 20]\n  assert encrypt(\"apple\") == [0,15,15,11,4]\n  assert encrypt(\"abcde\") == [0,1,2,3,4]\n  assert encrypt(\"a b c\") == [0,26,1,26,2]\n"}
+ {:problem "整数リスト xs を引数とし、偶数だけを抜き出したリストを返す関数 evens_only(xs) を定義せよ。 ",
+  :test
+  "# from src.p221 import *\n\ndef test_evens_only():\n  assert evens_only(range(10)) == list(range(0,10,2))\n  assert evens_only(range(1, 10, 2)) == []\n"}
+ {:problem
+  "整数リスト xs を引数とし、[非負の整数のリスト, 負の整数のリスト]を返す関数 pos_neg(xs) を定義せよ。 pos_neg([-5,2,3,0,4,8,-1,-2]) は [[2,3,0,4,8],[-5,-1,-2]] を返す。 ",
+  :test
+  "# from src.p222 import *\n\ndef test_pos_neg():\n  assert pos_neg([-5,2,3,0,4,8,-1,-2]) == [[2,3,0,4,8],[-5,-1,-2]]\n  assert pos_neg(range(-3, 3)) == [[0,1,2], [-3,-2,-1]]\n  assert pos_neg(range(1,5)) == [[1,2,3,4], []]\n  assert pos_neg([]) == [[], []]\n"}
+ {:problem
+  "数のリスト xs と数 y を引数に取り、xs の中で最も y に近い数をリストで返す関数 nearest(xs, y) を定義せよ。 ",
+  :test
+  "# from src.p223 import *\n\n# test1 == 0 でまるつけてしまったのをバツにしない。\n# test2 も同様。\ndef test_nearest():\n  test1 = nearest(range(-3,3), 0)\n  assert (test1 == 0) or (test1 == [0])\n  test2 = nearest(range(-100,100,3), 40)\n  assert (test2== 41) or (test2 == [41])\n"}
+ {:problem
+  "「江戸時代までは、1日の時刻を、 子・丑・寅・卯・辰・巳・午・未・申・酉・戌･亥 の十二支で表していました。 子（ね）の刻は、現在の時間に直すと、午前0時を中心とする2時間、 すなわち前日の午後11時から当日の午前1時までを指し、 丑（うし）の刻は午前1時から午前3時まで、 というように、2時間刻みで順番に十二支を当てはめていたのです。」整数 h を引数に取り、 それを江戸時代までの時刻呼びで返す関数 old_time(h) を定義せよ。 午前１時は \"丑の刻\", 午前３時は \"寅の刻\" とせよ。 引数 h が 0~23 以外の時は例外を上げること。 ",
+  :test
+  "# from src.p224 import *\n\ndef test_old_time():\n  assert old_time(0)  == '子の刻'\n  assert old_time(2)  == '丑の刻'\n  assert old_time(12) == '午の刻'\n  import pytest\n  with pytest.raises(Exception):\n    assert old_time(100) == None\n"}
+ {:problem
+  "整数のリスト xs から 0 だけを抜き出してリストで返す関数 find_zero(xs) を定義せよ。find_zero([1,2,3,0,1,2,3,0]) は [0,0] を返す。 ",
+  :test
+  "# from src.p231 import *\n\ndef test_find_zero():\n  assert find_zero([1,2,3,0,1,2,3,0]) == [0,0] \n  assert find_zero(range(10,20))  == []\n  assert find_zero([0,0,0,0,0]) == [0,0,0,0,0]\n"}
+ {:problem "整数リスト xs 中に一度しか現れない数を抜き出してリストで返す関数 lonely(xs)を定義せよ。 ",
+  :test
+  "# from src.p232 import *\n\ndef test_lonely():\n  assert lonely(range(5)) == [0,1,2,3,4]\n  assert lonely([1,1,2,2,3,3,4,4]) == []\n  assert lonely('apple')==['a','l','e']\n"}
+ {:problem "整数リスト xs に現れる頻度が最も少ない数をリストで返す関数 rare(xs) を定義せよ。 ",
+  :test
+  "# from src.p233 import *\n\n# def test_rare():\n#   assert rare(range(5)) == [0,1,2,3,4]\n#   assert rare([1,1,2,2,3,3,4,4,4]) == [1,1,2,2,3,3]\n#   assert rare('apple')==['a','l','e']\n#   assert rare([0,0,0]) == [0,0,0]\n\ndef test_rare():\n  assert rare(range(5)) == [0,1,2,3,4]\n  assert (rare([1,1,2,2,3,3,4,4,4]) == [1,1,2,2,3,3] or rare([1,1,2,2,3,3,4,4,4])==[1,2,3])\n  assert rare('apple') == ['a','l','e']\n  assert (rare([0,0,0]) == [0,0,0] or rare([0,0,0]) == [0])\n"}
+ {:problem
+  " 平年の 1 月 1 日からの通算日数 n を引数とし、その日を文字列 \"月/日\" で返す関数 month_day(n). month_day(0) = \"1/1\", month_day(100) = \"4/11\" のはず。 異常な n を引数で呼ばれた時は例外を投げろ。 ",
+  :test
+  "# from src.p234 import *\n\ndef test_month_day():\n  month_day(0)==\"1/1\"\n  month_day(1)==\"1/2\"\n  month_day(2)==\"1/3\"\n  month_day(100)==\"4/11\"\n  month_day(200)==\"7/20\"\n"}
+ {:problem
+  "整数 x, y を引数とし、x から y までの整数(yを含む)の積を返す関数 mul_int(x,y)を定義せよ。 ",
+  :test
+  "# from src.p241 import *\n\ndef test_mul_int():\n  assert mul_int(0,100) == 0\n  assert mul_int(1,6) == 720\n  assert mul_int(1,10) == 3628800\n"}
+ {:problem
+  "'One Two Three Four' のような文字列を引数とし、各単語の最終文字を文字列で返す関数 laitini(s) を定義せよ。laitini('One Two Tree Four') の戻り値は 'eoer' になる。 ",
+  :test
+  "# from src.p242 import *\r\n\r\ndef test_laitini():\r\n  assert laitini('One Two Tree Four') == 'eoer'\r\n  assert laitini('a b c') == 'abc'\r\n  assert laitini('123 234 345 456') == '3456'\r\n"}
+ {:problem
+  "足し算 1/1 + 1/2 + 1/3 + ... + 1/n + を続け、その和が初めて m を超える時の n を返す関数 over(m) を定義せよ。 ",
+  :test
+  "# from src.p243 import *\n\ndef test_over():\n  assert over(2)==4\n  assert over(3)==11\n  assert over(4)==31\n  assert over(5)==83\n"}
+ {:problem
+  "整数 n を引数とし、それを３桁ごとにコンマを入れた文字列を返す関数 commas(n) を定義せよ。 print( ) を使うのはもちろん反則。commas(1234567) は \"1,234,567\" を返す。 ",
+  :test
+  "# from src.p244 import *\n\ndef test_commas():\n  assert commas(1)==\"1\"\n  assert commas(12)==\"12\"\n  assert commas(123)==\"123\"\n  assert commas(1234)==\"1,234\"\n  assert commas(123456)==\"123,456\"\n  assert commas(1234567)==\"1,234,567\"\n  assert commas(1234567890)==\"1,234,567,890\"\n"}
+ {:problem "整数のリスト xs から 0 を除いたリストを返す関数 remove_zero(xs) を定義しなさい。 ",
+  :test
+  "# from src.p251 import *\n\ndef test_remove_zero():\n  assert remove_zero(range(5)) == [1,2,3,4]\n  assert remove_zero(range(1,5)) == [1,2,3,4]\n  assert remove_zero([0,0,0,0]) == []\n"}
+ {:problem "浮動小数点数リスト xs から最小値、最大値を外した平均値を返す関数 judge(xs) を定義しなさい。 ",
+  :test
+  "# from src.p252 import *\n\ndef test_judge():\n  assert judge([0,3,3,3,4]) == 3\n  assert judge(range(10)) == 4.5\n"}
+ {:problem
+  "平面三角形の頂点の座標 a,b,c を引数にとり、その三角形の重心の座標を返す関数 cg(a,b,c) を定義しなさい。 ",
+  :test
+  "# from src.p253 import *\n\ndef test_cg():\n  assert cg((0,0),(2,2),(1,1))==(1.0,1.0)\n"}
+ {:problem "9x^3^ - 15x^2^ - 8x + 4 = 0 の -1 < x < 1 における数値解を求めよ。 ",
+  :test
+  "# from src.p254 import *\n\ndef f(x):\n  return 9*x**3 - 15*x**2 - 8*x + 4\ndef test_find_zero():\n  ret = find_zero(f,-1,1,0.1)\n  assert abs(ret[0]+2/3)<0.1 and abs(ret[1]-1/3)<0.1\n"}
+ {:problem
+  "整数 x, y を引数とし、x から y までの整数(yを含む)の積を返す関数 mul_int(x,y)を定義せよ。 ",
+  :test
+  "# from src.p241 import *\n\ndef test_mul_int():\n  assert mul_int(0,100) == 0\n  assert mul_int(1,6) == 720\n  assert mul_int(1,10) == 3628800\n"}
+ {:problem
+  "'One Two Three Four' のような文字列を引数とし、各単語の最終文字を文字列で返す関数 laitini(s) を定義せよ。leitini('One Two Tree Four') の戻り値は 'eoer' になる。 ",
+  :test
+  "# from src.p242 import *\n\ndef test_laitini():\n  assert laitini('One Two Tree Four') == 'eoer'\n  assert laitini('a b c') == 'abc'\n  assert laitini('123 234 345 456') == '3456'\n"}
+ {:problem
+  "整数のリスト xs から 0 だけを抜き出してリストで返す関数 find_zero(xs) を定義せよ。find_zero([1,2,3,0,1,2,3,0]) は [0,0] を返す。 ",
+  :test
+  "# from src.p231 import *\n\ndef test_find_zero():\n  assert find_zero([1,2,3,0,1,2,3,0]) == [0,0] \n  assert find_zero(range(10,20))  == []\n  assert find_zero([0,0,0,0,0]) == [0,0,0,0,0]\n"}
+ {:problem "整数リスト xs 中に一度しか現れない数を抜き出してリストで返す関数 lonely(xs)を定義せよ。 ",
+  :test
+  "# from src.p232 import *\n\ndef test_lonely():\n  assert lonely(range(5)) == [0,1,2,3,4]\n  assert lonely([1,1,2,2,3,3,4,4]) == []\n  assert lonely('apple')==['a','l','e']\n"}
+ {:problem "二つの数 x,y の小さい方を返す関数 min2(x,y) を定義しなさい。 ",
+  :test
+  "# from src.p211 import *\n\ndef test_min2():\n  assert min2(1,2) == 1\n  assert min2(2,1) == 1\n  assert min2(2,2) == 2\n"}
+ {:problem
+  "上で定義した min2( ) を利用し、４つの数、x,y,z,w の最小値を返す関数 min4(x,y,z,w)を定義しなさい。 ",
+  :test
+  "# from src.p212 import *\n\ndef test_min4():\n  assert min4(1,2,3,4) == 1\n  assert min4(2,1,4,3) == 1\n  assert min4(2,2,3,3) == 2\n"}
+ {:problem "整数リスト xs を引数とし、偶数だけを抜き出したリストを返す関数 evens_only(xs) を定義せよ。 ",
+  :test
+  "# from src.p221 import *\n\ndef test_evens_only():\n  assert evens_only(range(10)) == list(range(0,10,2))\n  assert evens_only(range(1, 10, 2)) == []\n"}
+ {:problem
+  "整数リスト xs を引数とし、[非負の整数のリスト, 負の整数のリスト]を返す関数 pos_neg(xs) を定義せよ。 pos_neg([-5,2,3,0,4,8,-1,-2]) は [[2,3,0,4,8],[-5,-1,-2]] を返す。 ",
+  :test
+  "# from src.p222 import *\n\ndef test_pos_neg():\n  assert pos_neg([-5,2,3,0,4,8,-1,-2]) == [[2,3,0,4,8],[-5,-1,-2]]\n  assert pos_neg(range(-3, 3)) == [[0,1,2], [-3,-2,-1]]\n  assert pos_neg(range(1,5)) == [[1,2,3,4], []]\n  assert pos_neg([]) == [[], []]\n"}
+ {:problem
+  "整数のリスト xs を偶数のリスト、奇数のリストにわけ、それらをリストで返す関数 evens_odds(xs)を定義しなさい。 evens_odds([0,1,2,3,4,5])は [[0,2,4],[1,3,5]] を返す。",
+  :test
+  "def test_evens_odds():\r\n  assert evens_odds(list(range(6)))== [[0,2,4],[1,3,5]]\r\n  rng = list(range(100))\r\n  assert evens_odds(rng)== \\\r\n    [list(filter(lambda x: x%2==0, rng)),\r\n     list(filter(lambda x: x%2==1, rng))]\r\n"}
+ {:problem
+  "整数のリスト xs の先頭に要素 e を挿入したリストを返す関数 add_first(xs, e) を定義しなさい。add_first([1,2,3,4,5],0) は [0,1,2,3,4,5] を返す。",
+  :test
+  "def test_add_first():\r\n  assert add_first([1,2,3,4,5],0) == [0,1,2,3,4,5]\r\n  assert add_first([1,2,3,4,5],[0]) == [[0],1,2,3,4,5]\r\n"}
+ {:problem
+  "整数のリスト xs から、最初に現れる要素 e を取り除いたリストを返す関数 remove_first(xs, e) を定義しなさい。 remove_first([1,1,1,2,2,2,3,3,3], 2) は [1,1,1,2,2,3,3,3] を返す。 ",
+  :test
+  "def test_remove_first():\r\n  assert remove_first([1,1,1,2,2,2,3,3,3], 2) == [1,1,1,2,2,3,3,3]\r\n  assert remove_first([1,1,1,2,2,2,3,3,3], 4) == [1,1,1,2,2,2,3,3,3]\r\n"}
+ {:problem
+  "整数のリスト xs に見つかる e のうち、最後に見つかる e のインデックスを 返す関数 find_last(xs, e) を定義しなさい。 xs 中に e が見つからない時、\"e はありません\" のメッセージで raise すること。 find_last([1,1,1,2,2,2,3,3,3],1) は 2 を返し、 find_last([1,1,1,2,2,2,3,3,3],4) は \"4 はありません\" のメッセージで raise する。",
+  :test
+  "import pytest\r\n\r\ndef test_find_last():\r\n  assert find_last([1,1,1,2,2,2,3,3,3],1) == 2\r\n  with pytest.raises(Exception) as e:\r\n    ret = find_last([1,1,1,2,2,2,3,3,3],4)\r\n    print(\"ret\", ret)\r\n  assert True\r\n"}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem "", :test ""}
+ {:problem
+  "[extra] [fast_fibo(x) for x in range(100)]で返るリストが本当に正しいフィボナッチリストになってるかを確認してください。 is_fibo(xs). is_sorted(xs) をイメージしてください。",
+  :test ""}
+ {:problem
+  "1, 整数 p が素数で、かつ、p + 2 が素数であるとき、p を双子素数という。 n が双子素数であることを True/False で返す is_twin_prime(n) を定義しなさい。",
+  :test ""}
+ {:problem "2, n 未満の双子素数はいくつあるかを返す twin_primes(n) を定義しなさい。", :test ""}
+ {:problem
+  "3, ある秘密のイメージ secret と乱数イメージ noise から secret[y,x] + noise[y,x] の操作で作ったイメージ hidden がある。 hidden の各ピクセルの BGR 値から noise の対応する各ピクセルの BGR 値を引いて オリジナルの秘密のイメージを取り戻してください。そこにはなんて書いてある？ 左が hidden.png, 右が noise.png です。",
+  :test ""}
+ {:problem
+  "4, 300x200 のウィンドウに、黒から白になめらかに変化する模様を表示し、 gradation.png のファイルにセーブせよ。 b,g,r が (n,n,n) よりも (n+1, n+1, n+1) はちょっと明るい。 見本は次です。",
+  :test ""}
+ {:problem
+  "5, 関数 y = sin(x) は x がゼロに近い時、y = x + x^3^/3! + x^5^/5! +... で近似できる。 (テーラー展開) t(x) = x + x**3/(3*2*1) とし、 |sin(x)-t(x)| を -1 &le; x &lt; 1 の範囲でプロットせよ。 ",
+  :test ""}
+ {:problem
+  "1, hkimura の命名だが、素数 p の桁をひっくり返した数字が素数になる数を逆転素数という。 例えば 13 はひっくり返した 31 も素数なので逆転素数です。 整数 n が逆転素数であることを True/False で返す is_rev_prime(n) を定義しなさい。",
+  :test ""}
+ {:problem
+  "2, n 以上 m 未満の整数で逆転素数は何個ありますか？ rev_primes(n,m) を定義しなさい。 rev_primes(10,1000) は 50 よりも多い。",
+  :test ""}
+ {:problem
+  "3, 次のイメージは人間の目には黒一色だが、見えない違いがあって、明るくすると文字が浮き上がる。 次のイメージをダウンロード、セーブしたファイルを読み、 全てのピクセルの R,G,B 値を 100 倍したイメージを表示する enhance(filename) を定義しなさい。 浮き上がった文字は何か？",
+  :test ""}
+ {:problem
+  "4, 下のイメージを読み、白点の数をコンピュータに数えさせてください。 定義する関数名は count_white(filename). 引数はセーブしたファイルの名前です。 白点は何個ありますか？ 100 個より多い。",
+  :test ""}
+ {:problem
+  "5, y=x^x^を 1 &le; x &lt; 5 の範囲でプロットしなさい。 y の値に log をかけてプロットすること。 ",
+  :test ""}
+ {:problem
+  "1, 一桁の素数を使って四桁の数字を作る。たとえば 2357。これは素数になる。 しかし、2375 は素数じゃない。一桁の素数を使って四桁の数字を作るとき、素数は何個作れるでしょう？",
+  :test ""}
+ {:problem "2, 二桁の素数を使って四桁の数字を作る。素数になるものは何個あるでしょう？", :test ""}
+ {:problem "3, イメージの横一列を Py99 の shuffle() で入れ替えた暗号イメージが以下である。",
+  :test ""}
+ {:problem
+  "4, ウクライナの国旗は上半分に青(255,0,0)、下半分に黄色(0,255,255)です。 関数 ukraine(filename) でウクライナ国旗イメージを作成し、作成したイメージを filename にセーブしなさい。",
+  :test ""}
+ {:problem
+  "5, y = sin(x)^2^ + cos(x)^2^ を -3 &le; x &lt; 3 の範囲でプロットしなさい。 ",
+  :test ""}
+ {:problem
+  "1, 4以上のすべての偶数は二つの素数の和として表されるという。 4 = 2+2, 6 = 3+3, 8 = 2+5, 10 = 3+7,... この問題を解くのだが、 まず、 n 未満の素数のリストを返す関数 primes_under(n) を定義しなさい。",
+  :test ""}
+ {:problem
+  "2, 4 以上の整数 n を引数とし、 それを二つの素数 x と y の和に分解し、(x,y) を戻り値とする関数 divide_even(n) は primes_under(n) の戻したリストがヒントだ。 divide_even(n) を定義しなさい。引数 n が偶数じゃなかった時、どうするんだっけ？",
+  :test ""}
+ {:problem
+  "3, 次のイメージは黒一色だが、隣り合うピクセルがわずかに違うものがある。 次のイメージをダウンロード、セーブしたファイルを読み、 右隣のピクセルの BGR と自分の BGR が同じ時は自分ピクセルを黒、 異なる時は白にする操作で隠れた文字を浮き上がらせなさい。隠れた文字は何か？",
+  :test ""}
+ {:problem
+  "4, 下のイメージ中、真ん中辺に見える白い線の長さはなんピクセルありますか？ blue_length(filename) を定義してください。",
+  :test ""}
+ {:problem
+  "5, y = sin(x)/x を -1 &le;x &lt; 1 の範囲でなめらかにプロットしなさい。 x=0 をまたぐように xs を用意しないと、エラーになるぞ。 ",
+  :test ""}
+ {:problem
+  "0 でない整数 n,m が共通因数を持たないとき、「互いに素」であるという。 n,m が互いに素であるかどうかを返す relative_prime(n,m) を定義しなさい。relative_prime(9,10) は True を返す。 ",
+  :test ""}
+ {:problem
+  "1 以上 100 未満の整数二つのペア (n,m) が互いに素になるものは何組あるか(n &lt; m)を返す relative_primes_under(100).",
+  :test ""}
+ {:problem
+  " 黒ネコがいる。まず、このファイルをダウンロードし、\"cat.png\" の名前でセーブする。 そのファイル名 \"cat.png\" を引数に取り、イメージを読み込んで、 白の背景を黒く染め、\"dark_cat.png\" の名前でセーブする関数 darken(filename). 画像フォーマットの都合で黒猫のエッジがすこーし白く残りますが、残って OK. ",
+  :test ""}
+ {:problem
+  "次の画像 \"bgr.png\" 中、面積が大きい絵柄は赤か青かを判定する関数 red_or_blue(filename). 赤の面積が大きい時は \"red\"、青の面積が大きい時は \"blue\" を返しなさい。",
+  :test ""}
+ {:problem "x=sin(t), y=sin(2*t) を -8 &le; t &lt; 8 の範囲でプロットしなさい。",
+  :test ""}
+ {:problem
+  "[extra] QA の 911 番をブラウズした人で 910 番を見ない人は誰ですか？ その人の単位は危ないと言っておこう。danger(num1, num2). num1 は 911 をブラウズしたアカウントのリスト、 num2 は910をブラウズしたアカウントのリスト。QA から readers クリックすると表示します。",
+  :test ""}
+ {:problem
+  "[extra] py99 の 97, 98, 99 の回答が 2/13 以降の人のリストを得るにはどうすれば？ その人の 2/13 以前の回答、コメントの数も一緒にゲットしてください。",
+  :test ""})

@@ -1,30 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="content">
-   <h2>Admin Page</h2>
-   <ul>
-   <!--
-     <li><a href='/admin/users'>users</a></li>
-     <li><a href='/admin/comments'>comments</a></li>
-   -->
-   <li><a href='/admin/problems'>edit problems</a></li>
-   </ul>
+    <h2>Admin Page</h2>
+    {% if flash %}
+    <div class="red">{{flash.doc}}</div>
+    {% else %}
+    <div>&nbsp;</div>
+    {% endif %}
+    <div class="columns">
+      <div class="column is-one-fifth">
+        <form method='get' action='/admin/problems'>
+          <input type='submit'
+            class='button is-primary'
+            value='edit problems'>
+        </form>
+      </div>
+      <div class="column is-one-fifth">
+        <form method='post' action='/admin/dump-problems'>
+          {% csrf-field %}
+          <input type='submit'
+             class='button is-warning'
+             value='dump problems'>
+         </form>
+      </div>
 
-   <form method='post' action='/admin/dump-problems'>
-    {% csrf-field %}
-    <input type='submit'
-     class='button is-small is-primary'
-     value='dump problems'>
-   </form>
-
-   <p>for safety, currently disable `seed problem` button.</p>
-   <!-- for safety, disable submit button -->
-   <form method='post' action='/admin/seed-problems'>
-     {% csrf-field %}
-      <input type='submit'
-             class='button is-small is-danger'
-             disabled='disabled'
-             value='seed problems'>
-   </form>
+      <div class="column is-one-fifth">
+        <form method='post' action='/admin/seed-problems'>
+          {% csrf-field %}
+          <input type='submit'
+            class='button is-danger'
+            value='seed problems'>
+        </form>
+      </div>
+    </div>
   </div>
 {% endblock %}

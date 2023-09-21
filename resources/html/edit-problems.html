@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="content">
-    <h2>Problems</h2>
+    <h2>Admin/Problems</h2>
     <p>問題文に改行には &lt;br&gt; が必要。
       テストコードは &lt;pre&gt;~&lt;/pre&gt; で表示する。</p>
 
@@ -10,11 +10,11 @@
     <form method='post'>
       {% csrf-field %}
       <input type="hidden" name="id" value="{{p.id}}">
-      num: <input name='num' class='num' value='{{p.num}}'>
-      avail? <input name='is_avail' class='is_avail' value='{{p.is_avail}}'><br>
+      num: <input name='num' value='{{p.num}}'>
+      avail? <input name='is_avail' value='{{p.is_avail}}'><br>
       <textarea name='problem' class='textarea'>{{p.problem}}</textarea><br>
-      <textarea name='test' class='textarea'>{{p.test}}</textarea><br>
-      <input type='submit' value='update'>
+      <textarea name='test' class='textarea' style="font-family:monospace;">{{p.test}}</textarea><br>
+      <input type='submit' class='button is-small is-primary' value='update'>
    </form>
    <hr>
    {% endfor %}

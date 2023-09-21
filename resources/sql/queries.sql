@@ -1,5 +1,5 @@
 -- -- -------------
--- -- users section
+-- -- users
 -- -- -------------
 -- -- :name create-user! :! :n
 -- -- :doc creates a new user record
@@ -34,7 +34,7 @@
 -- WHERE login = :login
 
 -- ----------------
--- problems section
+-- problems
 -- ----------------
 
 -- :name create-problem! :! :1
@@ -77,7 +77,7 @@ SELECT problem, test FROM problems
 order by id;
 
 -- --------------
--- answers section
+-- answers
 -- --------------
 
 -- :name create-answer! :! :1
@@ -239,7 +239,7 @@ GROUP BY from_login
 ORDER BY count(*) DESC
 
 -- ----------------
--- frozens section
+-- frozens
 -- ----------------
 
 -- :name frozen? :? :1
@@ -252,7 +252,7 @@ SELECT * FROM frozens
 
 
 -- ----------------
--- stocks section
+-- stocks
 -- ----------------
 
 -- :name stocks? :? :*

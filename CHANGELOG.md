@@ -18,9 +18,14 @@
 * /todays: return-key で go
 * testcode atom(もうちょっと具体的に書いておかないと)
 * pip install wheel を Dockerfile で実施したらどうなる？
-- num の他にもう一つ順序をもつコラムを設ける。問題を追加が楽だろう。
-- num を付け直す関数 renum
 - テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
+
+## 0.68.7 - 2023-09-21
+### Changed
+improve `\admin` page.
+- redirect with flash.
+- dump/seed(restore?)
+
 
 ## 0.68.6 - 2023-09-21
 ### Added

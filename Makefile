@@ -1,4 +1,4 @@
-TAG=hkim0331/py99:0.3.4
+TAG=hkim0331/py99:0.3.5
 DEST="ubuntu@app.melt.kyutech.ac.jp"
 
 all: clean security manifest

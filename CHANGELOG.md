@@ -3,13 +3,11 @@
 ## Unreleased
 
 * ChatGPT 対策、間違い修正問題では？
+* 最初の週は過去の py99 を見せる。本番は第2週以降。
 * 次回答をする前に他回答を n 個以上、読まないといけないようにする。
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-* login ユーザのリスト。logout したら削除する。いらないか。
-* 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
-* 最初の週は過去の py99 を見せる。本番は第2週以降。
-  DB を差し替えなければいいのかな？
-* seed-in/seed-out
+* 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。* login ユーザのリスト。logout したら削除する。いらないか。目的はなんだ？
+
 * clojure:temurin-20:lein を入れても二つのパッケージが残る。
   wheel 0.37.1 -> 0.38.0
   setuptools 59.6.0 ->
@@ -17,15 +15,17 @@
 * auto-reload
 * /todays: return-key で go
 * testcode atom(もうちょっと具体的に書いておかないと)
-* pip install wheel を Dockerfile で実施したらどうなる？
+- pip install wheel を Dockerfile で実施しても、Docker Desktop が表示する Vulnerabilities は変わらない。
+    - wheel 0.37.1
+    - setuptools 59.6.0
 - テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
 
 ## 0.68.7 - 2023-09-21
 ### Changed
 improve `\admin` page.
-- redirect with flash.
-- dump/seed(restore?)
-
+- redirect with flash
+- edit/dump/seed(restore?)
+- monospace font in `test` textarea
 
 ## 0.68.6 - 2023-09-21
 ### Added

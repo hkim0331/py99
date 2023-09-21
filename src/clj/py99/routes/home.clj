@@ -468,7 +468,7 @@
 
 (defn list-todays-today [request]
   (let [today (to-date-str (l/local-now))]
-    (log/info "list-todays-today")
+    ;; (log/info "list-todays-today")
     (layout/render request "todays.html"
                    {:date today
                     :todays (db/todays? {:date today})})))

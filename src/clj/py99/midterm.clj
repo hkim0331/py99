@@ -11,13 +11,6 @@
   (fn [row]
     (neg? (compare (yyyy-mm-dd (:create_at row)) date))))
 
-;; (def before-12-15? (make-before? "2022-12-15"))
-;;
-;; (defn fetch-answers
-;;   "fetch answers to problem number `num`."
-;;   [num]
-;;   (filter before-12-15? (db/answers-to {:num num})))
-
 (defn fetch-answers
   [date num]
   (let [flt (make-before? date)]

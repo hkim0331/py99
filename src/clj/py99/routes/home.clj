@@ -274,6 +274,10 @@
         exam-mode (env :exam-mode)
         uptime (uptime)]
     (if (and my-answer (not exam-mode))
+      ;;
+      ;; action 入れるならココ
+      ;; (db/action! {:type "read" :login login :num num :timestamp (now)})
+      ;;
       (layout/render request "comment-form.html"
                      {:answer   (if exam-mode my-answer answer)
                       :problem  (db/get-problem {:num num})

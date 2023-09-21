@@ -19,6 +19,15 @@
     - wheel 0.37.1
     - setuptools 59.6.0
 - テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
+- /api/p/:n
+- /api/t/:n
+- もしくは problem, test を合わせて返す /api/problem/:n
+- python のバージョンを合わせるため、poetry するより docker がいいかも。
+
+## 0.68.8 - 2023-09-21
+- refactor.
+- resources/doc/problems.edn, problems-after-100.edn.
+
 
 ## 0.68.7 - 2023-09-21
 ### Changed

@@ -7,13 +7,12 @@
 * 次回答をする前に他回答を n 個以上、読まないといけないようにする。
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
 * 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。* login ユーザのリスト。logout したら削除する。いらないか。目的はなんだ？
-
 * clojure:temurin-20:lein を入れても二つのパッケージが残る。
   wheel 0.37.1 -> 0.38.0
-  setuptools 59.6.0 ->
+  setuptools 59.6.0 -> ???
 * dummy NG ボタン。
 * auto-reload
-* /todays: return-key で go
+* /todays: go ボタンを押さずに return-key で go できないか？
 * testcode atom(もうちょっと具体的に書いておかないと)
 - pip install wheel を Dockerfile で実施しても、Docker Desktop が表示する Vulnerabilities は変わらない。
     - wheel 0.37.1
@@ -24,10 +23,10 @@
 - もしくは problem, test を合わせて返す /api/problem/:n
 - python のバージョンを合わせるため、poetry するより docker がいいかも。
 
+
 ## 0.68.8 - 2023-09-21
 - refactor.
 - resources/doc/problems.edn, problems-after-100.edn.
-
 
 ## 0.68.7 - 2023-09-21
 ### Changed

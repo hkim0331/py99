@@ -22,7 +22,7 @@
   [login]
   (let [ep (str l22 "/api/user/" login)
         resp (hc/get ep {:as :json})]
-    (log/info "login" (get-in resp [:body :login]))
+    ;; (log/debug "login" (get-in resp [:body :login]))
     (:body resp)))
 
 (def users-schema

@@ -127,7 +127,7 @@
         solved (map #(:num %) (db/answers-by {:login login}))
         individual  (db/answers-by-date-login {:login login})
         all-answers (db/answers-by-date)]
-    ;; (log/info "status-page" login)
+    ;; (log/debug "status-page" login)
     (layout/render
      request
      "status.html"
@@ -141,7 +141,7 @@
 (defn problems-page
   "display problems."
   [request]
-  ;; (log/info "problem-page" (login request))
+  ;; (log/debug "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
 ;; title
@@ -154,7 +154,7 @@
         answers (db/answers-to {:num num})
         frozen?  (db/frozen? {:num num})
         uptime (uptime)]
-    ;; (log/info "answer-page" (login request))
+    ;; (log/debug "answer-page" (login request))
     ;; この if の理由？
     (if-let [answer (db/get-answer {:num num :login (login request)})]
       (let [answers (group-by #(= (:md5 answer) (:md5 %)) answers)]
@@ -199,7 +199,7 @@
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
     (when (re-find #"\S" test)
-      ;; (log/info "test is not empty" test)
+      ;; (log/debug "test is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]
           (binding [*out* file]
@@ -207,7 +207,7 @@
             (println answer)
             (println test)))
         (let [ret (timeout-sh timeout "pytest" (.getAbsolutePath tempfile))]
-          (log/info "ret" ret)
+          ;; (log/debug "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
             (throw (Exception. (->> (str/split-lines (:out ret))
@@ -217,7 +217,7 @@
 (defn- get-answer
   "get user login's answer to `num` from db."
   [num login]
-  ;; (log/info "get-answer" num login)
+  ;; (log/debug "get-answer" num login)
   (if-let [ans (:answer (db/get-answer {:num num :login login}))]
     ans
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
@@ -225,7 +225,7 @@
 (defn expand-includes
   "expand `#include` recursively."
   [s login]
-  ;; (log/info "expand-includes:" s)
+  ;; (log/debug "expand-includes:" s)
   (str/join
    "\n"
    (for [line (str/split-lines s)]
@@ -247,7 +247,7 @@
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
-  (log/info "create-answer!" (login request) num)
+  ;; (log/debug "create-answer!" (login request) num)
   (try
     (when-not (env :exam-mode)
       (validate (Integer/parseInt num) answer (login request)))
@@ -380,7 +380,7 @@
 
 (defn profile-login
   [request]
-  ;; (log/info "profile-login" (login request))
+  ;; (log/debug "profile-login" (login request))
   (if (admin? (login request))
     (profile (get-in request [:path-params :login]))
     (layout/render request "error.html"
@@ -389,7 +389,7 @@
                     :message "admin only. "})))
 
 (defn ranking [request]
-  ;; (log/info "ranking" (login request))
+  ;; (log/debug "ranking" (login request))
   (layout/render request "ranking.html"
                  {:submissions (take 30 (db/submissions))
                   :solved      (take 30 (db/solved))
@@ -399,7 +399,7 @@
 
 (defn rank-submissions [request]
   (let [login (login request)]
-    ;; (log/info "rank-submissions" login)
+    ;; (log/debug "rank-submissions" login)
     (layout/render request "ranking-all.html"
                    {:data (db/submissions)
                     :title "Ranking Submissions"
@@ -408,7 +408,7 @@
 
 (defn rank-solved [request]
   (let [login (login request)]
-    ;; (log/info "rank-solved" login)
+    ;; (log/debug "rank-solved" login)
     (layout/render request "ranking-all.html"
                    {:data (db/solved)
                     :title "Ranking Solved"
@@ -420,7 +420,7 @@
         data (map (fn [x] {:login (:from_login x)
                            :count (:count x)})
                   (db/comments-counts))]
-    ;; (log/info "rank-comments" login)
+    ;; (log/debug "rank-comments" login)
     (layout/render request "ranking-all.html"
                    {:data data
                     :title "Comments Ranking"
@@ -429,7 +429,7 @@
 
 (defn answers-by-problems [request]
   (let [data (db/answers-by-problems)]
-    ;; (log/info "answers-by-problems" (login request))
+    ;; (log/debug "answers-by-problems" (login request))
     (layout/render request "answers-by-problems.html"
                    {:data data
                     :title "Answers by Problems"})))
@@ -439,7 +439,7 @@
         a_id (-> (get-in request [:params :a_id])
                  Integer/parseInt)
         note (-> (get-in request [:params :note]))]
-    (log/info "create-stock!" login a_id note)
+    ;; (log/debug "create-stock!" login a_id note)
     (try
       (db/create-stock! {:login login :a_id a_id :note note})
       (redirect (str "/comment/" a_id))
@@ -451,12 +451,12 @@
 
 (defn list-stocks [request]
   (let [login (login request)]
-    (log/info "list-stocks" login)
+    ;; (log/debug "list-stocks" login)
     (layout/render request "stocks.html"
                    {:stocks (db/stocks? {:login login})})))
 
 (defn list-todays [{{:keys [date]} :path-params :as request}]
-  (log/info "list-todays" date)
+  ;; (log/debug "list-todays" date)
   (if (re-matches #"\d\d\d\d-\d\d-\d\d" date)
     (layout/render request "todays.html"
                    {:date date
@@ -468,7 +468,7 @@
 
 (defn list-todays-today [request]
   (let [today (to-date-str (l/local-now))]
-    ;; (log/info "list-todays-today")
+    ;; (log/debug "list-todays-today")
     (layout/render request "todays.html"
                    {:date today
                     :todays (db/todays? {:date today})})))

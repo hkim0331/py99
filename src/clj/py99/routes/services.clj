@@ -4,7 +4,6 @@
    [py99.middleware :as middleware]
    [ring.util.http-response :as response]))
 
-;; FIXME: under construction
 (defn fetch-problem
   [{{:keys [n]} :path-params}]
   (prn "fetch-problem" n)
@@ -18,5 +17,4 @@
   ["/api"
    {:middleware [middleware/wrap-formats]}
    ["/hello" {:get (fn [_] {:status 200 :body "hello"})}]
-   ["/problem/:n" {:get fetch-problem}]
-   ])
+   ["/problem/:n" {:get fetch-problem}]])

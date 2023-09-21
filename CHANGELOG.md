@@ -3,10 +3,15 @@
 ## Unreleased
 
 * ChatGPT 対策、間違い修正問題では？
-* 最初の週は過去の py99 を見せる。本番は第2週以降。
-* 次回答をする前に他回答を n 個以上、読まないといけないようにする。
+* 最初の週は過去の py99 を見せる。本番は第 2 週以降。
+* 他回答を n 個以上読まないと次回答に進めない制限。セッションに蓄積できるだろう。
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-* 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。* login ユーザのリスト。logout したら削除する。いらないか。目的はなんだ？
+* 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
+* actions テーブル。ログをデータベースに残す。
+    - submit
+    - read
+    - comment
+* login ユーザのリスト。logout したら削除する。いらないか。目的はなんだ？
 * clojure:temurin-20:lein を入れても二つのパッケージが残る。
   wheel 0.37.1 -> 0.38.0
   setuptools 59.6.0 -> ???
@@ -18,11 +23,13 @@
     - wheel 0.37.1
     - setuptools 59.6.0
 - テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
-- /api/p/:n
-- /api/t/:n
-- もしくは problem, test を合わせて返す /api/problem/:n
-- python のバージョンを合わせるため、poetry するより docker がいいかも。
+- python のバージョンを合わせるため、poetry より docker がいいのでは？
+- 1 題多い。
+- fatal: detected dubious ownership in repository at '/usr/src/app'
 
+
+## 0.68.9-snapshot
+- /api/problem/:n
 
 ## 0.68.8 - 2023-09-21
 - refactor.

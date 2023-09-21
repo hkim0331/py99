@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN set -eux; \
     apt-get update; \
     apt-get -y install --no-install-recommends \
-      sudo git postgresql-client-14 python3 python3-pip
+      sudo openssh-client git postgresql-client-14 python3 python3-pip
 
 RUN set -eux; \
     apt-get autoremove -y; \
@@ -28,7 +28,3 @@ USER $USERNAME
 # setuptools は matplitlib 入れると 68.2.2 で上書きされる。
 RUN set -eux; \
     pip install pytest matplotlib wheel==0.41.2
-
-
-
-

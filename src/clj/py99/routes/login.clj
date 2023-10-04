@@ -12,7 +12,7 @@
    #_[struct.core :as st]
    #_[py99.db.core :as db]))
 
-(def ^:private version "0.68.8")
+(def ^:private version "0.68.9")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 

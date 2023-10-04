@@ -1,4 +1,4 @@
-(defproject py99 "0.68.8"
+(defproject py99 "0.68.9"
   :description "r99 revised with clojure"
   :url "https://r99.melt.kyutech.ac.jp"
   :dependencies

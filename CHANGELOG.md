@@ -36,7 +36,7 @@
 |             | markdown-clj/markdown-clj | 1.11.4   | 1.11.7  |
 
 ## 0.68.9 - 2023-10-04
-- 99題。
+- 99題に絞った。
 - /api/problem/:n
 - devcontainer extensions:
   - "betterthantomorrow.calva",

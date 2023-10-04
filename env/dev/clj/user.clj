@@ -6,7 +6,7 @@
    [clojure.spec.alpha :as s]
    [expound.alpha :as expound]
    [mount.core :as mount]
-   ;; [py99.core :refer [start-app]]
+   [py99.core :refer [start-app]] ;; do not remove!
    [py99.db.core]
    [conman.core :as conman]
    [luminus-migrations.core :as migrations]))

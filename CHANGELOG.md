@@ -11,7 +11,7 @@
     - submit
     - read
     - comment
-* login ユーザのリスト。logout したら削除する。いらないか。目的はなんだ？
+* login ユーザのリスト。logout したら削除する。目的はなんだった？
 * dummy NG ボタン。
 * auto-reload
 * /todays: go ボタンを押さずに return-key で go できないか？
@@ -26,14 +26,18 @@
 - python のバージョンを合わせるため、poetry より docker がいいのでは？
 - fatal: detected dubious ownership in repository at '/usr/src/app'
 
-## 0.69.0-SNAPSHOT
-### antq upgrade
+
+## 0.69.0 - 2023-10-04
+- upgraded libraries
 
 | :file       | :name                     | :current | :latest |
 | ----------- | ------------------------- | -------- | ------- |
 | project.clj | cheshire/cheshire         | 5.11.0   | 5.12.0  |
 |             | cider/cider-nrepl         | 0.37.1   | 0.38.1  |
 |             | markdown-clj/markdown-clj | 1.11.4   | 1.11.7  |
+
+### Changed
+- admin page two columns
 
 ## 0.68.9 - 2023-10-04
 - 99題に絞った。

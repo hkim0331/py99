@@ -12,10 +12,11 @@
             },
             "extensions": [
                 "betterthantomorrow.calva",
-                "borkdude.clj-kondo",
+                // "borkdude.clj-kondo",
                 "jsynowiec.vscode-insertdatestring",
-                "lfs.vscode-emacs-friendly",
-                "mosapride.zenkaku",
-                "ybaumes.highlight-trailing-white-spaces"
+                "rkwan94.vscode-emacs-improved"
+                // "lfs.vscode-emacs-friendly",
+                // "mosapride.zenkaku",
+                // "ybaumes.highlight-trailing-white-spaces"
             ]}}
 }

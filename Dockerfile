@@ -22,9 +22,10 @@ RUN set -eux; \
     echo ${USERNAME} ALL=\(ALL\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME; \
     chmod 0440 /etc/sudoers.d/$USERNAME
 
+
 USER $USERNAME
 
 # numpy は matplitlib が連れてくる 1.25.2 を使おう。
 # setuptools は matplitlib 入れると 68.2.2 で上書きされる。
 RUN set -eux; \
-    pip install pytest matplotlib wheel==0.41.2
+    pip3 install pytest matplotlib wheel==0.41.2 \

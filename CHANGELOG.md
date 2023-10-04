@@ -3,31 +3,50 @@
 ## Unreleased
 
 * ChatGPT 対策、間違い修正問題では？
-* 最初の週は過去の py99 を見せる。本番は第2週以降。
-* 次回答をする前に他回答を n 個以上、読まないといけないようにする。
+* 最初の週は過去の py99 を見せる。本番は第 2 週以降。
+* 他回答を n 個以上読まないと次回答に進めない制限。セッションに蓄積できるだろう。
 * comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-* 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。* login ユーザのリスト。logout したら削除する。いらないか。目的はなんだ？
-
-* clojure:temurin-20:lein を入れても二つのパッケージが残る。
-  wheel 0.37.1 -> 0.38.0
-  setuptools 59.6.0 ->
+* 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
+* actions テーブル。ログをデータベースに残す。
+    - submit
+    - read
+    - comment
+* login ユーザのリスト。logout したら削除する。いらないか。目的はなんだ？
 * dummy NG ボタン。
 * auto-reload
-* /todays: return-key で go
+* /todays: go ボタンを押さずに return-key で go できないか？
 * testcode atom(もうちょっと具体的に書いておかないと)
-- pip install wheel を Dockerfile で実施しても、Docker Desktop が表示する Vulnerabilities は変わらない。
+- pip install wheel を Dockerfile で実施しても、
+  Docker Desktop が表示する Vulnerabilities は変わらない。
+  clojure:temurin-20:lein を入れても二つのパッケージが残る。
     - wheel 0.37.1
     - setuptools 59.6.0
+  積極的に pip uninstall したらどうか？
 - テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
-- /api/p/:n
-- /api/t/:n
-- もしくは problem, test を合わせて返す /api/problem/:n
-- python のバージョンを合わせるため、poetry するより docker がいいかも。
+- python のバージョンを合わせるため、poetry より docker がいいのでは？
+- fatal: detected dubious ownership in repository at '/usr/src/app'
+
+## 0.69.0-SNAPSHOT
+### antq upgrade
+
+| :file       | :name                     | :current | :latest |
+| ----------- | ------------------------- | -------- | ------- |
+| project.clj | cheshire/cheshire         | 5.11.0   | 5.12.0  |
+|             | cider/cider-nrepl         | 0.37.1   | 0.38.1  |
+|             | markdown-clj/markdown-clj | 1.11.4   | 1.11.7  |
+
+## 0.68.9 - 2023-10-04
+- 99題に絞った。
+- /api/problem/:n
+- devcontainer extensions:
+  - "betterthantomorrow.calva",
+  - "jsynowiec.vscode-insertdatestring",
+  - "rkwan94.vscode-emacs-improved"
+- CHANGELOG中のテーブルをマークダウンのテーブルで書き直した。
 
 ## 0.68.8 - 2023-09-21
 - refactor.
 - resources/doc/problems.edn, problems-after-100.edn.
-
 
 ## 0.68.7 - 2023-09-21
 ### Changed
@@ -308,16 +327,15 @@ java -jar py99.jar
 ## 0.44.0 - 2022-11-11
 - post /stock ... ハッタリだけ。
 - clj -Tantq outdated :upgrade true
-```
+
 |       :file |                             :name | :current | :latest |
-|-------------+-----------------------------------+----------+---------|
+| ----------- | --------------------------------- | -------- | ------- |
 | project.clj |    ch.qos.logback/logback-classic |    1.4.3 |   1.4.4 |
 |             |                 cider/cider-nrepl |   0.28.6 |  0.28.7 |
 |             |                         hato/hato |    0.8.2 |   0.9.0 |
 |             | luminus-undertow/luminus-undertow |   0.1.15 |  0.1.16 |
 |             |             org.clojure/tools.cli |  1.0.206 | 1.0.214 |
 |             |       org.webjars/webjars-locator |     0.45 |    0.46 |
-```
 
 
 ## 0.43.1 - 2022-11-06

@@ -6,7 +6,7 @@
    [clojure.spec.alpha :as s]
    [expound.alpha :as expound]
    [mount.core :as mount]
-   [py99.core :refer [start-app]]
+   ;; [py99.core :refer [start-app]]
    [py99.db.core]
    [conman.core :as conman]
    [luminus-migrations.core :as migrations]))
@@ -59,5 +59,3 @@
   "Create a new up and down migration file with a generated timestamp and `name`."
   [name]
   (migrations/create name (select-keys env [:database-url])))
-
-

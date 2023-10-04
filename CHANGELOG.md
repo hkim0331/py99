@@ -12,28 +12,37 @@
     - read
     - comment
 * login ユーザのリスト。logout したら削除する。いらないか。目的はなんだ？
-* clojure:temurin-20:lein を入れても二つのパッケージが残る。
-  wheel 0.37.1 -> 0.38.0
-  setuptools 59.6.0 -> ???
 * dummy NG ボタン。
 * auto-reload
 * /todays: go ボタンを押さずに return-key で go できないか？
 * testcode atom(もうちょっと具体的に書いておかないと)
-- pip install wheel を Dockerfile で実施しても、Docker Desktop が表示する Vulnerabilities は変わらない。
+- pip install wheel を Dockerfile で実施しても、
+  Docker Desktop が表示する Vulnerabilities は変わらない。
+  clojure:temurin-20:lein を入れても二つのパッケージが残る。
     - wheel 0.37.1
     - setuptools 59.6.0
+  積極的に pip uninstall したらどうか？
 - テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
 - python のバージョンを合わせるため、poetry より docker がいいのでは？
-- 1 題多い。
 - fatal: detected dubious ownership in repository at '/usr/src/app'
 
+## 0.69.0-SNAPSHOT
+### antq upgrade
+
+| :file       | :name                     | :current | :latest |
+| ----------- | ------------------------- | -------- | ------- |
+| project.clj | cheshire/cheshire         | 5.11.0   | 5.12.0  |
+|             | cider/cider-nrepl         | 0.37.1   | 0.38.1  |
+|             | markdown-clj/markdown-clj | 1.11.4   | 1.11.7  |
 
 ## 0.68.9 - 2023-10-04
+- 99題。
 - /api/problem/:n
 - devcontainer extensions:
   - "betterthantomorrow.calva",
   - "jsynowiec.vscode-insertdatestring",
   - "rkwan94.vscode-emacs-improved"
+- CHANGELOG中のテーブルをマークダウンのテーブルで書き直した。
 
 ## 0.68.8 - 2023-09-21
 - refactor.
@@ -318,16 +327,15 @@ java -jar py99.jar
 ## 0.44.0 - 2022-11-11
 - post /stock ... ハッタリだけ。
 - clj -Tantq outdated :upgrade true
-```
+
 |       :file |                             :name | :current | :latest |
-|-------------+-----------------------------------+----------+---------|
+| ----------- | --------------------------------- | -------- | ------- |
 | project.clj |    ch.qos.logback/logback-classic |    1.4.3 |   1.4.4 |
 |             |                 cider/cider-nrepl |   0.28.6 |  0.28.7 |
 |             |                         hato/hato |    0.8.2 |   0.9.0 |
 |             | luminus-undertow/luminus-undertow |   0.1.15 |  0.1.16 |
 |             |             org.clojure/tools.cli |  1.0.206 | 1.0.214 |
 |             |       org.webjars/webjars-locator |     0.45 |    0.46 |
-```
 
 
 ## 0.43.1 - 2022-11-06

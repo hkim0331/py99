@@ -9,7 +9,7 @@
    [py99.config :refer [env]]
    [py99.middleware :as middleware]
    [ring.util.response :refer [redirect]]
-   [struct.core :as st]
+   #_[struct.core :as st]
    #_[py99.db.core :as db]))
 
 (def ^:private version "0.68.8")
@@ -24,32 +24,6 @@
         resp (hc/get ep {:as :json})]
     ;; (log/debug "login" (get-in resp [:body :login]))
     (:body resp)))
-
-;; (def users-schema
-;;   [[:sid
-;;     st/required
-;;     st/string
-;;     {:message "学生番号は数字3つに英大文字、続いて数字4つです。"
-;;      :validate (fn [sid] (re-matches #"^\d{3}[A-Z]\d{4}" sid))}]
-;;    [:name
-;;     st/required
-;;     st/string]
-;;    [:login
-;;     st/required
-;;     st/string
-;;     {:message "同じユーザ名があります。"
-;;      :validate (fn [login]
-;;                  (let [ret (get-user login)]
-;;                    (log/debug "validate ret:" ret)
-;;                    (empty? ret)))}]
-;;    [:password
-;;     st/required
-;;     st/string]])
-
-;; (defn validate-user [params]
-;;   (let [ret (st/validate params users-schema)]
-;;     (log/debug "validate:" ret)
-;;     (first ret)))
 
 (defn about-page [request]
   (layout/render request "about.html" {:version version}))

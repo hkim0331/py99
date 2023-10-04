@@ -28,8 +28,12 @@
 - fatal: detected dubious ownership in repository at '/usr/src/app'
 
 
-## 0.68.9-snapshot
+## 0.68.9 - 2023-10-04
 - /api/problem/:n
+- devcontainer extensions:
+  - "betterthantomorrow.calva",
+  - "jsynowiec.vscode-insertdatestring",
+  - "rkwan94.vscode-emacs-improved"
 
 ## 0.68.8 - 2023-09-21
 - refactor.

@@ -116,7 +116,7 @@
  {:problem
   "ソーティングされた整数リスト xs の中央値を返す関数 median(xs). numpy.median を使うのは反則とする。ライブラリに頼らず、自力でプログラムしてみよう。",
   :test
-  "def test_median():\r\n  assert median([3])==3\r\n  assert median([3,4])==3.5\r\n  assert median([3,4,5])==4\r\n  assert median([3,4,5,6])==4.5\r\n  # 2022-11-20\r\n  assert median([1,2,100]) == 2"}
+  "def test_median():\r\n  assert median([3])==3\r\n  assert median([3,4])==3.5\r\n  assert median([3,4,5])==4\r\n  assert median([3,4,5,6])==4.5\r\n  assert median([1,2,100]) == 2"}
  {:problem
   "整数のリスト xs の最頻値を返す関数 mode(xs). numpy.mode を使うのは反則とする。ライブラリに頼らず、自力でプログラムしてみよう。",
   :test
@@ -139,7 +139,7 @@
  {:problem
   "'Kimura Takuya' のような文字列 s を引数とし、 そのイニシャル 'KT' を返す関数 initial(s).",
   :test
-  "def test_initial():\r\n  assert initial('Kimura Takuya') == 'KT'\r\n  assert initial('Ashida Mana') == 'AM'\r\n  assert initial('Wolfgang Amadeus Mozart') == 'WAM'\r\n  assert initial('OneWord') == 'O'\r\n  # 2022-11-21\r\n  assert initial('  Totoro   Kurosuke   NEKOBUS  ') == 'TKN'\r\n"}
+  "def test_initial():\r\n  assert initial('Kimura Takuya') == 'KT'\r\n  assert initial('Ashida Mana') == 'AM'\r\n  assert initial('Wolfgang Amadeus Mozart') == 'WAM'\r\n  assert initial('OneWord') == 'O'\r\n  assert initial('  Totoro   Kurosuke   NEKOBUS  ') == 'TKN'\r\n"}
  {:problem
   "二つの数 x, y のどちらか大きい方を返す関数 max2(x, y). ビルトイン関数の max を使うのは反則とする。",
   :test
@@ -151,7 +151,7 @@
  {:problem
   "リスト xs 中の要素の最大値を返す関数 max_in_list(xs). ビルトイン関数の max, sorted, sort を使うのは反則とする。",
   :test
-  "import random\r\n\r\ndef test_max_in_list( ):\r\n  assert max_in_list([]) == []\r\n  assert max_in_list([100]) == 100\r\n  lst = list(range(100))\r\n  random.shuffle(lst)\r\n  assert max_in_list(lst) == 99\r\n  lst = random.choices(range(10),k=100)\r\n  assert max_in_list(lst) == max(lst)\r\n  assert max_in_list([-10, -20, -30]) == -10 # 2022-11-28\r\n"}
+  "import random\r\n\r\ndef test_max_in_list( ):\r\n  assert max_in_list([]) == []\r\n  assert max_in_list([100]) == 100\r\n  lst = list(range(100))\r\n  random.shuffle(lst)\r\n  assert max_in_list(lst) == 99\r\n  lst = random.choices(range(10),k=100)\r\n  assert max_in_list(lst) == max(lst)\r\n  assert max_in_list([-10, -20, -30]) == -10"}
  {:problem
   "リスト xs 中の要素の最大値のリストを返す関数 maxen(xs). 関数 max_in_list(xs) との違いは、 最大値が複数ある場合にそれらをリストで返すことだ。",
   :test
@@ -175,17 +175,17 @@
   :test ""}
  {:problem "整数 n は何桁かを返す関数 digits(n).",
   :test
-  "def test_digits( ):\r\n  assert digits(0)==1\r\n  assert digits(8)==1\r\n  assert digits(10)==2 # 2022-12-13\r\n  assert digits(11)==2\r\n  assert digits(32345)==5 # 2022-12-13\r\n  assert digits(423450123)==9\r\n  assert digits(94213412414124141412431241414)==29\r\n  assert digits(-52345) == 5\r\n  assert digits(- 55) == 2"}
+  "def test_digits( ):\r\n  assert digits(0)==1\r\n  assert digits(8)==1\r\n  assert digits(10)==2\r\n  assert digits(11)==2\r\n  assert digits(32345)==5\r\n  assert digits(423450123)==9\r\n  assert digits(94213412414124141412431241414)==29\r\n  assert digits(-52345) == 5\r\n  assert digits(- 55) == 2"}
  {:problem "整数 n の各桁の総和を返す関数 sum_of_digits(n).",
   :test
-  "def test_sum_of_digits( ):\r\n  assert sum_of_digits(12345) == 15\r\n  assert sum_of_digits(0) == 0\r\n  # 2022-12-04\r\n  assert sum_of_digits(-12345) == 15"}
+  "def test_sum_of_digits( ):\r\n  assert sum_of_digits(12345) == 15\r\n  assert sum_of_digits(0) == 0\r\n  assert sum_of_digits(-12345) == 15"}
  {:problem "一の位が０でない整数 n の各桁の数字を逆転した整数を返す関数 reverse_int(n).",
   :test
   "import random\r\n\r\ndef test_reverse_int( ):\r\n  for _ in range(10):\r\n    n = random.randrange(100000000)\r\n    if n%10 != 0:\r\n      assert n == reverse_int(reverse_int(n))"}
  {:problem
   "文字列 s が学生番号かどうかを判定する is_id(s). 学生番号とは、数字が 3 つの後に、英大文字一つ、 その後、数字が 4 つの 8 文字からなる文字列。",
   :test
-  "from random import randrange, sample\r\n\r\n# 2022-12-07\r\ndef new_id():\r\n  return str(randrange(100,1000)) + \\\r\n    sample(\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",1)[0] + \\\r\n    str(randrange(1000,10000))\r\n\r\ndef test_is_id():\r\n  assert is_id(\"123A1234\") == True\r\n  assert is_id(\"123a1234\") == False\r\n  assert is_id(\"12345678\") == False\r\n  assert is_id(\"\") == False\r\n  assert is_id(\"12A1234\") == False\r\n  assert is_id(\"123A123\") == False\r\n  assert is_id(\"abcAefgh\") == False\r\n  assert is_id(\"1bcAe234\") == False\r\n  # 2022-12-07, omitsu\r\n  assert all([new_id() for _ in range(10)])\r\n  # 2022-12-07, omitsu 2\r\n  assert is_id(\"123A4567890123\") == False"}
+  "from random import randrange, sample\r\n\r\ndef new_id():\r\n  return str(randrange(100,1000)) + \\\r\n    sample(\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\",1)[0] + \\\r\n    str(randrange(1000,10000))\r\n\r\ndef test_is_id():\r\n  assert is_id(\"123A1234\") == True\r\n  assert is_id(\"123a1234\") == False\r\n  assert is_id(\"12345678\") == False\r\n  assert is_id(\"\") == False\r\n  assert is_id(\"12A1234\") == False\r\n  assert is_id(\"123A123\") == False\r\n  assert is_id(\"abcAefgh\") == False\r\n  assert is_id(\"1bcAe234\") == False\r\n    assert all([new_id() for _ in range(10)])\r\n  assert is_id(\"123A4567890123\") == False"}
  {:problem
   "左右どちらから読んでも同じになる文を回文という。 文字列 s が回文かどうかを判定する関数 is_palindrome(s).",
   :test
@@ -231,7 +231,7 @@
  {:problem
   "正の整数 n を引数に取り、n が素数であれば True、 そうでなければ False を返す関数 is_prime(n). len(divisors(n))==2 のような素朴な回答はこれ以降で計算に時間がかかりすぎの問題を引き起こす。 数学には時間の概念がないが、コンピュータは計算時間、計算に必要になるメモリの量と無関係にはできない。",
   :test
-  "def test_is_prime():\r\n    # takak21, 2022-11-18\r\n    assert list(filter(is_prime, range(1,30))) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]"}
+  "def test_is_prime():\r\n    assert list(filter(is_prime, range(1,30))) == [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]"}
  {:problem
   "正の整数 n を引数に取り、 n 以下の素数は何個あるかを戻り値とする関数 primes(n). primes(10000) の戻り値はおそらく 1229.",
   :test
@@ -250,10 +250,10 @@
  {:problem
   "4 番目までの素数を足すと 2 + 3 + 5 + 7 = 17. n 番目までの素数を足す sum_primes_nth(n). 1000 番目までの素数の和を求めなさい。それはたぶん 3682913.",
   :test
-  "def test_sum_primes_nth():\r\n  assert sum_primes_nth(4) == 17\r\n  assert sum_primes_nth(100) == 24133\r\n  assert sum_primes_nth(1000) == 3682913\r\n  # assert sum_primes_nth(10000) == 496165411\r\n"}
+  "def test_sum_primes_nth():\r\n  assert sum_primes_nth(4) == 17\r\n  assert sum_primes_nth(100) == 24133\r\n  assert sum_primes_nth(1000) == 3682913\r\n"}
  {:problem "正の整数 n を素因数分解する関数 factor_integer(n). 戻り値は素因数のリスト。",
   :test
-  "def test_factor_integer():\r\n  assert factor_integer(0) == [0]\r\n  assert factor_integer(1) == [1]\r\n  assert factor_integer(6) == [2,3]\r\n  assert factor_integer(96) == [2, 2, 2, 2, 2, 3]\r\n  assert factor_integer(720) == [2, 2, 2, 2, 3, 3, 5]\r\n  assert factor_integer(121645100408832) == [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 7, 7, 11, 13, 17, 19]\r\n  # added 2022-12-25\r\n  assert factor_integer(2147483647) == [2147483647]"}
+  "def test_factor_integer():\r\n  assert factor_integer(0) == [0]\r\n  assert factor_integer(1) == [1]\r\n  assert factor_integer(6) == [2,3]\r\n  assert factor_integer(96) == [2, 2, 2, 2, 2, 3]\r\n  assert factor_integer(720) == [2, 2, 2, 2, 3, 3, 5]\r\n  assert factor_integer(121645100408832) == [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 7, 7, 11, 13, 17, 19]\r\n  assert factor_integer(2147483647) == [2147483647]"}
  {:problem "600851475143 の素因数のうち最大のものを求めよ。 スピード勝負！2秒を切れるか？",
   :test
   "def test_p72():\r\n  assert p72(600851475143) == 6857"}
@@ -299,15 +299,15 @@
  {:problem
   "リスト xs の要素をそれぞれn 個に増やす関数 repli(xs,n). repli([1, 2, 3], 3) は [1, 1, 1, 2, 2, 2, 3, 3, 3] を返す。",
   :test
-  "def test_repli():\r\n  assert repli([1,2,3],3) == [1,1,1,2,2,2,3,3,3]\r\n  assert repli([1,2],4) == [1,1,1,1,2,2,2,2]\r\n  assert repli([1],0) == []\r\n  assert repli([1,2,3,4],0) == []\r\n  assert repli([[1,2],[3,4,5]],2) == [[1,2],[1,2],[3,4,5],[3,4,5]]\r\n  # 2023-01-10\r\n  assert repli([3,2,1],3) == [3,3,3,2,2,2,1,1,1]"}
+  "def test_repli():\r\n  assert repli([1,2,3],3) == [1,1,1,2,2,2,3,3,3]\r\n  assert repli([1,2],4) == [1,1,1,1,2,2,2,2]\r\n  assert repli([1],0) == []\r\n  assert repli([1,2,3,4],0) == []\r\n  assert repli([[1,2],[3,4,5]],2) == [[1,2],[1,2],[3,4,5],[3,4,5]]\r\n  assert repli([3,2,1],3) == [3,3,3,2,2,2,1,1,1]"}
  {:problem
   "リスト xs から連続する要素を削除したリストを返す dedupe(xs). dedupe([1, 1, 1, 2, 2, 3, 3, 3, 3]) の戻り値は [1, 2, 3]. ",
   :test
-  "import random\r\n\r\ndef test_dedupe():\r\n  assert dedupe([]) == []\r\n  assert dedupe([1, 1, 1, 2, 2, 3, 3, 3, 3]) == [1, 2, 3]\r\n  assert dedupe([1, 2, 3, 4, 5, 6]) == [1, 2, 3, 4, 5, 6]\r\n  assert dedupe([1, 2, 3, 1, 2, 3,4]) == [1, 2, 3, 1, 2, 3, 4]\r\n  assert dedupe([[1,2],[1,2],[1,2],[3,4,5],[6]]) == [[1,2],[3,4,5],[6]]\r\n  data = ['apple', 'banana','cherry']\r\n  assert dedupe(repli(data, 3)) == data\r\n  # 2023-01-13\r\n  assert dedupe([1,2,3,4,1]) == [1,2,3,4,1]\r\n\r\ndef repli(xs,n):\r\n  return flatten([repeat(n, x) for x in xs])\r\n\r\ndef repeat(n, x):\r\n  return [x for _ in range(n)]\r\n\r\ndef flatten(xss):\r\n  ret = []\r\n  for xs in xss:\r\n    ret += xs\r\n  return ret"}
+  "import random\r\n\r\ndef test_dedupe():\r\n  assert dedupe([]) == []\r\n  assert dedupe([1, 1, 1, 2, 2, 3, 3, 3, 3]) == [1, 2, 3]\r\n  assert dedupe([1, 2, 3, 4, 5, 6]) == [1, 2, 3, 4, 5, 6]\r\n  assert dedupe([1, 2, 3, 1, 2, 3,4]) == [1, 2, 3, 1, 2, 3, 4]\r\n  assert dedupe([[1,2],[1,2],[1,2],[3,4,5],[6]]) == [[1,2],[3,4,5],[6]]\r\n  data = ['apple', 'banana','cherry']\r\n  assert dedupe(repli(data, 3)) == data\r\n  assert dedupe([1,2,3,4,1]) == [1,2,3,4,1]\r\n\r\ndef repli(xs,n):\r\n  return flatten([repeat(n, x) for x in xs])\r\n\r\ndef repeat(n, x):\r\n  return [x for _ in range(n)]\r\n\r\ndef flatten(xss):\r\n  ret = []\r\n  for xs in xss:\r\n    ret += xs\r\n  return ret"}
  {:problem
   "リスト xs を圧縮する関数 compress(xs). compress([3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b']) の戻り値は [[3, 3], ['a', 2], [1, 1], ['b', 3]] になる。 compress([1,1,1,2,2,1,1,1,1]) の戻り値は [[1,3],[2,2],[1,4]].",
   :test
-  "def test_compress():\r\n  assert compress(list(range(10))) == list(map(lambda x: [x,1], range(10)))\r\n  assert compress([3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b'])== [[3, 3], ['a', 2], [1, 1], ['b', 3]] \r\n  assert compress([[1,2],[1,2],[1,2,3],[1,2,3,4],[1,2,3,4]])== [[[1,2],2], [[1,2,3],1],[[1,2,3,4],2]]\r\n  # 2023-01-06\r\n  assert compress([1,1,1,2,2,3,3,1,1,1,1]) == [[1,3],[2,2],[3,2],[1,4]]"}
+  "def test_compress():\r\n  assert compress(list(range(10))) == list(map(lambda x: [x,1], range(10)))\r\n  assert compress([3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b'])== [[3, 3], ['a', 2], [1, 1], ['b', 3]] \r\n  assert compress([[1,2],[1,2],[1,2,3],[1,2,3,4],[1,2,3,4]])== [[[1,2],2], [[1,2,3],1],[[1,2,3,4],2]]\r\n  assert compress([1,1,1,2,2,3,3,1,1,1,1]) == [[1,3],[2,2],[3,2],[1,4]]"}
  {:problem
   "compress(xs) によって圧縮されたリスト xss を元に戻す関数 expand(xss ). expand([[3, 3], ['a', 2], [1, 1], ['b', 3]]) の戻り値は [3, 3, 3, 'a', 'a', 1, 'b', 'b', 'b'] になる。",
   :test

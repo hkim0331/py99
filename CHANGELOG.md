@@ -27,6 +27,10 @@
 - fatal: detected dubious ownership in repository at '/usr/src/app'
 
 
+## 0.70.0 - 2023-10-05
+- bump-version.sh: 日付を about.html に供給する。
+- db-dumps/reset.sh: テーブルをリセットする。
+
 ## 0.69.0 - 2023-10-04
 - upgraded libraries
 

@@ -47,14 +47,14 @@ You will need [Leiningen][1] 2.0 or above installed.
 must provide them out from git repository before proceed develpment,
 or in production.
 
-## anual prep
+## Anual Prep
 
 adjust `weeks` and `period` in home.clj before use.
 
 - weeks
 - period
 
-## Running
+## Run
 
     cd <to_this_dir>
     code .

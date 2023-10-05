@@ -1,10 +1,13 @@
-TAG=hkim0331/py99:0.3.4
+TAG=hkim0331/py99:0.4.1
 DEST="ubuntu@app.melt.kyutech.ac.jp"
-
-all: clean security manifest
 
 build:
 	docker build -t ${TAG} .
+
+clean:
+	${RM} py99.zip
+
+hub: clean security manifest
 
 security:
 	security -v unlock-keychain ~/Library/Keychains/login.keychain-db
@@ -30,6 +33,4 @@ deploy: uberjar
 	ssh ${DEST} 'sudo systemctl restart py99' && \
 	ssh ${DEST} 'systemctl status py99'
 
-clean:
-	${RM} py99.zip
 

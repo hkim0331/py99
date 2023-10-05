@@ -1,4 +1,4 @@
-(defproject py99 "0.68.8"
+(defproject py99 "0.70.0"
   :description "r99 revised with clojure"
   :url "https://r99.melt.kyutech.ac.jp"
   :dependencies
@@ -13,7 +13,7 @@
    [luminus-transit "0.1.6"]
    [luminus-undertow "0.1.18"]
    [luminus/ring-ttl-session "0.3.3"]
-   [markdown-clj "1.11.4"]
+   [markdown-clj "1.11.7"]
    [metosin/muuntaja "0.6.8"]
    [metosin/reitit "0.6.0"]
    [metosin/ring-http-response "0.9.3"]
@@ -34,7 +34,7 @@
    ;;
    [buddy/buddy-auth "3.0.323"]
    [buddy/buddy-hashers "2.0.167"]
-   [cheshire/cheshire "5.11.0"]
+   [cheshire/cheshire "5.12.0"]
    [clj-time/clj-time "0.15.2"]
    [digest "1.4.10"]
    [environ/environ "1.2.0"]
@@ -67,7 +67,7 @@
                    [ring/ring-mock "0.4.0"]]
     :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                    [jonase/eastwood "1.4.0"]
-                   [cider/cider-nrepl "0.37.1"]]
+                   [cider/cider-nrepl "0.38.1"]]
     :source-paths ["env/dev/clj"]
     :resource-paths ["env/dev/resources"]
     :repl-options {:init-ns user

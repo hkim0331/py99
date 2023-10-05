@@ -2,9 +2,6 @@
 #
 # origin: ${utils}/utils/bump-version.sh
 #
-# bump-vesion script for clojure projects.
-# confused using macos's /usr/bin/sed. so gsed.
-#
 # CAUSION
 # The POSIX standard does not support back-references for
 # "extended" regular expressions,
@@ -15,19 +12,21 @@ if [ -z "$1" ]; then
     exit
 fi
 
-# use  extended regular expressions in the script
 if [ -x "${HOMEBREW_PREFIX}/bin/gsed" ]; then
-    SED="${HOMEBREW_PREFIX}/bin/gsed -E"
+    SED="${HOMEBREW_PREFIX}/bin/gsed -E -i"
 else
-    SED="/usr/bin/sed -E"
+    SED="/usr/bin/sed -E -i"
 fi
 
 # project.clj
-${SED} -i "s/(defproject \S+) \S+/\1 \"$1\"/" project.clj
+${SED} -e "s|(defproject \S+) \S+|\1 \"$1\"|" project.clj
 
 # login.clj, about.html
-${SED} -i "s/(def \^:private version) .+/\1 \"$1\")/" src/clj/py99/routes/login.clj
+now=`date '+%F %T'`
+${SED} \
+     -e "s|(def \^:private version).*|\1 \"$1\")|" \
+     -e "s|(def \^:private updated).*|\1 \"$now\")|" \
+            src/clj/py99/routes/login.clj
 
 # cljs
-#${SED} -i "s/(def \^:private version) .+/\1 \"$1\")/" src/main.cljs
-
+#${SED} "s/(def \^:private version) .+/\1 \"$1\")/" src/main.cljs

@@ -55,7 +55,8 @@
      :headers {"content-type" "text/html"}
      :body "<h2>dumped to resouces/docs/problems.edn</h2>"}))
 
-(defn admin-page [{:keys [flash] :as request}]
+(defn admin-page
+  [{:keys [flash] :as request}]
   (prn "flash" (:flash request))
   (layout/render request "admin.html"
                  {:flash flash}))

@@ -2,17 +2,15 @@ version: "3"
 
 services:
   py99:
-    image: hkim0331/py99:0.3.4
-    user : vscode
-    # calva auto forwards
+    image: hkim0331/py99:0.4.1
     # ports:
-    #   - "3010:3010"
-    # what is this? what does this mean?
-    #   - ${NREPL_PORT:-7010}:7010
+    #   - "3000:3000"
+    user : vscode
     working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app
       - m2:/home/vscode/.m2
+      - gitlibs:/home/vscode/.gitlibs
     command:
       - sleep
       - infinity
@@ -25,8 +23,6 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_INITDB_ARGS: --encoding=UTF-8 --locale=C
       TZ: Asia/Toky
-    # ports:
-    #   - "55432:5432"
     volumes:
       - ./initdb.d:/docker-entrypoint-initdb.d
       - data:/var/lib/postgresql/data
@@ -35,4 +31,6 @@ volumes:
   data:
     driver: local
   m2:
+    external: true
+  gitlibs:
     external: true

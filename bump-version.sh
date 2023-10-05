@@ -13,9 +13,9 @@ if [ -z "$1" ]; then
 fi
 
 if [ -x "${HOMEBREW_PREFIX}/bin/gsed" ]; then
-    SED="${HOMEBREW_PREFIX}/bin/gsed -E"
+    SED="${HOMEBREW_PREFIX}/bin/gsed -E -i"
 else
-    SED="/usr/bin/sed -E"
+    SED="/usr/bin/sed -E -i"
 fi
 
 # project.clj
@@ -23,10 +23,10 @@ ${SED} -e "s|(defproject \S+) \S+|\1 \"$1\"|" project.clj
 
 # login.clj, about.html
 now=`date '+%F %T'`
-${SED} -i \
+${SED} \
      -e "s|(def \^:private version).*|\1 \"$1\")|" \
      -e "s|(def \^:private updated).*|\1 \"$now\")|" \
             src/clj/py99/routes/login.clj
 
 # cljs
-#${SED} -i "s/(def \^:private version) .+/\1 \"$1\")/" src/main.cljs
+#${SED} "s/(def \^:private version) .+/\1 \"$1\")/" src/main.cljs

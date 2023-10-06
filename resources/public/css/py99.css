@@ -2,19 +2,43 @@ input.id  {width: 50px;}
 input.num {width: 50px;}
 input.is_avail {width: 50px;}
 
-a.solved  {color: white; background: hsl(217,71%,53%);}
-a.yet     {color: hsl(217,71%,53%); background: white;}
+a.solved {
+  color: white;
+  background: hsl(217,71%,53%);
+}
+a.yet {
+  color: hsl(217,71%,53%);
+  background: white;
+}
 
-.nocopy {user-select: none;
-         -webkit-user-select: none;
-         -moz-user-select: none;
-         -khtml-user-select: none;
-         -webkit-user-drag: none;
-         -khtml-user-drag: none;}
+.nocopy {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+}
 
-textarea.answer {height: 300px;}
+/*
+https://developer.mozilla.org/ja/docs/Web/CSS/font-family
+*/
+.mono {
+  /*
+  height: 300px;
+  */
+  font-family:
+    'Fira Mono', 'DejaVu Sans Mono', 'Menlo', 'Consolas', 'Liberation Mono', 'Monaco', 'Lucida Console', monospace;
+}
+
+.h300 {
+  height: 300px;
+}
 
 .red {color: red;}
 .blue {color: blue;}
 
-a.stocks:hover {color:white; background:hsl(217,71%,53%);}
+a.stocks:hover {
+  color:white;
+  background:hsl(217,71%,53%);
+}

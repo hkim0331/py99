@@ -6,7 +6,9 @@
     <div>
       {% for row in data %}
        <p>{{row.num}}
-         <input style="width:{{row.count|divide:2}}mm;" disabled=disabled>
+         <input
+          style="width:{{row.count|divide:2}}mm; background-color:red;"
+          disabled="disabled">
          {{row.count}}</p>
       {% endfor %}
     </div>

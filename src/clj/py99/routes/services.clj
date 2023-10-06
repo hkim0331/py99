@@ -6,7 +6,7 @@
 
 (defn fetch-problem
   [{{:keys [n]} :path-params}]
-  (prn "fetch-problem" n)
+  ;; (prn "fetch-problem" n)
   (response/ok (db/get-problem {:num (Integer/parseInt n)})))
 
 (comment

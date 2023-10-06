@@ -25,6 +25,7 @@
 - テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
 - python のバージョンを合わせるため、poetry より docker がいいのでは？
 - fatal: detected dubious ownership in repository at '/usr/src/app'
+- stock が重い。stock ボタン押してからノート書くようにしようか。
 
 
 ## 0.70.0 - 2023-10-05

@@ -23,6 +23,9 @@
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
   セッションに記録では？
 
+## 0.71.1 - 2023-10-07
+- screen.css/.mono {fonto-size: normal;}
+
 ## 0.71.0 - 2023-10-06
 - answers textarea のフォントを等幅に変更した。answer-form.html
 - seed problems ボタンを disable した。admin.html, disabled=disabled

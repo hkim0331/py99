@@ -27,7 +27,7 @@
 - answers textarea のフォントを等幅に変更した。answer-form.html
 - seed problems ボタンを disable した。admin.html, disabled=disabled
 - todays の並びを submits name に変更した。todays.html
-- Answers by 等の横棒に色をつける。
+- Answers by 等の横棒に色をつけた。
 
 ## 0.70.0 - 2023-10-05
 - bump-version.sh: 日付を about.html に供給する。

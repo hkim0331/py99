@@ -5,7 +5,9 @@
     <div>
       <ol>
       {% for user in data %}
-       <li><input style="width:{{user.count}}mm;" disabled=disabled>
+       <li><input
+            style="width:{{user.count}}mm; background-color:red;"
+            disabled=disabled>
        {% ifequal user.login login %}
        <span class='red'>{{login}}</span>
        {% else %}

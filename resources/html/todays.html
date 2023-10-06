@@ -6,7 +6,7 @@
       <button onClick="todays()">go</button></p>
     <ol>
     {% for s in todays %}
-      <li>{{s.login}} {{s.count}}</li>
+      <li>{{s.count}} ... {{s.login}}</li>
     {% endfor %}
     </ol>
     <script>

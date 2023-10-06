@@ -11,7 +11,7 @@
   <form method='post'>
     {% csrf-field %}
     <input type='hidden' name='num' value='{{problem.num}}'>
-    <textarea name='answer' class='textarea answer'
+    <textarea name='answer' class='textarea h300 mono'
      placeholder='関数コメント(doc string)のない回答は基本的にコメントしない。間違いあっても指摘しない。
 コピー回答するヤツもコメントまでコピーじゃばれる。
 動作確認してから submit するのはごく普通のマナーだ。'></textarea><br>

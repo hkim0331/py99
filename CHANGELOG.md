@@ -3,10 +3,6 @@
 ## Unreleased
 
 * ChatGPT 対策、間違い修正問題では？
-* 最初の週は過去の py99 を見せる。本番は第 2 週以降。
-* 他回答を n 個以上読まないと次回答に進めない制限。セッションに蓄積できるだろう。
-* comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-* 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
 * actions テーブル。ログをデータベースに残す。
     - submit
     - read
@@ -15,18 +11,23 @@
 * dummy NG ボタン。
 * auto-reload
 * /todays: go ボタンを押さずに return-key で go できないか？
-* testcode atom(もうちょっと具体的に書いておかないと)
-- pip install wheel を Dockerfile で実施しても、
+* pip install wheel を Dockerfile で実施しても、
   Docker Desktop が表示する Vulnerabilities は変わらない。
   clojure:temurin-20:lein を入れても二つのパッケージが残る。
     - wheel 0.37.1
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
-- テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
-- python のバージョンを合わせるため、poetry より docker がいいのでは？
-- fatal: detected dubious ownership in repository at '/usr/src/app'
-- stock が重い。stock ボタン押してからノート書くようにしようか。
+* テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
 
+- stock の開き方を変更する。
+- comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
+  セッションに記録では？
+
+## 0.71.0 - 2023-10-06
+- answers textarea のフォントを等幅に変更した。answer-form.html
+- seed problems ボタンを disable した。admin.html, disabled=disabled
+- todays の並びを submits name に変更した。todays.html
+- Answers by 等の横棒に色をつける。
 
 ## 0.70.0 - 2023-10-05
 - bump-version.sh: 日付を about.html に供給する。

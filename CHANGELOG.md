@@ -23,6 +23,7 @@
   セッションに記録では？
 - 表示にmarkdownを使う。```python``` で囲むのは？
   ... No. markdown-clj にそこまでの機能がない。
+- answer by problems の問題番号から問題にリンクを出す。
 
 ## 0.71.3 - 2023-10-07
 - FIXED devcontainer で pytest を起動できるようになった by hkim0331/py99:0.4.2

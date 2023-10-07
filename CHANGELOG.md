@@ -18,11 +18,16 @@
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
   セッションに記録では？
 - actions テーブル。ログをデータベースに残す。
+  layout/render でログに出してる箇所で、データベースに向ければいいだろう。
     - submit
     - read
     - comment
-- 表示にmarkdownを使う。```python``` で囲むのは？
-  ... No. markdown-clj にそこまでの機能がない。
+- ユーザごと「本日のアクション」を表示する。Profile で。
+- コードをカラフルに表示する。
+
+
+## 0.71.5 - 2023-10-08
+- Todays を Answers から引くように変更した。
 
 ## 0.71.4 - 2023-10-08
 - link from answer by problems page to problems.

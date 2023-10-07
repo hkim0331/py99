@@ -1,4 +1,4 @@
-TAG=hkim0331/py99:0.4.1
+TAG=hkim0331/py99:0.4.4
 DEST="ubuntu@app.melt.kyutech.ac.jp"
 
 build:
@@ -32,5 +32,3 @@ deploy: uberjar
 	scp target/uberjar/py99.jar ${DEST}:py99/py99.jar && \
 	ssh ${DEST} 'sudo systemctl restart py99' && \
 	ssh ${DEST} 'systemctl status py99'
-
-

@@ -18,11 +18,14 @@
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
 * テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
-
 - stock の開き方を変更する。
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
   セッションに記録では？
 - 表示にmarkdownを使う。```python``` で囲むのは？
+  ... No. markdown-clj にそこまでの機能がない。
+
+## 0.71.3 - 2023-10-07
+- FIXED devcontainer で pytest を起動できるようになった by hkim0331/py99:0.4.2
 
 ## 0.71.2 - 2023-10-07
 - reverse count-answers

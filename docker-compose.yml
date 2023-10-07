@@ -2,9 +2,7 @@ version: "3"
 
 services:
   py99:
-    image: hkim0331/py99:0.4.1
-    # ports:
-    #   - "3000:3000"
+    image: hkim0331/py99:0.4.4
     user : vscode
     working_dir: /usr/src/app
     volumes:
@@ -17,7 +15,6 @@ services:
 
   db:
     image: postgres:14.9
-    # restart: always
     environment:
       POSTGRES_DB: py99
       POSTGRES_HOST_AUTH_METHOD: trust

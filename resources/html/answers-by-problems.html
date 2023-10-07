@@ -5,7 +5,7 @@
     <p>何番に回答が何個ついているか。</p>
     <div>
       {% for row in data %}
-       <p>{{row.num}}
+       <p><a href="/answer/{{row.num}}">{{row.num}}</a>
          <input
           style="width:{{row.count|divide:2}}mm; background-color:red;"
           disabled="disabled">

@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="content">
-    <h2>{{title}}</h2>
-    <p>何番に回答が何個ついているか。</p>
+    <h2>Answers</h2>
+
+    <p>
+      <input id="date" type="text" value="2023-10-06" size="11">
+      <button onClick="todays()">go</button>
+    </p>
+
+    <p>何番に回答が何個ついているか。逆順は妙か。
+      どこまで先行している人がいるか、わかっていいんじゃね？</p>
     <div>
       {% for row in data %}
        <p><a href="/answer/{{row.num}}">{{row.num}}</a>
@@ -12,5 +19,11 @@
          {{row.count}}</p>
       {% endfor %}
     </div>
+    <script>
+      function todays() {
+        var url="/todays/"+document.getElementById("date").value;
+        document.location = url;
+      }
+    </script>
   </div>
 {% endblock %}

@@ -3,12 +3,8 @@
 ## Unreleased
 
 * ChatGPT 対策、間違い修正問題では？
-* actions テーブル。ログをデータベースに残す。
-    - submit
-    - read
-    - comment
-* login ユーザのリスト。logout したら削除する。目的はなんだった？
-* dummy NG ボタン。
+* login 中ユーザのリスト。logout したら削除する。
+  logout せずにブラウズクローズしたら削除できない。
 * auto-reload
 * /todays: go ボタンを押さずに return-key で go できないか？
 * pip install wheel を Dockerfile で実施しても、
@@ -21,8 +17,15 @@
 - stock の開き方を変更する。
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
   セッションに記録では？
+- actions テーブル。ログをデータベースに残す。
+    - submit
+    - read
+    - comment
 - 表示にmarkdownを使う。```python``` で囲むのは？
   ... No. markdown-clj にそこまでの機能がない。
+
+## 0.71.4 - 2023-10-08
+- link from answer by problems page to problems.
 
 ## 0.71.3 - 2023-10-07
 - FIXED devcontainer で pytest を起動できるようになった by hkim0331/py99:0.4.2

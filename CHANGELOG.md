@@ -24,6 +24,9 @@
   セッションに記録では？
 - 表示にmarkdownを使う。```python``` で囲むのは？
 
+## 0.71.2 - 2023-10-07
+- reverse count-answers
+
 ## 0.71.1 - 2023-10-07
 - screen.css/.mono {fonto-size: normal;}
 

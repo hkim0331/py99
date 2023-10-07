@@ -435,7 +435,7 @@
   (let [data (db/answers-by-problems)]
     ;; (log/debug "answers-by-problems" (login request))
     (layout/render request "answers-by-problems.html"
-                   {:data data
+                   {:data (reverse data)
                     :title "Answers by Problems"})))
 
 (defn create-stock! [request]

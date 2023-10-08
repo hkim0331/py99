@@ -238,6 +238,12 @@ SELECT from_login, count(*) FROM comments
 GROUP BY from_login
 ORDER BY count(*) DESC
 
+-- :name comments-count-by-number :? :*
+-- :doc how many comments to problem p_num?
+SELECT p_num, count(*) from comments
+GROUP BY p_num
+ORDER BY p_num desc
+
 -- ----------------
 -- frozens
 -- ----------------

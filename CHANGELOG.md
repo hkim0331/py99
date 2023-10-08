@@ -29,8 +29,17 @@
     - read
     - comment
 
+## 0.71.6 - 2023-10-08
+### Changed
+- profile.html 2023 バージョンに。
+- `Comments` menu on nav bar.
+- new endpoint /comments-count
+- defined (comments-count request)
+- defined db/comments-count-by-number
+
+
 ## 0.71.5 - 2023-10-08
-- Todays を Answers から引くように変更した。
+- Todays を Answers からたどるように変更した。
 
 ## 0.71.4 - 2023-10-08
 - link from answer by problems page to problems.

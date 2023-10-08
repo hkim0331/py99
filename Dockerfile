@@ -6,7 +6,7 @@ RUN set -ex; \
     apt-get -y update; \
     apt-get -y upgrade; \
     apt-get -y install --no-install-recommends \
-      sudo openssh-client git postgresql-client-14 python3 python3-pip
+      sudo openssh-client git git-flow postgresql-client-14 python3 python3-pip
 
 RUN set -ex; apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/*
 

@@ -29,6 +29,10 @@
     - read
     - comment
 
+## 0.71.7-snapshot
+### Added
+- git-flow in Dockerfile
+
 ## 0.71.6 - 2023-10-08
 ### Changed
 - profile.html 2023 バージョンに。

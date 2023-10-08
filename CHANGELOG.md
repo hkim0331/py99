@@ -18,6 +18,9 @@
 - ユーザごと「本日のアクション」を表示する。Profile で。
 - コードをカラフルに表示する。
 - Answers メニューがあるなら Comments メニューもなくちゃ。
+- docker の make deploy がひどく時間がかかることがある。CPU に負荷の印はない。
+  仮想ディスク？2023-10-08
+- バーの長さ二倍でも良い。
 
 
 ## 0.72-snapshot
@@ -30,8 +33,11 @@
     - comment
 
 ## 0.71.7-snapshot
+- Old comments => Comments to `num` では？
+
 ### Added
 - git-flow in Dockerfile
+
 
 ## 0.71.6 - 2023-10-08
 ### Changed

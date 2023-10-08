@@ -20,8 +20,7 @@
 - Answers メニューがあるなら Comments メニューもなくちゃ。
 - docker の make deploy がひどく時間がかかることがある。CPU に負荷の印はない。
   仮想ディスク？2023-10-08
-- バーの長さ二倍でも良い。
-
+- test code, assert インデント4に変更
 
 ## 0.72-snapshot
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
@@ -32,9 +31,14 @@
     - read
     - comment
 
-## 0.71.7-snapshot
-- Old comments => Comments to `num` では？
-
+## 0.71.7 - 2023-10-08
+### Changed
+- Old comments => Comments to `num`
+- バーの長さを二倍に。Answers, Comments, rankings.
+- stock に confirm.
+```
+<form action="/stock" method="post" onSubmit="return ok()">
+```
 ### Added
 - git-flow in Dockerfile
 

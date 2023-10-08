@@ -14,7 +14,7 @@
       {% for row in data %}
        <p><a href="/answer/{{row.num}}">{{row.num}}</a>
          <input
-          style="width:{{row.count|divide:2}}mm; background-color:red;"
+          style="width:{{row.count|divide:1}}mm; background-color:red;"
           disabled="disabled">
          {{row.count}}</p>
       {% endfor %}

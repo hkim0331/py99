@@ -6,7 +6,7 @@
       <ol>
       {% for user in data %}
        <li><input
-            style="width:{{user.count}}mm; background-color:red;"
+            style="width:{{user.count|multiply:2}}mm; background-color:red;"
             disabled=disabled>
        {% ifequal user.login login %}
        <span class='red'>{{login}}</span>

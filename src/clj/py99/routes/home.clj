@@ -318,15 +318,15 @@
     (layout/render request "comments-sent.html" {:sent sent})))
 
 (defn comments [request]
-  ;;(log/info "comments" (login request))
   (layout/render request "comments.html"
-                 {:comments (drop 20 (db/comments))}))
+                 {:comments (drop 20 (db/comments))
+                  :num "all"}))
 
 (defn comments-by-num [request]
   (let [num (Integer/parseInt (get-in request [:path-params :num]))]
-    ;;(log/info "comments-by-num" (login request))
     (layout/render request "comments.html"
-                   {:comments (db/comments-by-num {:num num})})))
+                   {:comments (db/comments-by-num {:num num})
+                    :num num})))
 
 ;;
 ;; weekly counts

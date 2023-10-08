@@ -15,6 +15,12 @@
   積極的に pip uninstall したらどうか？
 * テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
 - stock の開き方を変更する。
+- ユーザごと「本日のアクション」を表示する。Profile で。
+- コードをカラフルに表示する。
+- Answers メニューがあるなら Comments メニューもなくちゃ。
+
+
+## 0.72-snapshot
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
   セッションに記録では？
 - actions テーブル。ログをデータベースに残す。
@@ -22,12 +28,18 @@
     - submit
     - read
     - comment
-- ユーザごと「本日のアクション」を表示する。Profile で。
-- コードをカラフルに表示する。
+
+## 0.71.6 - 2023-10-08
+### Changed
+- profile.html 2023 バージョンに。
+- `Comments` menu on nav bar.
+- new endpoint /comments-count
+- defined (comments-count request)
+- defined db/comments-count-by-number
 
 
 ## 0.71.5 - 2023-10-08
-- Todays を Answers から引くように変更した。
+- Todays を Answers からたどるように変更した。
 
 ## 0.71.4 - 2023-10-08
 - link from answer by problems page to problems.

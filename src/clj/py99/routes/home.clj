@@ -481,6 +481,11 @@
 (defn midterm [request]
   (layout/render request "midterm.html"))
 
+(defn comments-count [request]
+  (layout/render request "comments-count.html"
+                 {:login (login request)
+                  :comments (db/comments-count-by-number)}))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -493,6 +498,7 @@
                     :post create-comment!}]
    ["/comments" {:get comments}]
    ["/comments-sent/:login" {:get comments-sent}]
+   ["/comments-count" {:get comments-count}]
    ["/comments/:num" {:get comments-by-num}]
    ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]

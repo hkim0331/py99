@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="content">
-    <h2>Older Comments</h2>
+    <h2>Comments to problem {{num}}</h2>
     {% for c in comments %}
     <p>{{c.create_at|date:shortDate}},
       <b>{{c.p_num}}</b>,

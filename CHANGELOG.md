@@ -21,6 +21,7 @@
 - docker の make deploy がひどく時間がかかることがある。CPU に負荷の印はない。
   仮想ディスク？2023-10-08
 - test code, assert インデント4に変更
+- コンテナの時刻が UTC
 
 ## 0.72-snapshot
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
@@ -31,6 +32,8 @@
     - read
     - comment
 
+## 0.71.8 - 2023-10-10
+- Answers バーの長さを 1.5
 ## 0.71.7 - 2023-10-08
 ### Changed
 - Old comments => Comments to `num`

@@ -12,11 +12,10 @@
             },
             "extensions": [
                 "betterthantomorrow.calva",
-                // "borkdude.clj-kondo",
                 "jsynowiec.vscode-insertdatestring",
                 "rkwan94.vscode-emacs-improved"
-                // "lfs.vscode-emacs-friendly",
-                // "mosapride.zenkaku",
-                // "ybaumes.highlight-trailing-white-spaces"
-            ]}}
+            ]
+        }
+    },
+    "postCreateCommand": "pip3 install -r requirements.txt"
 }

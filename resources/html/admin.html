@@ -19,8 +19,8 @@
         <form method='post' action='/admin/dump-problems'>
           {% csrf-field %}
           <input type='submit'
-             class='button is-warning'
-             value='dump problems'>
+            class='button is-warning'
+            value='dump problems'>
          </form>
       </div>
 
@@ -28,6 +28,7 @@
         <form method='post' action='/admin/seed-problems'>
           {% csrf-field %}
           <input type='submit'
+            disabled='disabled'
             class='button is-danger'
             value='seed problems'>
         </form>

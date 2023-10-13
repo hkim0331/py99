@@ -1,24 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
   <div class="content">
-    <h2>Answers</h2>
+    <h2>Comments</h2>
 
+    <!--
     <p>
       <input id="date" type="text" value="2023-10-06" size="11">
       <button onClick="todays()">go</button>
     </p>
-
-    <p>何番に回答が何個ついているか。逆順は妙か。
-      どこまで先行している人がいるか、わかっていいんじゃね？</p>
+    -->
+    <p>問題番号とその問題についたコメント数</p>
     <div>
-      {% for row in data %}
-       <p><a href="/answer/{{row.num}}">{{row.num}}</a>
+      {% for row in comments %}
+       <p><a href="/comments/{{row.p_num}}">{{row.p_num}}</a>
          <input
-          style="width:{{row.count|multiply:0.6}}mm; background-color:red;"
+          style="width:{{row.count|multiply:1}}mm; background-color:red;"
           disabled="disabled">
          {{row.count}}</p>
       {% endfor %}
     </div>
+    <br>
+    <p><a href="/comments-sent/{{login}}">your comments sent</a></p>
+
     <script>
       function todays() {
         var url="/todays/"+document.getElementById("date").value;

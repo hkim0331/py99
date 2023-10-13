@@ -93,10 +93,10 @@
                     (<= 5 busy) "🔴"
                     (<= 1 busy) "🟡"
                     :else "🟢")]
-   (str busy-mark
-        " "
-        (str one five fifteen)
-        " (過去 1, 5, 15 分間のサーバ負荷)")))
+    (str busy-mark
+         " "
+         (str one five fifteen)
+         " (過去 1, 5, 15 分間のサーバ負荷)")))
 
 (comment
   (uptime)
@@ -222,18 +222,31 @@
     ans
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
+(comment
+  (defn expand-includes
+    "expand `#include` recursively."
+    [s login]
+    (str/join
+     "\n"
+     (for [line (str/split-lines s)]
+       (if (str/starts-with? line "#include ")
+         (let [[_ num] (str/split line #"\s+")]
+           (when-not (re-matches #"\d+" num)
+             (throw (Exception. "#include の後に問題番号がありません。")))
+           (expand-includes (get-answer (Integer/parseInt num) login) login))
+         line))))
+  :rcf)
+
+;; allow `# include nnn`
+;; 2023-10-13
 (defn expand-includes
   "expand `#include` recursively."
   [s login]
-  ;; (log/debug "expand-includes:" s)
   (str/join
    "\n"
    (for [line (str/split-lines s)]
-     (if (str/starts-with? line "#include ")
-       (let [[_ num] (str/split line #"\s+")]
-         (when-not (re-matches #"\d+" num)
-          (throw (Exception. "#include の後に問題番号がありません。")))
-         (expand-includes (get-answer (Integer/parseInt num) login) login))
+     (if-let [[_ num] (re-matches #"#\s*include\s*(\d+).*" line)]
+       (expand-includes (get-answer (Integer/parseInt num) login) login)
        line))))
 
 (defn- validate
@@ -318,15 +331,15 @@
     (layout/render request "comments-sent.html" {:sent sent})))
 
 (defn comments [request]
-  ;;(log/info "comments" (login request))
   (layout/render request "comments.html"
-                 {:comments (drop 20 (db/comments))}))
+                 {:comments (drop 20 (db/comments))
+                  :num "all"}))
 
 (defn comments-by-num [request]
   (let [num (Integer/parseInt (get-in request [:path-params :num]))]
-    ;;(log/info "comments-by-num" (login request))
     (layout/render request "comments.html"
-                   {:comments (db/comments-by-num {:num num})})))
+                   {:comments (db/comments-by-num {:num num})
+                    :num num})))
 
 ;;
 ;; weekly counts
@@ -435,7 +448,7 @@
   (let [data (db/answers-by-problems)]
     ;; (log/debug "answers-by-problems" (login request))
     (layout/render request "answers-by-problems.html"
-                   {:data data
+                   {:data (reverse data)
                     :title "Answers by Problems"})))
 
 (defn create-stock! [request]
@@ -481,6 +494,11 @@
 (defn midterm [request]
   (layout/render request "midterm.html"))
 
+(defn comments-count [request]
+  (layout/render request "comments-count.html"
+                 {:login (login request)
+                  :comments (db/comments-count-by-number)}))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -493,6 +511,7 @@
                     :post create-comment!}]
    ["/comments" {:get comments}]
    ["/comments-sent/:login" {:get comments-sent}]
+   ["/comments-count" {:get comments-count}]
    ["/comments/:num" {:get comments-by-num}]
    ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]

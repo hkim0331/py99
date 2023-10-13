@@ -3,37 +3,98 @@
 ## Unreleased
 
 * ChatGPT 対策、間違い修正問題では？
-* 最初の週は過去の py99 を見せる。本番は第 2 週以降。
-* 他回答を n 個以上読まないと次回答に進めない制限。セッションに蓄積できるだろう。
-* comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-* 最後のサブミット（回答、コメント）以降のコメント参照数をカウント。
-* actions テーブル。ログをデータベースに残す。
-    - submit
-    - read
-    - comment
-* login ユーザのリスト。logout したら削除する。いらないか。目的はなんだ？
-* dummy NG ボタン。
+* login 中ユーザのリスト。logout したら削除する。
+  logout せずにブラウズクローズしたら削除できない。
 * auto-reload
 * /todays: go ボタンを押さずに return-key で go できないか？
-* testcode atom(もうちょっと具体的に書いておかないと)
-- pip install wheel を Dockerfile で実施しても、
+* pip install wheel を Dockerfile で実施しても、
   Docker Desktop が表示する Vulnerabilities は変わらない。
   clojure:temurin-20:lein を入れても二つのパッケージが残る。
     - wheel 0.37.1
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
-- テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
-- python のバージョンを合わせるため、poetry より docker がいいのでは？
-- fatal: detected dubious ownership in repository at '/usr/src/app'
+* テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
+- stock の開き方を変更する。
+- ユーザごと「本日のアクション」を表示する。Profile で。
+- コードをカラフルに表示する。
+- Answers メニューがあるなら Comments メニューもなくちゃ。
+- docker の make deploy がひどく時間がかかることがある。CPU に負荷の印はない。
+  仮想ディスク？2023-10-08
+- test code, assert インデント4に変更
+- コンテナの時刻が UTC
 
-## 0.69.0-SNAPSHOT
-### antq upgrade
+## 0.72-snapshot
+- comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
+  セッションに記録では？
+- actions テーブル。ログをデータベースに残す。
+  layout/render でログに出してる箇所で、データベースに向ければいいだろう。
+    - submit
+    - read
+    - comment
+
+## 0.71.9 - 2023-10-13
+- `#include nnn` の他に、`# include nnn`(include の前にスペース)、
+  `# incude nnn # コメント` を許す。
+
+## 0.71.8 - 2023-10-10
+- Answers バーの長さを 1.5
+## 0.71.7 - 2023-10-08
+### Changed
+- Old comments => Comments to `num`
+- バーの長さを二倍に。Answers, Comments, rankings.
+- stock に confirm.
+```
+<form action="/stock" method="post" onSubmit="return ok()">
+```
+### Added
+- git-flow in Dockerfile
+
+
+## 0.71.6 - 2023-10-08
+### Changed
+- profile.html 2023 バージョンに。
+- `Comments` menu on nav bar.
+- new endpoint /comments-count
+- defined (comments-count request)
+- defined db/comments-count-by-number
+
+
+## 0.71.5 - 2023-10-08
+- Todays を Answers からたどるように変更した。
+
+## 0.71.4 - 2023-10-08
+- link from answer by problems page to problems.
+
+## 0.71.3 - 2023-10-07
+- FIXED devcontainer で pytest を起動できるようになった by hkim0331/py99:0.4.2
+
+## 0.71.2 - 2023-10-07
+- reverse count-answers
+
+## 0.71.1 - 2023-10-07
+- screen.css/.mono {fonto-size: normal;}
+
+## 0.71.0 - 2023-10-06
+- answers textarea のフォントを等幅に変更した。answer-form.html
+- seed problems ボタンを disable した。admin.html, disabled=disabled
+- todays の並びを submits name に変更した。todays.html
+- Answers by 等の横棒に色をつけた。
+
+## 0.70.0 - 2023-10-05
+- bump-version.sh: 日付を about.html に供給する。
+- db-dumps/reset.sh: テーブルをリセットする。
+
+## 0.69.0 - 2023-10-04
+- upgraded libraries
 
 | :file       | :name                     | :current | :latest |
 | ----------- | ------------------------- | -------- | ------- |
 | project.clj | cheshire/cheshire         | 5.11.0   | 5.12.0  |
 |             | cider/cider-nrepl         | 0.37.1   | 0.38.1  |
 |             | markdown-clj/markdown-clj | 1.11.4   | 1.11.7  |
+
+### Changed
+- admin page two columns
 
 ## 0.68.9 - 2023-10-04
 - 99題に絞った。

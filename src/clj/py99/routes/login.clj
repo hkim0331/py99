@@ -12,7 +12,8 @@
    #_[struct.core :as st]
    #_[py99.db.core :as db]))
 
-(def ^:private version "0.68.9")
+(def ^:private version "0.71.9")
+(def ^:private updated "2023-10-13 14:12:53")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 
@@ -26,7 +27,8 @@
     (:body resp)))
 
 (defn about-page [request]
-  (layout/render request "about.html" {:version version}))
+  (layout/render request "about.html" {:version version
+                                       :updated updated}))
 
 (defn admin-only [request]
   (layout/render request "error.html" {:status 401

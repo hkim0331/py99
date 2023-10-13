@@ -32,6 +32,10 @@
     - read
     - comment
 
+## 0.71.9 - 2023-10-13
+- `#include nnn` の他に、`# include nnn`(include の前にスペース)、
+  `# incude nnn # コメント` を許す。
+
 ## 0.71.8 - 2023-10-10
 - Answers バーの長さを 1.5
 ## 0.71.7 - 2023-10-08

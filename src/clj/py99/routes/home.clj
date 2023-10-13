@@ -93,10 +93,10 @@
                     (<= 5 busy) "🔴"
                     (<= 1 busy) "🟡"
                     :else "🟢")]
-   (str busy-mark
-        " "
-        (str one five fifteen)
-        " (過去 1, 5, 15 分間のサーバ負荷)")))
+    (str busy-mark
+         " "
+         (str one five fifteen)
+         " (過去 1, 5, 15 分間のサーバ負荷)")))
 
 (comment
   (uptime)
@@ -222,18 +222,31 @@
     ans
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
+(comment
+  (defn expand-includes
+    "expand `#include` recursively."
+    [s login]
+    (str/join
+     "\n"
+     (for [line (str/split-lines s)]
+       (if (str/starts-with? line "#include ")
+         (let [[_ num] (str/split line #"\s+")]
+           (when-not (re-matches #"\d+" num)
+             (throw (Exception. "#include の後に問題番号がありません。")))
+           (expand-includes (get-answer (Integer/parseInt num) login) login))
+         line))))
+  :rcf)
+
+;; allow `# include nnn`
+;; 2023-10-13
 (defn expand-includes
   "expand `#include` recursively."
   [s login]
-  ;; (log/debug "expand-includes:" s)
   (str/join
    "\n"
    (for [line (str/split-lines s)]
-     (if (str/starts-with? line "#include ")
-       (let [[_ num] (str/split line #"\s+")]
-         (when-not (re-matches #"\d+" num)
-          (throw (Exception. "#include の後に問題番号がありません。")))
-         (expand-includes (get-answer (Integer/parseInt num) login) login))
+     (if-let [[_ num] (re-matches #"#\s*include\s*(\d+).*" line)]
+       (expand-includes (get-answer (Integer/parseInt num) login) login)
        line))))
 
 (defn- validate

@@ -16,6 +16,7 @@
                 "rkwan94.vscode-emacs-improved"
             ]
         }
-    },
-    "postCreateCommand": "pip3 install -r requirements.txt"
+    }
+    // in Dockerfile?
+    // "postCreateCommand": "pip3 install -r requirements.txt"
 }

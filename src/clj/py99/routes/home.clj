@@ -260,7 +260,7 @@
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
-  ;; (log/debug "create-answer!" (login request) num)
+  (log/debug "create-answer!" (login request) num)
   (try
     (when-not (env :exam-mode)
       (validate (Integer/parseInt num) answer (login request)))
@@ -306,7 +306,7 @@
 (defn create-comment! [request]
   (let [params (:params request)
         num (Integer/parseInt (:p_num params))]
-    (log/debug "create-comment! num:" num)
+    (log/debug "create-comment!" (login request)num)
     (if (db/frozen? {:num num})
       (layout/render request "error.html"
                      {:status 403

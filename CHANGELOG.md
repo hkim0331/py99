@@ -40,6 +40,10 @@
   created_at (when));
 
 
+## 0.71.11 - 2023-10-15
+- py99.routes.home/has-docstring-test
+  if source has docstring, returns nil or raise exception(throw).
+
 ## 0.71.10 - 2023-10-15
 - create-answer! 後, qa.melt にリダイレクト。
 - コンテナの時刻が UTC: docker-compose.yml 中に

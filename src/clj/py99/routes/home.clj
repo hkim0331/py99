@@ -269,7 +269,9 @@
       :num (Integer/parseInt num)
       :answer answer
       :md5 (-> answer strip digest/md5)})
-    (redirect (str "/answer/" num))
+    ;; 2023-10-15
+    ;; (redirect (str "/answer/" num))
+    (redirect "https://qa.melt.kyutech.ac.jp/qs")
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406

@@ -31,6 +31,14 @@
     - submit
     - read
     - comment
+- actions (
+  login (who) varchar,
+  action (what) varchar, {answer, comment, answered, commented, logined}
+  num (optional) int,
+  created_at (when));
+
+## 0.71.10 - 2023-10-15
+- create-answer! 後, qa.melt に飛ばす。
 
 
 ## 0.71.9 - 2023-10-13

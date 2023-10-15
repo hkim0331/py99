@@ -1,13 +1,12 @@
 [tool.poetry]
 name = "py99"
 version = "0.1.0"
-description = ""
+description = "py99 server"
 authors = ["Hiroshi Kimura <hiroshi.kimura.0331@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-matplotlib = "^3.8.0"
 pytest = "^7.4.2"
 
 

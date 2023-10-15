@@ -10,6 +10,8 @@ RUN set -ex; \
 
 RUN set -ex; apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/*
 
+RUN pip3 install pytest
+
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID

@@ -93,10 +93,10 @@
                     (<= 5 busy) "🔴"
                     (<= 1 busy) "🟡"
                     :else "🟢")]
-   (str busy-mark
-        " "
-        (str one five fifteen)
-        " (過去 1, 5, 15 分間のサーバ負荷)")))
+    (str busy-mark
+         " "
+         (str one five fifteen)
+         " (過去 1, 5, 15 分間のサーバ負荷)")))
 
 (comment
   (uptime)
@@ -222,32 +222,54 @@
     ans
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
+(comment
+  (defn expand-includes
+    "expand `#include` recursively."
+    [s login]
+    (str/join
+     "\n"
+     (for [line (str/split-lines s)]
+       (if (str/starts-with? line "#include ")
+         (let [[_ num] (str/split line #"\s+")]
+           (when-not (re-matches #"\d+" num)
+             (throw (Exception. "#include の後に問題番号がありません。")))
+           (expand-includes (get-answer (Integer/parseInt num) login) login))
+         line))))
+  :rcf)
+
+;; allow `# include nnn`
+;; 2023-10-13
 (defn expand-includes
   "expand `#include` recursively."
   [s login]
-  ;; (log/debug "expand-includes:" s)
   (str/join
    "\n"
    (for [line (str/split-lines s)]
-     (if (str/starts-with? line "#include ")
-       (let [[_ num] (str/split line #"\s+")]
-         (when-not (re-matches #"\d+" num)
-          (throw (Exception. "#include の後に問題番号がありません。")))
-         (expand-includes (get-answer (Integer/parseInt num) login) login))
+     (if-let [[_ num] (re-matches #"#\s*include\s*(\d+).*" line)]
+       (expand-includes (get-answer (Integer/parseInt num) login) login)
        line))))
+
+;; 2023-10-15
+(defn- has-docstring-test
+  "if s contains docstring returns nil or throw."
+  [s]
+  (if (or (re-find #"\"\"\"" s) (re-find #"\'\'\'" s))
+    nil
+    (throw (Exception. "no docstring"))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."
   [num answer login]
   (try
     (not-empty-test (strip answer))
+    (has-docstring-test answer)
     (pytest-test num (expand-includes answer login))
     nil
     (catch Exception e (throw (Exception. (.getMessage e))))))
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
-  ;; (log/debug "create-answer!" (login request) num)
+  (log/debug "create-answer!" (login request) num)
   (try
     (when-not (env :exam-mode)
       (validate (Integer/parseInt num) answer (login request)))
@@ -256,7 +278,10 @@
       :num (Integer/parseInt num)
       :answer answer
       :md5 (-> answer strip digest/md5)})
-    (redirect (str "/answer/" num))
+    ;; 2023-10-15
+    (if (env :dev)
+      (redirect (str "/answer/" num))
+      (redirect "https://qa.melt.kyutech.ac.jp/qs"))
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406
@@ -293,7 +318,7 @@
 (defn create-comment! [request]
   (let [params (:params request)
         num (Integer/parseInt (:p_num params))]
-    (log/debug "create-comment! num:" num)
+    (log/debug "create-comment!" (login request) num)
     (if (db/frozen? {:num num})
       (layout/render request "error.html"
                      {:status 403

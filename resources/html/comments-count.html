@@ -9,12 +9,12 @@
       <button onClick="todays()">go</button>
     </p>
     -->
-    <p>(逆順は励みにならんか...)</p>
+    <p>問題番号とその問題についたコメント数</p>
     <div>
       {% for row in comments %}
        <p><a href="/comments/{{row.p_num}}">{{row.p_num}}</a>
          <input
-          style="width:{{row.count|divide:1}}mm; background-color:red;"
+          style="width:{{row.count|multiply:1}}mm; background-color:red;"
           disabled="disabled">
          {{row.count}}</p>
       {% endfor %}

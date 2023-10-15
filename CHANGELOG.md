@@ -28,7 +28,7 @@
 ## 0.72-snapshot
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
   セッションに記録では？
-- actions テーブル。ログをデータベースに残す。
+- actions テーブル。ログをデータベースに残す。q
   layout/render でログに出してる箇所で、データベースに向ければいいだろう。
     - submit
     - read
@@ -39,6 +39,10 @@
   num (optional) int,
   created_at (when));
 
+
+## 0.71.11 - 2023-10-15
+- py99.routes.home/has-docstring-test
+  if source has docstring, returns nil or raise exception(throw).
 
 ## 0.71.10 - 2023-10-15
 - create-answer! 後, qa.melt にリダイレクト。

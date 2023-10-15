@@ -249,11 +249,20 @@
        (expand-includes (get-answer (Integer/parseInt num) login) login)
        line))))
 
+;; 2023-10-15
+(defn- has-docstring-test
+  "if s contains docstring returns nil or throw."
+  [s]
+  (if (or (re-find #"\"\"\"" s) (re-find #"\'\'\'" s))
+    nil
+    (throw (Exception. "no docstring"))))
+
 (defn- validate
   "Return nil if all validations success, or raize exeption."
   [num answer login]
   (try
     (not-empty-test (strip answer))
+    (has-docstring-test answer)
     (pytest-test num (expand-includes answer login))
     nil
     (catch Exception e (throw (Exception. (.getMessage e))))))
@@ -270,8 +279,9 @@
       :answer answer
       :md5 (-> answer strip digest/md5)})
     ;; 2023-10-15
-    ;; (redirect (str "/answer/" num))
-    (redirect "https://qa.melt.kyutech.ac.jp/qs")
+    (if (env :dev)
+      (redirect (str "/answer/" num))
+      (redirect "https://qa.melt.kyutech.ac.jp/qs"))
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406
@@ -308,7 +318,7 @@
 (defn create-comment! [request]
   (let [params (:params request)
         num (Integer/parseInt (:p_num params))]
-    (log/debug "create-comment!" (login request)num)
+    (log/debug "create-comment!" (login request) num)
     (if (db/frozen? {:num num})
       (layout/render request "error.html"
                      {:status 403

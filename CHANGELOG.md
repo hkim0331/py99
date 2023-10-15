@@ -13,15 +13,17 @@
     - wheel 0.37.1
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
-* テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
-- stock の開き方を変更する。
+* テストに通った回答を受け取ったらダイアログ
+「他ユーザの回答、コメントを熟読すべし」を出す。
+- stock の開き方を変更する。submit 押そうとして stockボタンを間違って押すこと多い。
 - ユーザごと「本日のアクション」を表示する。Profile で。
 - コードをカラフルに表示する。
-- Answers メニューがあるなら Comments メニューもなくちゃ。
-- docker の make deploy がひどく時間がかかることがある。CPU に負荷の印はない。
+- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   仮想ディスク？2023-10-08
 - test code, assert インデント4に変更
-- コンテナの時刻が UTC
+- production で dump problems に失敗する。seed problems もできないだろう。
+  2023-10-15
+
 
 ## 0.72-snapshot
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
@@ -37,13 +39,19 @@
   num (optional) int,
   created_at (when));
 
-## 0.71.10 - 2023-10-15
-- create-answer! 後, qa.melt に飛ばす。
 
+## 0.71.10 - 2023-10-15
+- create-answer! 後, qa.melt にリダイレクト。
+- コンテナの時刻が UTC: docker-compose.yml 中に
+```
+  environment:
+    TZ: Asia/Tokyo
+```
 
 ## 0.71.9 - 2023-10-13
 - `#include nnn` の他に、`# include nnn`(include の前にスペース)、
   `# incude nnn # コメント` を許す。
+
 
 ## 0.71.8 - 2023-10-10
 - Answers バーの長さを 1.5

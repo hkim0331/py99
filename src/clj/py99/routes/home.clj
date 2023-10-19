@@ -249,11 +249,15 @@
        (expand-includes (get-answer (Integer/parseInt num) login) login)
        line))))
 
-;; 2023-10-15
+;; 2023-10-19
 (defn- has-docstring-test
-  "if s contains docstring returns nil or throw."
-  [s]
-  (if (or (re-find #"\"\"\"" s) (re-find #"\'\'\'" s))
+  "if s contains docstring returns nil or throw.
+   FIXME: should check `def` proceeds the comment line."
+  [lines]
+  (if (some
+       (fn [s] (or (re-find #"^\s+\"\"\"" s)
+                   (re-find #"^\s+\s\'\'\'" s)))
+       (str/split-lines lines))
     nil
     (throw (Exception. "no docstring"))))
 

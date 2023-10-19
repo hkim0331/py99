@@ -13,29 +13,53 @@
     - wheel 0.37.1
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
-* テストに通った回答を受け取ったらダイアログ「他ユーザの回答、コメントを熟読すべし」を出す。
-- stock の開き方を変更する。
+* テストに通った回答を受け取ったらダイアログ
+「他ユーザの回答、コメントを熟読すべし」を出す。
+- stock の開き方を変更する。submit 押そうとして stockボタンを間違って押すこと多い。
 - ユーザごと「本日のアクション」を表示する。Profile で。
 - コードをカラフルに表示する。
-- Answers メニューがあるなら Comments メニューもなくちゃ。
-- docker の make deploy がひどく時間がかかることがある。CPU に負荷の印はない。
+- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   仮想ディスク？2023-10-08
 - test code, assert インデント4に変更
-- コンテナの時刻が UTC
+- production で dump problems に失敗する。seed problems もできないだろう。
+  2023-10-15
+- FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
+  チェックしていない。2023-10-19
 
-## 0.72-snapshot
+
+## 0.73-snapshot
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
   セッションに記録では？
-- actions テーブル。ログをデータベースに残す。
+- actions テーブル。ログをデータベースに残す。q
   layout/render でログに出してる箇所で、データベースに向ければいいだろう。
     - submit
     - read
     - comment
+- actions (
+  login (who) varchar,
+  action (what) varchar, {answer, comment, answered, commented, logined}
+  num (optional) int,
+  created_at (when));
 
+## 0.72.0 - 2023-10-19
+- 関数コメントない回答を弾く。
+
+## 0.71.11 - 2023-10-15
+- py99.routes.home/has-docstring-test
+  if source has docstring, returns nil or raise exception(throw).
+
+## 0.71.10 - 2023-10-15
+- create-answer! 後, qa.melt にリダイレクト。
+- コンテナの時刻が UTC: docker-compose.yml 中に
+```
+  environment:
+    TZ: Asia/Tokyo
+```
 
 ## 0.71.9 - 2023-10-13
 - `#include nnn` の他に、`# include nnn`(include の前にスペース)、
   `# incude nnn # コメント` を許す。
+
 
 ## 0.71.8 - 2023-10-10
 - Answers バーの長さを 1.5

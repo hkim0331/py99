@@ -1,6 +1,7 @@
 (ns py99.layout
   (:require
    [clojure.java.io]
+   [clojure.string :as str]
    [clojure.tools.logging :as log]
    [markdown.core :refer [md-to-html-string]]
    [py99.db.core :as db]
@@ -21,7 +22,11 @@
   (let [login (get-in request [:session :identity] :nobody)
         num (get-in params [:problem :num] 0)]
     ;; (log/info login template num)
-    (db/action! {:login (name login) :action template :num num})
+    (db/action! {:login (name login)
+                 :num num
+                 :action (-> template
+                             (str/replace #".html$" "")
+                             (str/replace #"-form$" ""))})
     (content-type
      (ok
       (parser/render-file

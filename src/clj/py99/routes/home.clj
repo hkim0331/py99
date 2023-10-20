@@ -17,6 +17,8 @@
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
 
+
+
 ;; https://stackoverflow.com/questions/16264813/
 ;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
@@ -379,13 +381,20 @@
             s (g false)]
         (recur s (rest bin) (conj ret (count-up f)))))))
 
+(comment
+  (to-date-str (str (l/local-now)))
+  :rcf)
+
 (defn profile [login]
   (let [solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
-        comments (db/comments-by-date-login {:login login})]
+        comments (db/comments-by-date-login {:login login})
+        actions (db/actions? {:login (name login)
+                              :date (to-date-str (str (l/local-now)))})]
     ;;(log/info "profile who?" {:login login})
     (layout/render {} "profile.html"
                    {:login login
+                    :actions actions
                     :user (get-user login)
                     :chart (individual-chart individual period 600 150)
                     :comment-chart (comment-chart comments period 600 150)

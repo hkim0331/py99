@@ -1,14 +1,15 @@
 (ns py99.layout
   (:require
-    [clojure.java.io]
-    [clojure.tools.logging :as log]
-    [markdown.core :refer [md-to-html-string]]
-    [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
-    [ring.util.anti-forgery :refer [anti-forgery-field]]
-    [ring.util.http-response :refer [content-type ok]]
-    [ring.util.response]
-    [selmer.filters :as filters]
-    [selmer.parser :as parser]))
+   [clojure.java.io]
+   [clojure.tools.logging :as log]
+   [markdown.core :refer [md-to-html-string]]
+   [py99.db.core :as db]
+   [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
+   [ring.util.anti-forgery :refer [anti-forgery-field]]
+   [ring.util.http-response :refer [content-type ok]]
+   [ring.util.response]
+   [selmer.filters :as filters]
+   [selmer.parser :as parser]))
 
 (parser/set-resource-path!  (clojure.java.io/resource "html"))
 (parser/add-tag! :csrf-field (fn [_ _] (anti-forgery-field)))
@@ -17,8 +18,12 @@
 (defn render
   "renders the HTML template located relative to resources/html"
   [request template & [params]]
-  (let [login (get-in request [:session :identity] :nobody)]
-    (log/info login template (get-in params [:problem :num] ""))
+  (let [login (get-in request [:session :identity] :nobody)
+        num (get-in params [:problem :num] 0)]
+    (log/info login template num)
+    (db/action! {:login (str login)
+                 :action template
+                 :num num})
     (content-type
      (ok
       (parser/render-file

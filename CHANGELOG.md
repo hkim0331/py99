@@ -23,22 +23,26 @@
 - test code, assert インデント4に変更
 - production で dump problems に失敗する。seed problems もできないだろう。
   2023-10-15
+- FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
+  チェックしていない。2023-10-19
 
 
-## 0.72-snapshot
-- comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-  セッションに記録では？
-- actions テーブル。ログをデータベースに残す。q
-  layout/render でログに出してる箇所で、データベースに向ければいいだろう。
-    - submit
-    - read
-    - comment
-- actions (
-  login (who) varchar,
-  action (what) varchar, {answer, comment, answered, commented, logined}
-  num (optional) int,
-  created_at (when));
+## 0.73 - 2023-10-20
+- layout/render と home/create-answer!, home/create-comment! から
+  db/actions! でアクションを記録
+- 記録したアクションは profile に表示。
+- create actions table
+```sql
+create table actions (
+  id SERIAL PRIMARY KEY,
+  login varchar(20),
+  action varchar(100),
+  num int,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+```
 
+## 0.72.0 - 2023-10-19
+- 関数コメントない回答を弾く。
 
 ## 0.71.11 - 2023-10-15
 - py99.routes.home/has-docstring-test

@@ -17,6 +17,8 @@
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
 
+
+
 ;; https://stackoverflow.com/questions/16264813/
 ;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
@@ -249,11 +251,15 @@
        (expand-includes (get-answer (Integer/parseInt num) login) login)
        line))))
 
-;; 2023-10-15
+;; 2023-10-19
 (defn- has-docstring-test
-  "if s contains docstring returns nil or throw."
-  [s]
-  (if (or (re-find #"\"\"\"" s) (re-find #"\'\'\'" s))
+  "if s contains docstring returns nil or throw.
+   FIXME: should check `def` proceeds the comment line."
+  [lines]
+  (if (some
+       (fn [s] (or (re-find #"^\s+\"\"\"" s)
+                   (re-find #"^\s+\s\'\'\'" s)))
+       (str/split-lines lines))
     nil
     (throw (Exception. "no docstring"))))
 
@@ -278,6 +284,10 @@
       :num (Integer/parseInt num)
       :answer answer
       :md5 (-> answer strip digest/md5)})
+    ;; 2023-10-20
+    (db/action! {:login (name (login request))
+                 :action "answer!"
+                 :num (Integer/parseInt num)})
     ;; 2023-10-15
     (if (env :dev)
       (redirect (str "/answer/" num))
@@ -299,10 +309,6 @@
         exam-mode (env :exam-mode)
         uptime (uptime)]
     (if (and my-answer (not exam-mode))
-      ;;
-      ;; action 入れるならココ
-      ;; (db/action! {:type "read" :login login :num num :timestamp (now)})
-      ;;
       (layout/render request "comment-form.html"
                      {:answer   (if exam-mode my-answer answer)
                       :problem  (db/get-problem {:num num})
@@ -314,6 +320,7 @@
                      {:status 403
                       :title "Access Forbidden"
                       :message "まず自分で解いてから。"}))))
+
 
 (defn create-comment! [request]
   (let [params (:params request)
@@ -330,6 +337,10 @@
                              :to_login (:to_login params)
                              :p_num num
                              :a_id (Integer/parseInt (:a_id params))})
+        ;; 2023-10-20
+        (db/action! {:login (name (login request))
+                     :action "comment!"
+                     :num num})
         (redirect "/")
         (catch Exception _
           (layout/render request "error.html"
@@ -375,13 +386,20 @@
             s (g false)]
         (recur s (rest bin) (conj ret (count-up f)))))))
 
+(comment
+  (to-date-str (str (l/local-now)))
+  :rcf)
+
 (defn profile [login]
   (let [solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
-        comments (db/comments-by-date-login {:login login})]
+        comments (db/comments-by-date-login {:login login})
+        actions (db/actions? {:login (name login)
+                              :date (to-date-str (str (l/local-now)))})]
     ;;(log/info "profile who?" {:login login})
     (layout/render {} "profile.html"
                    {:login login
+                    :actions actions
                     :user (get-user login)
                     :chart (individual-chart individual period 600 150)
                     :comment-chart (comment-chart comments period 600 150)

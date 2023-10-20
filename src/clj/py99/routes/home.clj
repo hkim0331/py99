@@ -398,7 +398,7 @@
         comments (db/comments-by-date-login {:login login})
         actions (db/actions? {:login (name login)
                               :date (to-date-str (str (l/local-now)))})]
-    ;;(log/info "profile who?" {:login login})
+    ;;(log/debug "profile who?" {:login login})
     (layout/render request
                    "profile.html"
                    {:login login

@@ -15,8 +15,6 @@
   積極的に pip uninstall したらどうか？
 * テストに通った回答を受け取ったらダイアログ
 「他ユーザの回答、コメントを熟読すべし」を出す。
-- stock の開き方を変更する。submit 押そうとして stockボタンを間違って押すこと多い。
-- ユーザごと「本日のアクション」を表示する。Profile で。
 - コードをカラフルに表示する。
 - docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   仮想ディスク？2023-10-08
@@ -25,6 +23,12 @@
   2023-10-15
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
+- チャート：縦軸飽和でいいか？
+
+
+## 0.73.2 - 2023-10-21
+- stock も activities に追加。
+- comment! 等は視覚的に弱いので commemt(!) 等に変更。
 
 ## 0.73.1 - 2023-10-20
 -  FIXME: nobody profile になっている。
@@ -68,7 +72,6 @@ create table actions (
 - `#include nnn` の他に、`# include nnn`(include の前にスペース)、
   `# incude nnn # コメント` を許す。
 
-
 ## 0.71.8 - 2023-10-10
 - Answers バーの長さを 1.5
 ## 0.71.7 - 2023-10-08
@@ -82,7 +85,6 @@ create table actions (
 ### Added
 - git-flow in Dockerfile
 
-
 ## 0.71.6 - 2023-10-08
 ### Changed
 - profile.html 2023 バージョンに。
@@ -91,7 +93,6 @@ create table actions (
 - defined (comments-count request)
 - defined db/comments-count-by-number
 
-
 ## 0.71.5 - 2023-10-08
 - Todays を Answers からたどるように変更した。
 
@@ -99,7 +100,8 @@ create table actions (
 - link from answer by problems page to problems.
 
 ## 0.71.3 - 2023-10-07
-- FIXED devcontainer で pytest を起動できるようになった by hkim0331/py99:0.4.2
+- FIXED devcontainer で pytest を起動できるようになった
+  hkim0331/py99:0.4.2
 
 ## 0.71.2 - 2023-10-07
 - reverse count-answers

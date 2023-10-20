@@ -286,7 +286,7 @@
       :md5 (-> answer strip digest/md5)})
     ;; 2023-10-20
     (db/action! {:login (name (login request))
-                 :action "answer!"
+                 :action "answer(!)"
                  :num (Integer/parseInt num)})
     ;; 2023-10-15
     (if (env :dev)
@@ -339,7 +339,7 @@
                              :a_id (Integer/parseInt (:a_id params))})
         ;; 2023-10-20
         (db/action! {:login (name (login request))
-                     :action "comment!"
+                     :action "comment(!)"
                      :num num})
         (redirect "/")
         (catch Exception _
@@ -398,7 +398,7 @@
         comments (db/comments-by-date-login {:login login})
         actions (db/actions? {:login (name login)
                               :date (to-date-str (str (l/local-now)))})]
-    ;;(log/info "profile who?" {:login login})
+    ;;(log/debug "profile who?" {:login login})
     (layout/render request
                    "profile.html"
                    {:login login
@@ -493,6 +493,9 @@
     ;; (log/debug "create-stock!" login a_id note)
     (try
       (db/create-stock! {:login login :a_id a_id :note note})
+      (db/action! {:login (name (login request))
+                   :action "stock(!)"
+                   :num num})
       (redirect (str "/comment/" a_id))
       (catch Exception e
         (layout/render nil "error.html"

@@ -27,15 +27,12 @@
   チェックしていない。2023-10-19
 
 
-## 0.73-snapshot
-- comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-  セッションに記録では？
-- actions テーブル。ログをデータベースに残す。
-  layout/render でログに出してる箇所で、データベースに向ければいいだろう。
-    - submit
-    - read
-    - comment
-```sqlv
+## 0.73 - 2023-10-20
+- layout/render と home/create-answer!, home/create-comment! から
+  db/actions! でアクションを記録
+- 記録したアクションは profile に表示。
+- create actions table
+```sql
 create table actions (
   id SERIAL PRIMARY KEY,
   login varchar(20),

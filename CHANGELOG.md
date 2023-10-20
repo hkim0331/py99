@@ -30,16 +30,19 @@
 ## 0.73-snapshot
 - comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
   セッションに記録では？
-- actions テーブル。ログをデータベースに残す。q
+- actions テーブル。ログをデータベースに残す。
   layout/render でログに出してる箇所で、データベースに向ければいいだろう。
     - submit
     - read
     - comment
-- actions (
-  login (who) varchar,
-  action (what) varchar, {answer, comment, answered, commented, logined}
-  num (optional) int,
-  created_at (when));
+```sqlv
+create table actions (
+  id SERIAL PRIMARY KEY,
+  login varchar(20),
+  action varchar(100),
+  num int,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+```
 
 ## 0.72.0 - 2023-10-19
 - 関数コメントない回答を弾く。

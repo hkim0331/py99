@@ -20,10 +20,8 @@
   [request template & [params]]
   (let [login (get-in request [:session :identity] :nobody)
         num (get-in params [:problem :num] 0)]
-    (log/info login template num)
-    (db/action! {:login (str login)
-                 :action template
-                 :num num})
+    ;; (log/info login template num)
+    (db/action! {:login (name login) :action template :num num})
     (content-type
      (ok
       (parser/render-file

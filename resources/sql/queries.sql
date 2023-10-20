@@ -312,7 +312,7 @@ SELECT * FROM gradings WHERE login = :login
 -- :name actions? :? :*
 -- :doc  fetch login's actios on date
 SELECT * FROM actions
-where login=:login and date(timestamp)=:date
+where login=:login and DATE(created_at)=DATE(:date)
 
 -- :name action! :! :n
 -- :doc insert login's action
@@ -321,3 +321,4 @@ INSERT INTO actions
 (login, action, num)
 VALUES
 (:login, :action, :num)
+ORDER BY id

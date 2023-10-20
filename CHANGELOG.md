@@ -26,6 +26,14 @@
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
 
+## 0.73.1 - 2023-10-20
+-  FIXME: nobody profile になっている。
+```
+  32 | nobody   | profile  |   0 | 2023-10-20 22:31:00.162587
+```
+### Changed
+- profile, profile-self: login ではなく、request を引数に取るように。
+  0.73 に合わせて。
 
 ## 0.73 - 2023-10-20
 - layout/render と home/create-answer!, home/create-comment! から

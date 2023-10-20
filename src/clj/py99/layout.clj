@@ -19,14 +19,15 @@
 (defn render
   "renders the HTML template located relative to resources/html"
   [request template & [params]]
-  (let [login (get-in request [:session :identity] :nobody)
-        num (get-in params [:problem :num] 0)]
-    ;; (log/info login template num)
-    (db/action! {:login (name login)
+  (let [login (name (get-in request [:session :identity] :nobody))
+        num (get-in params [:problem :num] 0)
+        action (-> template
+                   (str/replace #".html$" "")
+                   (str/replace #"-form$" ""))]
+    (log/debug login action num)
+    (db/action! {:login login
                  :num num
-                 :action (-> template
-                             (str/replace #".html$" "")
-                             (str/replace #"-form$" ""))})
+                 :action action})
     (content-type
      (ok
       (parser/render-file

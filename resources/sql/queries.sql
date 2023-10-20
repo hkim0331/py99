@@ -309,11 +309,6 @@ SELECT * FROM gradings WHERE login = :login
 -- ----------------
 -- actions section, 2023-10-20
 -- ----------------
--- :name actions? :? :*
--- :doc  fetch login's actios on date
-SELECT * FROM actions
-where login=:login and DATE(created_at)=DATE(:date)
-
 -- :name action! :! :n
 -- :doc insert login's action
 -- use DEFAULT TIMESTAMP for created_at.
@@ -321,4 +316,9 @@ INSERT INTO actions
 (login, action, num)
 VALUES
 (:login, :action, :num)
+
+-- :name actions? :? :*
+-- :doc  fetch login's actios on date
+SELECT * FROM actions
+where login=:login and DATE(created_at)=DATE(:date)
 ORDER BY id

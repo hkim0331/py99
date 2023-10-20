@@ -284,6 +284,10 @@
       :num (Integer/parseInt num)
       :answer answer
       :md5 (-> answer strip digest/md5)})
+    ;; 2023-10-20
+    (db/action! {:login (name (login request))
+                 :action "answer!"
+                 :num (Integer/parseInt num)})
     ;; 2023-10-15
     (if (env :dev)
       (redirect (str "/answer/" num))
@@ -305,10 +309,6 @@
         exam-mode (env :exam-mode)
         uptime (uptime)]
     (if (and my-answer (not exam-mode))
-      ;;
-      ;; action 入れるならココ
-      ;; (db/action! {:type "read" :login login :num num :timestamp (now)})
-      ;;
       (layout/render request "comment-form.html"
                      {:answer   (if exam-mode my-answer answer)
                       :problem  (db/get-problem {:num num})
@@ -320,6 +320,7 @@
                      {:status 403
                       :title "Access Forbidden"
                       :message "まず自分で解いてから。"}))))
+
 
 (defn create-comment! [request]
   (let [params (:params request)
@@ -336,6 +337,10 @@
                              :to_login (:to_login params)
                              :p_num num
                              :a_id (Integer/parseInt (:a_id params))})
+        ;; 2023-10-20
+        (db/action! {:login (name (login request))
+                     :action "comment!"
+                     :num num})
         (redirect "/")
         (catch Exception _
           (layout/render request "error.html"

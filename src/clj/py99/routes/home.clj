@@ -390,14 +390,17 @@
   (to-date-str (str (l/local-now)))
   :rcf)
 
-(defn profile [login]
-  (let [solved (db/answers-by {:login login})
+;; CHANGED 2023-10-20
+(defn profile [request]
+  (let [login (login request)
+        solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
         comments (db/comments-by-date-login {:login login})
         actions (db/actions? {:login (name login)
                               :date (to-date-str (str (l/local-now)))})]
     ;;(log/info "profile who?" {:login login})
-    (layout/render {} "profile.html"
+    (layout/render request
+                   "profile.html"
                    {:login login
                     :actions actions
                     :user (get-user login)
@@ -421,9 +424,10 @@
                     :groups (filter #(< 200 (:num %)) solved)
                     :points (db/points? {:login login})})))
 
+;; CHANGED 2023-10-20
 (defn profile-self
   [request]
-  (profile (login request)))
+  (profile request))
 
 (defn profile-login
   [request]

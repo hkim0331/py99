@@ -24,7 +24,7 @@
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
 - チャート：縦軸飽和でいいか？
-
+- activities: status だけ抜く？
 
 ## 0.73.2 - 2023-10-21
 - stock も activities に追加。

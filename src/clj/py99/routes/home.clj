@@ -494,12 +494,12 @@
         a_id (-> (get-in request [:params :a_id])
                  Integer/parseInt)
         note (-> (get-in request [:params :note]))]
-    ;; (log/debug "create-stock!" login a_id note)
+    (log/debug "create-stock!" login a_id note)
     (try
       (db/create-stock! {:login login :a_id a_id :note note})
-      (db/action! {:login (name (login request))
+      (db/action! {:login login
                    :action "stock(!)"
-                   :num num})
+                   :num a_id})
       (redirect (str "/comment/" a_id))
       (catch Exception e
         (layout/render nil "error.html"

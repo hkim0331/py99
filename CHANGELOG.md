@@ -28,6 +28,7 @@
 
 ## 0.73.5-snapshot
 - admin/users activities にデフォルトで本日の日付
+- bug fix create-stock!:db-action
 
 ## 0.73.4 - 2023-10-21
 ### fixed

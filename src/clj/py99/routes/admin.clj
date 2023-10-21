@@ -73,12 +73,20 @@
       (redirect "/admin/problems")
       (redirect "/error.html"))))
 
+(defn user-actions-page [{{:keys [login date]} :params :as request}]
+  (layout/render request
+                 "user-actions-page.html"
+                 {:actions (db/actions? {:login login :date date})
+                  :login login
+                  :date date}))
+
 (defn admin-routes []
   ["/admin"
    {:middleware [middleware/admin
                  middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["" {:get  admin-page}]
+   ["/user-actions" {:get user-actions-page}]
    ["/problems" {:get problems-page
                  :post update-problem!}]
    ["/seed-problems" {:post seed-problems!}]

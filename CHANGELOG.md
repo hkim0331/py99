@@ -23,8 +23,12 @@
   2023-10-15
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
-- チャート：縦軸飽和でいいか？
 
+- activities: status だけ抜く？
+
+## 0.73.3 - 2023-10-21
+- user activities in admin page
+- チャート： 2022 に準じる倍率に戻す。
 
 ## 0.73.2 - 2023-10-21
 - stock も activities に追加。

@@ -23,8 +23,13 @@
   2023-10-15
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
-
 - activities: status だけ抜く？
+
+## 0.73.4 - 2023-10-21
+### fixed
+- /profile/login に login が渡っていない。
+  profile を request を引数にするように戻し、admin から呼ばれるときは
+  :user キーを request マップに足して呼ぶように変更した。
 
 ## 0.73.3 - 2023-10-21
 - user activities in admin page

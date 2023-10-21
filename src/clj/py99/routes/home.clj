@@ -390,20 +390,21 @@
   (to-date-str (str (l/local-now)))
   :rcf)
 
-;; CHANGED 2023-10-20
-(defn profile [request]
-  (let [login (login request)
+;; CHANGED 2023-10-20, bug, resume.
+(defn profile
+  [request]
+  (log/debug "user" (:user request))
+  (let [login (get request :user (login request))
         solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
         comments (db/comments-by-date-login {:login login})
-        actions (db/actions? {:login (name login)
+        actions (db/actions? {:login login
                               :date (to-date-str (str (l/local-now)))})]
-    ;;(log/debug "profile who?" {:login login})
     (layout/render request
                    "profile.html"
                    {:login login
                     :actions actions
-                    :user (get-user login)
+                    ;; :user login
                     :chart (individual-chart individual period 600 150)
                     :comment-chart (comment-chart comments period 600 150)
                     :comments-rcvd (db/comments-rcvd {:login login})
@@ -424,16 +425,19 @@
                     :groups (filter #(< 200 (:num %)) solved)
                     :points (db/points? {:login login})})))
 
-;; CHANGED 2023-10-20
+
 (defn profile-self
   [request]
   (profile request))
 
 (defn profile-login
+  "method for admin only."
   [request]
-  ;; (log/debug "profile-login" (login request))
+  (log/debug "profile-login" (get-in request [:path-params :login]))
   (if (admin? (login request))
-    (profile (get-in request [:path-params :login]))
+    (let [user (get-in request [:path-params :login])]
+      ;; :flash は用途では使えない。
+      (profile (assoc request :user user)))
     (layout/render request "error.html"
                    {:status 403
                     :title "Access Forbidden"

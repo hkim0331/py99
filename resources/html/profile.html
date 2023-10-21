@@ -22,9 +22,10 @@
       &nbsp;
       {% endfor %}</p>
 
+    <!--
     <h4>last login</h4>
     <p>{{user.last_login|date:shortDateTime}}</p>
-
+    -->
     <h4>last submission</h4>
       <p>{{last.create_at|date:shortDateTime}},
         <a href='/comment/{{last.id}}'>{{last.num}}</a></p>

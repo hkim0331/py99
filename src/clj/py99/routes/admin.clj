@@ -59,7 +59,10 @@
   [{:keys [flash] :as request}]
   (prn "flash" (:flash request))
   (layout/render request "admin.html"
-                 {:flash flash}))
+                 {:flash flash
+                  :today (.format
+                          (java.text.SimpleDateFormat. "yyyy-MM-dd")
+                          (java.util.Date.))}))
 
 (defn problems-page [request]
   (layout/render request "edit-problems.html" {:problems (db/problems)}))

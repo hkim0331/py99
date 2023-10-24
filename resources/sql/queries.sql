@@ -305,3 +305,20 @@ ORDER BY COUNT DESC
 -- :name points? :? :1
 -- :doc  fetch login's points from gradings table
 SELECT * FROM gradings WHERE login = :login
+
+-- ----------------
+-- actions section, 2023-10-20
+-- ----------------
+-- :name action! :! :n
+-- :doc insert login's action
+-- use DEFAULT TIMESTAMP for created_at.
+INSERT INTO actions
+(login, action, num)
+VALUES
+(:login, :action, :num)
+
+-- :name actions? :? :*
+-- :doc  fetch login's actios on date
+SELECT * FROM actions
+where login=:login and DATE(created_at)=DATE(:date)
+ORDER BY id

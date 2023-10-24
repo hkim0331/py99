@@ -2,19 +2,22 @@
 {% block content %}
   <div class="content">
     <h2>Admin Page</h2>
-    {% if flash %}
-    <div class="red">{{flash.doc}}</div>
-    {% else %}
-    <div>&nbsp;</div>
-    {% endif %}
-    <div class="columns">
-      <div class="column is-one-fifth">
-        <form method='get' action='/admin/problems'>
-          <input type='submit'
-            class='button is-primary'
-            value='edit problems'>
-        </form>
-      </div>
+
+    <div>
+      <h3>Problems</h3>
+      {% if flash %}
+      <div class="red">{{flash.doc}}</div>
+     {% else %}
+      <div>&nbsp;</div>
+      {% endif %}
+     <div class="columns">
+        <div class="column is-one-fifth">
+          <form method='get' action='/admin/problems'>
+            <input type='submit'
+              class='button is-primary'
+             value='edit problems'>
+          </form>
+        </div>
       <div class="column is-one-fifth">
         <form method='post' action='/admin/dump-problems'>
           {% csrf-field %}
@@ -23,7 +26,6 @@
             value='dump problems'>
          </form>
       </div>
-
       <div class="column is-one-fifth">
         <form method='post' action='/admin/seed-problems'>
           {% csrf-field %}
@@ -34,5 +36,13 @@
         </form>
       </div>
     </div>
+    <div>
+      <h3>Users Activities</h3>
+      <form method="get" action="/admin/user-actions">
+        <p>/api/activities/<input name="login">/<input name="date">
+          <input type="submit"></p>
+      </form>
+    </div>
   </div>
+
 {% endblock %}

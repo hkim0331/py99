@@ -29,18 +29,22 @@
               (get tmp d 0))]
     (html (bar-chart (map scale-fn ys) width height color))))
 
+;; 倍率を 2022 に戻す。2023-10-21
 (defn class-chart
   [answers period width height]
+  ;; 2023
+  ;; (chart #(/ % 4.5) answers period width height "orange")
   ;; 2022
-  (chart #(/ % 4.5) answers period width height "orange")
-  ;;(chart #(/ % 4) answers period width height "orange")
+  (chart #(/ % 4) answers period width height "orange")
   )
 
+;; 倍率を 2022 に戻す。2023-10-21
 (defn individual-chart
   [answers period width height]
+  ;; 2023
+  ;; (chart #(* % 13) answers period width height "red")
   ;; 2022
-  (chart #(* % 13) answers period width height "red")
-  ;;(chart #(* % 15) answers period width height "red")
+  (chart #(* % 15) answers period width height "red")
   )
 
 (defn comment-chart

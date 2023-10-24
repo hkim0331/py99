@@ -3,6 +3,13 @@
   <div class="content">
     <h2>{{login}}'s Profile</h2>
 
+    <h4>todays activities</h4>
+    <p>
+    {% for a in actions %}
+    {{a.created_at|date:shortTime}}, {{a.action}} {{a.num}}<br>
+    {% endfor %}
+    </p>
+
     <h4>submissions</h4>
     <p>{{chart|safe}}</p>
 
@@ -15,9 +22,10 @@
       &nbsp;
       {% endfor %}</p>
 
+    <!--
     <h4>last login</h4>
     <p>{{user.last_login|date:shortDateTime}}</p>
-
+    -->
     <h4>last submission</h4>
       <p>{{last.create_at|date:shortDateTime}},
         <a href='/comment/{{last.id}}'>{{last.num}}</a></p>

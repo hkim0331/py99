@@ -15,8 +15,6 @@
   積極的に pip uninstall したらどうか？
 * テストに通った回答を受け取ったらダイアログ
 「他ユーザの回答、コメントを熟読すべし」を出す。
-- stock の開き方を変更する。submit 押そうとして stockボタンを間違って押すこと多い。
-- ユーザごと「本日のアクション」を表示する。Profile で。
 - コードをカラフルに表示する。
 - docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   仮想ディスク？2023-10-08
@@ -25,21 +23,54 @@
   2023-10-15
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
+- activities: status だけ抜く？
 
+## 0.73.6 - 2023-10-24
+- home/create-anwer! resume redirect
+```clojure
+  (redirect (str "/answer/" num))
+```
 
-## 0.73-snapshot
-- comments: 何番を読んだかの他に、どのコメントを読んだかをログ。
-  セッションに記録では？
-- actions テーブル。ログをデータベースに残す。q
-  layout/render でログに出してる箇所で、データベースに向ければいいだろう。
-    - submit
-    - read
-    - comment
-- actions (
-  login (who) varchar,
-  action (what) varchar, {answer, comment, answered, commented, logined}
-  num (optional) int,
-  created_at (when));
+## 0.73.5-snapshot
+- admin/users activities にデフォルトで本日の日付
+- bug fix create-stock!:db-action
+
+## 0.73.4 - 2023-10-21
+### fixed
+- /profile/login に login が渡っていない。
+  profile を request を引数にするように戻し、admin から呼ばれるときは
+  :user キーを request マップに足して呼ぶように変更した。
+
+## 0.73.3 - 2023-10-21
+- user activities in admin page
+- チャート： 2022 に準じる倍率に戻す。
+
+## 0.73.2 - 2023-10-21
+- stock も activities に追加。
+- comment! 等は視覚的に弱いので commemt(!) 等に変更。
+
+## 0.73.1 - 2023-10-20
+-  FIXME: nobody profile になっている。
+```
+  32 | nobody   | profile  |   0 | 2023-10-20 22:31:00.162587
+```
+### Changed
+- profile, profile-self: login ではなく、request を引数に取るように。
+  0.73 に合わせて。
+
+## 0.73 - 2023-10-20
+- layout/render と home/create-answer!, home/create-comment! から
+  db/actions! でアクションを記録
+- 記録したアクションは profile に表示。
+- create actions table
+```sql
+create table actions (
+  id SERIAL PRIMARY KEY,
+  login varchar(20),
+  action varchar(100),
+  num int,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+```
 
 ## 0.72.0 - 2023-10-19
 - 関数コメントない回答を弾く。
@@ -60,7 +91,6 @@
 - `#include nnn` の他に、`# include nnn`(include の前にスペース)、
   `# incude nnn # コメント` を許す。
 
-
 ## 0.71.8 - 2023-10-10
 - Answers バーの長さを 1.5
 ## 0.71.7 - 2023-10-08
@@ -74,7 +104,6 @@
 ### Added
 - git-flow in Dockerfile
 
-
 ## 0.71.6 - 2023-10-08
 ### Changed
 - profile.html 2023 バージョンに。
@@ -83,7 +112,6 @@
 - defined (comments-count request)
 - defined db/comments-count-by-number
 
-
 ## 0.71.5 - 2023-10-08
 - Todays を Answers からたどるように変更した。
 
@@ -91,7 +119,8 @@
 - link from answer by problems page to problems.
 
 ## 0.71.3 - 2023-10-07
-- FIXED devcontainer で pytest を起動できるようになった by hkim0331/py99:0.4.2
+- FIXED devcontainer で pytest を起動できるようになった
+  hkim0331/py99:0.4.2
 
 ## 0.71.2 - 2023-10-07
 - reverse count-answers

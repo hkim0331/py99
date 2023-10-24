@@ -282,10 +282,16 @@
       :num (Integer/parseInt num)
       :answer answer
       :md5 (-> answer strip digest/md5)})
+    ;; 2023-10-20
+    (db/action! {:login (name (login request))
+                 :action "answer(!)"
+                 :num (Integer/parseInt num)})
     ;; 2023-10-15
-    (if (env :dev)
-      (redirect (str "/answer/" num))
-      (redirect "https://qa.melt.kyutech.ac.jp/qs"))
+    ;; (if (env :dev)
+    ;;   (redirect (str "/answer/" num))
+    ;;   (redirect "https://qa.melt.kyutech.ac.jp/qs"))
+    ;; resume 2023-10-24
+    (redirect (str "/answer/" num))
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406
@@ -303,10 +309,6 @@
         exam-mode (env :exam-mode)
         uptime (uptime)]
     (if (and my-answer (not exam-mode))
-      ;;
-      ;; action 入れるならココ
-      ;; (db/action! {:type "read" :login login :num num :timestamp (now)})
-      ;;
       (layout/render request "comment-form.html"
                      {:answer   (if exam-mode my-answer answer)
                       :problem  (db/get-problem {:num num})
@@ -318,6 +320,7 @@
                      {:status 403
                       :title "Access Forbidden"
                       :message "まず自分で解いてから。"}))))
+
 
 (defn create-comment! [request]
   (let [params (:params request)
@@ -334,6 +337,10 @@
                              :to_login (:to_login params)
                              :p_num num
                              :a_id (Integer/parseInt (:a_id params))})
+        ;; 2023-10-20
+        (db/action! {:login (name (login request))
+                     :action "comment(!)"
+                     :num num})
         (redirect "/")
         (catch Exception _
           (layout/render request "error.html"
@@ -379,14 +386,25 @@
             s (g false)]
         (recur s (rest bin) (conj ret (count-up f)))))))
 
-(defn profile [login]
-  (let [solved (db/answers-by {:login login})
+(comment
+  (to-date-str (str (l/local-now)))
+  :rcf)
+
+;; CHANGED 2023-10-20, bug, resume.
+(defn profile
+  [request]
+  (log/debug "user" (:user request))
+  (let [login (get request :user (login request))
+        solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
-        comments (db/comments-by-date-login {:login login})]
-    ;;(log/info "profile who?" {:login login})
-    (layout/render {} "profile.html"
+        comments (db/comments-by-date-login {:login login})
+        actions (db/actions? {:login login
+                              :date (to-date-str (str (l/local-now)))})]
+    (layout/render request
+                   "profile.html"
                    {:login login
-                    :user (get-user login)
+                    :actions actions
+                    ;; :user login
                     :chart (individual-chart individual period 600 150)
                     :comment-chart (comment-chart comments period 600 150)
                     :comments-rcvd (db/comments-rcvd {:login login})
@@ -407,15 +425,19 @@
                     :groups (filter #(< 200 (:num %)) solved)
                     :points (db/points? {:login login})})))
 
+
 (defn profile-self
   [request]
-  (profile (login request)))
+  (profile request))
 
 (defn profile-login
+  "method for admin only."
   [request]
-  ;; (log/debug "profile-login" (login request))
+  (log/debug "profile-login" (get-in request [:path-params :login]))
   (if (admin? (login request))
-    (profile (get-in request [:path-params :login]))
+    (let [user (get-in request [:path-params :login])]
+      ;; :flash は用途では使えない。
+      (profile (assoc request :user user)))
     (layout/render request "error.html"
                    {:status 403
                     :title "Access Forbidden"
@@ -472,9 +494,12 @@
         a_id (-> (get-in request [:params :a_id])
                  Integer/parseInt)
         note (-> (get-in request [:params :note]))]
-    ;; (log/debug "create-stock!" login a_id note)
+    (log/debug "create-stock!" login a_id note)
     (try
       (db/create-stock! {:login login :a_id a_id :note note})
+      (db/action! {:login login
+                   :action "stock(!)"
+                   :num a_id})
       (redirect (str "/comment/" a_id))
       (catch Exception e
         (layout/render nil "error.html"

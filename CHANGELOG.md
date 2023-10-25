@@ -25,6 +25,11 @@
   チェックしていない。2023-10-19
 - activities: status だけ抜く？
 
+## 0.73.6 - 2023-10-24
+- home/create-anwer! resume redirect
+```clojure
+  (redirect (str "/answer/" num))
+```
 
 ## 0.73.5 - 2023-10-22
 - bug fixed: create-stock!:db-action

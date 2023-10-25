@@ -17,8 +17,6 @@
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
 
-
-
 ;; https://stackoverflow.com/questions/16264813/
 ;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
@@ -289,9 +287,11 @@
                  :action "answer(!)"
                  :num (Integer/parseInt num)})
     ;; 2023-10-15
-    (if (env :dev)
-      (redirect (str "/answer/" num))
-      (redirect "https://qa.melt.kyutech.ac.jp/qs"))
+    ;; (if (env :dev)
+    ;;   (redirect (str "/answer/" num))
+    ;;   (redirect "https://qa.melt.kyutech.ac.jp/qs"))
+    ;; resume 2023-10-24
+    (redirect (str "/answer/" num))
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406

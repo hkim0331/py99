@@ -24,6 +24,8 @@
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
 - activities: status だけ抜く？
+- volume マウントしないと速いのか？
+
 
 ## 0.73.6 - 2023-10-24
 - home/create-anwer! resume redirect

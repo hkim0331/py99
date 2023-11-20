@@ -10,6 +10,7 @@ services:
     volumes:
       - .:/usr/src/app
       # docker desktop v4.24.0, too slow.
+      # v4.24.2 slow.
       - m2:/home/vscode/.m2
       - gitlibs:/home/vscode/.gitlibs
     command:

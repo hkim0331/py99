@@ -24,6 +24,17 @@
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
 - activities: status だけ抜く？
+- volume マウントしないと速いのか？
+
+
+## 0.74.1 - 2023-11-20
+### Changed
+- resources/html/comments-sent.html: abbreviat:19 -> abbrebiate:40
+### Added
+- resources/html/comments-count.html: form to get '/comments-sent'
+- src.routes/home.clj:/comments-sent
+  すでに /comments-sent/:login エンドポイントは作成済み。
+  あらたに作ったのは form parameters を取るエンドポイント。
 
 ## 0.73.6 - 2023-10-24
 - home/create-anwer! resume redirect

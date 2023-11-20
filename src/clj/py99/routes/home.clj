@@ -352,8 +352,15 @@
                           :message "can not add comments"}))))))
 
 (defn comments-sent [request]
-  (let [login (get-in request [:path-params :login])
+  (let [login (or (get-in request [:path-params :login])
+                  (get-in request [:params :login]))
         sent (db/comments-sent {:login login})]
+    ;; (log/debug "comments-sent request keyes:" (keys request))
+    ;; (log/debug "params:" (:params request))
+    ;; (log/debug "path-parmas:" (:path-params request))
+    ;; (log/debug "query-params" (:query-params request))
+    ;; (log/debug "form-params" (:form-params request))
+    ;; (log/debug "login" login)
     (layout/render request "comments-sent.html" {:sent sent})))
 
 (defn comments [request]
@@ -554,6 +561,7 @@
    ["/comment/:id" {:get  comment-form
                     :post create-comment!}]
    ["/comments" {:get comments}]
+   ["/comments-sent" {:get comments-sent}]
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments-count" {:get comments-count}]
    ["/comments/:num" {:get comments-by-num}]

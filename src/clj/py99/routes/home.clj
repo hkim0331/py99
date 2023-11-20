@@ -174,12 +174,14 @@
                       :uptime uptime}))))
 
 ;; validations
+;; FIXME: remove docstring
 (defn- remove-comments
   "Remove lines starting from #, they are comments in Python."
   [s]
   (apply
    str
-   (interpose "\n" (remove #(str/starts-with? % "#") (str/split-lines s)))))
+   (interpose "\n"
+              (remove #(str/starts-with? % "#") (str/split-lines s)))))
 
 (defn- strip [s]
   (-> s
@@ -198,6 +200,7 @@
    Throw exception when test fails."
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
+    ;; FIXME: to skip validations, empty tests are required.
     (when (re-find #"\S" test)
       ;; (log/debug "test is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]

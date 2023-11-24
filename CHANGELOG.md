@@ -26,6 +26,10 @@
 - activities: status だけ抜く？
 - volume マウントしないと速いのか？
 
+## 0.75.0 - 2023-11-24
+### Added
+- routes/home: remove-docstrings
+  回答中のdocstring(複数)を削除する。
 
 ## 0.74.1 - 2023-11-20
 ### Changed

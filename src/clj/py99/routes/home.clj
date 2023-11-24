@@ -183,13 +183,40 @@
    (interpose "\n"
               (remove #(str/starts-with? % "#") (str/split-lines s)))))
 
-(defn- strip [s]
+(defn remove-docstrings
+  "Remove all \"\"\" ~ \"\"\" parts from `s`."
+  [s]
+  (-> s
+      (str/replace #"\n" "")
+      ;; must use shotest match. 2023-11-24
+      (str/replace #"\"\"\".+?\"\"\"", "")))
+
+(comment
+  (-> "#abc
+       def add1(n):
+    \"\"\"
+    docstrring
+    \"\"\"
+    return n+1
+    \"\"\"
+    comments, too.
+    \"\"\""
+      strip)
+  :rcf)
+
+(defn- strip
+  "just use in not-empty-test, digest/md5."
+  [s]
   (-> s
       (str/replace #"[ \t]" "")
-      remove-comments))
+      remove-comments
+      remove-docstrings))
 
-(defn- not-empty-test [answer]
-  (when-not (re-find #"\S" (strip answer))
+(defn- not-empty-test
+  "called as (not-empty-test (strip answer)).
+   so, no use to call `strip` inside this function. 2023-11-24."
+  [answer]
+  (when-not (re-find #"\S" answer)
     (throw (Exception. "answer is empty"))))
 
 ;; changed 2022-12-25, was 60
@@ -209,7 +236,9 @@
             (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
-        (let [ret (timeout-sh timeout "pytest" (.getAbsolutePath tempfile))]
+        (let [ret (timeout-sh timeout
+                              "pytest"
+                              (.getAbsolutePath tempfile))]
           ;; (log/debug "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))

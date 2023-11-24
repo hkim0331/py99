@@ -183,7 +183,8 @@
    (interpose "\n"
               (remove #(str/starts-with? % "#") (str/split-lines s)))))
 
-(defn remove-docstring
+(defn remove-docstrings
+  "Remove all \"\"\" ~ \"\"\" parts from `s`."
   [s]
   (-> s
       (str/replace #"\n" "")
@@ -197,9 +198,9 @@
     docstrring
     \"\"\"
     return n+1
-       \"\"\"
-       comments, too.
-       \"\"\""
+    \"\"\"
+    comments, too.
+    \"\"\""
       strip)
   :rcf)
 
@@ -209,7 +210,7 @@
   (-> s
       (str/replace #"[ \t]" "")
       remove-comments
-      remove-docstring))
+      remove-docstrings))
 
 (defn- not-empty-test
   "called as (not-empty-test (strip answer)).

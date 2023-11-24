@@ -192,15 +192,11 @@
       (str/replace #"\"\"\".+?\"\"\"", "")))
 
 (comment
-  (-> "#abc
-       def add1(n):
+  (-> "def hello(s):
     \"\"\"
-    docstrring
+    ここは陽ツィ右葉・
     \"\"\"
-    return n+1
-    \"\"\"
-    comments, too.
-    \"\"\""
+    return 'Hello, ' + s"
       strip)
   :rcf)
 

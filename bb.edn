@@ -1,0 +1,7 @@
+{:paths ["bb"]
+
+ :tasks {:requires ([midterm :as midterm])
+         midterm-up (midterm/midterm-up)
+         midterm-down (midterm/midterm-down)
+         }
+ }

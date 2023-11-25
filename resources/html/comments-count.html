@@ -9,7 +9,12 @@
       <button onClick="todays()">go</button>
     </p>
     -->
-    <p>問題番号とその問題についたコメント数</p>
+    <form method='get' action='/comments-sent'>
+      show <input name="login" size="10">'s
+      <input type="submit" value="comments">
+    </form>
+
+    <p>問題番号とその問題についたコメント数。</p>
     <div>
       {% for row in comments %}
        <p><a href="/comments/{{row.p_num}}">{{row.p_num}}</a>

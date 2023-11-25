@@ -24,7 +24,34 @@
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
 - activities: status だけ抜く？
+- volume マウントしないと速いのか？
 
+## 0.76.0 - 2023-11-25
+exam-mode 再チェック
+### Changed
+- resources/html/{comment-form,answer-form}.html
+### Added
+- db-dumps/midterm-exam-{down,up}.sh
+
+## 0.75.0 - 2023-11-24
+### Added
+- routes/home: remove-docstrings
+  回答中のdocstring(複数)を削除する。
+
+## 0.74.1 - 2023-11-20
+### Changed
+- resources/html/comments-sent.html: abbreviat:19 -> abbrebiate:40
+### Added
+- resources/html/comments-count.html: form to get '/comments-sent'
+- src.routes/home.clj:/comments-sent
+  すでに /comments-sent/:login エンドポイントは作成済み。
+  あらたに作ったのは form parameters を取るエンドポイント。
+
+## 0.73.6 - 2023-10-24
+- home/create-anwer! resume redirect
+```clojure
+  (redirect (str "/answer/" num))
+```
 
 ## 0.73.5 - 2023-10-22
 - bug fixed: create-stock!:db-action

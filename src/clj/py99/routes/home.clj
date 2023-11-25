@@ -17,8 +17,6 @@
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
 
-
-
 ;; https://stackoverflow.com/questions/16264813/
 ;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
@@ -166,30 +164,57 @@
                         :same (answers true)
                         :differ (answers false)
                         :frozen? frozen?
-                        :uptime uptime}))
+                        :uptime uptime
+                        :exam? (env :exam-mode)}))
       (layout/render request
                      "answer-form.html"
                      {:problem problem
                       :same []
                       :differ answers
                       :frozen? frozen?
-                      :uptime uptime}))))
+                      :uptime uptime
+                      :exam? (env :exam-mode)}))))
 
 ;; validations
+;; FIXME: remove docstring
 (defn- remove-comments
   "Remove lines starting from #, they are comments in Python."
   [s]
   (apply
    str
-   (interpose "\n" (remove #(str/starts-with? % "#") (str/split-lines s)))))
+   (interpose "\n"
+              (remove #(str/starts-with? % "#") (str/split-lines s)))))
 
-(defn- strip [s]
+(defn remove-docstrings
+  "Remove all \"\"\" ~ \"\"\" parts from `s`."
+  [s]
+  (-> s
+      (str/replace #"\n" "")
+      ;; must use shotest match. 2023-11-24
+      (str/replace #"\"\"\".+?\"\"\"", "")))
+
+(comment
+  (-> "def hello(s):
+    \"\"\"
+    ここは陽ツィ右葉・
+    \"\"\"
+    return 'Hello, ' + s"
+      strip)
+  :rcf)
+
+(defn- strip
+  "just use in not-empty-test, digest/md5."
+  [s]
   (-> s
       (str/replace #"[ \t]" "")
-      remove-comments))
+      remove-comments
+      remove-docstrings))
 
-(defn- not-empty-test [answer]
-  (when-not (re-find #"\S" (strip answer))
+(defn- not-empty-test
+  "called as (not-empty-test (strip answer)).
+   so, no use to call `strip` inside this function. 2023-11-24."
+  [answer]
+  (when-not (re-find #"\S" answer)
     (throw (Exception. "answer is empty"))))
 
 ;; changed 2022-12-25, was 60
@@ -200,6 +225,7 @@
    Throw exception when test fails."
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
+    ;; FIXME: to skip validations, empty tests are required.
     (when (re-find #"\S" test)
       ;; (log/debug "test is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
@@ -208,7 +234,9 @@
             (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
-        (let [ret (timeout-sh timeout "pytest" (.getAbsolutePath tempfile))]
+        (let [ret (timeout-sh timeout
+                              "pytest"
+                              (.getAbsolutePath tempfile))]
           ;; (log/debug "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
@@ -289,9 +317,11 @@
                  :action "answer(!)"
                  :num (Integer/parseInt num)})
     ;; 2023-10-15
-    (if (env :dev)
-      (redirect (str "/answer/" num))
-      (redirect "https://qa.melt.kyutech.ac.jp/qs"))
+    ;; (if (env :dev)
+    ;;   (redirect (str "/answer/" num))
+    ;;   (redirect "https://qa.melt.kyutech.ac.jp/qs"))
+    ;; resume 2023-10-24
+    (redirect (str "/answer/" num))
     (catch Exception e
       (layout/render request "error.html"
                      {:status 406
@@ -306,16 +336,16 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})
-        exam-mode (env :exam-mode)
+        exam? (env :exam-mode)
         uptime (uptime)]
-    (if (and my-answer (not exam-mode))
+    (if my-answer ;; (and my-answer (not exam?))
       (layout/render request "comment-form.html"
-                     {:answer   (if exam-mode my-answer answer)
+                     {:answer   (if exam? my-answer answer)
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (when-not exam-mode
-                                  (db/get-comments {:a_id id}))
-                      :uptime   uptime})
+                      :comments (when-not exam? (db/get-comments {:a_id id}))
+                      :uptime   uptime
+                      :exam?    exam?})
       (layout/render request "error.html"
                      {:status 403
                       :title "Access Forbidden"
@@ -349,8 +379,15 @@
                           :message "can not add comments"}))))))
 
 (defn comments-sent [request]
-  (let [login (get-in request [:path-params :login])
+  (let [login (or (get-in request [:path-params :login])
+                  (get-in request [:params :login]))
         sent (db/comments-sent {:login login})]
+    ;; (log/debug "comments-sent request keyes:" (keys request))
+    ;; (log/debug "params:" (:params request))
+    ;; (log/debug "path-parmas:" (:path-params request))
+    ;; (log/debug "query-params" (:query-params request))
+    ;; (log/debug "form-params" (:form-params request))
+    ;; (log/debug "login" login)
     (layout/render request "comments-sent.html" {:sent sent})))
 
 (defn comments [request]
@@ -551,6 +588,7 @@
    ["/comment/:id" {:get  comment-form
                     :post create-comment!}]
    ["/comments" {:get comments}]
+   ["/comments-sent" {:get comments-sent}]
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments-count" {:get comments-count}]
    ["/comments/:num" {:get comments-by-num}]

@@ -26,6 +26,13 @@
 - activities: status だけ抜く？
 - volume マウントしないと速いのか？
 
+## 0.76.0 - 2023-11-25
+exam-mode 再チェック
+### Changed
+- resources/html/{comment-form,answer-form}.html
+### Added
+- db-dumps/midterm-exam-{down,up}.sh
+
 ## 0.75.0 - 2023-11-24
 ### Added
 - routes/home: remove-docstrings

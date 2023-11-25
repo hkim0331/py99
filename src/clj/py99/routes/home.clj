@@ -164,14 +164,16 @@
                         :same (answers true)
                         :differ (answers false)
                         :frozen? frozen?
-                        :uptime uptime}))
+                        :uptime uptime
+                        :exam? (env :exam-mode)}))
       (layout/render request
                      "answer-form.html"
                      {:problem problem
                       :same []
                       :differ answers
                       :frozen? frozen?
-                      :uptime uptime}))))
+                      :uptime uptime
+                      :exam? (env :exam-mode)}))))
 
 ;; validations
 ;; FIXME: remove docstring
@@ -334,16 +336,16 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})
-        exam-mode (env :exam-mode)
+        exam? (env :exam-mode)
         uptime (uptime)]
-    (if (and my-answer (not exam-mode))
+    (if my-answer ;; (and my-answer (not exam?))
       (layout/render request "comment-form.html"
-                     {:answer   (if exam-mode my-answer answer)
+                     {:answer   (if exam? my-answer answer)
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (when-not exam-mode
-                                  (db/get-comments {:a_id id}))
-                      :uptime   uptime})
+                      :comments (when-not exam? (db/get-comments {:a_id id}))
+                      :uptime   uptime
+                      :exam?    exam?})
       (layout/render request "error.html"
                      {:status 403
                       :title "Access Forbidden"

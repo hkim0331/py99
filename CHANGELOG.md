@@ -26,6 +26,13 @@
 - activities: status だけ抜く？
 - volume マウントしないと速いのか？
 
+## 0.76.1 - 2023-11-25
+### Added
+- `bb.edn` and `bb/midterm.clj`.
+  create/drop 211~244 entries in py99.problems for midterm-exam.
+### Removed
+- db-dumps/midterm-exam-{down,up}.sh
+
 ## 0.76.0 - 2023-11-25
 exam-mode 再チェック
 ### Changed

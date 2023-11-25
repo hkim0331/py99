@@ -1,7 +1,9 @@
 {:paths ["bb"]
 
- :tasks {:requires ([midterm :as midterm])
-         midterm-up (midterm/midterm-up)
-         midterm-down (midterm/midterm-down)
+ ;; use `bb --prn` to print result.
+ :tasks {:requires ([midterm :as m])
+         midterm-list (m/midterm-list)
+         midterm-down (m/midterm-down)
+         midterm-up   (m/midterm-up)
          }
  }

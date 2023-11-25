@@ -16,6 +16,10 @@
               231 232 233 234
               241 242 243 244])
 
+(defn midterm-list
+  []
+  (pg/execute! db ["select num from problems where num > 100;"]))
+
 (defn midterm-down
   []
   (for [num midterm]
@@ -28,16 +32,16 @@
     (pg/execute! db
                  [(str "insert into problems (num, problem) values (" num ",'');")])))
 
+(comment
+  (pg/execute! db ["select now();"])
+  (midterm-list)
+  (midterm-down)
+  (midterm-up)
+  :rcf)
 
 ;; (pg/execute! db ["drop table if exists mytable;"])
 ;; (pg/execute! db ["create table mytable ( foobar int );"])
 ;; (pg/execute! db ["insert into mytable (foobar) values (3);"])
 ;; (pg/execute! db ["select * from mytable"])
 
-
-(comment
-  (pg/execute! db ["select now();"])
-  (midterm-down)
-  (midterm-up)
-  :rcf)
 

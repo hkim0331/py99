@@ -24,4 +24,6 @@ RUN set -eux; \
 
 echo PATH=/home/$USERNAME/.local/bin:$PATH >> /home/$USERNAME/.bashrc
 
+RUN curl -s https://raw.githubusercontent.com/babashka/babashka/master/install | bash
+
 USER $USERNAME

@@ -25,6 +25,7 @@
   チェックしていない。2023-10-19
 - activities: status だけ抜く？
 - volume マウントしないと速いのか？
+- container にも babashka
 
 ## 0.76.1 - 2023-11-25
 ### Added

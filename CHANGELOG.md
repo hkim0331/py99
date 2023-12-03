@@ -1,36 +1,37 @@
 # CHANGELOG.md
 
 ## Unreleased
-
-* ChatGPT 対策、間違い修正問題では？
-* login 中ユーザのリスト。logout したら削除する。
+- 重要コメントだけ別に保存
+- comments/:id ページの下部に go to someone's comments page フォームをコピーする。
+- ChatGPT 対策、間違い修正問題では？
+- login 中ユーザのリスト。logout したら削除する。
   logout せずにブラウズクローズしたら削除できない。
-* auto-reload
-* /todays: go ボタンを押さずに return-key で go できないか？
-* pip install wheel を Dockerfile で実施しても、
+- auto-reload
+- /todays: go ボタンを押さずに return-key で go できないか？
+- pip install wheel を Dockerfile で実施しても、
   Docker Desktop が表示する Vulnerabilities は変わらない。
   clojure:temurin-20:lein を入れても二つのパッケージが残る。
     - wheel 0.37.1
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
-* テストに通った回答を受け取ったらダイアログ
+- テストに通った回答を受け取ったらダイアログ
 「他ユーザの回答、コメントを熟読すべし」を出す。
 - コードをカラフルに表示する。
 - docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
-  仮想ディスク？2023-10-08
+  仮想ディスク？volume マウントしないと速いのか？2023-10-08
 - test code, assert インデント4に変更
 - production で dump problems に失敗する。seed problems もできないだろう。
   2023-10-15
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
 - activities: status だけ抜く？
-- volume マウントしないと速いのか？
-- container にも babashka
+
 
 ## 0.76.1 - 2023-11-25
 ### Added
 - `bb.edn` and `bb/midterm.clj`.
   create/drop 211~244 entries in py99.problems for midterm-exam.
+- container にも babashka
 ### Removed
 - db-dumps/midterm-exam-{down,up}.sh
 

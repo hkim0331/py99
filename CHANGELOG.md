@@ -1,7 +1,7 @@
 # CHANGELOG.md
 
 ## Unreleased
-- 重要コメントだけ別に保存
+- 重要コメントだけ別に保存=> stock を利用する？
 - comments/:id ページの下部に go to someone's comments page フォームをコピーする。
 - ChatGPT 対策、間違い修正問題では？
 - login 中ユーザのリスト。logout したら削除する。
@@ -25,6 +25,7 @@
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
 - activities: status だけ抜く？
+- 昨日の投稿者
 
 
 ## 0.76.1 - 2023-11-25

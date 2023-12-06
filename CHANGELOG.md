@@ -35,6 +35,11 @@
 これだと毎日する人が点数が高くなると思うのでいいと思います。
 ```
 
+## 0.76.2 - 2023-12-06
+### Changed
+- status.html/recent submissions
+  {{a.login}}</a>-{{a.num}} が見ずらいので{{a.login}}</a>:{{a.num}}に変更。
+
 ## 0.76.1 - 2023-11-25
 ### Added
 - `bb.edn` and `bb/midterm.clj`.

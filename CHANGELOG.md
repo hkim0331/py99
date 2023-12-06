@@ -39,6 +39,8 @@
 ### Changed
 - status.html/recent submissions
   {{a.login}}</a>-{{a.num}} が見ずらいので{{a.login}}</a>:{{a.num}}に変更。
+- comment-form.html
+  form to login's comments below `comments` section.
 
 ## 0.76.1 - 2023-11-25
 ### Added

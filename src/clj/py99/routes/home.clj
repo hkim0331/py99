@@ -14,6 +14,7 @@
    [py99.layout :as layout]
    [py99.middleware :as middleware]
    ;; [py99.routes.login :refer [get-user]]
+   [ring.util.http-response :as response]
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
 
@@ -29,6 +30,7 @@
       (subs 0 10)))
 
 (defn- make-period
+  "return a list of days from `yyyy-mm-dd` to days after from it."
   [yyyy mm dd days]
   (let [start-day (l/to-local-date-time (t/date-time yyyy mm dd))]
     (->> (take days (p/periodic-seq start-day (t/days 1)))
@@ -39,15 +41,16 @@
 (def ^:private period (make-period 2023 10 1 150))
 
 (defn- up-to-today
-  "period をフィルタして、授業開始から今日までの日だけを返す"
+  "return a list of `yyyy-mm-dd ` up to today from the day class started."
   []
   (let [today (to-date-str (l/local-now))]
     (remove #(pos? (compare % today)) period)))
 
 (comment
-  (up-to-today)
+  (reverse (take 7 (reverse (up-to-today))))
   (= "abc" "abc")
-  (<= "anc" "def")
+  (compare "aac" "aae")
+  (compare 3 4)
   :rcf)
 
 ;; weekly reports の〆切日
@@ -590,6 +593,20 @@
   (layout/render request "comments-count.html"
                  {:login (login request)
                   :comments (db/comments-count-by-number)}))
+;; 2023-12-10
+(defn s-point-days
+  [{{:keys [login]} :path-params}]
+  (log/info "s-point-days" login)
+  (let [date-count (db/answers-by-date-login {:login login})
+        dc (apply merge (for [mm date-count]
+                          {(:create_at mm) (:count mm)}))]
+    (log/info "dc" dc)
+    (response/ok (map #(get dc % 0) (up-to-today)))))
+
+(defn s-point
+  [request]
+  (log/info "s-point" (login request))
+  (s-point-days {:path-params {:login (login request)}}))
 
 (defn home-routes []
   ["" {:middleware [middleware/auth
@@ -614,6 +631,8 @@
    ["/rank/submissions" {:get rank-submissions}]
    ["/rank/solved"      {:get rank-solved}]
    ["/rank/comments"    {:get rank-comments}]
+   ["/s-point" {:get s-point}]
+   ["/s-point/:login" {:get s-point-days}]
    ["/stock" {:post create-stock!
               :get  list-stocks}]
    ["/todays" {:get list-todays-today}]

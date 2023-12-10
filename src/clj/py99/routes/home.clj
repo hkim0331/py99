@@ -13,7 +13,8 @@
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
-   [py99.routes.login :refer [get-user]]
+   ;; [py99.routes.login :refer [get-user]]
+   [ring.util.http-response :as response]
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
 
@@ -22,11 +23,14 @@
 (defn- lazy-contains? [col key]
   (some #{key} col))
 
-(defn- to-date-str [s]
+(defn- to-date-str
+  "FIXME: strongly depends on format of `s`."
+  [s]
   (-> (str s)
       (subs 0 10)))
 
 (defn- make-period
+  "return a list of days from `yyyy-mm-dd` to days after from it."
   [yyyy mm dd days]
   (let [start-day (l/to-local-date-time (t/date-time yyyy mm dd))]
     (->> (take days (p/periodic-seq start-day (t/days 1)))
@@ -35,6 +39,19 @@
 ;; 情報応用の授業期間。2023-10-01 から 150 日間。
 ;; chart の横軸になる。
 (def ^:private period (make-period 2023 10 1 150))
+
+(defn- up-to-today
+  "return a list of `yyyy-mm-dd ` up to today from the day class started."
+  []
+  (let [today (to-date-str (l/local-now))]
+    (remove #(pos? (compare % today)) period)))
+
+(comment
+  (reverse (take 7 (reverse (up-to-today))))
+  (= "abc" "abc")
+  (compare "aac" "aae")
+  (compare 3 4)
+  :rcf)
 
 ;; weekly reports の〆切日
 (def ^:private weeks
@@ -164,14 +181,16 @@
                         :same (answers true)
                         :differ (answers false)
                         :frozen? frozen?
-                        :uptime uptime}))
+                        :uptime uptime
+                        :exam? (env :exam-mode)}))
       (layout/render request
                      "answer-form.html"
                      {:problem problem
                       :same []
                       :differ answers
                       :frozen? frozen?
-                      :uptime uptime}))))
+                      :uptime uptime
+                      :exam? (env :exam-mode)}))))
 
 ;; validations
 ;; FIXME: remove docstring
@@ -192,15 +211,11 @@
       (str/replace #"\"\"\".+?\"\"\"", "")))
 
 (comment
-  (-> "#abc
-       def add1(n):
+  (-> "def hello(s):
     \"\"\"
-    docstrring
+    ここは陽ツィ右葉・
     \"\"\"
-    return n+1
-    \"\"\"
-    comments, too.
-    \"\"\""
+    return 'Hello, ' + s"
       strip)
   :rcf)
 
@@ -338,16 +353,16 @@
         answer (db/get-answer-by-id {:id id})
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})
-        exam-mode (env :exam-mode)
+        exam? (env :exam-mode)
         uptime (uptime)]
-    (if (and my-answer (not exam-mode))
+    (if my-answer ;; (and my-answer (not exam?))
       (layout/render request "comment-form.html"
-                     {:answer   (if exam-mode my-answer answer)
+                     {:answer   (if exam? my-answer answer)
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (when-not exam-mode
-                                  (db/get-comments {:a_id id}))
-                      :uptime   uptime})
+                      :comments (when-not exam? (db/get-comments {:a_id id}))
+                      :uptime   uptime
+                      :exam?    exam?})
       (layout/render request "error.html"
                      {:status 403
                       :title "Access Forbidden"
@@ -578,6 +593,20 @@
   (layout/render request "comments-count.html"
                  {:login (login request)
                   :comments (db/comments-count-by-number)}))
+;; 2023-12-10
+(defn s-point-days
+  [{{:keys [login]} :path-params}]
+  (log/info "s-point-days" login)
+  (let [date-count (db/answers-by-date-login {:login login})
+        dc (apply merge (for [mm date-count]
+                          {(:create_at mm) (:count mm)}))]
+    (log/info "dc" dc)
+    (response/ok (map #(get dc % 0) (up-to-today)))))
+
+(defn s-point
+  [request]
+  (log/info "s-point" (login request))
+  (s-point-days {:path-params {:login (login request)}}))
 
 (defn home-routes []
   ["" {:middleware [middleware/auth
@@ -602,6 +631,8 @@
    ["/rank/submissions" {:get rank-submissions}]
    ["/rank/solved"      {:get rank-solved}]
    ["/rank/comments"    {:get rank-comments}]
+   ["/s-point" {:get s-point}]
+   ["/s-point/:login" {:get s-point-days}]
    ["/stock" {:post create-stock!
               :get  list-stocks}]
    ["/todays" {:get list-todays-today}]

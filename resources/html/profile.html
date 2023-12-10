@@ -3,7 +3,7 @@
   <div class="content">
     <h2>{{login}}'s Profile</h2>
 
-    <h4>todays activities</h4>
+    <h4>todays actions</h4>
     <p>
     {% for a in actions %}
     {{a.created_at|date:shortTime}}, {{a.action}} {{a.num}}<br>
@@ -55,6 +55,15 @@
       {% endfor %}
       </ol>
 
+    <h4>last 7 days answer submissons</h4>
+    <p>自分の再試験受験資格を次の「日々回答数」から自分で計算すること。</p>
+    <p>10/2から今日までの<a href="/s-point">日々回答数</a></p>
+
+    <ul>
+      <li>一番左が10/2、右が今日。</li>
+      <li>今日から遡った7日ごとに、s-point を計算。</li>
+      <li>12/21時点での過去３週間分の合計が n を超えた人は再試験受験の資格を持つ。</li>
+    </ul>
     <hr>
 
     <h4>Result</h4>

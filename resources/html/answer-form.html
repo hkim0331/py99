@@ -20,8 +20,10 @@
   </form>
   {% endif %}
   <br>
+  {% if not exam? %}
   <p>test code:</p>
   <pre>{{problem.test}}</pre>
+  {% endif %}
 
   <h3>Same Answers (including yours, newer is right &rArr;)</h3>
     {% for a in same %}
@@ -29,11 +31,12 @@
   &nbsp;
   {% endfor %}
 
+  {% if not exam? %}
   <h3>Different Answers (newer is right &rArr;)</h3>
     {% for a in differ %}
   <a href='/comment/{{a.id}}'>{{a.login}}</a>
   &nbsp;
   {% endfor %}
-
+  {% endif %}
   </div>
 {% endblock %}

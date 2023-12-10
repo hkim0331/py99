@@ -13,7 +13,8 @@
             "extensions": [
                 "betterthantomorrow.calva",
                 "jsynowiec.vscode-insertdatestring",
-                "rkwan94.vscode-emacs-improved"
+                // "rkwan94.vscode-emacs-improved"
+                "soutaro.emacs-c-k"
             ]
         }
     }

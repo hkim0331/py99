@@ -7,6 +7,7 @@
   <p>{{problem.problem|safe}}</p>
   <pre class='nocopy'>{{answer.answer}}</pre>
 
+  {% if not exam? %}
   <h3>Who sent the same answer with {{answer.login}}?</h3>
   <p>
     {% for a in same-md5 %}
@@ -44,11 +45,18 @@
     <div>{{uptime}}</div>
     <input type='submit' value='comment' class='button is-warning is-small'>
   </form>
+  <br>
 
+  <!-- added 2023-12-06 -->
+  <form method='get' action='/comments-sent'>
+    show <input name="login" size="10">'s
+    <input type="submit" value="comments">
+  </form>
   <br>
 
   <p>Other comments to this problem ...
     <a href='/comments/{{problem.num}}'>✏️</a></p>
 
+  {% endif %}
   </div>
 {% endblock %}

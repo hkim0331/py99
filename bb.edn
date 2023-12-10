@@ -1,0 +1,9 @@
+{:paths ["bb"]
+
+ ;; use `bb --prn` to print result.
+ :tasks {:requires ([midterm :as m])
+         midterm-list (m/midterm-list)
+         midterm-down (m/midterm-down)
+         midterm-up   (m/midterm-up)
+         }
+ }

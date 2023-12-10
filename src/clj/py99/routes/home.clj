@@ -13,7 +13,7 @@
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
-   [py99.routes.login :refer [get-user]]
+   ;; [py99.routes.login :refer [get-user]]
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
 
@@ -22,7 +22,9 @@
 (defn- lazy-contains? [col key]
   (some #{key} col))
 
-(defn- to-date-str [s]
+(defn- to-date-str
+  "FIXME: strongly depends on format of `s`."
+  [s]
   (-> (str s)
       (subs 0 10)))
 
@@ -35,6 +37,18 @@
 ;; 情報応用の授業期間。2023-10-01 から 150 日間。
 ;; chart の横軸になる。
 (def ^:private period (make-period 2023 10 1 150))
+
+(defn- up-to-today
+  "period をフィルタして、授業開始から今日までの日だけを返す"
+  []
+  (let [today (to-date-str (l/local-now))]
+    (remove #(pos? (compare % today)) period)))
+
+(comment
+  (up-to-today)
+  (= "abc" "abc")
+  (<= "anc" "def")
+  :rcf)
 
 ;; weekly reports の〆切日
 (def ^:private weeks

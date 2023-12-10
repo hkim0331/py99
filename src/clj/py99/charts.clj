@@ -27,7 +27,12 @@
   (let [tmp (->date-count data)
         ys  (for [d period]
               (get tmp d 0))]
+    ;; 2023-12-10
+    (def tm tmp)
+    (def da data)
+    (def pe period)
     (html (bar-chart (map scale-fn ys) width height color))))
+
 
 
 

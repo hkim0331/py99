@@ -26,6 +26,20 @@
   チェックしていない。2023-10-19
 - activities: status だけ抜く？
 - 昨日の投稿者
+- Namespace hiccup.core is deprecated since 2.0.
+- log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
+外部ブラウザで URL を探るとログを出す。
+
+## 0.78.0 - 2023-12-14
+admin ページからユーザ login の回答、コメントの一覧表示。
+### Added
+- home/submissions
+- queries:db/answers-by-login
+### Changed
+- comments-set.html, date:shortDateTime
+
+## 0.77.0 - 2023-12-10
+- /s-point, /s-point/:login
 - a_syouko09's answer 2023-12-05 13:51:46,
 ```
 こういうのはどうですか？0以外の数を足したやつかける(6-0の日数)
@@ -38,7 +52,7 @@
 ## 0.76.2 - 2023-12-06
 ### Changed
 - status.html/recent submissions
-  {{a.login}}</a>-{{a.num}} が見ずらいので{{a.login}}</a>:{{a.num}}に変更。
+  {{a.login}}</a>-{{a.num}} が見ずらいので{{a.login}}</a>#{{a.num}}に変更。
 - comment-form.html
   form to login's comments below `comments` section.
 

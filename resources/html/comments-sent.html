@@ -4,7 +4,7 @@
   <h2>Comments Sent</h2>
   <ol reversed>
     {% for item in sent %}
-    <li>{{item.create_at|date:shortDate}}
+    <li>{{item.create_at|date:shortDateTime}}
       &nbsp;
       to <b>{{item.to_login}}</b>
       &nbsp;

@@ -395,16 +395,20 @@
                           :title "frozen r99"
                           :message "can not add comments"}))))))
 
-(defn comments-sent [request]
+(defn submissions [request]
+  (let [login (or (get-in request [:path-params :login])
+                  (get-in request [:params :login]))
+        submissions (db/answer-by-login {:login login})]
+    (layout/render request
+                   "submissions.html"
+                   {:submissions submissions})))
+
+(defn comments-sent
+  "path-params と form-params の両方に対応する。"
+  [request]
   (let [login (or (get-in request [:path-params :login])
                   (get-in request [:params :login]))
         sent (db/comments-sent {:login login})]
-    ;; (log/debug "comments-sent request keyes:" (keys request))
-    ;; (log/debug "params:" (:params request))
-    ;; (log/debug "path-parmas:" (:path-params request))
-    ;; (log/debug "query-params" (:query-params request))
-    ;; (log/debug "form-params" (:form-params request))
-    ;; (log/debug "login" login)
     (layout/render request "comments-sent.html" {:sent sent})))
 
 (defn comments [request]
@@ -635,6 +639,7 @@
    ["/s-point/:login" {:get s-point-days}]
    ["/stock" {:post create-stock!
               :get  list-stocks}]
+   ["/submissions" {:get submissions}]
    ["/todays" {:get list-todays-today}]
    ["/todays/:date" {:get list-todays}]
    ["/wp" {:get (fn [_]

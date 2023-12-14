@@ -30,6 +30,11 @@
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
 外部ブラウザで URL を探るとログを出す。
 
+## 0.78.0 - 2023-12-14
+admin ページからユーザ login の回答、コメントの一覧表示。
+### Added
+- home/submissions
+- queries:db/answers-by-login
 
 ## 0.77.0 - 2023-12-10
 - /s-point, /s-point/:login

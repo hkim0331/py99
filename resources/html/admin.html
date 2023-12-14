@@ -36,13 +36,29 @@
         </form>
       </div>
     </div>
+
     <div>
-      <h3>Users Activities</h3>
+      <h3>User Activities</h3>
       <form method="get" action="/admin/user-actions">
         <p>/api/activities/<input name="login">/<input name="date" value="{{today}}">
           <input type="submit"></p>
       </form>
+
+      <h3>User Submissions</h3>
+      <form method='get' action='/submissions'>
+        show <input name="login" size="10">'s
+        <input type="submit" value="submissions">
+        </form>
+
+      <h3>User Comments</h3>
+      <!-- copy from resources/html/comment-corm.html, 2023-12-14 -->
+      <form method='get' action='/comments-sent'>
+      show <input name="login" size="10">'s
+      <input type="submit" value="comments">
+      </form>
+
     </div>
+
   </div>
 
 {% endblock %}

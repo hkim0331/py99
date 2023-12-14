@@ -35,6 +35,8 @@ admin ページからユーザ login の回答、コメントの一覧表示。
 ### Added
 - home/submissions
 - queries:db/answers-by-login
+### Changed
+- comments-set.html, date:shortDateTime
 
 ## 0.77.0 - 2023-12-10
 - /s-point, /s-point/:login

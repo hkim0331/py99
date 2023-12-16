@@ -27,6 +27,10 @@
 外部ブラウザで URL を探るとログを出す。
 - /answers に今日の日付をデフォルトで。
 
+## 0.79.1 - 2023-12-16
+- provide default user in show one's comments.
+- stop show today's activites in profile page.
+
 ## 0.79.0 - 2023-12-16
 - Back link to resources/html/admin.html
 - show one's submissios to resources/html/comment-form.html

@@ -67,6 +67,26 @@ adjust `weeks` and `period` in home.clj before use.
 after starting, calva auto foward ports.
 using it, emacs cider can connect the working nrepl.
 
+## macos, multipass, docker
+
+### macos
+
+```shell
+% time lein uberjar
+lein uberjar  21.20s user 6.17s system 158% cpu 17.243 total
+```
+
+### multipass
+
+```shell
+$ time lein uberjar
+real	1m26.599s
+user	0m21.698s
+sys	0m13.605s
+```
+
+### docker
+
 ## License
 
 Copyright © 2021, 2022, 2023 Hiroshi Kimura

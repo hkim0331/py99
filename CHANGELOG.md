@@ -27,6 +27,9 @@
 外部ブラウザで URL を探るとログを出す。
 - /answers に今日の日付をデフォルトで。
 
+## 0.79.0 - 2023-12-16
+- Back link to resources/html/admin.html
+- show one's submissios to resources/html/comment-form.html
 
 ## 0.78.0 - 2023-12-14
 admin ページからユーザ login の回答、コメントの一覧表示。

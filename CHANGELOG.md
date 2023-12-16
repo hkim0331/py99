@@ -1,8 +1,6 @@
 # CHANGELOG.md
 
 ## Unreleased
-- 重要コメントだけ別に保存 => stock を利用する？
-- comments/:id ページの下部に go to someone's comments page フォームをコピーする。
 - ChatGPT 対策、間違い修正問題では？
 - login 中ユーザのリスト。logout したら削除する。
   logout せずにブラウズクローズしたら削除できない。
@@ -14,8 +12,7 @@
     - wheel 0.37.1
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
-- テストに通った回答を受け取ったらダイアログ
-「他ユーザの回答、コメントを熟読すべし」を出す。
+- テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
 - コードをカラフルに表示する。
 - docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   仮想ディスク？volume マウントしないと速いのか？2023-10-08
@@ -25,10 +22,11 @@
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
 - activities: status だけ抜く？
-- 昨日の投稿者
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
 外部ブラウザで URL を探るとログを出す。
+- /answers に今日の日付をデフォルトで。
+
 
 ## 0.78.0 - 2023-12-14
 admin ページからユーザ login の回答、コメントの一覧表示。

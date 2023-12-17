@@ -26,14 +26,13 @@
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
 外部ブラウザで URL を探るとログを出す。
 
-
-
-
-
 ## 0.79.2-snapshot
+### Changed
 - link activities from profile page
 - default today in /answers
+### Removed
 - remove show-comments link from /comments-sent
+### Added
 - define (today) in home.clj
 ```
 (defn- today []

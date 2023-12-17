@@ -25,6 +25,8 @@
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
 外部ブラウザで URL を探るとログを出す。
+- refactor
+
 
 ## 0.79.2 - 2023-12-17
 ### Changed

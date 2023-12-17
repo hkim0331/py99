@@ -25,10 +25,23 @@
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
 外部ブラウザで URL を探るとログを出す。
-- /answers に今日の日付をデフォルトで。
+
+## 0.79.2 - 2023-12-17
+### Changed
+- link activities from profile page
+- default today in /answers
+### Removed
+- remove show-comments link from /comments-sent
+### Added
+- define (today) in home.clj
+```
+(defn- today []
+  (to-date-str (str (l/local-now))))
+```
 
 ## 0.79.1 - 2023-12-16
 - provide default user in show one's comments.
+
 - stop show today's activites in profile page.
 
 ## 0.79.0 - 2023-12-16

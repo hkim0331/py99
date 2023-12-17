@@ -3,14 +3,11 @@
   <div class="content">
     <h2>{{login}}'s Profile</h2>
 
-    <!--
-    <h4>todays actions</h4>
+    <h4>Today's Activities</h4>
     <p>
-    {% for a in actions %}
-    {{a.created_at|date:shortTime}}, {{a.action}} {{a.num}}<br>
-    {% endfor %}
+      <a href="/activities">activities</a>
     </p>
-    -->
+
 
     <h4>submissions</h4>
     <p>{{chart|safe}}</p>

@@ -26,7 +26,7 @@
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
 外部ブラウザで URL を探るとログを出す。
 
-## 0.79.2-snapshot
+## 0.79.2 - 2023-12-17
 ### Changed
 - link activities from profile page
 - default today in /answers

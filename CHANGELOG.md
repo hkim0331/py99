@@ -27,6 +27,9 @@
 外部ブラウザで URL を探るとログを出す。
 - refactor
 
+## 0.79.3-SNAPSHOT
+### Changed
+- profile.html: section `day by day submissions`
 
 ## 0.79.2 - 2023-12-17
 ### Changed

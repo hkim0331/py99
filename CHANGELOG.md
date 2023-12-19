@@ -25,7 +25,8 @@
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
 外部ブラウザで URL を探るとログを出す。
-- refactor
+- colors of admin buttons
+
 
 ## 0.79.3-SNAPSHOT
 ### Changed

@@ -21,16 +21,25 @@
   2023-10-15
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
-- activities: status だけ抜く？
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
 外部ブラウザで URL を探るとログを出す。
-- colors of admin buttons
+- 新規メソッドは /api に。
+- html/show_list.html
+  テンプレート。テンプレートに渡すベクタをclj 側で細工する。
+  selmer はループを回るだけにする。
 
 
 ## 0.79.3-SNAPSHOT
+- SNAPSHOT は TODO の意味も込める。
+- develop:/logins がエラーはどうしてか？
+  REPL から (get-user) だと log フォルダの位置がわからないのでは？
+  エラーに対するコードの不備もある。
+- /todays-login
+  record logined user. now `nobody`s were recorded.
+
 ### Changed
-- profile.html: section `day by day submissions`
+- profile.html: section title `day by day submissions`
 
 ## 0.79.2 - 2023-12-17
 ### Changed

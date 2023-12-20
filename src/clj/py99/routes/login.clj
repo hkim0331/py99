@@ -51,7 +51,7 @@
 
 (comment
   (get-logins "hkimura")
-  (sh "grep" "-r" "login success" "log")
+  (sh "grep" "login success" "log")
   :rcf)
 
 ;; おバカな連中には全く効果なし。やるだけ無駄。

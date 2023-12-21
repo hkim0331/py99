@@ -239,7 +239,8 @@
     (throw (Exception. "answer is empty"))))
 
 ;; changed 2022-12-25, was 60
-(def ^:private timeout 30)
+;; changed 2023-12-20, was 30, zono insisted.
+(def ^:private timeout 10)
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.

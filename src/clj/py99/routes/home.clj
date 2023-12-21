@@ -145,7 +145,8 @@
   (let [login (login request)
         solved (map #(:num %) (db/answers-by {:login login}))
         individual  (db/answers-by-date-login {:login login})
-        all-answers (db/answers-by-date)]
+        all-answers (db/answers-by-date)
+        no-thanks (get-in request [:session :filter])]
     ;; (log/debug "status-page" login)
     (layout/render
      request
@@ -154,11 +155,12 @@
       :status (map #(solved? solved %) (map :num (db/problems)))
       :individual-chart (individual-chart individual period 600 150)
       :class-chart (class-chart all-answers period 600 150)
-      :recents (db/recent-answers {:n 20})
+      :recents
+      (->> (db/recent-answers {:n 20})
+           (remove #(= (:login %) no-thanks)))
       :recent-comments
       (->> (db/recent-comments {:n 20})
-           (remove #(= (get-in request [:session :filter])
-                       (:from_login %))))})))
+           (remove #(= (:from_login %) no-thanks)))})))
 
 (defn problems-page
   "display problems."

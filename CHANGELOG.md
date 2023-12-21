@@ -36,6 +36,7 @@
 ```clojure
 (assoc-in [:session :filter] filter)
 ```
+- FIXME: filter は一件のみ。
 
 ## 0.79.3-SNAPSHOT
 - SNAPSHOT は TODO の意味も込める。

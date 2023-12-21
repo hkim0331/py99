@@ -145,8 +145,7 @@
   (let [login (login request)
         solved (map #(:num %) (db/answers-by {:login login}))
         individual  (db/answers-by-date-login {:login login})
-        all-answers (db/answers-by-date)
-        ]
+        all-answers (db/answers-by-date)]
     ;; (log/debug "status-page" login)
     (layout/render
      request
@@ -156,7 +155,10 @@
       :individual-chart (individual-chart individual period 600 150)
       :class-chart (class-chart all-answers period 600 150)
       :recents (db/recent-answers {:n 20})
-      :recent-comments (db/recent-comments {:n 20})})))
+      :recent-comments
+      (->> (db/recent-comments {:n 20})
+           (remove #(= (get-in request [:session :filter])
+                       (:from_login %))))})))
 
 (defn problems-page
   "display problems."

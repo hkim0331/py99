@@ -69,7 +69,7 @@
                    {:login login
                     :logins (get-logins login)})))
 
-(defn login-post [{{:keys [login password]} :params}]
+(defn login-post [{{:keys [login password filter]} :params}]
   ;; When dev mode, it is convenient to login as administrator
   ;; without authentication.
   (if (env :dev)
@@ -82,12 +82,14 @@
                (= (:login user) login)
                (hashers/check password (:password user)))
         (do
-          (log/info "login success" login)
+          (log/info "login success" login "filter:" filter)
+
           ;; in read-only mode, can not this.
           ;; (db/login {:login login})
           ;; after re-exam, use "/re-exam-end" instead of "/"
-          (-> (redirect "/")
-              (assoc-in [:session :identity] (keyword login))))
+                    (-> (redirect "/")
+                        (assoc-in [:session :identity] (keyword login))
+                        (assoc-in [:session :filter] filter)))
         (do
           (log/info "login faild" login)
           (-> (redirect "/login")

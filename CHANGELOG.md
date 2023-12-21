@@ -1,8 +1,6 @@
 # CHANGELOG.md
 
 ## Unreleased
-- filter. こいつの投稿は見たくないってのを login 時に指定する。
-　セッションに追加できないか。
 - ChatGPT 対策、間違い修正問題では？
 - login 中ユーザのリスト。logout したら削除する。
   logout せずにブラウズクローズしたら削除できない。
@@ -31,6 +29,13 @@
   テンプレート。テンプレートに渡すベクタをclj 側で細工する。
   selmer はループを回るだけにする。
 
+
+## 0.80.0 - 2023-12-21
+- filter. こいつの投稿は見たくないってのを login 時に指定する。
+  session に 追加。
+```clojure
+(assoc-in [:session :filter] filter)
+```
 
 ## 0.79.3-SNAPSHOT
 - SNAPSHOT は TODO の意味も込める。

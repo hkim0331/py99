@@ -1,8 +1,6 @@
 # CHANGELOG.md
 
 ## Unreleased
-- 重要コメントだけ別に保存 => stock を利用する？
-- comments/:id ページの下部に go to someone's comments page フォームをコピーする。
 - ChatGPT 対策、間違い修正問題では？
 - login 中ユーザのリスト。logout したら削除する。
   logout せずにブラウズクローズしたら削除できない。
@@ -14,8 +12,7 @@
     - wheel 0.37.1
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
-- テストに通った回答を受け取ったらダイアログ
-「他ユーザの回答、コメントを熟読すべし」を出す。
+- テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
 - コードをカラフルに表示する。
 - docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   仮想ディスク？volume マウントしないと速いのか？2023-10-08
@@ -24,12 +21,63 @@
   2023-10-15
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
-- activities: status だけ抜く？
-- 昨日の投稿者
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
 外部ブラウザで URL を探るとログを出す。
+- 新規メソッドは /api に。
+- html/show_list.html
+  テンプレート。テンプレートに渡すベクタをclj 側で細工する。
+  selmer はループを回るだけにする。
 
+
+## 0.80.0 - 2023-12-21
+- filter. こいつの投稿は見たくないってのを login 時に指定する。
+  session に 追加。
+```clojure
+(assoc-in [:session :filter] filter)
+```
+- FIXME: filter は一件のみ。
+
+## 0.79.3-SNAPSHOT
+- SNAPSHOT は TODO の意味も込める。
+- develop:/logins がエラーはどうしてか？
+  REPL から (get-user) だと log フォルダの位置がわからないのでは？
+  エラーに対するコードの不備もある。
+- /todays-login
+  record logined user. now `nobody`s were recorded.
+
+### Changed
+- profile.html: section title `day by day submissions`
+
+## 0.79.2 - 2023-12-17
+### Changed
+- link activities from profile page
+- default today in /answers
+### Removed
+- remove show-comments link from /comments-sent
+### Added
+- define (today) in home.clj
+```
+(defn- today []
+  (to-date-str (str (l/local-now))))
+```
+
+## 0.79.1 - 2023-12-16
+- provide default user in show one's comments.
+
+- stop show today's activites in profile page.
+
+## 0.79.0 - 2023-12-16
+- Back link to resources/html/admin.html
+- show one's submissios to resources/html/comment-form.html
+
+## 0.78.0 - 2023-12-14
+admin ページからユーザ login の回答、コメントの一覧表示。
+### Added
+- home/submissions
+- queries:db/answers-by-login
+### Changed
+- comments-set.html, date:shortDateTime
 
 ## 0.77.0 - 2023-12-10
 - /s-point, /s-point/:login

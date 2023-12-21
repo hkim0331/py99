@@ -99,6 +99,12 @@ SELECT * FROM answers
 WHERE login = :login
 ORDER BY num
 
+-- :name answer-by-login :? :*
+-- :doc retrieve `login`s answers
+SELECT * FROM answers
+WHERE login = :login
+ORDER BY id
+
 -- :name answers-to :? :*
 -- :doc retrieve all answers to `num`, chronological order.
 SELECT * FROM answers

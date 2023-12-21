@@ -36,6 +36,9 @@
     (->> (take days (p/periodic-seq start-day (t/days 1)))
          (map to-date-str))))
 
+(defn- today []
+  (to-date-str (str (l/local-now))))
+
 ;; 情報応用の授業期間。2023-10-01 から 150 日間。
 ;; chart の横軸になる。
 (def ^:private period (make-period 2023 10 1 150))
@@ -43,8 +46,7 @@
 (defn- up-to-today
   "return a list of `yyyy-mm-dd ` up to today from the day class started."
   []
-  (let [today (to-date-str (l/local-now))]
-    (remove #(pos? (compare % today)) period)))
+  (remove #(pos? (compare % (today))) period))
 
 (comment
   (reverse (take 7 (reverse (up-to-today))))
@@ -153,7 +155,10 @@
       :individual-chart (individual-chart individual period 600 150)
       :class-chart (class-chart all-answers period 600 150)
       :recents (db/recent-answers {:n 20})
-      :recent-comments (db/recent-comments {:n 20})})))
+      :recent-comments
+      (->> (db/recent-comments {:n 20})
+           (remove #(= (get-in request [:session :filter])
+                       (:from_login %))))})))
 
 (defn problems-page
   "display problems."
@@ -182,7 +187,8 @@
                         :differ (answers false)
                         :frozen? frozen?
                         :uptime uptime
-                        :exam? (env :exam-mode)}))
+                        :exam? (env :exam-mode)
+                        :today (today)}))
       (layout/render request
                      "answer-form.html"
                      {:problem problem
@@ -235,7 +241,8 @@
     (throw (Exception. "answer is empty"))))
 
 ;; changed 2022-12-25, was 60
-(def ^:private timeout 30)
+;; changed 2023-12-20, was 30, zono insisted.
+(def ^:private timeout 10)
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
@@ -395,16 +402,20 @@
                           :title "frozen r99"
                           :message "can not add comments"}))))))
 
-(defn comments-sent [request]
+(defn submissions [request]
+  (let [login (or (get-in request [:path-params :login])
+                  (get-in request [:params :login]))
+        submissions (db/answer-by-login {:login login})]
+    (layout/render request
+                   "submissions.html"
+                   {:submissions submissions})))
+
+(defn comments-sent
+  "path-params と form-params の両方に対応する。"
+  [request]
   (let [login (or (get-in request [:path-params :login])
                   (get-in request [:params :login]))
         sent (db/comments-sent {:login login})]
-    ;; (log/debug "comments-sent request keyes:" (keys request))
-    ;; (log/debug "params:" (:params request))
-    ;; (log/debug "path-parmas:" (:path-params request))
-    ;; (log/debug "query-params" (:query-params request))
-    ;; (log/debug "form-params" (:form-params request))
-    ;; (log/debug "login" login)
     (layout/render request "comments-sent.html" {:sent sent})))
 
 (defn comments [request]
@@ -440,9 +451,6 @@
             s (g false)]
         (recur s (rest bin) (conj ret (count-up f)))))))
 
-(comment
-  (to-date-str (str (l/local-now)))
-  :rcf)
 
 ;; CHANGED 2023-10-20, bug, resume.
 (defn profile
@@ -452,13 +460,14 @@
         solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
         comments (db/comments-by-date-login {:login login})
-        actions (db/actions? {:login login
-                              :date (to-date-str (str (l/local-now)))})]
+        ]
     (layout/render request
                    "profile.html"
                    {:login login
-                    :actions actions
+                    ;;
+                    ;; :actions actions
                     ;; :user login
+                    :today (today)
                     :chart (individual-chart individual period 600 150)
                     :comment-chart (comment-chart comments period 600 150)
                     :comments-rcvd (db/comments-rcvd {:login login})
@@ -541,7 +550,8 @@
     ;; (log/debug "answers-by-problems" (login request))
     (layout/render request "answers-by-problems.html"
                    {:data (reverse data)
-                    :title "Answers by Problems"})))
+                    :title "Answers by Problems"
+                    :today (today)})))
 
 (defn create-stock! [request]
   (let [login (login request)
@@ -580,17 +590,17 @@
                     :message "日付のフォーマットになってない。"})))
 
 (defn list-todays-today [request]
-  (let [today (to-date-str (l/local-now))]
-    ;; (log/debug "list-todays-today")
-    (layout/render request "todays.html"
-                   {:date today
-                    :todays (db/todays? {:date today})})))
+  (layout/render request "todays.html"
+                 {:date (today)
+                  :todays (db/todays? {:date today})}))
+
 
 (defn midterm [request]
   (layout/render request "midterm.html"))
 
 (defn comments-count [request]
-  (layout/render request "comments-count.html"
+  (layout/render request
+                 "comments-count.html"
                  {:login (login request)
                   :comments (db/comments-count-by-number)}))
 ;; 2023-12-10
@@ -608,11 +618,26 @@
   (log/info "s-point" (login request))
   (s-point-days {:path-params {:login (login request)}}))
 
+(defn activities-page
+  [request]
+  (let [login (login request)
+        today (today)
+        activities (db/actions? {:login login :date today})]
+    ;; (prn login)
+    ;; (prn today)
+    ;; (prn activities)
+    (layout/render request
+                   "user-actions-page.html"
+                   {:login login
+                    :date today
+                    :actions activities})))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
                     middleware/wrap-formats]}
    ["/" {:get status-page}]
+   ["/activities" {:get activities-page}]
    ["/answers" {:get answers-by-problems}]
    ["/answer/:num" {:get  answer-page
                     :post create-answer!}]
@@ -635,6 +660,7 @@
    ["/s-point/:login" {:get s-point-days}]
    ["/stock" {:post create-stock!
               :get  list-stocks}]
+   ["/submissions" {:get submissions}]
    ["/todays" {:get list-todays-today}]
    ["/todays/:date" {:get list-todays}]
    ["/wp" {:get (fn [_]

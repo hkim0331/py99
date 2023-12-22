@@ -20,9 +20,27 @@
   (let [ret (db/actions? {:login login :date date})]
     (response/ok ret)))
 
+;; (defn s-point-login
+;;   [{{:keys [login]} :path-params}]
+;;   (log/info "s-point-days" login)
+;;   (let [date-count (db/answers-by-date-login {:login login})
+;;         dc (apply merge (for [mm date-count]
+;;                           {(:create_at mm) (:count mm)}))]
+;;     (log/info "dc" dc)
+;;     (response/ok (map #(get dc % 0) (up-to-today)))))
+
+;; (defn s-point
+;;   [request]
+;;   (log/info "s-point" (login request))
+;;   (s-point-login {:path-params {:login (login request)}}))
+
 (defn service-routes []
   ["/api"
    {:middleware [middleware/wrap-formats]}
    ["/actions/:login/:date" {:get actions?}]
    ["/hello" {:get (fn [_] {:status 200 :body "hello"})}]
-   ["/problem/:n" {:get fetch-problem}]])
+   ["/problem/:n" {:get fetch-problem}]
+  ;;  ["/s" {:get s-point}]
+  ;;  ["/s/:login" {:get s-point-login}]
+  ;;  ["/s/:login/:date" {:get s-point-login-date}]
+  ])

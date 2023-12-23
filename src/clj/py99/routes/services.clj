@@ -27,19 +27,27 @@
   [date]
   (remove #(pos? (compare % date)) period))
 
+(defn- s
+  [col]
+  (let [zeros (count (filter #(= 0 %) col))]
+    (* (apply + col) (- 6 zeros))))
+
 (defn s-point-login-date
   [{{:keys [login date]} :path-params}]
   (let [date-count (db/answers-by-login-date
                     {:login login :date date})
         dc (apply merge (for [mm date-count]
-                          {(:create_at mm) (:count mm)}))]
-    (log/info "s-point-login-date" dc)
-    (response/ok (map #(get dc % 0) (until-date date)))))
+                          {(:create_at mm) (:count mm)}))
+        py99 (->> (map #(get dc % 0) (until-date date))
+                  reverse
+                  (partition 7)
+                  (take 3))
+        sp (->> py99
+                (map s)
+                (apply +))]
+    (log/info "s-point-login-date" py99 sp)
+    (response/ok {:s sp})))
 
-;; (defn s-point
-;;   [request]
-;;   (log/info "s-point" (login request))
-;;   (s-point-login {:path-params {:login (login request)}}))
 
 (defn service-routes []
   ["/api"
@@ -47,6 +55,4 @@
    ["/actions/:login/:date" {:get actions?}]
    ["/hello" {:get (fn [_] {:status 200 :body "hello"})}]
    ["/problem/:n" {:get fetch-problem}]
-  ;;  ["/s" {:get s-point}]
-  ;;  ["/s/:login" {:get s-point-login}]
    ["/s/:login/:date" {:get s-point-login-date}]])

@@ -129,6 +129,13 @@ where login = :login and num < 200
 GROUP BY create_at::date
 ORDER BY create_at::date
 
+-- :name answers-by-login-date :? :*
+-- :doc how may answers by login?
+SELECT create_at::date::text, count(*) FROM answers
+where login = :login and num < 200 and DATE(create_at) < DATE(:date)
+GROUP BY create_at::date
+ORDER BY create_at::date
+
 -- :name recent-answers :? :*
 -- :doc fetch recent n answers
 SELECT * FROM answers

@@ -21,10 +21,48 @@
   2023-10-15
 - FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
   チェックしていない。2023-10-19
-- activities: status だけ抜く？
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
 外部ブラウザで URL を探るとログを出す。
+- 新規メソッドは /api に。
+- html/show_list.html
+  テンプレート。テンプレートに渡すベクタをclj 側で細工する。
+  selmer はループを回るだけにする。
+- filter では表示する本数が減ってしまう。filter 情報を SQL に渡してフィルタすべきか。
+- FIXME: filter は一件のみ。
+- FIXME: filter の設定をログイン時以外に。
+- refactor: s ポイント関連が home.clj と services.clj の二箇所にある。
+
+
+## 0.81.0 - 2023-12-23
+### Added
+- /api/s/:login/:date
+### Changed
+- weeks, period を home.clj から config.clj に移動した。
+
+## 0.80.1 - 2023-12-21
+### Added
+- recent submissions にも 0.80.0 フィルタを適用する。
+
+## 0.80.0 - 2023-12-21
+### Added
+- filter. こいつの投稿は見たくないってのを login 時に指定する。
+  session に 追加。
+```clojure
+(assoc-in [:session :filter] filter)
+```
+
+
+## 0.79.3-SNAPSHOT
+- SNAPSHOT は TODO の意味も込める。
+- develop:/logins がエラーはどうしてか？
+  REPL から (get-user) だと log フォルダの位置がわからないのでは？
+  エラーに対するコードの不備もある。
+- /todays-login
+  record logined user. now `nobody`s were recorded.
+
+### Changed
+- profile.html: section title `day by day submissions`
 
 ## 0.79.2 - 2023-12-17
 ### Changed

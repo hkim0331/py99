@@ -9,7 +9,7 @@
    [digest]
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
-   [py99.config :refer [env]]
+   [py99.config :refer [env weeks period]]
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
@@ -29,39 +29,33 @@
   (-> (str s)
       (subs 0 10)))
 
-(defn- make-period
-  "return a list of days from `yyyy-mm-dd` to days after from it."
-  [yyyy mm dd days]
-  (let [start-day (l/to-local-date-time (t/date-time yyyy mm dd))]
-    (->> (take days (p/periodic-seq start-day (t/days 1)))
-         (map to-date-str))))
-
-(defn- today []
-  (to-date-str (str (l/local-now))))
+;; (defn- make-period
+;;   "return a list of days from `yyyy-mm-dd` to days after from it."
+;;   [yyyy mm dd days]
+;;   (let [start-day (l/to-local-date-time (t/date-time yyyy mm dd))]
+;;     (->> (take days (p/periodic-seq start-day (t/days 1)))
+;;          (map to-date-str))))
 
 ;; 情報応用の授業期間。2023-10-01 から 150 日間。
 ;; chart の横軸になる。
-(def ^:private period (make-period 2023 10 1 150))
+;; (def ^:private period (make-period 2023 10 1 150))
+
+(defn- today []
+  (to-date-str (str (l/local-now))))
 
 (defn- up-to-today
   "return a list of `yyyy-mm-dd ` up to today from the day class started."
   []
   (remove #(pos? (compare % (today))) period))
 
-(comment
-  (reverse (take 7 (reverse (up-to-today))))
-  (= "abc" "abc")
-  (compare "aac" "aae")
-  (compare 3 4)
-  :rcf)
-
-;; weekly reports の〆切日
-(def ^:private weeks
-  ["2023-10-02" "2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
-   "2023-11-06" "2023-11-13" "2023-11-20" "2023-11-27"
-   "2023-12-04" "2023-12-11" "2023-12-18" "2023-12-25"
-   "2024-01-01" "2024-01-08" "2024-01-15" "2024-01-22" "2024-01-29"
-   "2024-02-05" "2024-02-12" "2024-02-19"])
+;; moved to py99.config
+;; ;; weekly reports の〆切日
+;; (def ^:private weeks
+;;   ["2023-10-02" "2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
+;;    "2023-11-06" "2023-11-13" "2023-11-20" "2023-11-27"
+;;    "2023-12-04" "2023-12-11" "2023-12-18" "2023-12-25"
+;;    "2024-01-01" "2024-01-08" "2024-01-15" "2024-01-22" "2024-01-29"
+;;    "2024-02-05" "2024-02-12" "2024-02-19"])
 
 ;; Selmer private extensions
 (defn- wrap-aux

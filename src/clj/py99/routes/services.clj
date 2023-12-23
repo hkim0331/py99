@@ -1,5 +1,7 @@
 (ns py99.routes.services
   (:require
+   [clojure.tools.logging :as log]
+   [py99.config :refer [period]]
    [py99.db.core :as db]
    [py99.middleware :as middleware]
    [ring.util.http-response :as response]))
@@ -20,14 +22,19 @@
   (let [ret (db/actions? {:login login :date date})]
     (response/ok ret)))
 
-;; (defn s-point-login
-;;   [{{:keys [login]} :path-params}]
-;;   (log/info "s-point-days" login)
-;;   (let [date-count (db/answers-by-date-login {:login login})
-;;         dc (apply merge (for [mm date-count]
-;;                           {(:create_at mm) (:count mm)}))]
-;;     (log/info "dc" dc)
-;;     (response/ok (map #(get dc % 0) (up-to-today)))))
+(defn- until-date
+  "return a list of `yyyy-mm-dd ` up to today from the day class started."
+  [date]
+  (remove #(pos? (compare % date)) period))
+
+(defn s-point-login-date
+  [{{:keys [login date]} :path-params}]
+  (let [date-count (db/answers-by-login-date
+                    {:login login :date date})
+        dc (apply merge (for [mm date-count]
+                          {(:create_at mm) (:count mm)}))]
+    (log/info "s-point-login-date" dc)
+    (response/ok (map #(get dc % 0) (until-date date)))))
 
 ;; (defn s-point
 ;;   [request]
@@ -42,5 +49,4 @@
    ["/problem/:n" {:get fetch-problem}]
   ;;  ["/s" {:get s-point}]
   ;;  ["/s/:login" {:get s-point-login}]
-  ;;  ["/s/:login/:date" {:get s-point-login-date}]
-  ])
+   ["/s/:login/:date" {:get s-point-login-date}]])

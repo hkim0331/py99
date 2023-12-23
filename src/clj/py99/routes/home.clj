@@ -1,8 +1,8 @@
 (ns py99.routes.home
   (:require
-   [clj-time.core :as t]
+   ;; [clj-time.core :as t]
    [clj-time.local :as l]
-   [clj-time.periodic :as p]
+   ;; [clj-time.periodic :as p]
    [clojure.java.io :as io]
    [clojure.string :as str]
    [digest]
@@ -618,9 +618,6 @@
   (let [login (login request)
         today (today)
         activities (db/actions? {:login login :date today})]
-    ;; (prn login)
-    ;; (prn today)
-    ;; (prn activities)
     (layout/render request
                    "user-actions-page.html"
                    {:login login

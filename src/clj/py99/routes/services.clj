@@ -46,7 +46,10 @@
                 (map s)
                 (apply +))]
     (log/info "s-point-login-date" py99 sp)
-    (response/ok {:s sp})))
+    (response/ok {:login login
+                  :date date
+                  :py99 py99
+                  :s sp})))
 
 
 (defn service-routes []

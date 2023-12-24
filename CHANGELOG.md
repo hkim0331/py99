@@ -31,7 +31,6 @@
 - FIXME: filter では表示する本数が減ってしまう。
   filter 情報を SQL に渡してフィルタすべきか。
 - FIXME: filter は一件のみ。
-
 - FIXME: s ポイント関連が home.clj と services.clj の二箇所にある。
 
 

@@ -625,6 +625,15 @@
                     :date today
                     :actions activities})))
 
+;; FIXME: (assoc-in [:session :identity])が必要な理由は？
+(defn add-filter
+  [{{:keys [filter]} :params :as request}]
+  (println "session:" (:session request))
+  (-> (response/found "/")
+      (assoc-in [:session :identity] (get-in request [:session :identity]))
+      (assoc-in [:session :filter] filter)))
+
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -641,6 +650,7 @@
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments-count" {:get comments-count}]
    ["/comments/:num" {:get comments-by-num}]
+   ["/filter" {:get add-filter}]
    ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]
    ["/profile" {:get profile-self}]

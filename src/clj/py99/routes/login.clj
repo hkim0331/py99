@@ -36,6 +36,7 @@
                                        :message "This page is admin only."}))
 
 (defn login [request]
+  (println (:session request))
   (layout/render request "login.html" {:flash (:flash request)}))
 
 ;; TODO: filter?

@@ -31,13 +31,14 @@
 - FIXME: filter では表示する本数が減ってしまう。
   filter 情報を SQL に渡してフィルタすべきか。
 - FIXME: filter は一件のみ。
-- FIXME: filter の設定をログイン時以外に。
+
 - FIXME: s ポイント関連が home.clj と services.clj の二箇所にある。
 
 
 ## 0.81.0 - 2023-12-23
 ### Added
 - /api/s/:login/:date
+- filter の設定を /login 以外に / に追加。
 ### Changed
 - weeks, period を home.clj から config.clj に移動した。
 

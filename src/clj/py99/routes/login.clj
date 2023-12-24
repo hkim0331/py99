@@ -12,8 +12,8 @@
    #_[struct.core :as st]
    #_[py99.db.core :as db]))
 
-(def ^:private version "0.81.1")
-(def ^:private updated "2023-12-24 16:33:21")
+(def ^:private version "0.81.2")
+(def ^:private updated "2023-12-24 16:50:23")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 
@@ -70,7 +70,7 @@
                    {:login login
                     :logins (get-logins login)})))
 
-(defn login-post [{{:keys [login password filter]} :params}]
+(defn login-post [{{:keys [login password #_filter]} :params}]
   ;; When dev mode, it is convenient to login as administrator
   ;; without authentication.
   (if (env :dev)
@@ -83,14 +83,14 @@
                (= (:login user) login)
                (hashers/check password (:password user)))
         (do
-          (log/info "login success" login "filter:" filter)
-
+          (log/info "login success" login)
+          ;; (log/info "filter:" filter)
           ;; in read-only mode, can not this.
           ;; (db/login {:login login})
           ;; after re-exam, use "/re-exam-end" instead of "/"
-                    (-> (redirect "/")
-                        (assoc-in [:session :identity] (keyword login))
-                        (assoc-in [:session :filter] filter)))
+          (-> (redirect "/")
+              (assoc-in [:session :identity] (keyword login))
+              #_(assoc-in [:session :filter] filter)))
         (do
           (log/info "login faild" login)
           (-> (redirect "/login")

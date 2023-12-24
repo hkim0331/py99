@@ -33,6 +33,9 @@
 - FIXME: filter は一件のみ。
 - FIXME: s ポイント関連が home.clj と services.clj の二箇所にある。
 
+## 0.81.2 - 2023-12-24
+- FIXME: home/filte はなぜ、assoc-in を2回？
+- ログイン画面のフィルタ入力を止める。
 
 ## 0.81.1 - 2023-12-23
 ### Added

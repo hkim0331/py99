@@ -51,7 +51,6 @@
                   :py99 py99
                   :s sp})))
 
-
 (defn service-routes []
   ["/api"
    {:middleware [middleware/wrap-formats]}

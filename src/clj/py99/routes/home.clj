@@ -5,6 +5,7 @@
    ;; [clj-time.periodic :as p]
    [clojure.java.io :as io]
    [clojure.string :as str]
+   [clojure.tools.logging :as log]
    [digest]
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
@@ -18,7 +19,7 @@
    [selmer.filters :refer [add-filter!]]))
 
 ;; https://stackoverflow.com/questions/16264813/
-;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+;; clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
   (some #{key} col))
 
@@ -374,7 +375,7 @@
 (defn create-comment! [request]
   (let [params (:params request)
         num (Integer/parseInt (:p_num params))]
-    (log/debug "create-comment!" (login request) num)
+    ;;(log/debug "create-comment!" (login request) num)
     (if (db/frozen? {:num num})
       (layout/render request "error.html"
                      {:status 403
@@ -624,6 +625,15 @@
                     :date today
                     :actions activities})))
 
+;; FIXME: (assoc-in [:session :identity])が必要な理由は？
+(defn add-filter
+  [{{:keys [filter]} :params :as request}]
+  (println "session:" (:session request))
+  (-> (response/found "/")
+      (assoc-in [:session :identity] (get-in request [:session :identity]))
+      (assoc-in [:session :filter] filter)))
+
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -640,6 +650,7 @@
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments-count" {:get comments-count}]
    ["/comments/:num" {:get comments-by-num}]
+   ["/filter" {:get add-filter}]
    ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]
    ["/profile" {:get profile-self}]

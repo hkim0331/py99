@@ -12,8 +12,8 @@
    #_[struct.core :as st]
    #_[py99.db.core :as db]))
 
-(def ^:private version "0.81.0")
-(def ^:private updated "2023-12-23 10:41:33")
+(def ^:private version "0.81.1")
+(def ^:private updated "2023-12-24 16:33:21")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 
@@ -36,6 +36,7 @@
                                        :message "This page is admin only."}))
 
 (defn login [request]
+  (println (:session request))
   (layout/render request "login.html" {:flash (:flash request)}))
 
 ;; TODO: filter?

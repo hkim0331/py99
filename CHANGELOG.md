@@ -35,7 +35,7 @@
 - FIXME: s ポイント関連が home.clj と services.clj の二箇所にある。
 
 
-## 0.81.0 - 2023-12-23
+## 0.81.1 - 2023-12-23
 ### Added
 - /api/s/:login/:date
 - filter の設定を /login 以外に / に追加。

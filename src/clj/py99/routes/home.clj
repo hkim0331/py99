@@ -311,15 +311,29 @@
     nil
     (throw (Exception. "no docstring"))))
 
+(defn- not-same-md5-login
+  "s is a stripped answer."
+  [s login]
+  (if (seq (db/answers-same-md5-login {:md5 (digest/md5 s)
+                                       :login login}))
+    (throw (Exception. "wrong answer."))
+    nil))
+
+(comment
+  (not-same-md5-login "abc" "hkimura")
+  :rcf)
+
 (defn- validate
   "Return nil if all validations success, or raize exeption."
   [num answer login]
-  (try
-    (not-empty-test (strip answer))
-    (has-docstring-test answer)
-    (pytest-test num (expand-includes answer login))
-    nil
-    (catch Exception e (throw (Exception. (.getMessage e))))))
+  (let [stripped (strip answer)]
+    (try
+      (not-empty-test stripped)
+      (not-same-md5-login stripped login)
+      (has-docstring-test answer)
+      (pytest-test num (expand-includes answer login))
+      nil
+      (catch Exception e (throw (Exception. (.getMessage e)))))))
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
@@ -455,8 +469,7 @@
   (let [login (get request :user (login request))
         solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
-        comments (db/comments-by-date-login {:login login})
-        ]
+        comments (db/comments-by-date-login {:login login})]
     (layout/render request
                    "profile.html"
                    {:login login

@@ -148,6 +148,11 @@ limit :n
 SELECT * FROM answers
 WHERE md5 = :md5
 
+-- :name answers-same-md5-login :? :*
+-- :doc get answers which has same MD5 value
+SELECT * FROM answers
+WHERE md5 = :md5 and login = :login
+
 -- :name submissions :? :*
 -- :doc get top n users
 SELECT login, count(num) FROM answers

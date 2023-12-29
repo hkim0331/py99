@@ -316,7 +316,7 @@
   [s login]
   (if (seq (db/answers-same-md5-login {:md5 (digest/md5 s)
                                        :login login}))
-    (throw (Exception. "wrong answer."))
+    (throw (Exception. "no need."))
     nil))
 
 (comment

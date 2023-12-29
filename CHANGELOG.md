@@ -33,9 +33,14 @@
 - FIXME: filter は一件のみ。
 - FIXME: s ポイント関連が home.clj と services.clj の二箇所にある。
 
+## 0.83.1 - 2023-12-29
+- バージョン番号つけ間違い。
+
+## 0.83.0 - 2023-12-29
+- 実行文がついている回答を受理しない。
+
 ## 0.82.0" - 2023-12-27
 - 同じ問題にdocstring だけ違う同じ回答をつけたら "wrong answer" を表示し、受け付けない。
-
 
 ## 0.81.2 - 2023-12-24
 - FIXME: home/filte はなぜ、assoc-in を2回？
@@ -59,7 +64,6 @@
 ```clojure
 (assoc-in [:session :filter] filter)
 ```
-
 
 ## 0.79.3-SNAPSHOT
 - SNAPSHOT は TODO の意味も込める。

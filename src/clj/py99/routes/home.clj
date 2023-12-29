@@ -316,11 +316,35 @@
   [s login]
   (if (seq (db/answers-same-md5-login {:md5 (digest/md5 s)
                                        :login login}))
-    (throw (Exception. "no need."))
+    (throw (Exception. "no need same answer."))
     nil))
 
 (comment
   (not-same-md5-login "abc" "hkimura")
+  :rcf)
+
+(defn- starts-with-def-import-from-indent?
+  [s]
+  (or (str/starts-with? s " ")
+      (str/starts-with? s "#")
+      (str/starts-with? s "\t")
+      (str/starts-with? s "def")
+      (str/starts-with? s "from")
+      (str/starts-with? s "import")))
+
+(defn- no-exec-statements
+  [s]
+  (let [lines (->> (str/split-lines s)
+                   (remove #(re-matches #"" %)))]
+    ;; (prn "no-exec-statements" lines)
+    (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
+      ;; (prn (map starts-with-def-import-from-indent? lines))
+      (throw (Exception. "include exec statements.")))))
+
+(comment
+  (starts-with-def-import-from-indent? "def")
+  (starts-with-def-import-from-indent? " ")
+  (starts-with-def-import-from-indent? "print")
   :rcf)
 
 (defn- validate
@@ -329,8 +353,10 @@
   (let [stripped (strip answer)]
     (try
       (not-empty-test stripped)
-      (not-same-md5-login stripped login)
       (has-docstring-test answer)
+      ;; 2023-12-29
+      (no-exec-statements answer)
+      (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil
       (catch Exception e (throw (Exception. (.getMessage e)))))))

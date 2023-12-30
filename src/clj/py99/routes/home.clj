@@ -330,7 +330,8 @@
       (str/starts-with? s "\t")
       (str/starts-with? s "def")
       (str/starts-with? s "from")
-      (str/starts-with? s "import")))
+      (str/starts-with? s "import")
+      (str/starts-with? s "g_")))
 
 (defn- no-exec-statements
   [s]

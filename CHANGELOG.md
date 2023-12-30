@@ -33,6 +33,21 @@
 - FIXME: filter は一件のみ。
 - FIXME: s ポイント関連が home.clj と services.clj の二箇所にある。
 
+## 0.83.2 - 2023-12-30
+- global var を許していない。
+  `g_` のプレフィックスだけ、許そうか。
+```clojure
+(defn- starts-with-def-import-from-indent?
+  [s]
+  (or (str/starts-with? s " ")
+      (str/starts-with? s "#")
+      (str/starts-with? s "\t")
+      (str/starts-with? s "def")
+      (str/starts-with? s "from")
+      (str/starts-with? s "import")
+      (str/starts-with? s "g_")))
+```
+
 ## 0.83.1 - 2023-12-29
 - バージョン番号つけ間違い。
 

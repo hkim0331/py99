@@ -33,6 +33,10 @@
 - FIXME: filter は一件のみ。
 - FIXME: s ポイント関連が home.clj と services.clj の二箇所にある。
 
+
+## 0.83.3 - 2024-01-01
+- made links to prev/next problem from `comment-form.html` and `answer-form.html`.
+
 ## 0.83.2 - 2023-12-30
 - global var を許していない。
   `g_` のプレフィックスだけ、許そうか。

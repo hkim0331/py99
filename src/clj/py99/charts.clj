@@ -33,9 +33,6 @@
     (def pe period)
     (html (bar-chart (map scale-fn ys) width height color))))
 
-
-
-
 ;; 倍率を 2022 に戻す。2023-10-21
 (defn individual-chart
   [answers period width height]

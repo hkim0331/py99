@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="content">
+<div class="content">
   <h2>{{answer.login}}'s answer to
     <a href='/answer/{{problem.num}}'>Problem {{problem.num}}</a>,
-    {{answer.create_at|date:shortDateTime}}</h2>
+    {{answer.create_at|date:shortDateTime}}
+  </h2>
   <p>{{problem.problem|safe}}</p>
   <pre class='nocopy'>{{answer.answer}}</pre>
 
@@ -25,10 +26,10 @@
     <input type="hidden" name="a_id" value='{{c.a_id}}'>
     <div class="columns">
       <div class="column">
-      <input class="input" type="text" name="note">
+        <input class="input" type="text" name="note">
       </div>
       <div class="column">
-      <input type="submit" class="button is-primary" value="stock">
+        <input type="submit" class="button is-primary" value="stock">
       </div>
     </div>
   </form>
@@ -40,12 +41,17 @@
     <input type='hidden' name='p_num' value='{{problem.num}}'>
     <input type='hidden' name='a_id' value='{{answer.id}}'>
     <input type='hidden' name='to_login' value='{{answer.login}}'>
-    <textarea name='comment' class='textarea'
-              placeholder='Your comment please.'></textarea><br>
+    <textarea name='comment' class='textarea' placeholder='Your comment please.'></textarea><br>
     <div>{{uptime}}</div>
     <input type='submit' value='comment' class='button is-warning is-small'>
   </form>
   <br>
+
+  <!-- 2024-01-01 -->
+  <p><a href="/answer/{{problem.num|add:-1}}" class="button is-small is-primary">←prev</a>
+    &nbsp;
+    <a href="/answer/{{problem.num|add:1}}" class="button is-small is-primary">next→</a>
+  </p>
 
   <!-- added 2023-12-06 -->
   <form method='get' action='/comments-sent'>
@@ -61,8 +67,9 @@
   <br>
 
   <p>Other comments to this problem ...
-    <a href='/comments/{{problem.num}}'>✏️</a></p>
+    <a href='/comments/{{problem.num}}'>✏️</a>
+  </p>
 
   {% endif %}
-  </div>
+</div>
 {% endblock %}

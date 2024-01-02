@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="content">
+<div class="content">
   <h2>Submissions</h2>
-  <ol>
+  <ol reversed>
     {% for item in submissions %}
     <li>{{item.create_at|date:shortDateTime}} ...
-        <a href="/comment/{{item.id}}">{{item.num}}</a></li>
+      <a href="/comment/{{item.id}}">{{item.num}}</a>
+    </li>
     {% endfor %}
   </ol>
-  </div>
+</div>
 {% endblock %}

@@ -33,6 +33,11 @@
 - FIXME: filter は一件のみ。
 - FIXME: s ポイント関連が home.clj と services.clj の二箇所にある。
 
+## 0.84.4 - 2024-01-02
+### Changed
+- display order of submissions. recent top, old bottom.
+  - home/submissions (reverse submissions)
+  - submissios.html <ol reversed>
 
 ## 0.83.3 - 2024-01-01
 - made links to prev/next problem from `comment-form.html` and `answer-form.html`.

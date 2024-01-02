@@ -442,7 +442,8 @@
 (defn submissions [request]
   (let [login (or (get-in request [:path-params :login])
                   (get-in request [:params :login]))
-        submissions (db/answer-by-login {:login login})]
+        submissions (-> (db/answer-by-login {:login login})
+                        reverse)]
     (layout/render request
                    "submissions.html"
                    {:submissions submissions})))

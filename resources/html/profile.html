@@ -1,94 +1,92 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="content">
-    <h2>{{login}}'s Profile</h2>
+<div class="content">
+  <h2>{{login}}'s Profile</h2>
 
-    <h4>Today's Activities</h4>
-    <p>
-      <a href="/activities">activities</a>
-    </p>
+  <h4>Today's Activities</h4>
+  <p>
+    <a href="/activities">activities</a>
+  </p>
 
 
-    <h4>submissions</h4>
-    <p>{{chart|safe}}</p>
+  <h4>submissions</h4>
+  <p>{{chart|safe}}</p>
 
-    <h4>comments sent</h4>
-    <p>{{comment-chart|safe}}</p>
+  <h4>comments sent</h4>
+  <p>{{comment-chart|safe}}</p>
 
-    <h4>comments received</h4>
-    <p>{% for c in comments-rcvd %}
-      <a href='/comment/{{c.a_id}}'>{{c.p_num}}</a>
-      &nbsp;
-      {% endfor %}</p>
+  <h4>comments received</h4>
+  <p>{% for c in comments-rcvd %}
+    <a href='/comment/{{c.a_id}}'>{{c.p_num}}</a>
+    &nbsp;
+    {% endfor %}
+  </p>
 
-    <!--
+  <!--
     <h4>last login</h4>
     <p>{{user.last_login|date:shortDateTime}}</p>
     -->
-    <h4>last submission</h4>
-      <p>{{last.create_at|date:shortDateTime}},
-        <a href='/comment/{{last.id}}'>{{last.num}}</a></p>
+  <h4>last submission</h4>
+  <p>{{last.create_at|date:shortDateTime}},
+    <a href='/comment/{{last.id}}'>{{last.num}}</a>
+  </p>
 
-    <h4>total submissions</h4>
-      <p>{{submissions}}</p>
+  <h4>total submissions</h4>
+  <p>{{submissions}}</p>
 
-    <h4>problems solved (exlude exam submisions)</h4>
-      <p>{{solved}}/99</p>
+  <h4>problems solved (exlude exam submisions)</h4>
+  <p>{{solved}}/99</p>
 
-      <h4>comments sent</h4>
-      <p><a href='/comments-sent/{{login}}'>{{comments.count}}</a></p>
+  <h4>comments sent</h4>
+  <p><a href='/comments-sent/{{login}}'>{{comments.count}}</a></p>
 
-    <h4>weekly [submissions comments]</h4>
-      <ol>
-      {% for w in weekly %}
-      <li>{{w|first}} {{w|drop:1}}</li>
-      {% endfor %}
-      </ol>
+  <h4>weekly [submissions comments]</h4>
+  <ol>
+    {% for w in weekly %}
+    <li>{{w|first}} {{w|drop:1}}</li>
+    {% endfor %}
+  </ol>
 
-    <h4>exam submissions</h4>
+  <h4>exam submissions</h4>
 
-      <ol>
-      {% for n in groups %}
-        <li><a href='/comment/{{n.id}}'>{{n.num}}</a>
-          {{n.create_at|date:shortDateTime}}</li>
-      {% endfor %}
-      </ol>
+  <ol>
+    {% for n in groups %}
+    <li><a href='/comment/{{n.id}}'>{{n.num}}</a>
+      {{n.create_at|date:shortDateTime}}</li>
+    {% endfor %}
+  </ol>
 
-    <h4>day by day submissons</h4>
-    <p>自分の再試験受験資格を次の「日々回答数」から自分で計算すること。</p>
-    <p>10/2から今日までの<a href="/s-point">日々回答数</a></p>
+  <h4>day by day submissons</h4>
+  <p>自分の再試験受験資格を次の「日々回答数」から自分で計算すること。</p>
+  <p>10/2から今日までの<a href="/s-point">日々回答数</a></p>
 
-    <ul>
-      <li>一番左が10/2、右が今日。</li>
-      <li>今日から遡った7日ごとに、s-point を計算。</li>
-      <li>12/21時点での過去 3 週間分の合計が 50 を超えた人は再試験受験の資格を持つ。</li>
-    </ul>
-    <hr>
+  <ul>
+    <li>一番左が10/2、右が今日。</li>
+    <li>今日から遡った7日ごとに、s-point を計算。</li>
+    <li>12/21時点での過去 3 週間分の合計が 50 を超えた人は再試験受験の資格を持つ。</li>
+  </ul>
+  <hr>
 
-    <h4>Result</h4>
+  <h4>Result</h4>
 
-    <p>WIL: {{points.wil}}
-      （出席は成績に入らない。欠席6で試験を受ける資格がなくなる。）</p>
+  <p>WIL: {{points.wil}}
+    （出席は成績に入らない。欠席6で試験を受ける資格がなくなる。）</p>
 
-    <!--
+  <!--
       <p>WIL 9 以上の人は以下を足したものが成績です。</p>
       -->
 
-    <ul>
+  <ul>
     <li>py99: {{points.py99}} (週 6 で 1)</li>
     <li>comm: {{points.comm}} (週 3 で 1)</li>
-    <li>中間:  {{points.m1}}</li>
-    <li>中再:  {{points.m2}}</li>
-    <li>期末1: {{points.e1}}</li>
-    <li>期末2: {{points.e2}}</li>
-    <li>期末3: {{points.e3}}</li>
-    <li>期末4: {{points.e4}}</li>
-    <li>期末5: {{points.e5}}</li>
-    </ul>
+    <li>中間: {{points.m1}}</li>
+    <li>中再: {{points.m2}}</li>
+    <li>期末: {{points.e1}}</li>
+  </ul>
 
-    <h4>Change your password</h4>
+  <h4>Change your password</h4>
 
-    <p><a href='https://l22.melt.kyutech.ac.jp/password'>
+  <p><a href='https://l22.melt.kyutech.ac.jp/password'>
       l22.melt.kyutech.ac.jp</a></p>
-  </div>
+</div>
 {% endblock %}

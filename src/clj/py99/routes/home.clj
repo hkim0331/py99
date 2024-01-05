@@ -9,6 +9,7 @@
    [digest]
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
+   ;; clj-kondo can not trace defstate
    [py99.config :refer [env weeks period]]
    [py99.db.core :as db]
    [py99.layout :as layout]
@@ -211,15 +212,6 @@
       (str/replace #"\n" "")
       ;; must use shotest match. 2023-11-24
       (str/replace #"\"\"\".+?\"\"\"", "")))
-
-(comment
-  (-> "def hello(s):
-    \"\"\"
-    ここは陽ツィ右葉・
-    \"\"\"
-    return 'Hello, ' + s"
-      strip)
-  :rcf)
 
 (defn- strip
   "just use in not-empty-test, digest/md5."

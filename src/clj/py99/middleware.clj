@@ -15,7 +15,7 @@
    [buddy.auth.accessrules :refer [restrict]]
    [buddy.auth.backends.session :refer [session-backend]]
    [buddy.auth.middleware :refer [wrap-authorization wrap-authentication]]
-   [py99.db.core :as db]
+   ;; [py99.db.core :as db]
    [ring.util.response :refer [redirect]]))
 
 (defn unauthorized-handler
@@ -39,7 +39,7 @@
 ;;      (boolean (:is_admin (db/get-user {:login (name login)})))
 ;;      false))
 (defn admin? [request]
- (= :hkimura (get-in request [:session :identity])))
+  (= :hkimura (get-in request [:session :identity])))
 
 ;; Added 2021-10-06
 (defn admin [handler]

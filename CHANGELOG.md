@@ -32,6 +32,8 @@
   filter 情報を SQL に渡してフィルタすべきか。
 - FIXME: filter は一件のみ。
 - FIXME: s ポイント関連が home.clj と services.clj の二箇所にある。
+- py99.grading:updated コラムにタイムスタンプを入れる。
+- /api/poings/:login
 
 
 ## 0.84.5 - 2024-01-05

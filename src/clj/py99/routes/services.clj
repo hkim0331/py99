@@ -14,7 +14,7 @@
 (comment
   (db/get-problem {:num 3})
   (db/actions? {:login "hkimura" :date "2023-10-20"})
-:rcf)
+  :rcf)
 
 ;; need auth?
 (defn actions?
@@ -46,6 +46,8 @@
                 (map s)
                 (apply +))]
     (log/info "s-point-login-date" py99 sp)
+    ;; Content-Type: application/json; charset=utf-8 で返る。
+    ;; middleware が賢いのか？
     (response/ok {:login login
                   :date date
                   :py99 py99

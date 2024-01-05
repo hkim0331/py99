@@ -1,9 +1,9 @@
-(defproject py99 "0.84.6"
+(defproject py99 "0.84.7"
   :description "r99 revised with clojure"
   :url "https://r99.melt.kyutech.ac.jp"
   :dependencies
-  [[ch.qos.logback/logback-classic "1.4.11"]
-   [clojure.java-time "1.3.0"]
+  [[ch.qos.logback/logback-classic "1.4.14"]
+   [clojure.java-time "1.4.2"]
    [conman "0.9.6"]
    [cprop "0.1.19"]
    [expound "0.9.0"]
@@ -18,17 +18,17 @@
    [metosin/reitit "0.6.0"]
    [metosin/ring-http-response "0.9.3"]
    [mount "0.1.17"]
-   [nrepl "1.0.0"]
+   [nrepl "1.1.0"]
    [org.clojure/clojure "1.11.1"]
    [org.clojure/tools.cli "1.0.219"]
    [org.clojure/tools.logging "1.2.4"]
-   [org.postgresql/postgresql "42.6.0"]
+   [org.postgresql/postgresql "42.7.1"]
    [org.webjars.npm/bulma "0.9.4"]
    [org.webjars.npm/material-icons "1.13.2"]
-   [org.webjars/webjars-locator "0.47"]
+   [org.webjars/webjars-locator "0.50"]
    [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
    [ring-webjars "0.2.0"]
-   [ring/ring-core "1.10.0"]
+   [ring/ring-core "1.11.0"]
    [ring/ring-defaults "0.4.0"]
    [selmer "1.12.59"]
    ;;
@@ -63,11 +63,11 @@
     :dependencies [[org.clojure/tools.namespace "1.4.4"]
                    [pjstadig/humane-test-output "0.11.0"]
                    [prone "2021-04-23"]
-                   [ring/ring-devel "1.10.0"]
+                   [ring/ring-devel "1.11.0"]
                    [ring/ring-mock "0.4.0"]]
     :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
-                   [jonase/eastwood "1.4.0"]
-                   [cider/cider-nrepl "0.38.1"]]
+                   [jonase/eastwood "1.4.2"]
+                   [cider/cider-nrepl "0.44.0"]]
     :source-paths ["env/dev/clj"]
     :resource-paths ["env/dev/resources"]
     :repl-options {:init-ns user

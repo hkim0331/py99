@@ -34,7 +34,7 @@
 - FIXME: py99.grading:updated コラムにタイムスタンプを入れる。
 - auto-reload => meta ヘッダを書けばいい。そうするとログインが切れることがない？
 
-## 0.84.6-SNAPSHOT
+## 0.84.6 - 2024-01-05
 - /api/poings/:login
 
 ## 0.84.5 - 2024-01-05

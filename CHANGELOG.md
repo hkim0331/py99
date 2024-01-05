@@ -33,7 +33,8 @@
 - FIXME: filter は一件のみ。
 - FIXME: s ポイント関連が home.clj と services.clj の二箇所にある。
 
-## 0.84.5-SNAPSHOT
+
+## 0.84.5 - 2024-01-05
 ### Changed
 - profile.html midterm, re-exam の結果掲載。
   (dp/points? {:login "login"}) で grading のデータは取得できた。

@@ -41,6 +41,17 @@
 update py99.gradings set updated=now();
 ```
 
+| :file       | :name                               | :current | :latest |
+| ----------- | ----------------------------------- | -------- | ------- |
+| project.clj | ch.qos.logback/logback-classic      | 1.4.11   | 1.4.14  |
+|             | cider/cider-nrepl                   | 0.38.1   | 0.44.0  |
+|             | clojure.java-time/clojure.java-time | 1.3.0    | 1.4.2   |
+|             | jonase/eastwood                     | 1.4.0    | 1.4.2   |
+|             | nrepl/nrepl                         | 1.0.0    | 1.1.0   |
+|             | org.postgresql/postgresql           | 42.6.0   | 42.7.1  |
+|             | org.webjars/webjars-locator         | 0.47     | 0.50    |
+|             | ring/ring-core                      | 1.10.0   | 1.11.0  |
+|             | ring/ring-devel                     | 1.10.0   | 1.11.0  |
 
 ## 0.84.6 - 2024-01-05
 - /api/poings/:login

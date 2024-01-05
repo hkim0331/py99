@@ -14,7 +14,7 @@
 (comment
   (db/get-problem {:num 3})
   (db/actions? {:login "hkimura" :date "2023-10-20"})
-:rcf)
+  :rcf)
 
 ;; need auth?
 (defn actions?
@@ -46,15 +46,24 @@
                 (map s)
                 (apply +))]
     (log/info "s-point-login-date" py99 sp)
+    ;; Content-Type: application/json; charset=utf-8 で返る。
+    ;; middleware が賢いのか？
     (response/ok {:login login
                   :date date
                   :py99 py99
                   :s sp})))
+
+(defn points
+  [{{:keys [login]} :path-params}]
+  (response/ok
+   (-> (db/points? {:login login})
+       (select-keys [:login :wil :py99 :comm :m1 :m2 :e1 :updated]))))
 
 (defn service-routes []
   ["/api"
    {:middleware [middleware/wrap-formats]}
    ["/actions/:login/:date" {:get actions?}]
    ["/hello" {:get (fn [_] {:status 200 :body "hello"})}]
+   ["/points/:login" {:get points}]
    ["/problem/:n" {:get fetch-problem}]
    ["/s/:login/:date" {:get s-point-login-date}]])

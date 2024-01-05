@@ -32,7 +32,15 @@
 - FIXME: filter は一件のみ。
 - REFACTOR: s ポイント関連が home.clj と services.clj の二箇所にある。
 - FIXME: py99.grading:updated コラムにタイムスタンプを入れる。
-- auto-reload => meta ヘッダを書けばいい。そうするとログインが切れることがない？
+- auto-reload => meta ヘッダを書けばいい。
+  そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
+
+## 0.84.7-SNAPSHOT
+- insert gradings:updated
+```sql
+update py99.gradings set updated=now();
+```
+
 
 ## 0.84.6 - 2024-01-05
 - /api/poings/:login

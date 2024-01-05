@@ -36,7 +36,7 @@
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 
 ## 0.84.7-SNAPSHOT
-- insert gradings:updated
+- insert gradings:updated manually. also at app.melt:py99.
 ```sql
 update py99.gradings set updated=now();
 ```

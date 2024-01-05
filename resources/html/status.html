@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="content">
-    {% if login = "hkimura" %}
-    <a href="/admin">admin page</a>
-    {% endif %}
-    <h2>{{login}}'s Status</h2>
+<div class="content">
+  {% if login = "hkimura" %}
+  <a href="/admin">admin page</a>
+  {% endif %}
+  <h2>{{login}}'s Status</h2>
 
-    <div class="box">
+  <div class="box">
     {% for s in status %}
-      <a href="/answer/{{s.n}}" class="{{s.stat}}">{{s.n}}</a>
+    <a href="/answer/{{s.n}}" class="{{s.stat}}">{{s.n}}</a>
     {% endfor %}
-    </div>
+  </div>
 
-   <h3>{{login}} Submissions</h4>
+  <h3>{{login}} Submissions</h4>
 
     <p>{{individual-chart|safe}}</p>
 
@@ -21,32 +21,35 @@
     <h3>Class Submissions</h3>
 
     <p>{{class-chart|safe}}</p>
-<!--
+    <!--
     <p>&rArr; <a href='/answers'>count answers</a></p>
    -->
     <p>&rArr; <a href='/ranking'>ranking</a></p>
 
-    <p><form method='get' action='/filter'>
-      <input name='filter'><input type='submit' value='filter'></form></p>
+    <p>
+    <form method='get' action='/filter'>
+      <input name='filter'><input type='submit' value='filter'>
+    </form>
+    </p>
 
     <h4>recent submissions (&lArr; newer is left)</h4>
-      <p>
+    <p>
       {% for a in recents %}
-        <a href='/comment/{{a.id}}'>{{a.login}}🔥{{a.num}}</a>
-        &nbsp;
+      <a href='/comment/{{a.id}}'>{{a.login}}🐉{{a.num}}</a>
+      &nbsp;
       {% endfor %}
-      </p>
+    </p>
 
     <h4>recent comments</h4>
-      {% for c in recent-comments %}
-      <p>{{c.create_at|date:shortDateTime}},
-        <b>{{c.p_num}}</b>,
-        from <b>{{c.from_login}}</b> to <b>{{c.to_login}}</b>,<br>&nbsp;&nbsp;
-        <!-- was abbreviate:30, now first-line -->
-        <a href='/comment/{{c.a_id}}'>
-          {{c.comment|first-line}}{{c.comment|rest-lines}}</a></p>
-      {% endfor %}
-      <form action='/comments'
-      <p><a href='/comments'>older comments...</a></p>
-  </div>
+    {% for c in recent-comments %}
+    <p>{{c.create_at|date:shortDateTime}},
+      <b>{{c.p_num}}</b>,
+      from <b>{{c.from_login}}</b> to <b>{{c.to_login}}</b>,<br>&nbsp;&nbsp;
+      <!-- was abbreviate:30, now first-line -->
+      <a href='/comment/{{c.a_id}}'>
+        {{c.comment|first-line}}{{c.comment|rest-lines}}</a>
+    </p>
+    {% endfor %}
+    <form action='/comments' <p><a href='/comments'>older comments...</a></p>
+</div>
 {% endblock %}

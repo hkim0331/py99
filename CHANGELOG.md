@@ -35,7 +35,7 @@
 - auto-reload => meta ヘッダを書けばいい。
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 
-## 0.84.7-SNAPSHOT
+## 0.84.7 - 2024-01-05
 - insert gradings:updated manually. also at app.melt:py99.
 - libraries updated.
 ```sql

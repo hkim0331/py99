@@ -37,6 +37,7 @@
 
 ## 0.84.7-SNAPSHOT
 - insert gradings:updated manually. also at app.melt:py99.
+- libraries updated.
 ```sql
 update py99.gradings set updated=now();
 ```

@@ -323,7 +323,9 @@
       (str/starts-with? s "def")
       (str/starts-with? s "from")
       (str/starts-with? s "import")
-      (str/starts-with? s "g_")))
+      (str/starts-with? s "g_")
+      ;; doctest, 2024-01-08
+      (str/starts-with? s "if")))
 
 (defn- no-exec-statements
   [s]
@@ -480,7 +482,6 @@
             f (g true)
             s (g false)]
         (recur s (rest bin) (conj ret (count-up f)))))))
-
 
 ;; CHANGED 2023-10-20, bug, resume.
 (defn profile

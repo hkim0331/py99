@@ -35,6 +35,15 @@
 - auto-reload => meta ヘッダを書けばいい。
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 
+## 0.84.8 - 2024-01-08
+- allow `if` for source code doctest
+- poetry add numpy
+```shell
+m24% poetry add numpy
+  • Installing numpy (1.26.3)
+  • Updating pytest (7.4.2 -> 7.4.4)
+```
+
 ## 0.84.7 - 2024-01-05
 - insert gradings:updated manually. also at app.melt:py99.
 - libraries updated.

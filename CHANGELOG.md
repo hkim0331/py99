@@ -1,29 +1,32 @@
 # CHANGELOG.md
 
 ## Unreleased
-- ChatGPT 対策、間違い修正問題では？
-- login 中ユーザのリスト。logout したら削除する。
-  logout せずにブラウズクローズしたら削除できない。
 
-- /todays: go ボタンを押さずに return-key で go できないか？
+### system
+- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
+  macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
 - pip install wheel を Dockerfile で実施しても、
   Docker Desktop が表示する Vulnerabilities は変わらない。
   clojure:temurin-20:lein を入れても二つのパッケージが残る。
     - wheel 0.37.1
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
-- テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
-- コードをカラフルに表示する。
-- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
-  仮想ディスク？volume マウントしないと速いのか？2023-10-08
-- test code, assert インデント4に変更
-- production で dump problems に失敗する。seed problems もできないだろう。
-  2023-10-15
-- FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
-  チェックしていない。2023-10-19
+- pip よりも poetry
+
+### clojure/luminus
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
   外部ブラウザで URL を探るとログを出す。
+
+### code
+- login 中ユーザのリスト。logout したら削除する。
+  logout せずにブラウズクローズしたら削除できない。
+- /todays: go ボタンを押さずに return-key で go できないか？
+- テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
+- コードをカラフルに表示する。
+- test code, assert インデント4に変更
+- FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
+  チェックしていない。2023-10-19
 - html/show_list.html
   テンプレート化を進める。テンプレートに渡すベクタをclj 側で細工する。
   selmer はループを回るだけにする。
@@ -35,9 +38,13 @@
 - auto-reload => meta ヘッダを書けばいい。
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 
+### exercices
+- ChatGPT 対策、間違い修正問題では？
+
+
 ## 0.84.8 - 2024-01-08
-- allow `if` for source code doctest
-- poetry add numpy
+- allow `if` for self doctest execution.
+- add numpy using poetry.
 ```shell
 m24% poetry add numpy
   • Installing numpy (1.26.3)

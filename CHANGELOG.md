@@ -1,7 +1,6 @@
 # CHANGELOG.md
 
 ## Unreleased
-
 ### system
 - docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
@@ -12,12 +11,10 @@
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
 - pip よりも poetry
-
 ### clojure/luminus
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
   外部ブラウザで URL を探るとログを出す。
-
 ### code
 - login 中ユーザのリスト。logout したら削除する。
   logout せずにブラウズクローズしたら削除できない。
@@ -37,7 +34,6 @@
 - FIXME: py99.grading:updated コラムにタイムスタンプを入れる。
 - auto-reload => meta ヘッダを書けばいい。
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
-
 ### exercices
 - ChatGPT 対策、間違い修正問題では？
 

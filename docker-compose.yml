@@ -18,7 +18,7 @@ services:
       - infinity
 
   db:
-    image: postgres:14.9
+    image: postgres:14.10
     environment:
       TZ: Asia/Tokyo
       POSTGRES_DB: py99

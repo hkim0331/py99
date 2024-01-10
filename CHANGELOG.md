@@ -1,4 +1,4 @@
-# CHANGELOG.md
+# py99/CHANGELOG.md
 
 ## Unreleased
 ### system
@@ -37,6 +37,9 @@
 ### exercices
 - ChatGPT 対策、間違い修正問題では？
 
+
+## 0.84.9-snapshot
+- docker-compose.yml: postgres:14.10
 
 ## 0.84.8 - 2024-01-08
 - allow `if` for self doctest execution.

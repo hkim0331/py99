@@ -1,7 +1,6 @@
 # py99/CHANGELOG.md
 
 ## Unreleased
-
 ### system
 - docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08

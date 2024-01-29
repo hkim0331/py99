@@ -10,7 +10,7 @@
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
    ;; clj-kondo can not trace defstate
-   [py99.config :refer [env weeks period]]
+   [py99.config :refer [env weeks period]] ;; defstate env
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
@@ -171,7 +171,7 @@
   (let [num (Integer/parseInt (get-in request [:path-params :num]))
         problem (db/get-problem {:num num})
         answers (db/answers-to {:num num})
-        frozen?  (db/frozen? {:num num})
+        frozen? (db/frozen? {:num num})
         uptime (uptime)]
     ;; (log/debug "answer-page" (login request))
     ;; この if の理由？
@@ -232,12 +232,30 @@
 ;; changed 2023-12-20, was 30, zono insisted.
 (def ^:private timeout 10)
 
+(defn black-test
+  "check black results on trimmed `answer`. "
+  [answer]
+  (let [tempfile (java.io.File/createTempFile "python" ".py")]
+    (with-open [file (io/writer tempfile)]
+      (binding [*out* file]
+        (println (str/trim answer))))
+    (let [ret (timeout-sh timeout
+                          "black"
+                          "--diff"
+                          "--check"
+                          (.getAbsolutePath tempfile))]
+      (.delete tempfile)
+      ;; (println ret)
+      (when-not (zero? (:exit ret))
+        (throw (Exception. (str "Black complained")))))))
+
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
-   Throw exception when test fails."
+   Throw exception when pytest on them fails."
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
-    ;; FIXME: to skip validations, empty tests are required.
+    ;; FIXME: to skip validations,
+    ;;        current py99 requires empty tests.
     (when (re-find #"\S" test)
       ;; (log/debug "test is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
@@ -308,7 +326,7 @@
   [s login]
   (if (seq (db/answers-same-md5-login {:md5 (digest/md5 s)
                                        :login login}))
-    (throw (Exception. "no need same answer."))
+    (throw (Exception. "no need to send a same answer."))
     nil))
 
 (comment
@@ -342,6 +360,8 @@
   (starts-with-def-import-from-indent? "print")
   :rcf)
 
+
+
 (defn- validate
   "Return nil if all validations success, or raize exeption."
   [num answer login]
@@ -349,9 +369,9 @@
     (try
       (not-empty-test stripped)
       (has-docstring-test answer)
-      ;; 2023-12-29
       (no-exec-statements answer)
       (not-same-md5-login stripped login)
+      (black-test answer)
       (pytest-test num (expand-includes answer login))
       nil
       (catch Exception e (throw (Exception. (.getMessage e)))))))

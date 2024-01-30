@@ -39,7 +39,7 @@
 ### black
 
 
-## 0.85-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Updated
 - validation black.
 ```clojure
@@ -48,7 +48,7 @@
 - docker-compose.yml: postgres:14.10
 - FROM clojure:temurin-21-lein-jammy
 - added `black` in Dockerfile
-
+- copied a part of `bump-version.sh` from `python-book/bump-version.sh`.
 
 ## 0.84.8 - 2024-01-08
 - allow `if` for self doctest execution.
@@ -142,8 +142,8 @@ update py99.gradings set updated=now();
 (assoc-in [:session :filter] filter)
 ```
 
-## 0.79.3-SNAPSHOT
-- SNAPSHOT は TODO の意味も込める。
+## 0.85.819 - 2024-01-30
+## 0.85.819 - 2024-01-30
 - develop:/logins がエラーはどうしてか？
   REPL から (get-user) だと log フォルダの位置がわからないのでは？
   エラーに対するコードの不備もある。
@@ -484,7 +484,7 @@ stock takes  an annotation.
 ### Changed
 - test mode: 自分の回答は読めるけど、他の人のをクリックしても、自分の回答。
 
-## 0.59.0-SNAPSHOT - 2023-01-09
+## 0.85.819 - 2024-01-30
 - login dev モード。dev で l22 を必要とするのは面倒。
 
 ## 0.58.0 - 2023-01-07
@@ -519,7 +519,7 @@ busy-mark (cond
 - update-midterm takes num argument, must filter before-12-15?
   but re-exam. feature/re-exam.
 
-## 0.54.3-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Added
 - midterm.update! sequentially execute
 (db/clear-midterm!) (update-midterm!) (update-re-exam!)
@@ -565,7 +565,7 @@ midterm.html
 * FIXME: 自分(hkimura)の回答が/midterm から見えない。
 
 
-## 0.50.0-SNAPSHOT - 2022-12-10
+## 0.85.819 - 2024-01-30
 - exam-mode: 試験中は自分の回答しかブラウズできない
 - midterm 自動採点
 - namespace を一気に読み込む calva のキーは？ alt+ctl+c+enter
@@ -713,7 +713,7 @@ $ sudo pip3 install -U pytest
 ## 0.38.0 - 2022-09-24
 - pytest の結果の一部をエラーメッセージとして表示する。
 
-## 0.37.1-SNAPSHOT
+## 0.85.819 - 2024-01-30
 最初 vscode ユーザで失敗した後、rebuild container メニューを実行すると
 大丈夫、かな？
 .devcontaiers, docker-compose.yml は .gitigonore しているので、
@@ -845,7 +845,7 @@ services.app.environment.py99_REQUIRE_MY_ANSWER contains false, which is an inva
     % docker compose up -d
 ```
 
-## 0.25.0-SNAPSHOT
+## 0.85.819 - 2024-01-30
 - login メニューを作成。register へのリンクをコメントアウト。
 - users テーブルから sid と name を落とす。
 
@@ -884,7 +884,7 @@ services.app.environment.py99_REQUIRE_MY_ANSWER contains false, which is an inva
 - slurp takes `unix/path`. clojure.java.io/resource takes
   java class path(?)
 
-## 0.21.3-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Changed
 - updated navbar to include ME, EE, GR, WP
 - moved wp.html from resources/public to resources/html
@@ -1052,7 +1052,7 @@ input を利用した棒グラフでサブミット数他を表示。
 ### Fixed
 - profile bug fixed. correct [submit commit] in /profile.
 
-## 0.15.0-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Changed
 - date format in comment-form.
 
@@ -1096,7 +1096,7 @@ input を利用した棒グラフでサブミット数他を表示。
 ### Added
 - indent-check.html
 
-## 0.14.0-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Added
 - indent checker
 

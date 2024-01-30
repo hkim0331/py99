@@ -13,7 +13,7 @@
    #_[py99.db.core :as db]))
 
 (def ^:private version "0.85.819")
-(def ^:private updated "2024-01-30 09:39:05")
+(def ^:private updated "2024-01-30 09:42:23")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 

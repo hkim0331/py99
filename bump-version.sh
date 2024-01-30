@@ -30,3 +30,8 @@ ${SED} \
 
 # cljs
 #${SED} "s/(def \^:private version) .+/\1 \"$1\")/" src/main.cljs
+
+VER=$1
+TODAY=`date +%F`
+${SED} -i -e "/SNAPSHOT/c\
+## ${VER} - ${TODAY}" CHANGELOG.md

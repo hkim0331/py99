@@ -39,6 +39,19 @@
 ### black
 
 
+## 0.85-SNAPSHOT
+black21.12 insists "x**y" should be "x ** y".
+However, black-24.1.1 does not. and black-24.1.1 requires python > 3.11.
+It is not a safe, simple job to install 3.11 on ubuntu-jammy.
+So, this is a dirty hack. 2024-01-30
+
+```clojure
+(defn- spaces-around-**
+  "x**y => x ** y"
+  [s]
+  (str/replace s #"\*\*" " ** "))
+```
+
 ## 0.85.819 - 2024-01-30
 ### Updated
 - validation black.

@@ -232,20 +232,34 @@
 ;; changed 2023-12-20, was 30, zono insisted.
 (def ^:private timeout 10)
 
+(defn- spaces-around-**
+  "x**y => x ** y"
+  [s]
+  (str/replace s #"\*\*" " ** "))
+
+(comment
+  (spaces-around-** "abc\nx**y\ndef")
+  :rcf)
+
+;; REMEMBER: black21.12 insists "x**y" should be "x ** y".
+;;           however, black-24.1.1 does not.
+;;           black-24.1.1 requires python > 3.11.
+;;           so, this is a dirty hack. 2024-01-30
 (defn black-test
-  "check black results on trimmed `answer`. "
-  [answer]
-  (let [tempfile (java.io.File/createTempFile "python" ".py")]
+  "check black results on trimmed `s`."
+  [s]
+  (let [tempfile (java.io.File/createTempFile "python" ".py")
+        python-code (-> s str/trim spaces-around-**)]
     (with-open [file (io/writer tempfile)]
       (binding [*out* file]
-        (println (str/trim answer))))
+        (println python-code)))
     (let [ret (timeout-sh timeout
                           "black"
-                          "--diff"
                           "--check"
+                          "--diff"
                           (.getAbsolutePath tempfile))]
       (.delete tempfile)
-      (println answer)
+      (println python-code)
       (println (:err ret))
       (when-not (zero? (:exit ret))
         (throw (Exception. (str "Are you using Black?")))))))
@@ -369,9 +383,8 @@
       (not-empty-test stripped)
       (has-docstring-test answer)
       (no-exec-statements answer)
+      (black-test (remove-comments answer))  ;; 2024-01-30
       (not-same-md5-login stripped login)
-      ;; 2024-01-30
-      (black-test (remove-comments answer))
       (pytest-test num (expand-includes answer login))
       nil
       (catch Exception e (throw (Exception. (.getMessage e)))))))

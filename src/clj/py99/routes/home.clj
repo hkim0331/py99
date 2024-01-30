@@ -210,7 +210,7 @@
   [s]
   (-> s
       (str/replace #"\n" "")
-      ;; must use shotest match. 2023-11-24
+      ;; shortest match. 2023-11-24
       (str/replace #"\"\"\".+?\"\"\"", "")))
 
 (defn- strip
@@ -245,9 +245,10 @@
                           "--check"
                           (.getAbsolutePath tempfile))]
       (.delete tempfile)
-      ;; (println ret)
+      (println answer)
+      (println (:err ret))
       (when-not (zero? (:exit ret))
-        (throw (Exception. (str "Black complained")))))))
+        (throw (Exception. (str "Are you using Black?")))))))
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
@@ -352,15 +353,13 @@
     ;; (prn "no-exec-statements" lines)
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
       ;; (prn (map starts-with-def-import-from-indent? lines))
-      (throw (Exception. "include exec statements.")))))
+      (throw (Exception. "found exec statements.")))))
 
 (comment
   (starts-with-def-import-from-indent? "def")
   (starts-with-def-import-from-indent? " ")
   (starts-with-def-import-from-indent? "print")
   :rcf)
-
-
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."
@@ -371,7 +370,8 @@
       (has-docstring-test answer)
       (no-exec-statements answer)
       (not-same-md5-login stripped login)
-      (black-test answer)
+      ;; 2024-01-30
+      (black-test (remove-comments answer))
       (pytest-test num (expand-includes answer login))
       nil
       (catch Exception e (throw (Exception. (.getMessage e)))))))

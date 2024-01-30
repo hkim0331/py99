@@ -1,15 +1,16 @@
 (ns py99.routes.home
   (:require
-   [clj-time.core :as t]
+   ;; [clj-time.core :as t]
    [clj-time.local :as l]
-   [clj-time.periodic :as p]
+   ;; [clj-time.periodic :as p]
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [digest]
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
-   [py99.config :refer [env]]
+   ;; clj-kondo can not trace defstate
+   [py99.config :refer [env weeks period]] ;; defstate env
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
@@ -19,7 +20,7 @@
    [selmer.filters :refer [add-filter!]]))
 
 ;; https://stackoverflow.com/questions/16264813/
-;;         clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+;; clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
   (some #{key} col))
 
@@ -29,39 +30,33 @@
   (-> (str s)
       (subs 0 10)))
 
-(defn- make-period
-  "return a list of days from `yyyy-mm-dd` to days after from it."
-  [yyyy mm dd days]
-  (let [start-day (l/to-local-date-time (t/date-time yyyy mm dd))]
-    (->> (take days (p/periodic-seq start-day (t/days 1)))
-         (map to-date-str))))
-
-(defn- today []
-  (to-date-str (str (l/local-now))))
+;; (defn- make-period
+;;   "return a list of days from `yyyy-mm-dd` to days after from it."
+;;   [yyyy mm dd days]
+;;   (let [start-day (l/to-local-date-time (t/date-time yyyy mm dd))]
+;;     (->> (take days (p/periodic-seq start-day (t/days 1)))
+;;          (map to-date-str))))
 
 ;; 情報応用の授業期間。2023-10-01 から 150 日間。
 ;; chart の横軸になる。
-(def ^:private period (make-period 2023 10 1 150))
+;; (def ^:private period (make-period 2023 10 1 150))
+
+(defn- today []
+  (to-date-str (str (l/local-now))))
 
 (defn- up-to-today
   "return a list of `yyyy-mm-dd ` up to today from the day class started."
   []
   (remove #(pos? (compare % (today))) period))
 
-(comment
-  (reverse (take 7 (reverse (up-to-today))))
-  (= "abc" "abc")
-  (compare "aac" "aae")
-  (compare 3 4)
-  :rcf)
-
-;; weekly reports の〆切日
-(def ^:private weeks
-  ["2023-10-02" "2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
-   "2023-11-06" "2023-11-13" "2023-11-20" "2023-11-27"
-   "2023-12-04" "2023-12-11" "2023-12-18" "2023-12-25"
-   "2024-01-01" "2024-01-08" "2024-01-15" "2024-01-22" "2024-01-29"
-   "2024-02-05" "2024-02-12" "2024-02-19"])
+;; moved to py99.config
+;; ;; weekly reports の〆切日
+;; (def ^:private weeks
+;;   ["2023-10-02" "2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
+;;    "2023-11-06" "2023-11-13" "2023-11-20" "2023-11-27"
+;;    "2023-12-04" "2023-12-11" "2023-12-18" "2023-12-25"
+;;    "2024-01-01" "2024-01-08" "2024-01-15" "2024-01-22" "2024-01-29"
+;;    "2024-02-05" "2024-02-12" "2024-02-19"])
 
 ;; Selmer private extensions
 (defn- wrap-aux
@@ -176,7 +171,7 @@
   (let [num (Integer/parseInt (get-in request [:path-params :num]))
         problem (db/get-problem {:num num})
         answers (db/answers-to {:num num})
-        frozen?  (db/frozen? {:num num})
+        frozen? (db/frozen? {:num num})
         uptime (uptime)]
     ;; (log/debug "answer-page" (login request))
     ;; この if の理由？
@@ -215,17 +210,8 @@
   [s]
   (-> s
       (str/replace #"\n" "")
-      ;; must use shotest match. 2023-11-24
+      ;; shortest match. 2023-11-24
       (str/replace #"\"\"\".+?\"\"\"", "")))
-
-(comment
-  (-> "def hello(s):
-    \"\"\"
-    ここは陽ツィ右葉・
-    \"\"\"
-    return 'Hello, ' + s"
-      strip)
-  :rcf)
 
 (defn- strip
   "just use in not-empty-test, digest/md5."
@@ -246,12 +232,31 @@
 ;; changed 2023-12-20, was 30, zono insisted.
 (def ^:private timeout 10)
 
+(defn black-test
+  "check black results on trimmed `answer`. "
+  [answer]
+  (let [tempfile (java.io.File/createTempFile "python" ".py")]
+    (with-open [file (io/writer tempfile)]
+      (binding [*out* file]
+        (println (str/trim answer))))
+    (let [ret (timeout-sh timeout
+                          "black"
+                          "--diff"
+                          "--check"
+                          (.getAbsolutePath tempfile))]
+      (.delete tempfile)
+      (println answer)
+      (println (:err ret))
+      (when-not (zero? (:exit ret))
+        (throw (Exception. (str "Are you using Black?")))))))
+
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
-   Throw exception when test fails."
+   Throw exception when pytest on them fails."
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
-    ;; FIXME: to skip validations, empty tests are required.
+    ;; FIXME: to skip validations,
+    ;;        current py99 requires empty tests.
     (when (re-find #"\S" test)
       ;; (log/debug "test is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
@@ -317,15 +322,59 @@
     nil
     (throw (Exception. "no docstring"))))
 
+(defn- not-same-md5-login
+  "s is a stripped answer."
+  [s login]
+  (if (seq (db/answers-same-md5-login {:md5 (digest/md5 s)
+                                       :login login}))
+    (throw (Exception. "no need to send a same answer."))
+    nil))
+
+(comment
+  (not-same-md5-login "abc" "hkimura")
+  :rcf)
+
+(defn- starts-with-def-import-from-indent?
+  [s]
+  (or (str/starts-with? s " ")
+      (str/starts-with? s "#")
+      (str/starts-with? s "\t")
+      (str/starts-with? s "def")
+      (str/starts-with? s "from")
+      (str/starts-with? s "import")
+      (str/starts-with? s "g_")
+      ;; doctest, 2024-01-08
+      (str/starts-with? s "if")))
+
+(defn- no-exec-statements
+  [s]
+  (let [lines (->> (str/split-lines s)
+                   (remove #(re-matches #"" %)))]
+    ;; (prn "no-exec-statements" lines)
+    (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
+      ;; (prn (map starts-with-def-import-from-indent? lines))
+      (throw (Exception. "found exec statements.")))))
+
+(comment
+  (starts-with-def-import-from-indent? "def")
+  (starts-with-def-import-from-indent? " ")
+  (starts-with-def-import-from-indent? "print")
+  :rcf)
+
 (defn- validate
   "Return nil if all validations success, or raize exeption."
   [num answer login]
-  (try
-    (not-empty-test (strip answer))
-    (has-docstring-test answer)
-    (pytest-test num (expand-includes answer login))
-    nil
-    (catch Exception e (throw (Exception. (.getMessage e))))))
+  (let [stripped (strip answer)]
+    (try
+      (not-empty-test stripped)
+      (has-docstring-test answer)
+      (no-exec-statements answer)
+      (not-same-md5-login stripped login)
+      ;; 2024-01-30
+      (black-test (remove-comments answer))
+      (pytest-test num (expand-includes answer login))
+      nil
+      (catch Exception e (throw (Exception. (.getMessage e)))))))
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
@@ -381,7 +430,7 @@
 (defn create-comment! [request]
   (let [params (:params request)
         num (Integer/parseInt (:p_num params))]
-    (log/debug "create-comment!" (login request) num)
+    ;;(log/debug "create-comment!" (login request) num)
     (if (db/frozen? {:num num})
       (layout/render request "error.html"
                      {:status 403
@@ -407,7 +456,8 @@
 (defn submissions [request]
   (let [login (or (get-in request [:path-params :login])
                   (get-in request [:params :login]))
-        submissions (db/answer-by-login {:login login})]
+        submissions (-> (db/answer-by-login {:login login})
+                        reverse)]
     (layout/render request
                    "submissions.html"
                    {:submissions submissions})))
@@ -453,7 +503,6 @@
             s (g false)]
         (recur s (rest bin) (conj ret (count-up f)))))))
 
-
 ;; CHANGED 2023-10-20, bug, resume.
 (defn profile
   [request]
@@ -461,8 +510,7 @@
   (let [login (get request :user (login request))
         solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
-        comments (db/comments-by-date-login {:login login})
-        ]
+        comments (db/comments-by-date-login {:login login})]
     (layout/render request
                    "profile.html"
                    {:login login
@@ -625,14 +673,20 @@
   (let [login (login request)
         today (today)
         activities (db/actions? {:login login :date today})]
-    ;; (prn login)
-    ;; (prn today)
-    ;; (prn activities)
     (layout/render request
                    "user-actions-page.html"
                    {:login login
                     :date today
                     :actions activities})))
+
+;; FIXME: (assoc-in [:session :identity])が必要な理由は？
+(defn add-filter
+  [{{:keys [filter]} :params :as request}]
+  (println "session:" (:session request))
+  (-> (response/found "/")
+      (assoc-in [:session :identity] (get-in request [:session :identity]))
+      (assoc-in [:session :filter] filter)))
+
 
 (defn home-routes []
   ["" {:middleware [middleware/auth
@@ -650,6 +704,7 @@
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments-count" {:get comments-count}]
    ["/comments/:num" {:get comments-by-num}]
+   ["/filter" {:get add-filter}]
    ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]
    ["/profile" {:get profile-self}]

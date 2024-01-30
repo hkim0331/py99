@@ -2,7 +2,7 @@ version: "3"
 
 services:
   py99:
-    image: hkim0331/py99:0.4.7
+    image: hkim0331/py99:0.5.0
     user : vscode
     working_dir: /usr/src/app
     environment:
@@ -11,6 +11,7 @@ services:
       - .:/usr/src/app
       # docker desktop v4.24.0, too slow.
       # v4.24.2 slow.
+      # v4.26.1 slow.
       - m2:/home/vscode/.m2
       - gitlibs:/home/vscode/.gitlibs
     command:
@@ -18,7 +19,7 @@ services:
       - infinity
 
   db:
-    image: postgres:14.9
+    image: postgres:14.10
     environment:
       TZ: Asia/Tokyo
       POSTGRES_DB: py99

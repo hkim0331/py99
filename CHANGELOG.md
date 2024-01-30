@@ -1,47 +1,149 @@
-# CHANGELOG.md
+# py99/CHANGELOG.md
 
 ## Unreleased
-- ChatGPT 対策、間違い修正問題では？
-- login 中ユーザのリスト。logout したら削除する。
-  logout せずにブラウズクローズしたら削除できない。
-- auto-reload
-- /todays: go ボタンを押さずに return-key で go できないか？
+### system
+- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
+  macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
 - pip install wheel を Dockerfile で実施しても、
   Docker Desktop が表示する Vulnerabilities は変わらない。
   clojure:temurin-20:lein を入れても二つのパッケージが残る。
     - wheel 0.37.1
     - setuptools 59.6.0
   積極的に pip uninstall したらどうか？
-- テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
-- コードをカラフルに表示する。
-- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
-  仮想ディスク？volume マウントしないと速いのか？2023-10-08
-- test code, assert インデント4に変更
-- production で dump problems に失敗する。seed problems もできないだろう。
-  2023-10-15
-- FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
-  チェックしていない。2023-10-19
+- pip よりも poetry
+### clojure/luminus
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
-外部ブラウザで URL を探るとログを出す。
-- 新規メソッドは /api に。
+  外部ブラウザで URL を探るとログを出す。
+### code
+- login 中ユーザのリスト。logout したら削除する。
+  logout せずにブラウズクローズしたら削除できない。
+- /todays: go ボタンを押さずに return-key で go できないか？
+- テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
+- コードをカラフルに表示する。
+- test code, assert インデント4に変更
+- FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
+  チェックしていない。2023-10-19
 - html/show_list.html
-  テンプレート。テンプレートに渡すベクタをclj 側で細工する。
+  テンプレート化を進める。テンプレートに渡すベクタをclj 側で細工する。
   selmer はループを回るだけにする。
+- FIXME: filter では表示する本数が減ってしまう。
+  filter 情報を SQL に渡してフィルタすべきか。
+- FIXME: filter は一件のみ。
+- REFACTOR: s ポイント関連が home.clj と services.clj の二箇所にある。
+- FIXME: py99.grading:updated コラムにタイムスタンプを入れる。
+- auto-reload => meta ヘッダを書けばいい。
+  そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
+### exercices
+- ChatGPT 対策、間違い修正問題では？
+### black
+
+
+## 0.85.819 - 2024-01-30
+### Updated
+- validation black.
+```clojure
+(black-test (remove-comments answer))
+```
+- docker-compose.yml: postgres:14.10
+- FROM clojure:temurin-21-lein-jammy
+- added `black` in Dockerfile
+- copied a part of `bump-version.sh` from `python-book/bump-version.sh`.
+
+## 0.84.8 - 2024-01-08
+- allow `if` for self doctest execution.
+- add numpy using poetry.
+```shell
+m24% poetry add numpy
+  • Installing numpy (1.26.3)
+  • Updating pytest (7.4.2 -> 7.4.4)
+```
+
+## 0.84.7 - 2024-01-05
+- insert gradings:updated manually. also at app.melt:py99.
+- libraries updated.
+```sql
+update py99.gradings set updated=now();
+```
+
+| :file       | :name                               | :current | :latest |
+| ----------- | ----------------------------------- | -------- | ------- |
+| project.clj | ch.qos.logback/logback-classic      | 1.4.11   | 1.4.14  |
+|             | cider/cider-nrepl                   | 0.38.1   | 0.44.0  |
+|             | clojure.java-time/clojure.java-time | 1.3.0    | 1.4.2   |
+|             | jonase/eastwood                     | 1.4.0    | 1.4.2   |
+|             | nrepl/nrepl                         | 1.0.0    | 1.1.0   |
+|             | org.postgresql/postgresql           | 42.6.0   | 42.7.1  |
+|             | org.webjars/webjars-locator         | 0.47     | 0.50    |
+|             | ring/ring-core                      | 1.10.0   | 1.11.0  |
+|             | ring/ring-devel                     | 1.10.0   | 1.11.0  |
+
+## 0.84.6 - 2024-01-05
+- /api/poings/:login
+
+## 0.84.5 - 2024-01-05
+### Changed
+- profile.html midterm, re-exam の結果掲載。
+  (dp/points? {:login "login"}) で grading のデータは取得できた。
+
+## 0.84.4 - 2024-01-02
+### Changed
+- display order of submissions. recent top, old bottom.
+  - home/submissions (reverse submissions)
+  - submissios.html <ol reversed>
+
+## 0.83.3 - 2024-01-01
+- made links to prev/next problem from `comment-form.html` and `answer-form.html`.
+
+## 0.83.2 - 2023-12-30
+- global var を許していない。
+  `g_` のプレフィックスだけ、許そうか。
+```clojure
+(defn- starts-with-def-import-from-indent?
+  [s]
+  (or (str/starts-with? s " ")
+      (str/starts-with? s "#")
+      (str/starts-with? s "\t")
+      (str/starts-with? s "def")
+      (str/starts-with? s "from")
+      (str/starts-with? s "import")
+      (str/starts-with? s "g_")))
+```
+
+## 0.83.1 - 2023-12-29
+- バージョン番号つけ間違い。
+
+## 0.83.0 - 2023-12-29
+- 実行文がついている回答を受理しない。
+
+## 0.82.0" - 2023-12-27
+- 同じ問題にdocstring だけ違う同じ回答をつけたら "wrong answer" を表示し、受け付けない。
+
+## 0.81.2 - 2023-12-24
+- FIXME: home/filte はなぜ、assoc-in を2回？
+- ログイン画面のフィルタ入力を止める。
+
+## 0.81.1 - 2023-12-23
+### Added
+- /api/s/:login/:date
+- filter の設定を /login 以外に / に追加。
+### Changed
+- weeks, period を home.clj から config.clj に移動した。
 
 ## 0.80.1 - 2023-12-21
-- reent submissions にも 0.80.0 フィルタを適用する。
+### Added
+- recent submissions にも 0.80.0 フィルタを適用する。
 
 ## 0.80.0 - 2023-12-21
+### Added
 - filter. こいつの投稿は見たくないってのを login 時に指定する。
   session に 追加。
 ```clojure
 (assoc-in [:session :filter] filter)
 ```
-- FIXME: filter は一件のみ。
 
-## 0.79.3-SNAPSHOT
-- SNAPSHOT は TODO の意味も込める。
+## 0.85.819 - 2024-01-30
+## 0.85.819 - 2024-01-30
 - develop:/logins がエラーはどうしてか？
   REPL から (get-user) だと log フォルダの位置がわからないのでは？
   エラーに対するコードの不備もある。
@@ -382,7 +484,7 @@ stock takes  an annotation.
 ### Changed
 - test mode: 自分の回答は読めるけど、他の人のをクリックしても、自分の回答。
 
-## 0.59.0-SNAPSHOT - 2023-01-09
+## 0.85.819 - 2024-01-30
 - login dev モード。dev で l22 を必要とするのは面倒。
 
 ## 0.58.0 - 2023-01-07
@@ -417,7 +519,7 @@ busy-mark (cond
 - update-midterm takes num argument, must filter before-12-15?
   but re-exam. feature/re-exam.
 
-## 0.54.3-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Added
 - midterm.update! sequentially execute
 (db/clear-midterm!) (update-midterm!) (update-re-exam!)
@@ -463,7 +565,7 @@ midterm.html
 * FIXME: 自分(hkimura)の回答が/midterm から見えない。
 
 
-## 0.50.0-SNAPSHOT - 2022-12-10
+## 0.85.819 - 2024-01-30
 - exam-mode: 試験中は自分の回答しかブラウズできない
 - midterm 自動採点
 - namespace を一気に読み込む calva のキーは？ alt+ctl+c+enter
@@ -611,7 +713,7 @@ $ sudo pip3 install -U pytest
 ## 0.38.0 - 2022-09-24
 - pytest の結果の一部をエラーメッセージとして表示する。
 
-## 0.37.1-SNAPSHOT
+## 0.85.819 - 2024-01-30
 最初 vscode ユーザで失敗した後、rebuild container メニューを実行すると
 大丈夫、かな？
 .devcontaiers, docker-compose.yml は .gitigonore しているので、
@@ -743,7 +845,7 @@ services.app.environment.py99_REQUIRE_MY_ANSWER contains false, which is an inva
     % docker compose up -d
 ```
 
-## 0.25.0-SNAPSHOT
+## 0.85.819 - 2024-01-30
 - login メニューを作成。register へのリンクをコメントアウト。
 - users テーブルから sid と name を落とす。
 
@@ -782,7 +884,7 @@ services.app.environment.py99_REQUIRE_MY_ANSWER contains false, which is an inva
 - slurp takes `unix/path`. clojure.java.io/resource takes
   java class path(?)
 
-## 0.21.3-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Changed
 - updated navbar to include ME, EE, GR, WP
 - moved wp.html from resources/public to resources/html
@@ -950,7 +1052,7 @@ input を利用した棒グラフでサブミット数他を表示。
 ### Fixed
 - profile bug fixed. correct [submit commit] in /profile.
 
-## 0.15.0-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Changed
 - date format in comment-form.
 
@@ -994,7 +1096,7 @@ input を利用した棒グラフでサブミット数他を表示。
 ### Added
 - indent-check.html
 
-## 0.14.0-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Added
 - indent checker
 

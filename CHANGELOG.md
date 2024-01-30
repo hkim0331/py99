@@ -40,13 +40,15 @@
 
 
 ## 0.85-SNAPSHOT
+### Updated
+- validation black.
+```clojure
+(black-test (remove-comments answer))
+```
 - docker-compose.yml: postgres:14.10
 - FROM clojure:temurin-21-lein-jammy
 - added `black` in Dockerfile
 
-
-### Updated
-- home/black-test
 
 ## 0.84.8 - 2024-01-08
 - allow `if` for self doctest execution.

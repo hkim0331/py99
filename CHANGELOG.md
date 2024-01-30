@@ -39,7 +39,7 @@
 ### black
 
 
-## 0.85-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Updated
 - validation black.
 ```clojure

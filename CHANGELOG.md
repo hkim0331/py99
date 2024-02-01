@@ -39,7 +39,8 @@
 ### black
 
 
-## 0.85-SNAPSHOT
+## 0.85.831 - 2024-02-01
+### Removed
 - stop using Black. Difference of versions of black, 2023.06 in Windows, 2l.12 in ubuntu-jammy, leads some stresses among students.
 
 black21.12 insists "x**y" should be "x ** y".

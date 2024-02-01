@@ -40,6 +40,8 @@
 
 
 ## 0.85-SNAPSHOT
+- stop using Black. Difference of versions of black, 2023.06 in Windows, 2l.12 in ubuntu-jammy, leads some stresses among students.
+
 black21.12 insists "x**y" should be "x ** y".
 However, black-24.1.1 does not. and black-24.1.1 requires python > 3.11.
 It is not a safe, simple job to install 3.11 on ubuntu-jammy.

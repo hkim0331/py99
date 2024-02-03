@@ -383,7 +383,8 @@
       (not-empty-test stripped)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      (black-test (remove-comments answer))  ;; 2024-01-30
+      ;; stop 2024-02-01
+      ;; (black-test (remove-comments answer))  ;; 2024-01-30
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil

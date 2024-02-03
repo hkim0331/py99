@@ -1,6 +1,10 @@
 # py99/CHANGELOG.md
 
 ## Unreleased
+### docker
+- wheel 0.37.1 ->0.38.1
+- setuptools 59.6.0 -> 65.5.2
+
 ### system
 - docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08

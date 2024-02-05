@@ -14,6 +14,7 @@ RUN set -ex; apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/
 
 # installed as /usr/local/bin/pytest
 RUN pip3 install pytest
+
 # installed as /usr/locla/bin/bb
 RUN curl -s https://raw.githubusercontent.com/babashka/babashka/master/install | bash
 
@@ -25,7 +26,9 @@ RUN set -eux; \
     useradd --uid $USER_UID --gid $USER_GID -m $USERNAME; \
     echo ${USERNAME} ALL=\(ALL\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME; \
     chmod 0440 /etc/sudoers.d/$USERNAME; \
+    echo PATH=/home/$USERNAME/.local/bin:$PATH >> /home/$USERNAME/.bashrc
 
-echo PATH=/home/$USERNAME/.local/bin:$PATH >> /home/$USERNAME/.bashrc
+# 2024-02-03
+RUN pip3 install --upgrade wheel setuptools
 
 USER $USERNAME

@@ -1,4 +1,4 @@
-TAG=hkim0331/py99:0.5.2
+TAG=hkim0331/py99:0.6.2
 DEST="ubuntu@app.melt.kyutech.ac.jp"
 
 build:

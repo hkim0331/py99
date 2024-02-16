@@ -280,7 +280,7 @@
             (println answer)
             (println test)))
         (let [ret (timeout-sh timeout
-                              "pytest"
+                              "python3" "-m" "pytest"
                               (.getAbsolutePath tempfile))]
           (log/debug "ret" ret)
           (.delete tempfile)

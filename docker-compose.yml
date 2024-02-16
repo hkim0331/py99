@@ -2,7 +2,7 @@ version: "3"
 
 services:
   py99:
-    image: hkim0331/py99:0.5.0
+    image: hkim0331/py99:0.6.2
     user: vscode
     working_dir: /usr/src/app
     environment:

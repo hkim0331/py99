@@ -45,6 +45,12 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 ### black
 
 
+## 0.86-SNAPSHOT
+- re-re-exam
+  py99.gradings に書き足す re-re-results.sql を gradings プロジェクトで作成，
+  app.melt の pg に流す．
+  py99をm3を見て中再々に表示するように書き足す(これ，0.86)
+
 ## 0.85.831 - 2024-02-01
 ### Removed
 - stop using Black. Difference of versions of black, 2023.06 in Windows,

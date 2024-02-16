@@ -1,6 +1,12 @@
 # py99/CHANGELOG.md
 
 ## Unreleased
+### docker
+モジュールを入れ替えても vulnerable は変わらない．
+- wheel 0.37.1 ->0.38.1
+- setuptools 59.6.0 -> 65.5.2
+https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulnerability-even-though-it-has-been-updated/135996/3
+
 ### system
 - docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
@@ -39,14 +45,21 @@
 ### black
 
 
+## 0.86.841 / 2024-02-16
+- re-re-exam
+  py99.gradings に書き足す re-re-results.sql を gradings プロジェクトで作成，
+  app.melt の pg に流す．
+  py99をm3を見て中再々に表示するように書き足す(これ，0.86)
+- bump-version.sh uses '/' instead of '-' for a separator.
+
 ## 0.85.831 - 2024-02-01
 ### Removed
-- stop using Black. Difference of versions of black, 2023.06 in Windows, 2l.12 in ubuntu-jammy, leads some stresses among students.
-
-black21.12 insists "x**y" should be "x ** y".
-However, black-24.1.1 does not. and black-24.1.1 requires python > 3.11.
-It is not a safe, simple job to install 3.11 on ubuntu-jammy.
-So, this is a dirty hack. 2024-01-30
+- stop using Black. Difference of versions of black, 2023.06 in Windows,
+  2l.12 in ubuntu-jammy, leads some stresses among students.
+- black21.12 insists "x**y" should be "x ** y".
+  However, black-24.1.1 does not. and black-24.1.1 requires python > 3.11.
+  It is not a safe simple job to install 3.11 on ubuntu-jammy.
+  So, this is a dirty hack. 2024-01-30
 
 ```clojure
 (defn- spaces-around-**

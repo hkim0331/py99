@@ -2,21 +2,19 @@
 
 ## Unreleased
 ### docker
+- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
+  macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
 モジュールを入れ替えても vulnerable は変わらない．
 - wheel 0.37.1 ->0.38.1
 - setuptools 59.6.0 -> 65.5.2
 https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulnerability-even-though-it-has-been-updated/135996/3
-
-### system
-- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
-  macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
 - pip install wheel を Dockerfile で実施しても、
   Docker Desktop が表示する Vulnerabilities は変わらない。
   clojure:temurin-20:lein を入れても二つのパッケージが残る。
     - wheel 0.37.1
     - setuptools 59.6.0
-  積極的に pip uninstall したらどうか？
-- pip よりも poetry
+- 積極的に pip uninstall したらどうか？
+- pip よりも apt install python3-module で．
 ### clojure/luminus
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
@@ -28,22 +26,26 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 - テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
 - コードをカラフルに表示する。
 - test code, assert インデント4に変更
-- FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
-  チェックしていない。2023-10-19
 - html/show_list.html
   テンプレート化を進める。テンプレートに渡すベクタをclj 側で細工する。
   selmer はループを回るだけにする。
-- FIXME: filter では表示する本数が減ってしまう。
-  filter 情報を SQL に渡してフィルタすべきか。
-- FIXME: filter は一件のみ。
 - REFACTOR: s ポイント関連が home.clj と services.clj の二箇所にある。
 - FIXME: py99.grading:updated コラムにタイムスタンプを入れる。
 - auto-reload => meta ヘッダを書けばいい。
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 ### exercices
 - ChatGPT 対策、間違い修正問題では？
-### black
 
+- /api/py99/:login
+- /api/comm/:login
+
+
+## 0.87-SNAPSHOT
+- /api/points/:login
+- docker image hkim0331/py99:0.5.2
+```
+  apt install python3-pytest (not pip3 install)
+```
 
 ## 0.86.841 / 2024-02-16
 - re-re-exam

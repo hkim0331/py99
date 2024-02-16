@@ -282,7 +282,7 @@
         (let [ret (timeout-sh timeout
                               "pytest"
                               (.getAbsolutePath tempfile))]
-          ;; (log/debug "ret" ret)
+          (log/debug "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
             (throw (Exception. (->> (str/split-lines (:out ret))

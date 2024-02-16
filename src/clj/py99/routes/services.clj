@@ -57,7 +57,8 @@
   [{{:keys [login]} :path-params}]
   (response/ok
    (-> (db/points? {:login login})
-       (select-keys [:login :wil :py99 :comm :m1 :m2 :e1 :updated]))))
+       (select-keys [:login :wil :py99 :comm :m1 :m2 :m3 :e1 :updated]))))
+
 (defn service-routes []
   ["/api"
    {:middleware [middleware/wrap-formats]}

@@ -41,6 +41,11 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 
 
 ## 0.87-SNAPSHOT
+macos の docker container で，lein repl から (start) したプロセス，
+エスケープして python3 を実行すると呼び出されるのは macos の python3.
+しかし，linux のコンテナはコンテナ内の python3 を探す．
+linux が正しいと思うが．
+
 - /api/points/:login
 - docker image hkim0331/py99:0.5.2
 ```

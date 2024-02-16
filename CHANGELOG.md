@@ -46,7 +46,12 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 ```
   apt install python3-pytest (not pip3 install)
 ```
-
+### why? docker からエスケープすると起動するのはホストのコマンドなのか？
+- host の python を起動している．
+```
+2024-02-16 22:56:17,407 [XNIO-1 task-2] DEBUG py99.routes.home - ret {:exit 1, :out , :err /opt/homebrew/opt/python@3.11/bin/python3.11: No module named pytest
+, :timeout false}
+```
 ## 0.86.841 / 2024-02-16
 - re-re-exam
   py99.gradings に書き足す re-re-results.sql を gradings プロジェクトで作成，

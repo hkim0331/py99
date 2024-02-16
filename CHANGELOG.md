@@ -45,11 +45,12 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 ### black
 
 
-## 0.86-SNAPSHOT
+## 0.86.841 / 2024-02-16
 - re-re-exam
   py99.gradings に書き足す re-re-results.sql を gradings プロジェクトで作成，
   app.melt の pg に流す．
   py99をm3を見て中再々に表示するように書き足す(これ，0.86)
+- bump-version.sh uses '/' instead of '-' for a separator.
 
 ## 0.85.831 - 2024-02-01
 ### Removed

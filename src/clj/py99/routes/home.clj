@@ -14,6 +14,7 @@
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
+   [py99.utils :as u]
    ;; [py99.routes.login :refer [get-user]]
    [ring.util.http-response :as response]
    [ring.util.response :refer [redirect]]
@@ -489,30 +490,30 @@
 ;;
 ;; weekly counts
 ;;
-(defn- before? [s1 s2]
-  ;; 2022-10-20 s/</<=/
-  (<= (compare s1 s2) 0))
+;; (defn- before? [s1 s2]
+;;   ;; 2022-10-20 s/</<=/
+;;   (<= (compare s1 s2) 0))
 
-(defn- count-up [m]
-  (reduce + (map :count m)))
+;; (defn- count-up [m]
+;;   (reduce + (map :count m)))
 
-(defn bin-count
-  "data は週ごとの集計。単純な answers や comments じゃないので、
-   (count-up f)が必要。"
-  [data bin]
-  (loop [data data bin bin ret []]
-    (if (empty? bin)
-      ret
-      (let [g (group-by #(before? (:create_at %) (first bin)) data)
-            f (g true)
-            s (g false)]
-        (recur s (rest bin) (conj ret (count-up f)))))))
+;; (defn bin-count
+;;   "data は週ごとの集計。単純な answers や comments じゃないので、
+;;    (count-up f)が必要。"
+;;   [data bin]
+;;   (loop [data data bin bin ret []]
+;;     (if (empty? bin)
+;;       ret
+;;       (let [g (group-by #(before? (:create_at %) (first bin)) data)
+;;             f (g true)
+;;             s (g false)]
+;;         (recur s (rest bin) (conj ret (count-up f)))))))
 
-(defn py99 [login]
-  (bin-count (db/answers-by-date-login {:login login}) weeks))
+;; (defn py99 [login]
+;;   (bin-count (db/answers-by-date-login {:login login}) weeks))
 
-(defn comm [login]
-  (bin-count (db/comments-by-date-login {:login login}) weeks))
+;; (defn comm [login]
+;;   (bin-count (db/comments-by-date-login {:login login}) weeks))
 
 ;; CHANGED 2023-10-20, bug, resume.
 (defn profile
@@ -544,8 +545,8 @@
                             [])
                     :weekly (map list
                                  weeks
-                                 (bin-count individual weeks)
-                                 (bin-count comments weeks))
+                                 (u/bin-count individual weeks)
+                                 (u/bin-count comments weeks))
                     :groups (filter #(< 200 (:num %)) solved)
                     :points (db/points? {:login login})})))
 

@@ -8,15 +8,12 @@
     ],
     "customizations": {
         "vscode": {
-            "settings": {
-            },
+            "settings": {},
             "extensions": [
                 "betterthantomorrow.calva",
                 "jsynowiec.vscode-insertdatestring",
-                // "rkwan94.vscode-emacs-improved"
                 "soutaro.emacs-c-k"
             ]
         }
     }
-    // , "postCreateCommand": "pip3 install -r requirements.txt"
 }

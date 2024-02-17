@@ -1,43 +1,116 @@
-# CHANGELOG.md
+# py99/CHANGELOG.md
 
 ## Unreleased
-- ChatGPT 対策、間違い修正問題では？
-- login 中ユーザのリスト。logout したら削除する。
-  logout せずにブラウズクローズしたら削除できない。
-
-- /todays: go ボタンを押さずに return-key で go できないか？
+### docker
+- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
+  macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
+モジュールを入れ替えても vulnerable は変わらない．
+- wheel 0.37.1 ->0.38.1
+- setuptools 59.6.0 -> 65.5.2
+https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulnerability-even-though-it-has-been-updated/135996/3
 - pip install wheel を Dockerfile で実施しても、
   Docker Desktop が表示する Vulnerabilities は変わらない。
   clojure:temurin-20:lein を入れても二つのパッケージが残る。
     - wheel 0.37.1
     - setuptools 59.6.0
-  積極的に pip uninstall したらどうか？
-- テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
-- コードをカラフルに表示する。
-- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
-  仮想ディスク？volume マウントしないと速いのか？2023-10-08
-- test code, assert インデント4に変更
-- production で dump problems に失敗する。seed problems もできないだろう。
-  2023-10-15
-- FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
-  チェックしていない。2023-10-19
+- 積極的に pip uninstall したらどうか？
+- pip よりも apt install python3-module で．
+### clojure/luminus
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
   外部ブラウザで URL を探るとログを出す。
+### code
+- login 中ユーザのリスト。logout したら削除する。
+  logout せずにブラウズクローズしたら削除できない。
+- /todays: go ボタンを押さずに return-key で go できないか？
+- テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
+- コードをカラフルに表示する。
+- test code, assert インデント4に変更
 - html/show_list.html
   テンプレート化を進める。テンプレートに渡すベクタをclj 側で細工する。
   selmer はループを回るだけにする。
-- FIXME: filter では表示する本数が減ってしまう。
-  filter 情報を SQL に渡してフィルタすべきか。
-- FIXME: filter は一件のみ。
 - REFACTOR: s ポイント関連が home.clj と services.clj の二箇所にある。
 - FIXME: py99.grading:updated コラムにタイムスタンプを入れる。
 - auto-reload => meta ヘッダを書けばいい。
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
+### exercices
+- ChatGPT 対策、間違い修正問題では？
+
+- /api/py99/:login
+- /api/comm/:login
+
+
+## 0.87.849 / 2024-02-17
+### 闇が深くなった．DockerDesktop にバグだったか？
+```
+2024-02-17 09:19:25,918 [XNIO-1 task-3] DEBUG py99.routes.home - ret {:exit 0, :out ============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+rootdir: /tmp
+collected 1 item
+
+../../../tmp/python13747273597146482577.py .                             [100%]
+
+============================== 1 passed in 0.00s ===============================
+```
+### summary
+むやみにコンテナしなければいいか．
+Dockerfile を python3 python3-pytest black 入りに戻して，
+コンテナのバージョンタグは hkim0331/py99:0.6.4
+しばらくコンテナ外開発を続けよう．
+### why? docker からエスケープすると起動するのはホストのコマンドなのか？
+macos の docker container で，lein repl から (start) したプロセス，
+エスケープして python3 を実行すると呼び出されるのは macos の python3.
+しかし，linux のコンテナはコンテナ内の python3 を探す．
+どっちが正しいかっつうと linux と思うが，動作が違っちゃうのが良くない．
+- /api/points/:login
+- docker image hkim0331/py99:0.5.2
+```
+  apt install python3-pytest (not pip3 install)
+```
+- host の python を起動している．
+```
+2024-02-16 22:56:17,407 [XNIO-1 task-2] DEBUG py99.routes.home - ret {:exit 1, :out , :err /opt/homebrew/opt/python@3.11/bin/python3.11: No module named pytest
+, :timeout false}
+```
+- nuc.local ではコンテナ内の python3 を探すようだ.
+
+## 0.86.841 / 2024-02-16
+- re-re-exam
+  py99.gradings に書き足す re-re-results.sql を gradings プロジェクトで作成，
+  app.melt の pg に流す．
+  py99をm3を見て中再々に表示するように書き足す(これ，0.86)
+- bump-version.sh uses '/' instead of '-' for a separator.
+
+## 0.85.831 - 2024-02-01
+### Removed
+- stop using Black. Difference of versions of black, 2023.06 in Windows,
+  2l.12 in ubuntu-jammy, leads some stresses among students.
+- black21.12 insists "x**y" should be "x ** y".
+  However, black-24.1.1 does not. and black-24.1.1 requires python > 3.11.
+  It is not a safe simple job to install 3.11 on ubuntu-jammy.
+  So, this is a dirty hack. 2024-01-30
+
+```clojure
+(defn- spaces-around-**
+  "x**y => x ** y"
+  [s]
+  (str/replace s #"\*\*" " ** "))
+```
+
+## 0.85.819 - 2024-01-30
+### Updated
+- validation black.
+```clojure
+(black-test (remove-comments answer))
+```
+- docker-compose.yml: postgres:14.10
+- FROM clojure:temurin-21-lein-jammy
+- added `black` in Dockerfile
+- copied a part of `bump-version.sh` from `python-book/bump-version.sh`.
 
 ## 0.84.8 - 2024-01-08
-- allow `if` for source code doctest
-- poetry add numpy
+- allow `if` for self doctest execution.
+- add numpy using poetry.
 ```shell
 m24% poetry add numpy
   • Installing numpy (1.26.3)
@@ -127,8 +200,8 @@ update py99.gradings set updated=now();
 (assoc-in [:session :filter] filter)
 ```
 
-## 0.79.3-SNAPSHOT
-- SNAPSHOT は TODO の意味も込める。
+## 0.85.819 - 2024-01-30
+## 0.85.819 - 2024-01-30
 - develop:/logins がエラーはどうしてか？
   REPL から (get-user) だと log フォルダの位置がわからないのでは？
   エラーに対するコードの不備もある。
@@ -469,7 +542,7 @@ stock takes  an annotation.
 ### Changed
 - test mode: 自分の回答は読めるけど、他の人のをクリックしても、自分の回答。
 
-## 0.59.0-SNAPSHOT - 2023-01-09
+## 0.85.819 - 2024-01-30
 - login dev モード。dev で l22 を必要とするのは面倒。
 
 ## 0.58.0 - 2023-01-07
@@ -504,7 +577,7 @@ busy-mark (cond
 - update-midterm takes num argument, must filter before-12-15?
   but re-exam. feature/re-exam.
 
-## 0.54.3-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Added
 - midterm.update! sequentially execute
 (db/clear-midterm!) (update-midterm!) (update-re-exam!)
@@ -550,7 +623,7 @@ midterm.html
 * FIXME: 自分(hkimura)の回答が/midterm から見えない。
 
 
-## 0.50.0-SNAPSHOT - 2022-12-10
+## 0.85.819 - 2024-01-30
 - exam-mode: 試験中は自分の回答しかブラウズできない
 - midterm 自動採点
 - namespace を一気に読み込む calva のキーは？ alt+ctl+c+enter
@@ -698,7 +771,7 @@ $ sudo pip3 install -U pytest
 ## 0.38.0 - 2022-09-24
 - pytest の結果の一部をエラーメッセージとして表示する。
 
-## 0.37.1-SNAPSHOT
+## 0.85.819 - 2024-01-30
 最初 vscode ユーザで失敗した後、rebuild container メニューを実行すると
 大丈夫、かな？
 .devcontaiers, docker-compose.yml は .gitigonore しているので、
@@ -830,7 +903,7 @@ services.app.environment.py99_REQUIRE_MY_ANSWER contains false, which is an inva
     % docker compose up -d
 ```
 
-## 0.25.0-SNAPSHOT
+## 0.85.819 - 2024-01-30
 - login メニューを作成。register へのリンクをコメントアウト。
 - users テーブルから sid と name を落とす。
 
@@ -869,7 +942,7 @@ services.app.environment.py99_REQUIRE_MY_ANSWER contains false, which is an inva
 - slurp takes `unix/path`. clojure.java.io/resource takes
   java class path(?)
 
-## 0.21.3-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Changed
 - updated navbar to include ME, EE, GR, WP
 - moved wp.html from resources/public to resources/html
@@ -1037,7 +1110,7 @@ input を利用した棒グラフでサブミット数他を表示。
 ### Fixed
 - profile bug fixed. correct [submit commit] in /profile.
 
-## 0.15.0-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Changed
 - date format in comment-form.
 
@@ -1081,7 +1154,7 @@ input を利用した棒グラフでサブミット数他を表示。
 ### Added
 - indent-check.html
 
-## 0.14.0-SNAPSHOT
+## 0.85.819 - 2024-01-30
 ### Added
 - indent checker
 

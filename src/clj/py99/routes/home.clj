@@ -10,7 +10,7 @@
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
    ;; clj-kondo can not trace defstate
-   [py99.config :refer [env weeks period]]
+   [py99.config :refer [env weeks period]] ;; defstate env
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
@@ -171,7 +171,7 @@
   (let [num (Integer/parseInt (get-in request [:path-params :num]))
         problem (db/get-problem {:num num})
         answers (db/answers-to {:num num})
-        frozen?  (db/frozen? {:num num})
+        frozen? (db/frozen? {:num num})
         uptime (uptime)]
     ;; (log/debug "answer-page" (login request))
     ;; この if の理由？
@@ -210,7 +210,7 @@
   [s]
   (-> s
       (str/replace #"\n" "")
-      ;; must use shotest match. 2023-11-24
+      ;; shortest match. 2023-11-24
       (str/replace #"\"\"\".+?\"\"\"", "")))
 
 (defn- strip
@@ -232,12 +232,45 @@
 ;; changed 2023-12-20, was 30, zono insisted.
 (def ^:private timeout 10)
 
+(defn- spaces-around-**
+  "x**y => x ** y"
+  [s]
+  (str/replace s #"\*\*" " ** "))
+
+(comment
+  (spaces-around-** "abc\nx**y\ndef")
+  :rcf)
+
+;; REMEMBER: black21.12 insists "x**y" should be "x ** y".
+;;           however, black-24.1.1 does not.
+;;           black-24.1.1 requires python > 3.11.
+;;           so, this is a dirty hack. 2024-01-30
+(defn black-test
+  "check black results on trimmed `s`."
+  [s]
+  (let [tempfile (java.io.File/createTempFile "python" ".py")
+        python-code (-> s str/trim spaces-around-**)]
+    (with-open [file (io/writer tempfile)]
+      (binding [*out* file]
+        (println python-code)))
+    (let [ret (timeout-sh timeout
+                          "black"
+                          "--check"
+                          "--diff"
+                          (.getAbsolutePath tempfile))]
+      (.delete tempfile)
+      (println python-code)
+      (println (:err ret))
+      (when-not (zero? (:exit ret))
+        (throw (Exception. (str "Are you using Black?")))))))
+
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
-   Throw exception when test fails."
+   Throw exception when pytest on them fails."
   [num answer]
   (when-let [test (:test (db/get-problem {:num num}))]
-    ;; FIXME: to skip validations, empty tests are required.
+    ;; FIXME: to skip validations,
+    ;;        current py99 requires empty tests.
     (when (re-find #"\S" test)
       ;; (log/debug "test is not empty" test)
       (let [tempfile (java.io.File/createTempFile "python" ".py")]
@@ -247,9 +280,9 @@
             (println answer)
             (println test)))
         (let [ret (timeout-sh timeout
-                              "pytest"
+                              "python3" "-m" "pytest"
                               (.getAbsolutePath tempfile))]
-          ;; (log/debug "ret" ret)
+          (log/debug "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
             (throw (Exception. (->> (str/split-lines (:out ret))
@@ -308,7 +341,7 @@
   [s login]
   (if (seq (db/answers-same-md5-login {:md5 (digest/md5 s)
                                        :login login}))
-    (throw (Exception. "no need same answer."))
+    (throw (Exception. "no need to send a same answer."))
     nil))
 
 (comment
@@ -334,7 +367,7 @@
     ;; (prn "no-exec-statements" lines)
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
       ;; (prn (map starts-with-def-import-from-indent? lines))
-      (throw (Exception. "include exec statements.")))))
+      (throw (Exception. "found exec statements.")))))
 
 (comment
   (starts-with-def-import-from-indent? "def")
@@ -349,8 +382,9 @@
     (try
       (not-empty-test stripped)
       (has-docstring-test answer)
-      ;; 2023-12-29
       (no-exec-statements answer)
+      ;; stop 2024-02-01
+      ;; (black-test (remove-comments answer))  ;; 2024-01-30
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil

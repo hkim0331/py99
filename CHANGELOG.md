@@ -38,12 +38,14 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 
 
 ## 0.89-SNAPSHOT
+- POST /api/py99/:login/:pt
+- POST /api/comm/:login/:pt
 ### Fixed
 - /home/list-todays-today `today` must be `(today)`.
 
 ## 0.88.854 / 2024-02-17
-- /api/py99/:login
-- /api/comm/:login
+- GET /api/py99/:login
+- GET /api/comm/:login
 ### Fixed
 created `py99.clj`, defined following functions.
 - (before? s1 s2)

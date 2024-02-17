@@ -36,9 +36,15 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 ### exercices
 - ChatGPT 対策、間違い修正問題では？
 
+
+## 0.88.854 / 2024-02-17
 - /api/py99/:login
 - /api/comm/:login
-
+### FIXED
+created `py99.clj`, defined following functions.
+- (before? s1 s2)
+- (count-up m)
+- (bin-count data bin)
 
 ## 0.87.849 / 2024-02-17
 ### 闇が深くなった．DockerDesktop にバグだったか？

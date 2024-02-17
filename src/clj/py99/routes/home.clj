@@ -726,10 +726,10 @@
    ["/s-point/:login" {:get s-point-days}]
    ["/stock" {:post create-stock! :get  list-stocks}]
    ["/submissions" {:get submissions}]
-   ["/todays" {:get list-todays-today}]
+   ;; ["/todays" {:get list-todays-today}]
    ["/todays/:date" {:get list-todays}]
-  ;;  ["/wp" {:get (fn [_]
-  ;;                   {:status 200
-  ;;                    :headers {"Content-Type" "text/html"}
-  ;;                    :body (slurp (io/resource "docs/weekly-points.html"))})}]
+   ;;  ["/wp" {:get (fn [_]
+   ;;                   {:status 200
+   ;;                    :headers {"Content-Type" "text/html"}
+   ;;                    :body (slurp (io/resource "docs/weekly-points.html"))})}]
    ])

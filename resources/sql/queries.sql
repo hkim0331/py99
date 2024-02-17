@@ -172,6 +172,11 @@ SELECT num, count(*) FROM answers
 GROUP BY num
 ORDER BY num
 
+-- :name solved-by :? :1
+-- :doc login is goal in?
+SELECT count(distinct(num)) FROM answers
+WHERE num < 100 AND login = :login
+
 -- ----------------
 -- comments section
 -- ----------------
@@ -340,3 +345,14 @@ VALUES
 SELECT * FROM actions
 where login=:login and DATE(created_at)=DATE(:date)
 ORDER BY id
+
+-- ----------------
+-- grading section, 2024-02-18
+-- ----------------
+-- :name update-py99! :! :n
+-- :doc update `login`'s py99 to `pt`
+UPDATE gradings SET py99=:pt, updated=now() WHERE login=:login
+
+-- :name update-comm! :! :n
+-- :doc update `login`'s py99 to `pt`
+UPDATE gradings SET comm=:pt, updated=now() WHERE login=:login

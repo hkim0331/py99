@@ -37,13 +37,11 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 - ChatGPT 対策、間違い修正問題では？
 
 
-
-## 0.88-SNAPSHOT
+## 0.88.854 / 2024-02-17
 - /api/py99/:login
 - /api/comm/:login
-### FIXME
-home.clj と services.clj で同じ関数を定義している．
-share.clj とか tools.clj みたいなネームスベースで定義をまとめた方がいい．
+### FIXED
+created `py99.clj`, defined following functions.
 - (before? s1 s2)
 - (count-up m)
 - (bin-count data bin)

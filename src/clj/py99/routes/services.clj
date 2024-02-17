@@ -4,26 +4,27 @@
    [py99.config :refer [period weeks]]
    [py99.db.core :as db]
    [py99.middleware :as middleware]
+   [py99.utils :as u]
    [ring.util.http-response :as response]))
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; from home.clj
-(defn- before? [s1 s2]
-  ;; 2022-10-20 s/</<=/
-  (<= (compare s1 s2) 0))
+;; (defn- before? [s1 s2]
+;;   ;; 2022-10-20 s/</<=/
+;;   (<= (compare s1 s2) 0))
 
-(defn- count-up [m]
-  (reduce + (map :count m)))
+;; (defn- count-up [m]
+;;   (reduce + (map :count m)))
 
-(defn bin-count
-  [data bin]
-  (loop [data data bin bin ret []]
-    (if (empty? bin)
-      ret
-      (let [g (group-by #(before? (:create_at %) (first bin)) data)
-            f (g true)
-            s (g false)]
-        (recur s (rest bin) (conj ret (count-up f)))))))
+;; (defn bin-count
+;;   [data bin]
+;;   (loop [data data bin bin ret []]
+;;     (if (empty? bin)
+;;       ret
+;;       (let [g (group-by #(before? (:create_at %) (first bin)) data)
+;;             f (g true)
+;;             s (g false)]
+;;         (recur s (rest bin) (conj ret (count-up f)))))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defn fetch-problem
@@ -84,13 +85,13 @@
   [{{:keys [login]} :path-params}]
   (response/ok
    {:login login
-    :py99 (bin-count (db/answers-by-date-login {:login login}) weeks)}))
+    :py99 (u/bin-count (db/answers-by-date-login {:login login}) weeks)}))
 
 (defn comm
   [{{:keys [login]} :path-params}]
   (response/ok
    {:login login
-    :comm (bin-count (db/comments-by-date-login {:login login}) weeks)}))
+    :comm (u/bin-count (db/comments-by-date-login {:login login}) weeks)}))
 
 (defn service-routes
   []

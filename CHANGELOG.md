@@ -37,10 +37,16 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 - ChatGPT 対策、間違い修正問題では？
 
 
+## 0.89.861 / 2024-02-18
+- POST /api/py99/:login/:pt
+- POST /api/comm/:login/:pt
+### Fixed
+- /home/list-todays-today `today` must be `(today)`.
+
 ## 0.88.854 / 2024-02-17
-- /api/py99/:login
-- /api/comm/:login
-### FIXED
+- GET /api/py99/:login
+- GET /api/comm/:login
+### Fixed
 created `py99.clj`, defined following functions.
 - (before? s1 s2)
 - (count-up m)

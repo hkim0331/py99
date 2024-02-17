@@ -79,7 +79,7 @@
   [{{:keys [login]} :path-params}]
   (response/ok
    (-> (db/points? {:login login})
-       (select-keys [:login :wil :py99 :comm :m1 :m2 :m3 :e1 :updated]))))
+       (select-keys [:login :wil :py99 :comm :m1 :m2 :m3 :e1]))))
 
 (defn py99
   [{{:keys [login]} :path-params}]
@@ -93,14 +93,46 @@
    {:login login
     :comm (u/bin-count (db/comments-by-date-login {:login login}) weeks)}))
 
+
+;; (defn put! [col login pt]
+;;   (log/debug "put!" col login pt)
+;;   (response/ok {:col col
+;;                 :login login
+;;                 :pt pt}))
+
+(defn py99!
+  [{{:keys [login pt]} :path-params}]
+  (let [pt (Integer/parseInt pt)]
+    (db/update-py99! {:login login :pt pt})
+    (response/ok {:grading "py99"
+                  :login login
+                  :pt pt})))
+
+(defn comm!
+  [{{:keys [login pt]} :path-params}]
+  (let [pt (Integer/parseInt pt)]
+    (db/update-comm! {:login login :pt pt})
+    (response/ok {:grading "comm"
+                  :login login
+                  :pt pt})))
+
+;; (defn update_goal!
+;;   [_]
+;;   "if he/she finished py99, update grading set goal='10' where login='login';"
+;;   (doseq [user (users-all)]
+;;     (db/solved! {:login user solved: (db/solved-by user)})))
+
 (defn service-routes
   []
   ["/api" {:middleware [middleware/wrap-formats]}
    ["/actions/:login/:date" {:get actions?}]
    ;; ["/hello" {:get (fn [_] {:status 200 :body "hello"})}]
+
    ["/points/:login" {:get points}]
    ["/problem/:n" {:get fetch-problem}]
    ["/s/:login/:date" {:get s-point-login-date}]
    ;;
-   ["/py99/:login" {:get py99}]
-   ["/comm/:login" {:get comm}]])
+   ["/py99/:login/:pt" {:get py99 :post py99!}]
+   ["/comm/:login/:pt" {:get comm :post comm!}]
+   ;;["/goal" {:post goal!}]
+   ])

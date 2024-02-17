@@ -49,15 +49,6 @@
   []
   (remove #(pos? (compare % (today))) period))
 
-;; moved to py99.config
-;; ;; weekly reports の〆切日
-;; (def ^:private weeks
-;;   ["2023-10-02" "2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
-;;    "2023-11-06" "2023-11-13" "2023-11-20" "2023-11-27"
-;;    "2023-12-04" "2023-12-11" "2023-12-18" "2023-12-25"
-;;    "2024-01-01" "2024-01-08" "2024-01-15" "2024-01-22" "2024-01-29"
-;;    "2024-02-05" "2024-02-12" "2024-02-19"])
-
 ;; Selmer private extensions
 (defn- wrap-aux
   [n s]
@@ -517,6 +508,12 @@
             s (g false)]
         (recur s (rest bin) (conj ret (count-up f)))))))
 
+(defn py99 [login]
+  (bin-count (db/answers-by-date-login {:login login}) weeks))
+
+(defn comm [login]
+  (bin-count (db/comments-by-date-login {:login login}) weeks))
+
 ;; CHANGED 2023-10-20, bug, resume.
 (defn profile
   [request]
@@ -551,7 +548,6 @@
                                  (bin-count comments weeks))
                     :groups (filter #(< 200 (:num %)) solved)
                     :points (db/points? {:login login})})))
-
 
 (defn profile-self
   [request]
@@ -659,8 +655,8 @@
                   :todays (db/todays? {:date today})}))
 
 
-(defn midterm [request]
-  (layout/render request "midterm.html"))
+;; (defn midterm [request]
+;;   (layout/render request "midterm.html"))
 
 (defn comments-count [request]
   (layout/render request
@@ -709,32 +705,30 @@
    ["/" {:get status-page}]
    ["/activities" {:get activities-page}]
    ["/answers" {:get answers-by-problems}]
-   ["/answer/:num" {:get  answer-page
-                    :post create-answer!}]
-   ["/comment/:id" {:get  comment-form
-                    :post create-comment!}]
+   ["/answer/:num" {:get answer-page :post create-answer!}]
+   ["/comment/:id" {:get  comment-form :post create-comment!}]
    ["/comments" {:get comments}]
    ["/comments-sent" {:get comments-sent}]
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments-count" {:get comments-count}]
    ["/comments/:num" {:get comments-by-num}]
    ["/filter" {:get add-filter}]
-   ["/midterm" {:get midterm}]
+   ;; ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]
    ["/profile" {:get profile-self}]
    ["/profile/:login" {:get profile-login}]
    ["/ranking" {:get ranking}]
    ["/rank/submissions" {:get rank-submissions}]
-   ["/rank/solved"      {:get rank-solved}]
-   ["/rank/comments"    {:get rank-comments}]
+   ["/rank/solved" {:get rank-solved}]
+   ["/rank/comments" {:get rank-comments}]
    ["/s-point" {:get s-point}]
    ["/s-point/:login" {:get s-point-days}]
-   ["/stock" {:post create-stock!
-              :get  list-stocks}]
+   ["/stock" {:post create-stock! :get  list-stocks}]
    ["/submissions" {:get submissions}]
    ["/todays" {:get list-todays-today}]
    ["/todays/:date" {:get list-todays}]
-   ["/wp" {:get (fn [_]
-                  {:status 200
-                   :headers {"Content-Type" "text/html"}
-                   :body (slurp (io/resource "docs/weekly-points.html"))})}]])
+  ;;  ["/wp" {:get (fn [_]
+  ;;                   {:status 200
+  ;;                    :headers {"Content-Type" "text/html"}
+  ;;                    :body (slurp (io/resource "docs/weekly-points.html"))})}]
+   ])

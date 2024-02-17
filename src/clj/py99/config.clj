@@ -11,13 +11,14 @@
 (defstate env
   :start
   (load-config
-    :merge
-    [(args)
-     (source/from-system-props)
-     (source/from-env)]))
+   :merge
+   [(args)
+    (source/from-system-props)
+    (source/from-env)]))
 
-;; weekly reports の〆切日
+
 (def weeks
+  "weekly reports の〆切り日．2023年度情報応用では月曜日"
   ["2023-10-02" "2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
    "2023-11-06" "2023-11-13" "2023-11-20" "2023-11-27"
    "2023-12-04" "2023-12-11" "2023-12-18" "2023-12-25"
@@ -37,4 +38,6 @@
     (->> (take days (p/periodic-seq start-day (t/days 1)))
          (map to-date-str))))
 
-(def period (make-period 2023 10 1 150))
+(def period
+  "2023-10-01 から 150 日間．"
+  (make-period 2023 10 1 150))

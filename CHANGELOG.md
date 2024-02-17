@@ -41,22 +41,39 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 
 
 ## 0.87-SNAPSHOT
+### 闇が深くなった．DockerDesktop にバグだったか？
+```
+2024-02-17 09:19:25,918 [XNIO-1 task-3] DEBUG py99.routes.home - ret {:exit 0, :out ============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+rootdir: /tmp
+collected 1 item
+
+../../../tmp/python13747273597146482577.py .                             [100%]
+
+============================== 1 passed in 0.00s ===============================
+```
+### summary
+むやみにコンテナしなければいいか．
+Dockerfile を python3 python3-pytest black 入りに戻して，
+コンテナのバージョンタグは hkim0331/py99:0.6.4
+しばらくコンテナ外開発を続けよう．
+### why? docker からエスケープすると起動するのはホストのコマンドなのか？
 macos の docker container で，lein repl から (start) したプロセス，
 エスケープして python3 を実行すると呼び出されるのは macos の python3.
 しかし，linux のコンテナはコンテナ内の python3 を探す．
-linux が正しいと思うが．
-
+どっちが正しいかっつうと linux と思うが，動作が違っちゃうのが良くない．
 - /api/points/:login
 - docker image hkim0331/py99:0.5.2
 ```
   apt install python3-pytest (not pip3 install)
 ```
-### why? docker からエスケープすると起動するのはホストのコマンドなのか？
 - host の python を起動している．
 ```
 2024-02-16 22:56:17,407 [XNIO-1 task-2] DEBUG py99.routes.home - ret {:exit 1, :out , :err /opt/homebrew/opt/python@3.11/bin/python3.11: No module named pytest
 , :timeout false}
 ```
+- nuc.local ではコンテナ内の python3 を探すようだ.
+
 ## 0.86.841 / 2024-02-16
 - re-re-exam
   py99.gradings に書き足す re-re-results.sql を gradings プロジェクトで作成，

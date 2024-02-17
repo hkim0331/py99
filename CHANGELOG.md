@@ -40,7 +40,7 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 - /api/comm/:login
 
 
-## 0.87-SNAPSHOT
+## 0.87.849 / 2024-02-17
 ### 闇が深くなった．DockerDesktop にバグだったか？
 ```
 2024-02-17 09:19:25,918 [XNIO-1 task-3] DEBUG py99.routes.home - ret {:exit 0, :out ============================= test session starts ==============================

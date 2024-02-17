@@ -651,9 +651,10 @@
                     :message "日付のフォーマットになってない。"})))
 
 (defn list-todays-today [request]
-  (layout/render request "todays.html"
-                 {:date (today)
-                  :todays (db/todays? {:date today})}))
+  (let [today (today)]
+    (layout/render request "todays.html"
+                   {:date today
+                    :todays (db/todays? {:date today})})))
 
 
 ;; (defn midterm [request]
@@ -726,7 +727,7 @@
    ["/s-point/:login" {:get s-point-days}]
    ["/stock" {:post create-stock! :get  list-stocks}]
    ["/submissions" {:get submissions}]
-   ;; ["/todays" {:get list-todays-today}]
+   ["/todays" {:get list-todays-today}]
    ["/todays/:date" {:get list-todays}]
    ;;  ["/wp" {:get (fn [_]
    ;;                   {:status 200

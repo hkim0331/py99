@@ -37,6 +37,11 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 - ChatGPT 対策、間違い修正問題では？
 
 
+## 0.90-SNAPSHOT
+### Changed
+- post /api/goal/:login/:pt
+- post /api/seven-four/:login/:pt
+
 ## 0.90.868 / 2024-02-18
 アップデートは grading の仕事．
 - GET /api/goal/:login

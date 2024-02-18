@@ -75,52 +75,56 @@
                   :py99 py99
                   :s sp})))
 
-(defn points
-  [{{:keys [login]} :path-params}]
+(defn points [{{:keys [login]} :path-params}]
   (response/ok
    (-> (db/points? {:login login})
        (select-keys [:login :wil :py99 :comm :m1 :m2 :m3 :e1]))))
 
-(defn py99
-  [{{:keys [login]} :path-params}]
+(defn py99 [{{:keys [login]} :path-params}]
   (response/ok
    {:login login
     :py99 (u/bin-count (db/answers-by-date-login {:login login}) weeks)}))
 
-(defn comm
-  [{{:keys [login]} :path-params}]
+(defn comm [{{:keys [login]} :path-params}]
   (response/ok
    {:login login
     :comm (u/bin-count (db/comments-by-date-login {:login login}) weeks)}))
 
-
-;; (defn put! [col login pt]
-;;   (log/debug "put!" col login pt)
-;;   (response/ok {:col col
-;;                 :login login
-;;                 :pt pt}))
-
-(defn py99!
-  [{{:keys [login pt]} :path-params}]
+(defn py99! [{{:keys [login pt]} :path-params}]
   (let [pt (Integer/parseInt pt)]
     (db/update-py99! {:login login :pt pt})
     (response/ok {:grading "py99"
                   :login login
                   :pt pt})))
 
-(defn comm!
-  [{{:keys [login pt]} :path-params}]
+(defn comm! [{{:keys [login pt]} :path-params}]
   (let [pt (Integer/parseInt pt)]
     (db/update-comm! {:login login :pt pt})
     (response/ok {:grading "comm"
                   :login login
                   :pt pt})))
 
-;; (defn update_goal!
-;;   [_]
-;;   "if he/she finished py99, update grading set goal='10' where login='login';"
-;;   (doseq [user (users-all)]
-;;     (db/solved! {:login user solved: (db/solved-by user)})))
+(defn goal-in [{{:keys [login]} :path-params}]
+  (response/ok
+   (assoc (db/solved-by {:login login}) :login login)))
+
+(defn goal-in! [{{:keys [login]} :path-params :as request}]
+  (let [pt (-> (get-in request [:params :pt]) Integer/parseInt)]
+    (log/debug "goal-in! login" login "pt" pt)
+    (if (= 1 (db/update-goal! {:login login :pt pt}))
+      (response/ok {:login login
+                    :pt pt})
+      (response/ok {:error "failed to update"}))))
+
+(comment
+  (db/update-goal! {:login "mijuhashi" :pt 10})
+  :rcf)
+;; (defn seven-four! [{{:keys [login]} :path-params :as request}]
+;;   (let [pt (-> (get-in request [:params :pt]) Intger/ParseInt)]
+;;     (log/debug "seven-four! pt" pt)
+;;     (db/update-seven-four! {:login login :pt pt})
+;;     (response/ok {:login login
+;;                   :pt pt})))
 
 (defn service-routes
   []
@@ -136,5 +140,6 @@
    ["/comm/:login" {:get comm}]
    ["/py99/:login/:pt" {:post py99!}]
    ["/comm/:login/:pt" {:post comm!}]
-   ;;["/goal" {:post goal!}]
+   ["/goal-in/:login" {:get goal-in :post goal-in!}]
+   ;;["/seven-four/:login" {:post seven-four!}]
    ])

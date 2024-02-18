@@ -132,7 +132,9 @@
    ["/problem/:n" {:get fetch-problem}]
    ["/s/:login/:date" {:get s-point-login-date}]
    ;;
-   ["/py99/:login/:pt" {:get py99 :post py99!}]
-   ["/comm/:login/:pt" {:get comm :post comm!}]
+   ["/py99/:login" {:get py99}]
+   ["/comm/:login" {:get comm}]
+   ["/py99/:login/:pt" {:post py99!}]
+   ["/comm/:login/:pt" {:post comm!}]
    ;;["/goal" {:post goal!}]
    ])

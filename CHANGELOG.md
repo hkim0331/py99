@@ -37,6 +37,14 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 - ChatGPT 対策、間違い修正問題では？
 
 
+## 0.90-SNAPSHOT
+アップデートは grading の仕事．
+- GET /api/goal/:login
+- POST /api/goal/:login
+- db/update は戻り値をチェックした方がいい．
+- `alter table gradings rename e6 to seven_four;`
+- POST /seven-four/:login
+
 ## 0.89.861 / 2024-02-18
 - POST /api/py99/:login/:pt
 - POST /api/comm/:login/:pt

@@ -356,3 +356,11 @@ UPDATE gradings SET py99=:pt, updated=now() WHERE login=:login
 -- :name update-comm! :! :n
 -- :doc update `login`'s py99 to `pt`
 UPDATE gradings SET comm=:pt, updated=now() WHERE login=:login
+
+-- :name update-goal! :! :n
+-- :doc update `login`'s goal-in to `pt`
+UPDATE gradings SET goal=:pt, updated=now() WHERE login=:login
+
+-- :name update-seven-four! :! :n
+-- :doc update `login`'s seven-four to `pt`
+UPDATE gradings SET seven_four=:pt, updated=now() WHERE login=:login

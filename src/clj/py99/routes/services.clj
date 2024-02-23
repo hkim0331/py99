@@ -77,9 +77,7 @@
 
 (defn points [{{:keys [login]} :path-params}]
   (response/ok
-   (-> (db/points? {:login login})
-       (select-keys
-        [:login :wil :py99 :comm :m1 :m2 :m3 :e1 :goal :seven_four]))))
+   (-> (db/points? {:login login}))))
 
 ;; update は grading の仕事．
 (defn py99 [{{:keys [login]} :path-params}]
@@ -92,43 +90,34 @@
    {:login login
     :comm (u/bin-count (db/comments-by-date-login {:login login}) weeks)}))
 
-(defn py99! [{{:keys [login pt]} :path-params}]
-  (let [pt (Integer/parseInt pt)]
-    (db/update-py99! {:login login :pt pt})
-    (response/ok {:grading "py99"
-                  :login login
-                  :pt pt})))
-
-(defn comm! [{{:keys [login pt]} :path-params}]
-  (let [pt (Integer/parseInt pt)]
-    (db/update-comm! {:login login :pt pt})
-    (response/ok {:grading "comm"
-                  :login login
-                  :pt pt})))
-
 (defn goal-in [{{:keys [login]} :path-params}]
   (response/ok
    (assoc (db/solved-by {:login login}) :login login)))
 
-(defn goal-in! [{{:keys [login pt]} :path-params}]
-  (let [pt (Integer/parseInt pt)]
-    (log/debug "goal-in! login" login "pt" pt)
-    (if (= 1 (db/update-goal! {:login login :pt pt}))
+(defn py99!
+  [{{:keys [secret login col pt]} :params}]
+  (if (= secret (System/getenv "PY99_PASSWORD"))
+    (let [pt (Integer/parseInt pt)]
+      (case col
+        "e1" (db/update-e1! {:login login :pt pt})
+        "e2" (db/update-e2! {:login login :pt pt})
+        "e3" (db/update-e3! {:login login :pt pt})
+        "e4" (db/update-e4! {:login login :pt pt})
+        "e5" (db/update-e5! {:login login :pt pt})
+        "wil" (db/update-wil! {:login login :pt pt})
+        "py99" (db/update-py99! {:login login :pt pt})
+        "comm" (db/update-comm! {:login login :pt pt})
+        "goal-in" (db/update-goal! {:login login :pt pt})
+        "seven-four" (db/update-seven-four! {:login login :pt pt})
+        "default")
       (response/ok {:login login
-                    :pt pt})
-      (response/ok {:error "failed to update"}))))
-
-(comment
-  (db/update-goal! {:login "mijuhashi" :pt 10})
-  :rcf)
-
-(defn seven-four! [{{:keys [login pt]} :path-params}]
-  (let [pt (Integer/parseInt pt)]
-    (log/debug "seven-four! pt" pt)
-    (if (= 1 (db/update-seven-four! {:login login :pt pt}))
-      (response/ok {:login login
-                    :pt pt})
-      (response/ok {:error "can not update"}))))
+                    :col col
+                    :pt pt
+                    :secret secret}))
+    (response/bad-request {:login login
+                           :col col
+                           :pt pt
+                           :secret secret})))
 
 (defn service-routes
   []
@@ -137,11 +126,8 @@
    ["/points/:login" {:get points}]
    ["/problem/:n" {:get fetch-problem}]
    ["/s/:login/:date" {:get s-point-login-date}]
-   ;; for grading
    ["/comm/:login" {:get comm}]
-   ["/comm/:login/:pt" {:post comm!}]
    ["/py99/:login" {:get py99}]
-   ["/py99/:login/:pt" {:post py99!}]
    ["/goal-in/:login" {:get goal-in}]
-   ["/goal-in/:login/:pt" {:post goal-in!}]
-   ["/seven-four/:login/:pt" {:post seven-four!}]])
+   ;; update
+   ["/py99" {:post py99!}]])

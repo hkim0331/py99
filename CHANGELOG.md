@@ -41,6 +41,7 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 ### Changed
 - post /api/goal/:login/:pt
 - post /api/seven-four/:login/:pt
+- home.clj stop validation
 
 ## 0.90.868 / 2024-02-18
 アップデートは grading の仕事．

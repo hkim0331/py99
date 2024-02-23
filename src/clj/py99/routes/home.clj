@@ -386,8 +386,9 @@
   [{{:keys [num answer]} :params :as request}]
   (log/debug "create-answer!" (login request) num)
   (try
-    (when-not (env :exam-mode)
-      (validate (Integer/parseInt num) answer (login request)))
+    ;; 2024-02-23, after endterm
+    ;; (when-not (env :exam-mode)
+    ;;   (validate (Integer/parseInt num) answer (login request)))
     (db/create-answer!
      {:login (login request)
       :num (Integer/parseInt num)

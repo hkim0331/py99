@@ -36,9 +36,12 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 ### exercices
 - ChatGPT 対策、間違い修正問題では？
 
-## 0.91-SNAPSHOT
+## 0.91.879 / 2024-02-23
+### Added
 post をトークン付きに．
 - post /api/py99! {:login "login" :col "py99" :pt 90 :secret ""}
+### Removed
+- post /api/py99/:login/:pt 他を廃止した．
 
 ## 0.90.874 / 2024-02-23
 ### Changed

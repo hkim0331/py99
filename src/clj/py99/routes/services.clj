@@ -78,7 +78,8 @@
 (defn points [{{:keys [login]} :path-params}]
   (response/ok
    (-> (db/points? {:login login})
-       (select-keys [:login :wil :py99 :comm :m1 :m2 :m3 :e1]))))
+       (select-keys
+        [:login :wil :py99 :comm :m1 :m2 :m3 :e1 :goal :seven_four]))))
 
 ;; update は grading の仕事．
 (defn py99 [{{:keys [login]} :path-params}]
@@ -109,8 +110,8 @@
   (response/ok
    (assoc (db/solved-by {:login login}) :login login)))
 
-(defn goal-in! [{{:keys [login]} :path-params :as request}]
-  (let [pt (-> (get-in request [:params :pt]) Integer/parseInt)]
+(defn goal-in! [{{:keys [login pt]} :path-params}]
+  (let [pt (Integer/parseInt pt)]
     (log/debug "goal-in! login" login "pt" pt)
     (if (= 1 (db/update-goal! {:login login :pt pt}))
       (response/ok {:login login
@@ -121,9 +122,8 @@
   (db/update-goal! {:login "mijuhashi" :pt 10})
   :rcf)
 
-(defn seven-four! [{{:keys [login]} :path-params :as request}]
-  (let [pt (-> (get-in request [:params :pt])
-               Integer/parseInt)]
+(defn seven-four! [{{:keys [login pt]} :path-params}]
+  (let [pt (Integer/parseInt pt)]
     (log/debug "seven-four! pt" pt)
     (if (= 1 (db/update-seven-four! {:login login :pt pt}))
       (response/ok {:login login
@@ -134,15 +134,14 @@
   []
   ["/api" {:middleware [middleware/wrap-formats]}
    ["/actions/:login/:date" {:get actions?}]
-   ;; ["/hello" {:get (fn [_] {:status 200 :body "hello"})}]
-
    ["/points/:login" {:get points}]
    ["/problem/:n" {:get fetch-problem}]
    ["/s/:login/:date" {:get s-point-login-date}]
-   ;;
-   ["/py99/:login" {:get py99}]
+   ;; for grading
    ["/comm/:login" {:get comm}]
-   ["/py99/:login/:pt" {:post py99!}]
    ["/comm/:login/:pt" {:post comm!}]
-   ["/goal-in/:login" {:get goal-in :post goal-in!}]
-   ["/seven-four/:login" {:post seven-four!}]])
+   ["/py99/:login" {:get py99}]
+   ["/py99/:login/:pt" {:post py99!}]
+   ["/goal-in/:login" {:get goal-in}]
+   ["/goal-in/:login/:pt" {:post goal-in!}]
+   ["/seven-four/:login/:pt" {:post seven-four!}]])

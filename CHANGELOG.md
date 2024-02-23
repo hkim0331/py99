@@ -38,7 +38,7 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 
 ## 0.91-SNAPSHOT
 post をトークン付きに．
-
+- post /api/py99! {:login "login" :col "py99" :pt 90 :secret ""}
 
 ## 0.90.874 / 2024-02-23
 ### Changed

@@ -518,6 +518,14 @@
 ;; (defn comm [login]
 ;;   (bin-count (db/comments-by-date-login {:login login}) weeks))
 
+
+(defn- sum-endterm
+  "sum endterm points in `m`, append as {:mt pt}."
+  [m]
+  (try
+    (assoc m :et (+ (:e1 m) (:e2 m) (:e3 m) (:e4 m) (:e5 m)))
+    (catch Exception _ {})))
+
 ;; CHANGED 2023-10-20, bug, resume.
 (defn profile
   [request]
@@ -551,7 +559,7 @@
                                  (u/bin-count individual weeks)
                                  (u/bin-count comments weeks))
                     :groups (filter #(< 200 (:num %)) solved)
-                    :points (db/points? {:login login})})))
+                    :points (sum-endterm (db/points? {:login login}))})))
 
 (defn profile-self
   [request]

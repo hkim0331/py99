@@ -36,6 +36,9 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 ### exercices
 - ChatGPT 対策、間違い修正問題では？
 
+## 0.92.883 / 2024-02-23
+期末テストを総合してキー :et で渡す．
+
 ## 0.91.879 / 2024-02-23
 ### Added
 post をトークン付きに．

@@ -386,8 +386,8 @@
   [{{:keys [num answer]} :params :as request}]
   (log/debug "create-answer!" (login request) num)
   (try
-    ;;
-    ;; 2024-02-23, after endterm. must resume.
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; 2024-02-23, after endterm. must resume when reuse.
     ;; (when-not (env :exam-mode)
     ;;   (validate (Integer/parseInt num) answer (login request)))
     ;;

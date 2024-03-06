@@ -6,14 +6,12 @@ RUN set -ex; \
     apt-get -y update; \
     apt-get -y upgrade; \
     apt-get -y install --no-install-recommends \
-      sudo openssh-client \
-           git git-flow \
-           postgresql-client-14 \
-           python3 python3-pip black
-RUN set -ex; apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/*
+    sudo openssh-client \
+    git git-flow \
+    postgresql-client-14 \
+    python3 python3-pytest black
 
-# installed as /usr/local/bin/pytest
-RUN pip3 install pytest
+RUN set -ex; apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/*
 
 # installed as /usr/locla/bin/bb
 RUN curl -s https://raw.githubusercontent.com/babashka/babashka/master/install | bash
@@ -27,8 +25,5 @@ RUN set -eux; \
     echo ${USERNAME} ALL=\(ALL\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME; \
     chmod 0440 /etc/sudoers.d/$USERNAME; \
     echo PATH=/home/$USERNAME/.local/bin:$PATH >> /home/$USERNAME/.bashrc
-
-# 2024-02-03
-RUN pip3 install --upgrade wheel setuptools
 
 USER $USERNAME

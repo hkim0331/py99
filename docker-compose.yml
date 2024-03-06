@@ -2,11 +2,11 @@ version: "3"
 
 services:
   py99:
-    image: hkim0331/py99:0.5.0
-    user : vscode
-    working_dir: /usr/src/app
+    image: hkim0331/py99:0.6.4
+    user: vscode
     environment:
       TZ: Asia/Tokyo
+    working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app
       # docker desktop v4.24.0, too slow.
@@ -14,6 +14,9 @@ services:
       # v4.27.0 slow 5m14s on m24.
       - m2:/home/vscode/.m2
       - gitlibs:/home/vscode/.gitlibs
+    # vscode auto forwarded
+    # ports:
+    #   - "3010:3010"
     command:
       - sleep
       - infinity

@@ -172,6 +172,11 @@ SELECT num, count(*) FROM answers
 GROUP BY num
 ORDER BY num
 
+-- :name solved-by :? :1
+-- :doc login is goal in?
+SELECT count(distinct(num)) FROM answers
+WHERE num < 100 AND login = :login
+
 -- ----------------
 -- comments section
 -- ----------------
@@ -340,3 +345,48 @@ VALUES
 SELECT * FROM actions
 where login=:login and DATE(created_at)=DATE(:date)
 ORDER BY id
+
+-- ----------------
+-- grading section, 2024-02-18
+-- ----------------
+
+-- :name update-wil! :! :n
+-- :doc update `login`'s wil to `pt`
+UPDATE gradings SET wil=:pt, updated=now() WHERE login=:login
+
+
+-- :name update-py99! :! :n
+-- :doc update `login`'s py99 to `pt`
+UPDATE gradings SET py99=:pt, updated=now() WHERE login=:login
+
+-- :name update-comm! :! :n
+-- :doc update `login`'s py99 to `pt`
+UPDATE gradings SET comm=:pt, updated=now() WHERE login=:login
+
+-- :name update-goal! :! :n
+-- :doc update `login`'s goal-in to `pt`
+UPDATE gradings SET goal=:pt, updated=now() WHERE login=:login
+
+-- :name update-seven-four! :! :n
+-- :doc update `login`'s seven-four to `pt`
+UPDATE gradings SET seven_four=:pt, updated=now() WHERE login=:login
+
+-- :name update-e1! :! :n
+-- :doc update `login`'s e1 to `pt`
+UPDATE gradings SET e1=:pt, updated=now() WHERE login=:login
+
+-- :name update-e2! :! :n
+-- :doc update `login`'s e2 to `pt`
+UPDATE gradings SET e2=:pt, updated=now() WHERE login=:login
+
+-- :name update-e3! :! :n
+-- :doc update `login`'s e3 to `pt`
+UPDATE gradings SET e3=:pt, updated=now() WHERE login=:login
+
+-- :name update-e4! :! :n
+-- :doc update `login`'s e4 to `pt`
+UPDATE gradings SET e4=:pt, updated=now() WHERE login=:login
+
+-- :name update-e5! :! :n
+-- :doc update `login`'s e5 to `pt`
+UPDATE gradings SET e5=:pt, updated=now() WHERE login=:login

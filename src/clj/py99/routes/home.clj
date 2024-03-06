@@ -14,6 +14,7 @@
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
+   [py99.utils :as u]
    ;; [py99.routes.login :refer [get-user]]
    [ring.util.http-response :as response]
    [ring.util.response :refer [redirect]]
@@ -48,15 +49,6 @@
   "return a list of `yyyy-mm-dd ` up to today from the day class started."
   []
   (remove #(pos? (compare % (today))) period))
-
-;; moved to py99.config
-;; ;; weekly reports の〆切日
-;; (def ^:private weeks
-;;   ["2023-10-02" "2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
-;;    "2023-11-06" "2023-11-13" "2023-11-20" "2023-11-27"
-;;    "2023-12-04" "2023-12-11" "2023-12-18" "2023-12-25"
-;;    "2024-01-01" "2024-01-08" "2024-01-15" "2024-01-22" "2024-01-29"
-;;    "2024-02-05" "2024-02-12" "2024-02-19"])
 
 ;; Selmer private extensions
 (defn- wrap-aux
@@ -280,9 +272,9 @@
             (println answer)
             (println test)))
         (let [ret (timeout-sh timeout
-                              "pytest"
+                              "python3" "-m" "pytest"
                               (.getAbsolutePath tempfile))]
-          ;; (log/debug "ret" ret)
+          (log/debug "ret" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
             (throw (Exception. (->> (str/split-lines (:out ret))
@@ -394,8 +386,11 @@
   [{{:keys [num answer]} :params :as request}]
   (log/debug "create-answer!" (login request) num)
   (try
-    (when-not (env :exam-mode)
-      (validate (Integer/parseInt num) answer (login request)))
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; 2024-02-23, after endterm. must resume when reuse.
+    ;; (when-not (env :exam-mode)
+    ;;   (validate (Integer/parseInt num) answer (login request)))
+    ;;
     (db/create-answer!
      {:login (login request)
       :num (Integer/parseInt num)
@@ -498,24 +493,38 @@
 ;;
 ;; weekly counts
 ;;
-(defn- before? [s1 s2]
-  ;; 2022-10-20 s/</<=/
-  (<= (compare s1 s2) 0))
+;; (defn- before? [s1 s2]
+;;   ;; 2022-10-20 s/</<=/
+;;   (<= (compare s1 s2) 0))
 
-(defn- count-up [m]
-  (reduce + (map :count m)))
+;; (defn- count-up [m]
+;;   (reduce + (map :count m)))
 
-(defn bin-count
-  "data は週ごとの集計。単純な answers や comments じゃないので、
-   (count-up f)が必要。"
-  [data bin]
-  (loop [data data bin bin ret []]
-    (if (empty? bin)
-      ret
-      (let [g (group-by #(before? (:create_at %) (first bin)) data)
-            f (g true)
-            s (g false)]
-        (recur s (rest bin) (conj ret (count-up f)))))))
+;; (defn bin-count
+;;   "data は週ごとの集計。単純な answers や comments じゃないので、
+;;    (count-up f)が必要。"
+;;   [data bin]
+;;   (loop [data data bin bin ret []]
+;;     (if (empty? bin)
+;;       ret
+;;       (let [g (group-by #(before? (:create_at %) (first bin)) data)
+;;             f (g true)
+;;             s (g false)]
+;;         (recur s (rest bin) (conj ret (count-up f)))))))
+
+;; (defn py99 [login]
+;;   (bin-count (db/answers-by-date-login {:login login}) weeks))
+
+;; (defn comm [login]
+;;   (bin-count (db/comments-by-date-login {:login login}) weeks))
+
+
+(defn- sum-endterm
+  "sum endterm points in `m`, append as {:mt pt}."
+  [m]
+  (try
+    (assoc m :et (+ (:e1 m) (:e2 m) (:e3 m) (:e4 m) (:e5 m)))
+    (catch Exception _ {})))
 
 ;; CHANGED 2023-10-20, bug, resume.
 (defn profile
@@ -547,11 +556,10 @@
                             [])
                     :weekly (map list
                                  weeks
-                                 (bin-count individual weeks)
-                                 (bin-count comments weeks))
+                                 (u/bin-count individual weeks)
+                                 (u/bin-count comments weeks))
                     :groups (filter #(< 200 (:num %)) solved)
-                    :points (db/points? {:login login})})))
-
+                    :points (sum-endterm (db/points? {:login login}))})))
 
 (defn profile-self
   [request]
@@ -654,13 +662,14 @@
                     :message "日付のフォーマットになってない。"})))
 
 (defn list-todays-today [request]
-  (layout/render request "todays.html"
-                 {:date (today)
-                  :todays (db/todays? {:date today})}))
+  (let [today (today)]
+    (layout/render request "todays.html"
+                   {:date today
+                    :todays (db/todays? {:date today})})))
 
 
-(defn midterm [request]
-  (layout/render request "midterm.html"))
+;; (defn midterm [request]
+;;   (layout/render request "midterm.html"))
 
 (defn comments-count [request]
   (layout/render request
@@ -709,32 +718,30 @@
    ["/" {:get status-page}]
    ["/activities" {:get activities-page}]
    ["/answers" {:get answers-by-problems}]
-   ["/answer/:num" {:get  answer-page
-                    :post create-answer!}]
-   ["/comment/:id" {:get  comment-form
-                    :post create-comment!}]
+   ["/answer/:num" {:get answer-page :post create-answer!}]
+   ["/comment/:id" {:get  comment-form :post create-comment!}]
    ["/comments" {:get comments}]
    ["/comments-sent" {:get comments-sent}]
    ["/comments-sent/:login" {:get comments-sent}]
    ["/comments-count" {:get comments-count}]
    ["/comments/:num" {:get comments-by-num}]
    ["/filter" {:get add-filter}]
-   ["/midterm" {:get midterm}]
+   ;; ["/midterm" {:get midterm}]
    ["/problems" {:get problems-page}]
    ["/profile" {:get profile-self}]
    ["/profile/:login" {:get profile-login}]
    ["/ranking" {:get ranking}]
    ["/rank/submissions" {:get rank-submissions}]
-   ["/rank/solved"      {:get rank-solved}]
-   ["/rank/comments"    {:get rank-comments}]
+   ["/rank/solved" {:get rank-solved}]
+   ["/rank/comments" {:get rank-comments}]
    ["/s-point" {:get s-point}]
    ["/s-point/:login" {:get s-point-days}]
-   ["/stock" {:post create-stock!
-              :get  list-stocks}]
+   ["/stock" {:post create-stock! :get  list-stocks}]
    ["/submissions" {:get submissions}]
    ["/todays" {:get list-todays-today}]
    ["/todays/:date" {:get list-todays}]
-   ["/wp" {:get (fn [_]
-                  {:status 200
-                   :headers {"Content-Type" "text/html"}
-                   :body (slurp (io/resource "docs/weekly-points.html"))})}]])
+   ;;  ["/wp" {:get (fn [_]
+   ;;                   {:status 200
+   ;;                    :headers {"Content-Type" "text/html"}
+   ;;                    :body (slurp (io/resource "docs/weekly-points.html"))})}]
+   ])

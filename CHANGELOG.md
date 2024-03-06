@@ -2,21 +2,19 @@
 
 ## Unreleased
 ### docker
+- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
+  macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
 モジュールを入れ替えても vulnerable は変わらない．
 - wheel 0.37.1 ->0.38.1
 - setuptools 59.6.0 -> 65.5.2
 https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulnerability-even-though-it-has-been-updated/135996/3
-
-### system
-- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
-  macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
 - pip install wheel を Dockerfile で実施しても、
   Docker Desktop が表示する Vulnerabilities は変わらない。
   clojure:temurin-20:lein を入れても二つのパッケージが残る。
     - wheel 0.37.1
     - setuptools 59.6.0
-  積極的に pip uninstall したらどうか？
-- pip よりも poetry
+- 積極的に pip uninstall したらどうか？
+- pip よりも apt install python3-module で．
 ### clojure/luminus
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
@@ -28,22 +26,92 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 - テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
 - コードをカラフルに表示する。
 - test code, assert インデント4に変更
-- FIXME: home/has-docstring-test は十分ではない。def 直下にあることを
-  チェックしていない。2023-10-19
 - html/show_list.html
   テンプレート化を進める。テンプレートに渡すベクタをclj 側で細工する。
   selmer はループを回るだけにする。
-- FIXME: filter では表示する本数が減ってしまう。
-  filter 情報を SQL に渡してフィルタすべきか。
-- FIXME: filter は一件のみ。
 - REFACTOR: s ポイント関連が home.clj と services.clj の二箇所にある。
 - FIXME: py99.grading:updated コラムにタイムスタンプを入れる。
 - auto-reload => meta ヘッダを書けばいい。
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 ### exercices
 - ChatGPT 対策、間違い修正問題では？
-### black
 
+## 0.93.888 / 2024-03-06
+### Added
+- /api/pt/:login
+
+## 0.92.883 / 2024-02-23
+期末テストを総合してキー :et で渡す．
+
+## 0.91.879 / 2024-02-23
+### Added
+post をトークン付きに．
+- post /api/py99! {:login "login" :col "py99" :pt 90 :secret ""}
+### Removed
+- post /api/py99/:login/:pt 他を廃止した．
+
+## 0.90.874 / 2024-02-23
+### Changed
+- post /api/goal/:login/:pt
+- post /api/seven-four/:login/:pt
+- home.clj stop validation
+
+## 0.90.868 / 2024-02-18
+アップデートは grading の仕事．
+- GET /api/goal/:login
+- POST /api/goal/:login
+- db/update は戻り値をチェックした方がいい．
+- `alter table gradings rename e6 to seven_four;`
+- POST /seven-four/:login
+
+## 0.89.861 / 2024-02-18
+- POST /api/py99/:login/:pt
+- POST /api/comm/:login/:pt
+### Fixed
+- /home/list-todays-today `today` must be `(today)`.
+
+## 0.88.854 / 2024-02-17
+- GET /api/py99/:login
+- GET /api/comm/:login
+### Fixed
+created `py99.clj`, defined following functions.
+- (before? s1 s2)
+- (count-up m)
+- (bin-count data bin)
+
+## 0.87.849 / 2024-02-17
+### 闇が深くなった．DockerDesktop にバグだったか？
+```
+2024-02-17 09:19:25,918 [XNIO-1 task-3] DEBUG py99.routes.home - ret {:exit 0, :out ============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+rootdir: /tmp
+collected 1 item
+
+../../../tmp/python13747273597146482577.py .                             [100%]
+
+============================== 1 passed in 0.00s ===============================
+```
+### summary
+むやみにコンテナしなければいいか．
+Dockerfile を python3 python3-pytest black 入りに戻して，
+コンテナのバージョンタグは hkim0331/py99:0.6.4
+しばらくコンテナ外開発を続けよう．
+### why? docker からエスケープすると起動するのはホストのコマンドなのか？
+macos の docker container で，lein repl から (start) したプロセス，
+エスケープして python3 を実行すると呼び出されるのは macos の python3.
+しかし，linux のコンテナはコンテナ内の python3 を探す．
+どっちが正しいかっつうと linux と思うが，動作が違っちゃうのが良くない．
+- /api/points/:login
+- docker image hkim0331/py99:0.5.2
+```
+  apt install python3-pytest (not pip3 install)
+```
+- host の python を起動している．
+```
+2024-02-16 22:56:17,407 [XNIO-1 task-2] DEBUG py99.routes.home - ret {:exit 1, :out , :err /opt/homebrew/opt/python@3.11/bin/python3.11: No module named pytest
+, :timeout false}
+```
+- nuc.local ではコンテナ内の python3 を探すようだ.
 
 ## 0.86.841 / 2024-02-16
 - re-re-exam

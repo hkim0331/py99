@@ -22,7 +22,7 @@ services:
       - infinity
 
   db:
-    image: postgres:14.10
+    image: postgres:14.11
     environment:
       TZ: Asia/Tokyo
       POSTGRES_DB: py99

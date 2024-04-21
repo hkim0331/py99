@@ -14,15 +14,15 @@ services:
       # v4.27.0 slow 5m14s on m24.
       - m2:/home/vscode/.m2
       - gitlibs:/home/vscode/.gitlibs
-    # vscode auto forwarded
-    # ports:
-    #   - "3010:3010"
+    # vscode stops auto forwarding? 2024-04-01
+    ports:
+      - "3010:3010"
     command:
       - sleep
       - infinity
 
   db:
-    image: postgres:14.10
+    image: postgres:14.11
     environment:
       TZ: Asia/Tokyo
       POSTGRES_DB: py99

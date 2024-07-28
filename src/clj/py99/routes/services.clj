@@ -79,6 +79,14 @@
   (response/ok
    (-> (db/points? {:login login}))))
 
+(defn pt
+  "returns `login`s sum of points."
+  [{{:keys [login]} :path-params}]
+  (let [{:keys [py99 comm goal seven_four m1 m2 m3 e1 e2 e3 e4 e5]}
+        (db/points? {:login login})
+        pt (+ py99 comm goal seven_four e1 e2 e3 e4 e5 (max m1 m2 m3))]
+    (response/ok {:login login :pt pt})))
+
 ;; update は grading の仕事．
 (defn py99 [{{:keys [login]} :path-params}]
   (response/ok
@@ -94,6 +102,7 @@
   (response/ok
    (assoc (db/solved-by {:login login}) :login login)))
 
+;; why m1, m2, m3 does not exist?
 (defn py99!
   [{{:keys [secret login col pt]} :params}]
   (if (= secret (System/getenv "PY99_PASSWORD"))
@@ -125,6 +134,7 @@
    ["/actions/:login/:date" {:get actions?}]
    ["/points/:login" {:get points}]
    ["/problem/:n" {:get fetch-problem}]
+   ["/pt/:login" {:get pt}]
    ["/s/:login/:date" {:get s-point-login-date}]
    ["/comm/:login" {:get comm}]
    ["/py99/:login" {:get py99}]

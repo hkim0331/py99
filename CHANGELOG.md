@@ -37,7 +37,7 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 - ChatGPT 対策、間違い修正問題では？
 
 
-## 0.94-SNAPSHOT
+## 0.94.905 / 2024-08-21
 - docker postgres:14.11
 
 ## 0.93.888 / 2024-03-06

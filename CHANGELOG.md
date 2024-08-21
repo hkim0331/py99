@@ -4,7 +4,7 @@
 ### docker
 - docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
   macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
-モジュールを入れ替えても vulnerable は変わらない．
+  モジュールを入れ替えても vulnerable は変わらない．
 - wheel 0.37.1 ->0.38.1
 - setuptools 59.6.0 -> 65.5.2
 https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulnerability-even-though-it-has-been-updated/135996/3
@@ -14,7 +14,7 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
     - wheel 0.37.1
     - setuptools 59.6.0
 - 積極的に pip uninstall したらどうか？
-- pip よりも apt install python3-module で．
+- pip よりも apt install python3-<module> で．
 ### clojure/luminus
 - Namespace hiccup.core is deprecated since 2.0.
 - log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
@@ -35,6 +35,10 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 ### exercices
 - ChatGPT 対策、間違い修正問題では？
+
+
+## 0.94.905 / 2024-08-21
+- docker postgres:14.11
 
 ## 0.93.888 / 2024-03-06
 ### Added

@@ -388,9 +388,9 @@
   (try
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; 2024-02-23, after endterm. must resume when reuse.
-    ;; (when-not (env :exam-mode)
-    ;;   (validate (Integer/parseInt num) answer (login request)))
-    ;;
+    ;; 2024-03-08, resumed
+    (when-not (env :exam-mode)
+      (validate (Integer/parseInt num) answer (login request)))
     (db/create-answer!
      {:login (login request)
       :num (Integer/parseInt num)

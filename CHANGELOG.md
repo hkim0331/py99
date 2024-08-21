@@ -36,6 +36,37 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 ### exercices
 - ChatGPT 対策、間違い修正問題では？
 
+## v1.0-SNAPSHOT
+- updated libraries.
+
+| :file       | :name                          | :current | :latest |
+|------------ | ------------------------------ | -------- | --------|
+| project.clj | ch.qos.logback/logback-classic | 1.4.14   | 1.5.7   |
+|             | cheshire/cheshire              | 5.12.0   | 5.13.0  |
+|             | cider/cider-nrepl              | 0.44.0   | 0.49.3  |
+|             | cprop/cprop                    | 0.1.19   | 0.1.20  |
+|             | hato/hato                      | 0.9.0    | 1.0.0   |
+|             | jonase/eastwood                | 1.4.2    | 1.4.3   |
+|             | markdown-clj/markdown-clj      | 1.11.7   | 1.12.1  |
+|             | metosin/muuntaja               | 0.6.8    | 0.6.10  |
+|             | metosin/reitit                 | 0.6.0    | 0.7.1   |
+|             | metosin/ring-http-response     | 0.9.3    | 0.9.4   |
+|             | mount/mount                    | 0.1.17   | 0.1.18  |
+|             | nrepl/nrepl                    | 1.1.0    | 1.3.0   |
+|             | org.clojure/clojure            | 1.11.1   | 1.11.4  |
+|             | org.clojure/tools.cli          | 1.0.219  | 1.1.230 |
+|             | org.clojure/tools.logging      | 1.2.4    | 1.3.0   |
+|             | org.clojure/tools.namespace    | 1.4.4    | 1.5.0   |
+|             | org.postgresql/postgresql      | 42.7.1   | 42.7.3  |
+|             | org.webjars.npm/bulma          | 0.9.4    | 1.0.1   |
+|             | org.webjars/webjars-locator    | 0.50     | 0.52    |
+|             | ring-webjars/ring-webjars      | 0.2.0    | 0.3.0   |
+|             | ring/ring-core                 | 1.11.0   | 1.12.2  |
+|             | ring/ring-defaults             | 0.4.0    | 0.5.0   |
+|             | ring/ring-devel                | 1.11.0   | 1.12.2  |
+|             | selmer/selmer                  | 1.12.59  | 1.12.61 |
+
+
 
 ## 0.94.905 / 2024-08-21
 - docker postgres:14.11

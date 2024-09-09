@@ -1,12 +1,13 @@
 (ns py99.routes.home
   (:require
    ;; [clj-time.core :as t]
-   [clj-time.local :as l]
+   ;; [clj-time.local :as l]
    ;; [clj-time.periodic :as p]
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [digest]
+   [java-time.api :as jt]
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
    ;; clj-kondo can not trace defstate
@@ -25,25 +26,19 @@
 (defn- lazy-contains? [col key]
   (some #{key} col))
 
-(defn- to-date-str
-  "FIXME: strongly depends on format of `s`."
-  [s]
-  (-> (str s)
-      (subs 0 10)))
+;; no use.
+;; (defn- to-date-str
+;;   "FIXME: strongly depends on format of `s`."
+;;   [s]
+;;   (-> (str s)
+;;       (subs 0 10)))
 
-;; (defn- make-period
-;;   "return a list of days from `yyyy-mm-dd` to days after from it."
-;;   [yyyy mm dd days]
-;;   (let [start-day (l/to-local-date-time (t/date-time yyyy mm dd))]
-;;     (->> (take days (p/periodic-seq start-day (t/days 1)))
-;;          (map to-date-str))))
-
-;; 情報応用の授業期間。2023-10-01 から 150 日間。
-;; chart の横軸になる。
-;; (def ^:private period (make-period 2023 10 1 150))
+;; Replaced 2024-09-07
+;; (defn- today []
+;;   (to-date-str (str (l/local-now))))
 
 (defn- today []
-  (to-date-str (str (l/local-now))))
+  (str (jt/local-date)))
 
 (defn- up-to-today
   "return a list of `yyyy-mm-dd ` up to today from the day class started."

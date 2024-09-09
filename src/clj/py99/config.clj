@@ -1,11 +1,8 @@
 (ns py99.config
   (:require
-   [clj-time.core :as t]
-   [clj-time.local :as l]
-   [clj-time.periodic :as p]
-   ;; [clojure.java.io :as io]
    [cprop.core :refer [load-config]]
    [cprop.source :as source]
+   [java-time.api :as jt]
    [mount.core :refer [args defstate]]))
 
 (defstate env
@@ -16,66 +13,28 @@
     (source/from-system-props)
     (source/from-env)]))
 
-(comment
-  (require '[clojure.java-time :as jt])
-
-  (defn date->str
-    [instant]
-    (jt/format
-     (jt/with-zone (jt/formatter "yyyy-MM-dd") (jt/zone-id))
-     instant))
-
-  (->> (jt/local-date 2024 10 1)
-       (iterate #(jt/+ % (jt/days 1)))
-       (filter jt/monday?)
-       (take 20)
-       (map date->str))
-  :rcf)
-
-;; (def weeks
-;;   "weekly reports の〆切り日．2023年度情報応用では月曜日"
-;;   ["2023-10-02" "2023-10-09" "2023-10-16" "2023-10-23" "2023-10-30"
-;;    "2023-11-06" "2023-11-13" "2023-11-20" "2023-11-27"
-;;    "2023-12-04" "2023-12-11" "2023-12-18" "2023-12-25"
-;;    "2024-01-01" "2024-01-08" "2024-01-15" "2024-01-22" "2024-01-29"
-;;    "2024-02-05" "2024-02-12" "2024-02-19"])
-
-(def weeks
-  "weekly reports の〆切り日。"
-  ["2024-10-07"
-   "2024-10-14"
-   "2024-10-21"
-   "2024-10-28"
-   "2024-11-04"
-   "2024-11-11"
-   "2024-11-18"
-   "2024-11-25"
-   "2024-12-02"
-   "2024-12-09"
-   "2024-12-16"
-   "2024-12-23"
-   "2024-12-30"
-   "2025-01-06"
-   "2025-01-13"
-   "2025-01-20"
-   "2025-01-27"
-   "2025-02-03"
-   "2025-02-10"
-   "2025-02-17"])
-
-(defn- to-date-str
-  "FIXME: strongly depends on format of `s`."
-  [s]
-  (-> (str s)
-      (subs 0 10)))
+;; Replaced 2024-09-07
+;; (defn- make-period
+;;   "return a list of days from `yyyy-mm-dd` to days after from it."
+;;   [yyyy mm dd days]
+;;   (let [start-day (l/to-local-date-time (t/date-time yyyy mm dd))]
+;;     (->> (take days (p/periodic-seq start-day (t/days 1)))
+;;          (map to-date-str))))
 
 (defn- make-period
   "return a list of days from `yyyy-mm-dd` to days after from it."
-  [yyyy mm dd days]
-  (let [start-day (l/to-local-date-time (t/date-time yyyy mm dd))]
-    (->> (take days (p/periodic-seq start-day (t/days 1)))
-         (map to-date-str))))
+  [yyyy mm dd n]
+  (let [start-day (jt/local-date yyyy mm dd)]
+    (->> (iterate #(jt/+ % (jt/days 1)) start-day)
+         (take n))))
 
 (def period
-  "2024-10-01 から 150 日間．"
-  (make-period 2024 10 1 150))
+  "2024-10-01 から 150 日間。"
+  (->> (make-period 2024 10 1 150)
+       (map str)))
+
+(def weeks
+  "授業期間中の月曜日。"
+  (->> (make-period 2024 10 1 150)
+       (filter jt/monday?)
+       (map str)))

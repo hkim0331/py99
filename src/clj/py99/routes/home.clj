@@ -215,6 +215,9 @@
   "ruff format --diff s"
   [s]
   (let [tempfile (java.io.File/createTempFile "python" ".py")]
+    (log/info "tempfile" tempfile)
+    (log/info "abs path" (.getAbsolutePath tempfile))
+    (log/info "s" s)
     (with-open [file (io/writer tempfile)]
       (binding [*out* file]
         (println s)))
@@ -223,11 +226,11 @@
                           "format"
                           "--diff"
                           (.getAbsolutePath tempfile))]
-      (.delete tempfile)
-      (log/debug "ruff-formatter" s)
-      (log/debug "ruff-formatter" (:err ret))
+      ;; (.delete tempfile)
+      (log/info "ruff format --diff" (.getAbsolutePath tempfile))
+      (log/info "ruff format --diff" (:err ret))
       (when-not (zero? (:exit ret))
-        (throw (Exception. (str "Ruff してる？")))))))
+        (throw (Exception. (str "Ruff してる？" (:err ret))))))))
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.

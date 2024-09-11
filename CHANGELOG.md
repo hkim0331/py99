@@ -40,6 +40,16 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 
 - Ruff formatter
 
+- what happened?
+
+```
+ubuntu@app:/tmp$ ruff format --diff *.py
+error: Failed to format python15164825076388400708.py: No such file or directory (os error 2)
+error: Failed to format python16047739918858394545.py: No such file or directory (os error 2)
+error: Failed to format python5732380935088482436.py: No such file or directory (os error 2)
+error: Failed to format python6089995288880906622.py: No such file or directory (os error 2)
+```
+
 ## v1.0 / 2024-08-21
 - updated libraries.
 

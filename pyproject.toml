@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.11"
 pytest = "^7.4.2"
 numpy = "^1.26.3"
+ruff = "^0.6.4"
 
 
 [build-system]

@@ -211,38 +211,23 @@
 ;; changed 2023-12-20, was 30, zono insisted.
 (def ^:private timeout 10)
 
-(defn- spaces-around-**
-  "x**y => x ** y"
+(defn ruff-formatter
+  "ruff format --diff s"
   [s]
-  (str/replace s #"\*\*" " ** "))
-
-(comment
-  (spaces-around-** "abc\nx**y\ndef")
-  :rcf)
-
-;; REMEMBER: black21.12 insists "x**y" should be "x ** y".
-;;           however, black-24.1.1 does not.
-;;           black-24.1.1 requires python > 3.11.
-;;           so, this is a dirty hack. 2024-01-30
-;; Ruff? v2024.48.0
-(defn black-test
-  "check black results on trimmed `s`."
-  [s]
-  (let [tempfile (java.io.File/createTempFile "python" ".py")
-        python-code (-> s str/trim spaces-around-**)]
+  (let [tempfile (java.io.File/createTempFile "python" ".py")]
     (with-open [file (io/writer tempfile)]
       (binding [*out* file]
-        (println python-code)))
+        (println s)))
     (let [ret (timeout-sh timeout
-                          "black"
-                          "--check"
+                          "ruff"
+                          "format"
                           "--diff"
                           (.getAbsolutePath tempfile))]
       (.delete tempfile)
-      (println python-code)
-      (println (:err ret))
+      (log/debug "ruff-formatter" s)
+      (log/debug "ruff-formatter" (:err ret))
       (when-not (zero? (:exit ret))
-        (throw (Exception. (str "Are you using Black?")))))))
+        (throw (Exception. (str "Ruff してる？")))))))
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
@@ -363,8 +348,7 @@
       (not-empty-test stripped)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      ;; stop 2024-02-01
-      ;; (black-test (remove-comments answer))  ;; 2024-01-30
+      (ruff-formatter (remove-comments answer))
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil

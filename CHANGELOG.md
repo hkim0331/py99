@@ -36,7 +36,11 @@ https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulner
 ### exercices
 - ChatGPT 対策、間違い修正問題では？
 
-## v1.0-SNAPSHOT / 2024-08-21
+## v1.1-SNAPSHOT
+
+- Ruff formatter
+
+## v1.0 / 2024-08-21
 - updated libraries.
 
 | :file       | :name                          | :current | :latest |

@@ -219,37 +219,28 @@
 ;; changed 2023-12-20, was 30, zono insisted.
 (def ^:private timeout 10)
 
-(defn- spaces-around-**
-  "x**y => x ** y"
-  [s]
-  (str/replace s #"\*\*" " ** "))
+(def ruff
+  (if (= "/Users/hkim" (env :home))
+    ".venv/bin/ruff"
+    "/snap/bin/ruff"))
 
-(comment
-  (spaces-around-** "abc\nx**y\ndef")
-  :rcf)
-
-;; REMEMBER: black21.12 insists "x**y" should be "x ** y".
-;;           however, black-24.1.1 does not.
-;;           black-24.1.1 requires python > 3.11.
-;;           so, this is a dirty hack. 2024-01-30
-(defn black-test
-  "check black results on trimmed `s`."
+(defn ruff-formatter
+  "ruff format --diff s"
   [s]
-  (let [tempfile (java.io.File/createTempFile "python" ".py")
-        python-code (-> s str/trim spaces-around-**)]
-    (with-open [file (io/writer tempfile)]
-      (binding [*out* file]
-        (println python-code)))
-    (let [ret (timeout-sh timeout
-                          "black"
-                          "--check"
-                          "--diff"
-                          (.getAbsolutePath tempfile))]
-      (.delete tempfile)
-      (println python-code)
-      (println (:err ret))
-      (when-not (zero? (:exit ret))
-        (throw (Exception. (str "Are you using Black?")))))))
+  (let [tempfile (java.io.File/createTempFile "python" ".py")]
+     (with-open [file (io/writer tempfile)]
+       (binding [*out* file]
+         (println s)))
+     (let [ret (timeout-sh timeout
+                           ruff
+                           "format"
+                           "--diff"
+                           (.getAbsolutePath tempfile))]
+       (.delete tempfile)
+       (log/debug "ruff-formatter" s)
+       (log/debug "ruff-formatter" (:err ret))
+       (when-not (zero? (:exit ret))
+         (throw (Exception. (str "Aren't you using Ruff?")))))))
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
@@ -370,8 +361,7 @@
       (not-empty-test stripped)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      ;; stop 2024-02-01
-      ;; (black-test (remove-comments answer))  ;; 2024-01-30
+      (ruff-formatter (remove-comments answer))
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil

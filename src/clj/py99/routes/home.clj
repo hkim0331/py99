@@ -32,11 +32,9 @@
 ;;   [s]
 ;;   (-> (str s)
 ;;       (subs 0 10)))
-
 ;; Replaced 2024-09-07
 ;; (defn- today []
 ;;   (to-date-str (str (l/local-now))))
-
 (defn- today []
   (str (jt/local-date)))
 
@@ -99,17 +97,11 @@
          (str one five fifteen)
          " (過去 1, 5, 15 分間のサーバ負荷)")))
 
-(comment
-  (uptime)
-  :rcf)
-
 (defn login
   "return user's login as a string. or nobody."
   [request]
   (name (get-in request [:session :identity] :nobody)))
 
-
-;; FIXME: symbol? or string?
 (defn- admin?
   "return is `user` admin?"
   [user]
@@ -219,28 +211,23 @@
 ;; changed 2023-12-20, was 30, zono insisted.
 (def ^:private timeout 10)
 
-(def ruff
-  (if (= "/Users/hkim" (env :home))
-    ".venv/bin/ruff"
-    "/snap/bin/ruff"))
-
 (defn ruff-formatter
   "ruff format --diff s"
   [s]
   (let [tempfile (java.io.File/createTempFile "python" ".py")]
-     (with-open [file (io/writer tempfile)]
-       (binding [*out* file]
-         (println s)))
-     (let [ret (timeout-sh timeout
-                           ruff
-                           "format"
-                           "--diff"
-                           (.getAbsolutePath tempfile))]
-       (.delete tempfile)
-       (log/debug "ruff-formatter" s)
-       (log/debug "ruff-formatter" (:err ret))
-       (when-not (zero? (:exit ret))
-         (throw (Exception. (str "Aren't you using Ruff?")))))))
+    (with-open [file (io/writer tempfile)]
+      (binding [*out* file]
+        (println s)))
+    (let [ret (timeout-sh timeout
+                          "ruff"
+                          "format"
+                          "--diff"
+                          (.getAbsolutePath tempfile))]
+      (.delete tempfile)
+      (log/debug "ruff-formatter" s)
+      (log/debug "ruff-formatter" (:err ret))
+      (when-not (zero? (:exit ret))
+        (throw (Exception. (str "Ruff してる？")))))))
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.

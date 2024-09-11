@@ -32,11 +32,9 @@
 ;;   [s]
 ;;   (-> (str s)
 ;;       (subs 0 10)))
-
 ;; Replaced 2024-09-07
 ;; (defn- today []
 ;;   (to-date-str (str (l/local-now))))
-
 (defn- today []
   (str (jt/local-date)))
 
@@ -99,17 +97,11 @@
          (str one five fifteen)
          " (過去 1, 5, 15 分間のサーバ負荷)")))
 
-(comment
-  (uptime)
-  :rcf)
-
 (defn login
   "return user's login as a string. or nobody."
   [request]
   (name (get-in request [:session :identity] :nobody)))
 
-
-;; FIXME: symbol? or string?
 (defn- admin?
   "return is `user` admin?"
   [user]
@@ -232,6 +224,7 @@
 ;;           however, black-24.1.1 does not.
 ;;           black-24.1.1 requires python > 3.11.
 ;;           so, this is a dirty hack. 2024-01-30
+;; Ruff? v2024.48.0
 (defn black-test
   "check black results on trimmed `s`."
   [s]

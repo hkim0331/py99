@@ -199,15 +199,19 @@
   (when-not (re-find #"\S" answer)
     (throw (Exception. "answer is empty"))))
 
+(defn- make-tempfile [dir suffix]
+  (str dir (System/nanoTime) suffix))
+
+(defn- delete-tempfile [fname]
+  (io/delete-file fname))
+
 (defn ruff-formatter
-  "ruff format --no-cache --diff s
-   this wors on macos, but ubuntu.
-   "
+  "`ruff format --no-cache --diff s` this wors on macos, but ubuntu."
   [s]
   (let [;;tempfile (java.io.File/createTempFile "python" ".py")
-        tempfile (str "tmp/" (System/nanoTime) ".py")]
-    (log/info "tempfile" tempfile)
-    (log/info "s" s)
+        tempfile (make-tempfile "tmp/" ".py")]
+    ;; (log/info "tempfile" tempfile)
+    ;; (log/info "s" s)
     ;; (with-open [file (io/writer tempfile)]
     ;;   (binding [*out* file]
     ;;     (println s)))
@@ -221,14 +225,9 @@
                           #_(.getAbsolutePath tempfile)
                           tempfile)]
       (log/info "ruff error:" (:exit ret) (:err ret))
-      (io/delete-file tempfile)
+      (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
         (throw (Exception. "Ruff に通したか？"))))))
-
-(comment
-  (let [tmpfile (io/resource (str "tmp/example.py"))]
-    (spit tmpfile "new file\nabc\ndef"))
-  )
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.

@@ -17,6 +17,7 @@
 ## v1.1.927 / 2024-09-12
 
 - Ruff formatter, what happened?
+  /tmp にセーブしたファイルを ruff できない。
 
 ```
 ubuntu@app:/tmp$ ruff format --diff *.py

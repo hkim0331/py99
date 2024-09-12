@@ -14,6 +14,11 @@
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 - ChatGPT 対策、間違い修正問題では？
 
+## v.1.1-SNAPSHOT
+
+- resumed color of stock buttoms. Good stocks and bad stocks may exist.
+  added placehold text.
+
 ## v.1.1.932 / 2024-09-12
 
 - moved prev-next block to the bottom of the page.

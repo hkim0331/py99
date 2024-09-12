@@ -3,6 +3,7 @@
    ;; [clj-time.core :as t]
    ;; [clj-time.local :as l]
    ;; [clj-time.periodic :as p]
+   ;; [babashka.fs :as fs]
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
@@ -26,15 +27,6 @@
 (defn- lazy-contains? [col key]
   (some #{key} col))
 
-;; no use.
-;; (defn- to-date-str
-;;   "FIXME: strongly depends on format of `s`."
-;;   [s]
-;;   (-> (str s)
-;;       (subs 0 10)))
-;; Replaced 2024-09-07
-;; (defn- today []
-;;   (to-date-str (str (l/local-now))))
 (defn- today []
   (str (jt/local-date)))
 
@@ -207,36 +199,36 @@
   (when-not (re-find #"\S" answer)
     (throw (Exception. "answer is empty"))))
 
-;; changed 2022-12-25, was 60
-;; changed 2023-12-20, was 30, zono insisted.
-(def ^:private timeout 10)
-
-(defn- make-temp []
-  (let [tempfile (java.io.File/createTempFile "python" ".py")]))
-
 (defn ruff-formatter
   "ruff format --no-cache --diff s
    this wors on macos, but ubuntu.
    "
   [s]
-  (let [tempfile (java.io.File/createTempFile "python" ".py")]
+  (let [;;tempfile (java.io.File/createTempFile "python" ".py")
+        tempfile (str "tmp/" (System/nanoTime) ".py")]
     (log/info "tempfile" tempfile)
-    (log/info "abs path" (.getAbsolutePath tempfile))
     (log/info "s" s)
-    (with-open [file (io/writer tempfile)]
-      (binding [*out* file]
-        (println s)))
-    (let [ret (timeout-sh timeout
+    ;; (with-open [file (io/writer tempfile)]
+    ;;   (binding [*out* file]
+    ;;     (println s)))
+    (spit tempfile (str s "\n")) ;; ruff expect end "\n"
+    (let [timeout 10
+          ret (timeout-sh timeout
                           "ruff"
                           "format"
                           "--no-cache"
                           "--diff"
-                          (.getAbsolutePath tempfile))]
-      (log/info "abs path:" (.getAbsolutePath tempfile))
+                          #_(.getAbsolutePath tempfile)
+                          tempfile)]
       (log/info "ruff error:" (:exit ret) (:err ret))
-      (.delete tempfile)
+      (io/delete-file tempfile)
       (when-not (zero? (:exit ret))
-        (throw (Exception. (str "Ruff してる？" (:err ret))))))))
+        (throw (Exception. "Ruff に通したか？"))))))
+
+(comment
+  (let [tmpfile (io/resource (str "tmp/example.py"))]
+    (spit tmpfile "new file\nabc\ndef"))
+  )
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
@@ -253,10 +245,11 @@
             (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
-        (let [ret (timeout-sh timeout
+        (let [timeout 10
+              ret (timeout-sh timeout
                               "python3" "-m" "pytest"
                               (.getAbsolutePath tempfile))]
-          (log/debug "ret" ret)
+          (log/debug "pytest-test returns" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
             (throw (Exception. (->> (str/split-lines (:out ret))

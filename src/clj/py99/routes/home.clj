@@ -211,8 +211,13 @@
 ;; changed 2023-12-20, was 30, zono insisted.
 (def ^:private timeout 10)
 
+(defn- make-temp []
+  (let [tempfile (java.io.File/createTempFile "python" ".py")]))
+
 (defn ruff-formatter
-  "ruff format --diff s"
+  "ruff format --no-cache --diff s
+   this wors on macos, but ubuntu.
+   "
   [s]
   (let [tempfile (java.io.File/createTempFile "python" ".py")]
     (log/info "tempfile" tempfile)
@@ -224,11 +229,12 @@
     (let [ret (timeout-sh timeout
                           "ruff"
                           "format"
+                          "--no-cache"
                           "--diff"
                           (.getAbsolutePath tempfile))]
-      ;; (.delete tempfile)
-      (log/info "ruff format --diff" (.getAbsolutePath tempfile))
-      (log/info "ruff format --diff" (:err ret))
+      (log/info "abs path:" (.getAbsolutePath tempfile))
+      (log/info "ruff error:" (:exit ret) (:err ret))
+      (.delete tempfile)
       (when-not (zero? (:exit ret))
         (throw (Exception. (str "Ruff してる？" (:err ret))))))))
 

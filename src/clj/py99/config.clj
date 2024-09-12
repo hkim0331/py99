@@ -38,6 +38,7 @@
        (map str)))
 
 (def weeks
+  "monday 23:59:00 is the weekly deadline."
   (->> period-2024
        (filter jt/monday?)
        (map str)))

@@ -263,21 +263,6 @@
     ans
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
-(comment
-  (defn expand-includes
-    "expand `#include` recursively."
-    [s login]
-    (str/join
-     "\n"
-     (for [line (str/split-lines s)]
-       (if (str/starts-with? line "#include ")
-         (let [[_ num] (str/split line #"\s+")]
-           (when-not (re-matches #"\d+" num)
-             (throw (Exception. "#include の後に問題番号がありません。")))
-           (expand-includes (get-answer (Integer/parseInt num) login) login))
-         line))))
-  :rcf)
-
 ;; allow `# include nnn`
 ;; 2023-10-13
 (defn expand-includes
@@ -310,10 +295,6 @@
     (throw (Exception. "no need to send a same answer."))
     nil))
 
-(comment
-  (not-same-md5-login "abc" "hkimura")
-  :rcf)
-
 (defn- starts-with-def-import-from-indent?
   [s]
   (or (str/starts-with? s " ")
@@ -334,12 +315,6 @@
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
       ;; (prn (map starts-with-def-import-from-indent? lines))
       (throw (Exception. "found exec statements.")))))
-
-(comment
-  (starts-with-def-import-from-indent? "def")
-  (starts-with-def-import-from-indent? " ")
-  (starts-with-def-import-from-indent? "print")
-  :rcf)
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."

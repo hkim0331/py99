@@ -14,10 +14,15 @@
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 - ChatGPT 対策、間違い修正問題では？
 
+## v1.1-SNAPSHOT
+
+- moved prev-next block to the bottom of the page.
+- changed the class of `stock` button to `is-dager` from `is-primary`.
+
 ## v1.1.927 / 2024-09-12
 
-- Ruff formatter, what happened?
-  /tmp にセーブしたファイルを ruff できない。
+- Ruff formatter, what happened? can not ruff files saved in `/tmp` on ubuntu.
+  in macos, files saved in /var/tmp/... are OK.
 
 ```
 ubuntu@app:/tmp$ ruff format --diff *.py

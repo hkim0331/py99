@@ -14,7 +14,7 @@
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 - ChatGPT 対策、間違い修正問題では？
 
-## v1.1-SNAPSHOT
+## v.1.1.932 / 2024-09-12
 
 - moved prev-next block to the bottom of the page.
 - changed the class of `stock` button to `is-dager` from `is-primary`.

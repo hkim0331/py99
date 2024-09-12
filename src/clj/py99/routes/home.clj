@@ -1,12 +1,14 @@
 (ns py99.routes.home
   (:require
    ;; [clj-time.core :as t]
-   [clj-time.local :as l]
+   ;; [clj-time.local :as l]
    ;; [clj-time.periodic :as p]
+   ;; [babashka.fs :as fs]
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [digest]
+   [java-time.api :as jt]
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
    ;; clj-kondo can not trace defstate
@@ -25,25 +27,8 @@
 (defn- lazy-contains? [col key]
   (some #{key} col))
 
-(defn- to-date-str
-  "FIXME: strongly depends on format of `s`."
-  [s]
-  (-> (str s)
-      (subs 0 10)))
-
-;; (defn- make-period
-;;   "return a list of days from `yyyy-mm-dd` to days after from it."
-;;   [yyyy mm dd days]
-;;   (let [start-day (l/to-local-date-time (t/date-time yyyy mm dd))]
-;;     (->> (take days (p/periodic-seq start-day (t/days 1)))
-;;          (map to-date-str))))
-
-;; 情報応用の授業期間。2023-10-01 から 150 日間。
-;; chart の横軸になる。
-;; (def ^:private period (make-period 2023 10 1 150))
-
 (defn- today []
-  (to-date-str (str (l/local-now))))
+  (str (jt/local-date)))
 
 (defn- up-to-today
   "return a list of `yyyy-mm-dd ` up to today from the day class started."
@@ -104,17 +89,11 @@
          (str one five fifteen)
          " (過去 1, 5, 15 分間のサーバ負荷)")))
 
-(comment
-  (uptime)
-  :rcf)
-
 (defn login
   "return user's login as a string. or nobody."
   [request]
   (name (get-in request [:session :identity] :nobody)))
 
-
-;; FIXME: symbol? or string?
 (defn- admin?
   "return is `user` admin?"
   [user]
@@ -220,41 +199,36 @@
   (when-not (re-find #"\S" answer)
     (throw (Exception. "answer is empty"))))
 
-;; changed 2022-12-25, was 60
-;; changed 2023-12-20, was 30, zono insisted.
-(def ^:private timeout 10)
-
-(defn- spaces-around-**
-  "x**y => x ** y"
+(defn ruff-formatter
+  "ruff format --no-cache --diff s
+   this wors on macos, but ubuntu.
+   "
   [s]
-  (str/replace s #"\*\*" " ** "))
+  (let [;;tempfile (java.io.File/createTempFile "python" ".py")
+        tempfile (str "tmp/" (System/nanoTime) ".py")]
+    (log/info "tempfile" tempfile)
+    (log/info "s" s)
+    ;; (with-open [file (io/writer tempfile)]
+    ;;   (binding [*out* file]
+    ;;     (println s)))
+    (spit tempfile (str s "\n")) ;; ruff expect end "\n"
+    (let [timeout 10
+          ret (timeout-sh timeout
+                          "ruff"
+                          "format"
+                          "--no-cache"
+                          "--diff"
+                          #_(.getAbsolutePath tempfile)
+                          tempfile)]
+      (log/info "ruff error:" (:exit ret) (:err ret))
+      (io/delete-file tempfile)
+      (when-not (zero? (:exit ret))
+        (throw (Exception. "Ruff に通したか？"))))))
 
 (comment
-  (spaces-around-** "abc\nx**y\ndef")
-  :rcf)
-
-;; REMEMBER: black21.12 insists "x**y" should be "x ** y".
-;;           however, black-24.1.1 does not.
-;;           black-24.1.1 requires python > 3.11.
-;;           so, this is a dirty hack. 2024-01-30
-(defn black-test
-  "check black results on trimmed `s`."
-  [s]
-  (let [tempfile (java.io.File/createTempFile "python" ".py")
-        python-code (-> s str/trim spaces-around-**)]
-    (with-open [file (io/writer tempfile)]
-      (binding [*out* file]
-        (println python-code)))
-    (let [ret (timeout-sh timeout
-                          "black"
-                          "--check"
-                          "--diff"
-                          (.getAbsolutePath tempfile))]
-      (.delete tempfile)
-      (println python-code)
-      (println (:err ret))
-      (when-not (zero? (:exit ret))
-        (throw (Exception. (str "Are you using Black?")))))))
+  (let [tmpfile (io/resource (str "tmp/example.py"))]
+    (spit tmpfile "new file\nabc\ndef"))
+  )
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
@@ -271,10 +245,11 @@
             (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
-        (let [ret (timeout-sh timeout
+        (let [timeout 10
+              ret (timeout-sh timeout
                               "python3" "-m" "pytest"
                               (.getAbsolutePath tempfile))]
-          (log/debug "ret" ret)
+          (log/debug "pytest-test returns" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
             (throw (Exception. (->> (str/split-lines (:out ret))
@@ -375,8 +350,7 @@
       (not-empty-test stripped)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      ;; stop 2024-02-01
-      ;; (black-test (remove-comments answer))  ;; 2024-01-30
+      (ruff-formatter (remove-comments answer))
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil

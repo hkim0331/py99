@@ -1,6 +1,9 @@
 TAG=hkim0331/py99:0.6.4
 DEST="ubuntu@app.melt.kyutech.ac.jp"
 
+develop:
+	poetry run code .
+
 build:
 	docker build -t ${TAG} .
 

@@ -28,13 +28,17 @@
     (->> (iterate #(jt/+ % (jt/days 1)) start-day)
          (take n))))
 
+
+(def period-2024
+  "2024-10-01 から150日間。"
+  (make-period 2024 10 1 150))
+
 (def period
-  "2024-10-01 から 150 日間。"
-  (->> (make-period 2024 10 1 150)
+  (->> period-2024
        (map str)))
 
 (def weeks
-  "授業期間中の月曜日。"
-  (->> (make-period 2024 10 1 150)
+  "monday 23:59:00 is the weekly deadline."
+  (->> period-2024
        (filter jt/monday?)
        (map str)))

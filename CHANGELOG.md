@@ -1,42 +1,45 @@
 # py99/CHANGELOG.md
 
 ## Unreleased
-### docker
-- docker で make uberjar にひどく時間がかかる。CPU に負荷の印はない。
-  macos との共有ボリュームが遅い。マウントの仕方ではない。2023-10-08
-  モジュールを入れ替えても vulnerable は変わらない．
-- wheel 0.37.1 ->0.38.1
-- setuptools 59.6.0 -> 65.5.2
-https://forums.docker.com/t/docker-desktop-shows-image-has-a-python-wheel-vulnerability-even-though-it-has-been-updated/135996/3
-- pip install wheel を Dockerfile で実施しても、
-  Docker Desktop が表示する Vulnerabilities は変わらない。
-  clojure:temurin-20:lein を入れても二つのパッケージが残る。
-    - wheel 0.37.1
-    - setuptools 59.6.0
-- 積極的に pip uninstall したらどうか？
-- pip よりも apt install python3-<module> で．
-### clojure/luminus
-- Namespace hiccup.core is deprecated since 2.0.
-- log が思ったように出せない。vscode のターミナルから http 打った時は出ないが、
-  外部ブラウザで URL を探るとログを出す。
-### code
 - login 中ユーザのリスト。logout したら削除する。
   logout せずにブラウズクローズしたら削除できない。
 - /todays: go ボタンを押さずに return-key で go できないか？
 - テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
 - コードをカラフルに表示する。
-- test code, assert インデント4に変更
 - html/show_list.html
   テンプレート化を進める。テンプレートに渡すベクタをclj 側で細工する。
   selmer はループを回るだけにする。
-- REFACTOR: s ポイント関連が home.clj と services.clj の二箇所にある。
 - FIXME: py99.grading:updated コラムにタイムスタンプを入れる。
 - auto-reload => meta ヘッダを書けばいい。
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
-### exercices
 - ChatGPT 対策、間違い修正問題では？
 
-## v1.0-SNAPSHOT / 2024-08-21
+## v.1.1-SNAPSHOT
+
+- resumed color of stock buttoms. Good stocks and bad stocks may exist.
+  added placehold text.
+
+## v.1.1.932 / 2024-09-12
+
+- moved prev-next block to the bottom of the page.
+- changed the class of `stock` button to `is-dager` from `is-primary`.
+
+## v1.1.927 / 2024-09-12
+
+- Ruff formatter, what happened? can not ruff files saved in `/tmp` on ubuntu.
+  in macos, files saved in /var/tmp/... are OK.
+
+```
+ubuntu@app:/tmp$ ruff format --diff *.py
+error: Failed to format python15164825076388400708.py: No such file or directory (os error 2)
+error: Failed to format python16047739918858394545.py: No such file or directory (os error 2)
+error: Failed to format python5732380935088482436.py: No such file or directory (os error 2)
+error: Failed to format python6089995288880906622.py: No such file or directory (os error 2)
+```
+
+- "tmp/(System/nanoTime).py" にファイルを作って、それを ruff にかけるようにした。
+
+## v1.0 / 2024-08-21
 - updated libraries.
 
 | :file       | :name                          | :current | :latest |

@@ -6,6 +6,14 @@ generated using Luminus version "4.19"
 
 updated libraries by `antq`
 
+## development
+
+check `src/clj/py99/config.clj`, then,
+
+    poetry update
+    poetry run code .
+
+
 ## `R99` => `R99c` => `Py99`
 
 In 2017, I programmed `R99` in COMMON LISP.

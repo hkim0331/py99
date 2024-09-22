@@ -26,10 +26,10 @@
     <input type="hidden" name="a_id" value='{{c.a_id}}'>
     <div class="columns">
       <div class="column">
-        <input class="input" type="text" name="note">
+        <input class="input" type="text" name="note" placeholder="ストックにつけるラベル">
       </div>
       <div class="column">
-        <input type="submit" class="button is-primary" value="stock">
+        <input type="submit" class="button is-primary is-small" value="stock">
       </div>
     </div>
   </form>
@@ -47,11 +47,7 @@
   </form>
   <br>
 
-  <!-- 2024-01-01 -->
-  <p><a href="/answer/{{problem.num|add:-1}}" class="button is-small is-primary">←prev</a>
-    &nbsp;
-    <a href="/answer/{{problem.num|add:1}}" class="button is-small is-primary">next→</a>
-  </p>
+
 
   <!-- added 2023-12-06 -->
   <form method='get' action='/comments-sent'>
@@ -68,6 +64,12 @@
 
   <p>Other comments to this problem ...
     <a href='/comments/{{problem.num}}'>✏️</a>
+  </p>
+
+   <!-- prev-next -->
+   <p><a href="/answer/{{problem.num|add:-1}}" class="button is-small is-primary">←prev</a>
+    &nbsp;
+    <a href="/answer/{{problem.num|add:1}}" class="button is-small is-primary">next→</a>
   </p>
 
   {% endif %}

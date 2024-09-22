@@ -3,6 +3,7 @@
    ;; [clj-time.core :as t]
    ;; [clj-time.local :as l]
    ;; [clj-time.periodic :as p]
+   ;; [babashka.fs :as fs]
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
@@ -25,17 +26,6 @@
 ;; clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
   (some #{key} col))
-
-;; no use.
-;; (defn- to-date-str
-;;   "FIXME: strongly depends on format of `s`."
-;;   [s]
-;;   (-> (str s)
-;;       (subs 0 10)))
-
-;; Replaced 2024-09-07
-;; (defn- today []
-;;   (to-date-str (str (l/local-now))))
 
 (defn- today []
   (str (jt/local-date)))
@@ -99,17 +89,11 @@
          (str one five fifteen)
          " (過去 1, 5, 15 分間のサーバ負荷)")))
 
-(comment
-  (uptime)
-  :rcf)
-
 (defn login
   "return user's login as a string. or nobody."
   [request]
   (name (get-in request [:session :identity] :nobody)))
 
-
-;; FIXME: symbol? or string?
 (defn- admin?
   "return is `user` admin?"
   [user]
@@ -215,41 +199,35 @@
   (when-not (re-find #"\S" answer)
     (throw (Exception. "answer is empty"))))
 
-;; changed 2022-12-25, was 60
-;; changed 2023-12-20, was 30, zono insisted.
-(def ^:private timeout 10)
+(defn- make-tempfile [dir suffix]
+  (str dir (System/nanoTime) suffix))
 
-(defn- spaces-around-**
-  "x**y => x ** y"
+(defn- delete-tempfile [fname]
+  (io/delete-file fname))
+
+(defn ruff-formatter
+  "`ruff format --no-cache --diff s` this wors on macos, but ubuntu."
   [s]
-  (str/replace s #"\*\*" " ** "))
-
-(comment
-  (spaces-around-** "abc\nx**y\ndef")
-  :rcf)
-
-;; REMEMBER: black21.12 insists "x**y" should be "x ** y".
-;;           however, black-24.1.1 does not.
-;;           black-24.1.1 requires python > 3.11.
-;;           so, this is a dirty hack. 2024-01-30
-(defn black-test
-  "check black results on trimmed `s`."
-  [s]
-  (let [tempfile (java.io.File/createTempFile "python" ".py")
-        python-code (-> s str/trim spaces-around-**)]
-    (with-open [file (io/writer tempfile)]
-      (binding [*out* file]
-        (println python-code)))
-    (let [ret (timeout-sh timeout
-                          "black"
-                          "--check"
+  (let [;;tempfile (java.io.File/createTempFile "python" ".py")
+        tempfile (make-tempfile "tmp/" ".py")]
+    ;; (log/info "tempfile" tempfile)
+    ;; (log/info "s" s)
+    ;; (with-open [file (io/writer tempfile)]
+    ;;   (binding [*out* file]
+    ;;     (println s)))
+    (spit tempfile (str s "\n")) ;; ruff expect end "\n"
+    (let [timeout 10
+          ret (timeout-sh timeout
+                          "ruff"
+                          "format"
+                          "--no-cache"
                           "--diff"
-                          (.getAbsolutePath tempfile))]
-      (.delete tempfile)
-      (println python-code)
-      (println (:err ret))
+                          #_(.getAbsolutePath tempfile)
+                          tempfile)]
+      (log/info "ruff error:" (:exit ret) (:err ret))
+      (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
-        (throw (Exception. (str "Are you using Black?")))))))
+        (throw (Exception. "Ruff に通したか？"))))))
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
@@ -266,10 +244,11 @@
             (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
-        (let [ret (timeout-sh timeout
+        (let [timeout 10
+              ret (timeout-sh timeout
                               "python3" "-m" "pytest"
                               (.getAbsolutePath tempfile))]
-          (log/debug "ret" ret)
+          (log/debug "pytest-test returns" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
             (throw (Exception. (->> (str/split-lines (:out ret))
@@ -283,21 +262,6 @@
   (if-let [ans (:answer (db/get-answer {:num num :login login}))]
     ans
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
-
-(comment
-  (defn expand-includes
-    "expand `#include` recursively."
-    [s login]
-    (str/join
-     "\n"
-     (for [line (str/split-lines s)]
-       (if (str/starts-with? line "#include ")
-         (let [[_ num] (str/split line #"\s+")]
-           (when-not (re-matches #"\d+" num)
-             (throw (Exception. "#include の後に問題番号がありません。")))
-           (expand-includes (get-answer (Integer/parseInt num) login) login))
-         line))))
-  :rcf)
 
 ;; allow `# include nnn`
 ;; 2023-10-13
@@ -331,10 +295,6 @@
     (throw (Exception. "no need to send a same answer."))
     nil))
 
-(comment
-  (not-same-md5-login "abc" "hkimura")
-  :rcf)
-
 (defn- starts-with-def-import-from-indent?
   [s]
   (or (str/starts-with? s " ")
@@ -356,12 +316,6 @@
       ;; (prn (map starts-with-def-import-from-indent? lines))
       (throw (Exception. "found exec statements.")))))
 
-(comment
-  (starts-with-def-import-from-indent? "def")
-  (starts-with-def-import-from-indent? " ")
-  (starts-with-def-import-from-indent? "print")
-  :rcf)
-
 (defn- validate
   "Return nil if all validations success, or raize exeption."
   [num answer login]
@@ -370,8 +324,7 @@
       (not-empty-test stripped)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      ;; stop 2024-02-01
-      ;; (black-test (remove-comments answer))  ;; 2024-01-30
+      (ruff-formatter (remove-comments answer))
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil

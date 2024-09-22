@@ -16,6 +16,7 @@
 
 ## v.1.1-SNAPSHOT
 
+- added `script/remove-2023.sh` which removes date before 2024-09-01.
 - resumed color of stock buttoms. Good stocks and bad stocks may exist.
   added placehold text.
 

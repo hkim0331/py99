@@ -64,8 +64,8 @@
                           (java.text.SimpleDateFormat. "yyyy-MM-dd")
                           (java.util.Date.))}))
 
-(defn problems-page [request]
-  (layout/render request "edit-problems.html" {:problems (db/problems)}))
+(defn problems-all-page [request]
+  (layout/render request "edit-problems.html" {:problems (db/problems-all)}))
 
 (defn update-problem! [{:keys [params]}]
   (let [q (update (update params :id #(Integer/parseInt %))
@@ -90,7 +90,7 @@
                  middleware/wrap-formats]}
    ["" {:get  admin-page}]
    ["/user-actions" {:get user-actions-page}]
-   ["/problems" {:get problems-page
+   ["/problems" {:get problems-all-page
                  :post update-problem!}]
    ["/seed-problems" {:post seed-problems!}]
    ["/dump-problems" {:post dump-problems!}]])

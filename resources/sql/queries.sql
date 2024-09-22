@@ -61,8 +61,15 @@ DELETE FROM problems
 WHERE id = :id
 
 -- :name problems :? :*
+-- :doc get valid problems only
+SELECT * FROM problems
+WHERE is_avail=1
+ORDER BY num
+
+-- :name problems-all :? :*
 -- :doc get all problems
-SELECT * from problems order by num
+SELECT * FROM problems
+ORDER BY num
 
 -- :name delete-problems-all! :! :n
 -- :doc delete all from problems table
@@ -73,8 +80,9 @@ DELETE FROM problems
 SELECT COUNT(*) FROM problems
 
 -- :name fetch-problems :? :*
+-- :doc fetch all avail and unavail problems.
 SELECT problem, test FROM problems
-order by id;
+ORDER BY id;
 
 -- --------------
 -- answers

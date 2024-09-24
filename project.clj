@@ -1,9 +1,9 @@
-(defproject py99 "v1.1.937"
+(defproject py99 "v1.2-SNAPSHOT"
   :description "py99 site"
   :url "https://py99.melt.kyutech.ac.jp"
   :dependencies
   [;;[babashka/fs "0.5.22"]
-   [ch.qos.logback/logback-classic "1.5.7"]
+   [ch.qos.logback/logback-classic "1.5.8"]
    [clojure.java-time "1.4.2"]
    [conman "0.9.6"]
    [cprop "0.1.20"]
@@ -16,15 +16,15 @@
    [luminus/ring-ttl-session "0.3.3"]
    [markdown-clj "1.12.1"]
    [metosin/muuntaja "0.6.10"]
-   [metosin/reitit "0.7.1"]
+   [metosin/reitit "0.7.2"]
    [metosin/ring-http-response "0.9.4"]
-   [mount "0.1.18"]
+   [mount "0.1.19"]
    [nrepl "1.3.0"]
-   [org.clojure/clojure "1.11.4"]
+   [org.clojure/clojure "1.12.0"]
    [org.clojure/tools.cli "1.1.230"]
    [org.clojure/tools.logging "1.3.0"]
-   [org.postgresql/postgresql "42.7.3"]
-   [org.webjars.npm/bulma "1.0.1"]
+   [org.postgresql/postgresql "42.7.4"]
+   [org.webjars.npm/bulma "1.0.2"]
    [org.webjars.npm/material-icons "1.13.2"]
    [org.webjars/webjars-locator "0.52"]
    [org.webjars/webjars-locator-jboss-vfs "0.1.0"]
@@ -68,7 +68,7 @@
                    [ring/ring-mock "0.4.0"]]
     :plugins      [[com.jakemccrary/lein-test-refresh "0.25.0"]
                    [jonase/eastwood "1.4.3"]
-                   [cider/cider-nrepl "0.49.3"]]
+                   [cider/cider-nrepl "0.50.2"]]
     :source-paths ["env/dev/clj"]
     :resource-paths ["env/dev/resources"]
     :repl-options {:init-ns user

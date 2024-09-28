@@ -15,7 +15,7 @@
 - ChatGPT 対策、間違い修正問題では？
 - config.clj で period-2024 を有効にすること。
 
-## v1.2-SNAPSHOT / 2024-09-24
+## v1.2.945 / 2024-09-28
 
 - solved: dump に失敗する。dump 先の問題か？
 - added src/clj/py99/routes/admin.clj

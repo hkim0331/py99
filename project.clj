@@ -42,6 +42,7 @@
    [hato/hato "1.0.0"]
    [hiccup "1.0.5"]
    [timeout-shell "1.0.0"]]
+
   :min-lein-version "2.0.0"
   :source-paths ["src/clj"]
   :test-paths ["test/clj"]

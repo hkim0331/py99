@@ -8,7 +8,9 @@
    [py99.middleware :as middleware]
    [ring.util.response :refer [redirect]]))
 
-(def ^:private dump-file (io/resource "docs/problems.edn"))
+;;(def ^:private dump-file (io/resource "docs/problems.edn"))
+(def ^:private dump-file (io/file "db-dumps/problems.edn"))
+;;(def ^:private dump-file (io/file "problems.edn"))
 
 (defn seed-problems!
   "rebuild problems table from resources/docs/problems.edn.

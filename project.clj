@@ -1,4 +1,4 @@
-(defproject py99 "v1.2-SNAPSHOT"
+(defproject py99 "v1.2.945"
   :description "py99 site"
   :url "https://py99.melt.kyutech.ac.jp"
   :dependencies
@@ -42,6 +42,7 @@
    [hato/hato "1.0.0"]
    [hiccup "1.0.5"]
    [timeout-shell "1.0.0"]]
+
   :min-lein-version "2.0.0"
   :source-paths ["src/clj"]
   :test-paths ["test/clj"]

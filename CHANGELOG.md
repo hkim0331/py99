@@ -14,10 +14,15 @@
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 - ChatGPT 対策、間違い修正問題では？
 
-## v.1.1-SNAPSHOT
+- config を環境変数に出す。
+- サブミッション・回答のプロットを一つにまとめる。
+
+## v.1.2-SNAPSHOT
+
+- Makefile, docker
 
 - resumed color of stock buttoms. Good stocks and bad stocks may exist.
-  added placehold text.
+  added placeholding text.
 
 ## v.1.1.932 / 2024-09-12
 

@@ -3,9 +3,13 @@
 ## Unreleased
 - コードをカラフルに表示する。
 - ChatGPT 対策、間違い修正問題では？
+- submissions/comments into a single plot.
+- 返事のついたコメントだけ数える。
+- 自分には見えるが、他の人には見えない。ブラックリスト。
+
 
 ## v1.3-SNAPSHOT
-- submissions/comments into a single plot.
+
 
 ## v1.2.936 / 2024-09-30
 - config を環境変数に出した。 PY99_START と PY99_DAYS.

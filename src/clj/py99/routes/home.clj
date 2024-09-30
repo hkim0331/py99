@@ -208,13 +208,7 @@
 (defn ruff-formatter
   "`ruff format --no-cache --diff s` this wors on macos, but ubuntu."
   [s]
-  (let [;;tempfile (java.io.File/createTempFile "python" ".py")
-        tempfile (make-tempfile "tmp/" ".py")]
-    ;; (log/info "tempfile" tempfile)
-    ;; (log/info "s" s)
-    ;; (with-open [file (io/writer tempfile)]
-    ;;   (binding [*out* file]
-    ;;     (println s)))
+  (let [tempfile (make-tempfile "tmp/" ".py")]
     (spit tempfile (str s "\n")) ;; ruff expect end "\n"
     (let [timeout 10
           ret (timeout-sh timeout
@@ -437,35 +431,6 @@
     (layout/render request "comments.html"
                    {:comments (db/comments-by-num {:num num})
                     :num num})))
-
-;;
-;; weekly counts
-;;
-;; (defn- before? [s1 s2]
-;;   ;; 2022-10-20 s/</<=/
-;;   (<= (compare s1 s2) 0))
-
-;; (defn- count-up [m]
-;;   (reduce + (map :count m)))
-
-;; (defn bin-count
-;;   "data は週ごとの集計。単純な answers や comments じゃないので、
-;;    (count-up f)が必要。"
-;;   [data bin]
-;;   (loop [data data bin bin ret []]
-;;     (if (empty? bin)
-;;       ret
-;;       (let [g (group-by #(before? (:create_at %) (first bin)) data)
-;;             f (g true)
-;;             s (g false)]
-;;         (recur s (rest bin) (conj ret (count-up f)))))))
-
-;; (defn py99 [login]
-;;   (bin-count (db/answers-by-date-login {:login login}) weeks))
-
-;; (defn comm [login]
-;;   (bin-count (db/comments-by-date-login {:login login}) weeks))
-
 
 (defn- sum-endterm
   "sum endterm points in `m`, append as {:mt pt}."

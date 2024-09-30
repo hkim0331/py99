@@ -1,19 +1,15 @@
 # py99/CHANGELOG.md
 
 ## Unreleased
-- login 中ユーザのリスト。logout したら削除する。
-  logout せずにブラウズクローズしたら削除できない。
-- /todays: go ボタンを押さずに return-key で go できないか？
-- テストに通った回答を受け取ったらダイアログ「他ユーザの回答を読むべし」を出す。
 - コードをカラフルに表示する。
-- html/show_list.html
-  テンプレート化を進める。テンプレートに渡すベクタをclj 側で細工する。
-  selmer はループを回るだけにする。
-- FIXME: py99.grading:updated コラムにタイムスタンプを入れる。
-- auto-reload => meta ヘッダを書けばいい。
-  そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 - ChatGPT 対策、間違い修正問題では？
-- config.clj で period-2024 を有効にすること。
+- submissions/comments into a single plot.
+- 返事のついたコメントだけ数える。
+- 自分には見えるが、他の人には見えない。ブラックリスト。
+
+
+## v1.3-SNAPSHOT
+
 
 ## v1.2.936 / 2024-09-30
 - config を環境変数に出した。 PY99_START と PY99_DAYS.

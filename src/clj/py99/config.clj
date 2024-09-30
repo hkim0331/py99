@@ -22,7 +22,6 @@
     (->> (iterate #(jt/+ % (jt/days 1)) start-day)
          (take n))))
 
-<<<<<<< HEAD
 (let [[year month day] (map parse-long
                             (-> (environ/env :py99-start)
                                 (str/split #"-")))
@@ -36,26 +35,10 @@
                  (or days 150))))
 (def period
   (->> py99-period
-=======
-(def period-2023
-  "2023-10-01 から150日間。"
-  (make-period 2023 10 1 150))
-
-(def period-2024
-  "2024-10-01 から150日間。"
-  (make-period 2024 10 1 150))
-
-(def period
-  (->> period-2023
->>>>>>> refs/remotes/origin/master
        (map str)))
 
 (def weeks
   "monday 23:59:00 is the weekly deadline."
-<<<<<<< HEAD
   (->> py99-period
-=======
-  (->> period-2023
->>>>>>> refs/remotes/origin/master
        (filter jt/monday?)
        (map str)))

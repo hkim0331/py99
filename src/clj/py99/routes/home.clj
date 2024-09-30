@@ -1,9 +1,5 @@
 (ns py99.routes.home
   (:require
-   ;; [clj-time.core :as t]
-   ;; [clj-time.local :as l]
-   ;; [clj-time.periodic :as p]
-   ;; [babashka.fs :as fs]
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
@@ -105,6 +101,12 @@
   [col n]
   {:n n :stat (if (lazy-contains? col n) "solved" "yet")})
 
+(defn- my-contains? [v x]
+  (cond
+    (empty? v) false
+    (= (first v) x) true
+    :else (my-contains? (rest v) x)))
+
 (defn status-page
   "Display user's status. How many problems has he/she solved?"
   [request]
@@ -112,8 +114,9 @@
         solved (map #(:num %) (db/answers-by {:login login}))
         individual  (db/answers-by-date-login {:login login})
         all-answers (db/answers-by-date)
-        no-thanks (get-in request [:session :filter])]
-    ;; (log/debug "status-page" login)
+        filter (get-in request [:session :filter] "")
+        no-thanks (str/split filter #"\s")]
+    (log/debug "status-page" "no-thanks" no-thanks)
     (layout/render
      request
      "status.html"
@@ -121,12 +124,13 @@
       :status (map #(solved? solved %) (map :num (db/problems)))
       :individual-chart (individual-chart individual period 600 150)
       :class-chart (class-chart all-answers period 600 150)
+      :no-thanks filter
       :recents
       (->> (db/recent-answers {:n 20})
-           (remove #(= (:login %) no-thanks)))
+           (remove #(my-contains? no-thanks (:login %))))
       :recent-comments
       (->> (db/recent-comments {:n 20})
-           (remove #(= (:from_login %) no-thanks)))})))
+           (remove #(my-contains? no-thanks (:from_login %))))})))
 
 (defn problems-page
   "display problems."
@@ -618,7 +622,7 @@
 ;; FIXME: (assoc-in [:session :identity])が必要な理由は？
 (defn add-filter
   [{{:keys [filter]} :params :as request}]
-  (println "session:" (:session request))
+  (log/debug "add-filter:" filter)
   (-> (response/found "/")
       (assoc-in [:session :identity] (get-in request [:session :identity]))
       (assoc-in [:session :filter] filter)))

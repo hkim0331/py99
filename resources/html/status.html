@@ -11,7 +11,7 @@
     <a href="/answer/{{s.n}}" class="{{s.stat}}">{{s.n}}</a>
     {% endfor %}
   </div>
-<!--<h3>{{login}} Submissions</h4>-->
+    <!--<h3>{{login}} Submissions</h4>-->
     <!--<p>{{individual-chart|safe}}</p>-->
     <ul>
     <li> <a href='/profile'>profile</a></li>
@@ -26,7 +26,8 @@
 
     <p>
     <form method='get' action='/filter'>
-      <input name='filter'><input type='submit' value='filter'>
+      <input name='filter' value="{{no-thanks}}">
+      <input type='submit' value='filter'>
     </form>
     </p>
 
@@ -39,6 +40,7 @@
     </p>
 
     <h4>recent comments</h4>
+
     {% for c in recent-comments %}
     <p>{{c.create_at|date:shortDateTime}},
       <b>{{c.p_num}}</b>,

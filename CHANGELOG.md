@@ -12,6 +12,7 @@
 
 
 ## v1.2.936 / 2024-09-30
+
 - config を環境変数に出した。 PY99_START と PY99_DAYS.
 - updated Makefile, docker entries.
 

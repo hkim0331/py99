@@ -12,13 +12,8 @@
    #_[struct.core :as st]
    #_[py99.db.core :as db]))
 
-<<<<<<< HEAD
-(def ^:private version "v1.2.936")
-(def ^:private updated "2024-09-30 11:16:20")
-=======
 (def ^:private version "v1.2.945")
 (def ^:private updated "2024-09-28 15:03:02")
->>>>>>> refs/remotes/origin/master
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 

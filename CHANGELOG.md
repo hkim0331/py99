@@ -13,13 +13,36 @@
 - auto-reload => meta ヘッダを書けばいい。
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 - ChatGPT 対策、間違い修正問題では？
-
-- サブミッション・回答のプロットを一つにまとめる。
+- config.clj で period-2024 を有効にすること。
 
 ## v1.2.936 / 2024-09-30
 - config を環境変数に出した。 PY99_START と PY99_DAYS.
 - updated Makefile, docker entries.
 
+## v1.2.945 / 2024-09-28
+
+- solved: dump に失敗する。dump 先の問題か？
+- added src/clj/py99/routes/admin.clj
+- changed resources/html/admin.html
+  allow admin seed-prblems
+
+- updated libraries
+
+| :file       | :name                          | :current | :latest |
+|------------ | ------------------------------ | -------- | --------|
+| project.clj | ch.qos.logback/logback-classic | 1.5.7    | 1.5.8   |
+|             | cider/cider-nrepl              | 0.49.3   | 0.50.2  |
+|             | metosin/reitit                 | 0.7.1    | 0.7.2   |
+|             | mount/mount                    | 0.1.18   | 0.1.19  |
+|             | org.clojure/clojure            | 1.11.4   | 1.12.0  |
+|             | org.postgresql/postgresql      | 42.7.3   | 42.7.4  |
+|             | org.webjars.npm/bulma          | 1.0.1    | 1.0.2   |
+
+
+
+## v1.1.937 / 2024-09-22
+
+- added `script/remove-2023.sh` which removes date before 2024-09-01.
 - resumed color of stock buttoms. Good stocks and bad stocks may exist.
   added placeholding text.
 

@@ -10,6 +10,7 @@
 
 ## v1.3-SNAPSHOT
 
+- updated filter --- can filter multiple users.
 
 ## v1.2.936 / 2024-09-30
 

@@ -8,7 +8,7 @@
 - 自分には見えるが、他の人には見えない。ブラックリスト。
 
 
-## v1.3-SNAPSHOT
+## v1.3.967 / 2024-09-30
 
 - updated filter --- can filter multiple users.
 

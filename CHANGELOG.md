@@ -14,12 +14,11 @@
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 - ChatGPT 対策、間違い修正問題では？
 
-- config を環境変数に出す。
 - サブミッション・回答のプロットを一つにまとめる。
 
 ## v.1.2-SNAPSHOT
-
-- Makefile, docker
+- config を環境変数に出した。 PY99_START と PY99_DAYS.
+- updated Makefile, docker entries.
 
 - resumed color of stock buttoms. Good stocks and bad stocks may exist.
   added placeholding text.

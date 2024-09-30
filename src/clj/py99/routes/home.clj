@@ -199,15 +199,19 @@
   (when-not (re-find #"\S" answer)
     (throw (Exception. "answer is empty"))))
 
+(defn- make-tempfile [dir suffix]
+  (str dir (System/nanoTime) suffix))
+
+(defn- delete-tempfile [fname]
+  (io/delete-file fname))
+
 (defn ruff-formatter
-  "ruff format --no-cache --diff s
-   this wors on macos, but ubuntu.
-   "
+  "`ruff format --no-cache --diff s` this wors on macos, but ubuntu."
   [s]
   (let [;;tempfile (java.io.File/createTempFile "python" ".py")
-        tempfile (str "tmp/" (System/nanoTime) ".py")]
-    (log/info "tempfile" tempfile)
-    (log/info "s" s)
+        tempfile (make-tempfile "tmp/" ".py")]
+    ;; (log/info "tempfile" tempfile)
+    ;; (log/info "s" s)
     ;; (with-open [file (io/writer tempfile)]
     ;;   (binding [*out* file]
     ;;     (println s)))
@@ -221,14 +225,9 @@
                           #_(.getAbsolutePath tempfile)
                           tempfile)]
       (log/info "ruff error:" (:exit ret) (:err ret))
-      (io/delete-file tempfile)
+      (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
         (throw (Exception. "Ruff に通したか？"))))))
-
-(comment
-  (let [tmpfile (io/resource (str "tmp/example.py"))]
-    (spit tmpfile "new file\nabc\ndef"))
-  )
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
@@ -264,21 +263,6 @@
     ans
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
-(comment
-  (defn expand-includes
-    "expand `#include` recursively."
-    [s login]
-    (str/join
-     "\n"
-     (for [line (str/split-lines s)]
-       (if (str/starts-with? line "#include ")
-         (let [[_ num] (str/split line #"\s+")]
-           (when-not (re-matches #"\d+" num)
-             (throw (Exception. "#include の後に問題番号がありません。")))
-           (expand-includes (get-answer (Integer/parseInt num) login) login))
-         line))))
-  :rcf)
-
 ;; allow `# include nnn`
 ;; 2023-10-13
 (defn expand-includes
@@ -311,10 +295,6 @@
     (throw (Exception. "no need to send a same answer."))
     nil))
 
-(comment
-  (not-same-md5-login "abc" "hkimura")
-  :rcf)
-
 (defn- starts-with-def-import-from-indent?
   [s]
   (or (str/starts-with? s " ")
@@ -335,12 +315,6 @@
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
       ;; (prn (map starts-with-def-import-from-indent? lines))
       (throw (Exception. "found exec statements.")))))
-
-(comment
-  (starts-with-def-import-from-indent? "def")
-  (starts-with-def-import-from-indent? " ")
-  (starts-with-def-import-from-indent? "print")
-  :rcf)
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."

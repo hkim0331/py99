@@ -14,9 +14,24 @@
   そうするとログインが切れることがない？回答中にリロードされるのは嫌だろ。
 - ChatGPT 対策、間違い修正問題では？
 
+- サブミッション・回答のプロットを一つにまとめる。
+
+## v1.2.936 / 2024-09-30
+- config を環境変数に出した。 PY99_START と PY99_DAYS.
+- updated Makefile, docker entries.
+
+- resumed color of stock buttoms. Good stocks and bad stocks may exist.
+  added placeholding text.
+
+## v.1.1.932 / 2024-09-12
+
+- moved prev-next block to the bottom of the page.
+- changed the class of `stock` button to `is-dager` from `is-primary`.
+
 ## v1.1.927 / 2024-09-12
 
-- Ruff formatter, what happened?
+- Ruff formatter, what happened? can not ruff files saved in `/tmp` on ubuntu.
+  in macos, files saved in /var/tmp/... are OK.
 
 ```
 ubuntu@app:/tmp$ ruff format --diff *.py

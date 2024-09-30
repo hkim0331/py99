@@ -20,15 +20,13 @@
   {% endif %}
   <br>
 
-  <!-- 2024-01-01 -->
-  <p><a href="/answer/{{problem.num|add:-1}}" class="button is-small is-primary">←prev</a>
-    &nbsp;
-    <a href="/answer/{{problem.num|add:1}}" class="button is-small is-primary">next→</a>
-  </p>
+  <!-- test code -->
   {% if not exam? %}
   <p>test code:</p>
   <pre>{{problem.test}}</pre>
   {% endif %}
+
+
 
   <h3>Same Answers (including yours, newer is right &rArr;)</h3>
   {% for a in same %}
@@ -43,5 +41,16 @@
   &nbsp;
   {% endfor %}
   {% endif %}
+
+  <!-- prev, next -->
+  <p><a href="/answer/{{problem.num|add:-1}}" class="button is-small is-primary">
+    ←prev
+    </a>
+    &nbsp;
+    <a href="/answer/{{problem.num|add:1}}" class="button is-small is-primary">
+    next→
+    </a>
+  </p>
+
 </div>
 {% endblock %}

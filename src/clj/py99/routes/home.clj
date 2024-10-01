@@ -309,10 +309,9 @@
   [s]
   (let [lines (->> (str/split-lines s)
                    (remove #(re-matches #"" %)))]
-    ;; (prn "no-exec-statements" lines)
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
       ;; (prn (map starts-with-def-import-from-indent? lines))
-      (throw (Exception. "found exec statements.")))))
+      (throw (Exception. (str "found exec statements" s)))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."
@@ -320,10 +319,11 @@
   (let [stripped (strip answer)]
     (try
       (not-empty-test stripped)
+      (not-same-md5-login stripped login)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      (ruff-formatter (remove-comments answer))
-      (not-same-md5-login stripped login)
+      ;; was (ruff-formatter (remove-comments answer))
+      (ruff-formatter answer)
       (pytest-test num (expand-includes answer login))
       nil
       (catch Exception e (throw (Exception. (.getMessage e)))))))
@@ -380,7 +380,6 @@
                      {:status 403
                       :title "Access Forbidden"
                       :message "まず自分で解いてから。"}))))
-
 
 (defn create-comment! [request]
   (let [params (:params request)
@@ -584,7 +583,6 @@
                    {:date today
                     :todays (db/todays? {:date today})})))
 
-
 ;; (defn midterm [request]
 ;;   (layout/render request "midterm.html"))
 
@@ -626,7 +624,6 @@
   (-> (response/found "/")
       (assoc-in [:session :identity] (get-in request [:session :identity]))
       (assoc-in [:session :filter] filter)))
-
 
 (defn home-routes []
   ["" {:middleware [middleware/auth

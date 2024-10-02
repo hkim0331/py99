@@ -168,8 +168,9 @@
                       :uptime uptime
                       :exam? (env :exam-mode)}))))
 
+;; --------------------
 ;; validations
-;; FIXME: remove docstring
+
 (defn- remove-comments
   "Remove lines starting from #, they are comments in Python."
   [s]
@@ -207,7 +208,6 @@
   (io/delete-file fname))
 
 (defn ruff-formatter
-  "`ruff format --no-cache --diff s` this wors on macos, but ubuntu."
   [s]
   (let [tempfile (make-tempfile "tmp/" ".py")]
     (spit tempfile (str s "\n")) ;; ruff expect end "\n"
@@ -219,7 +219,7 @@
                           "--diff"
                           #_(.getAbsolutePath tempfile)
                           tempfile)]
-      (log/info "ruff error:" (:exit ret) (:err ret))
+      (log/info "ruff error:" ret)
       ;; (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
         (throw (Exception. "Ruff に通したか？"))))))

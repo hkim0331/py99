@@ -7,11 +7,17 @@
 - 返事のついたコメントだけ数える。
 - 自分には見えるが、他の人には見えない。ブラックリスト。
 - filter users again(reconsider)
-- update validations(validations.clj?)
-- directions
 
 ## v1.4-SNAPSHOT
 
+- list answers new ones first.
+- check validations.
+- updated .gitignore
+
+```
+!/tmp/.keep
+/tmp/*
+```
 
 ## v1.3.967 / 2024-09-30
 

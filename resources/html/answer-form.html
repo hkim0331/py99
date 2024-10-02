@@ -28,14 +28,14 @@
 
 
 
-  <h3>Same Answers (including yours, newer is right &rArr;)</h3>
+  <h3>Same Answers (&lArr; newer is left, including yours)</h3>
   {% for a in same %}
   <a href='/comment/{{a.id}}'>{{a.login}}</a>
   &nbsp;
   {% endfor %}
 
   {% if not exam? %}
-  <h3>Different Answers (newer is right &rArr;)</h3>
+  <h3>Different Answers (&lArr; newer is left)</h3>
   {% for a in differ %}
   <a href='/comment/{{a.id}}'>{{a.login}}</a>
   &nbsp;

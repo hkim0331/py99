@@ -6,6 +6,11 @@
 - submissions/comments into a single plot.
 - 返事のついたコメントだけ数える。
 - 自分には見えるが、他の人には見えない。ブラックリスト。
+- filter users again(reconsider)
+- update validations(validations.clj?)
+- directions
+
+## v1.4-SNAPSHOT
 
 
 ## v1.3.967 / 2024-09-30

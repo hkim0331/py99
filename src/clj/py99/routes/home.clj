@@ -313,6 +313,7 @@
   (let [stripped (strip answer)]
     (try
       (not-empty-test stripped)
+      (not-same-md5-login stripped login)
       (has-docstring-test answer)
       (no-exec-statements answer)
       (ruff-formatter (remove-comments answer)) ; why remove-comments?
@@ -373,7 +374,6 @@
                      {:status 403
                       :title "Access Forbidden"
                       :message "まず自分で解いてから。"}))))
-
 
 (defn create-comment! [request]
   (let [params (:params request)
@@ -577,7 +577,6 @@
                    {:date today
                     :todays (db/todays? {:date today})})))
 
-
 ;; (defn midterm [request]
 ;;   (layout/render request "midterm.html"))
 
@@ -619,7 +618,6 @@
   (-> (response/found "/")
       (assoc-in [:session :identity] (get-in request [:session :identity]))
       (assoc-in [:session :filter] filter)))
-
 
 (defn home-routes []
   ["" {:middleware [middleware/auth

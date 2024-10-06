@@ -1,9 +1,5 @@
 (ns py99.routes.home
   (:require
-   ;; [clj-time.core :as t]
-   ;; [clj-time.local :as l]
-   ;; [clj-time.periodic :as p]
-   ;; [babashka.fs :as fs]
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
@@ -105,6 +101,12 @@
   [col n]
   {:n n :stat (if (lazy-contains? col n) "solved" "yet")})
 
+(defn- my-contains? [v x]
+  (cond
+    (empty? v) false
+    (= (first v) x) true
+    :else (my-contains? (rest v) x)))
+
 (defn status-page
   "Display user's status. How many problems has he/she solved?"
   [request]
@@ -112,8 +114,9 @@
         solved (map #(:num %) (db/answers-by {:login login}))
         individual  (db/answers-by-date-login {:login login})
         all-answers (db/answers-by-date)
-        no-thanks (get-in request [:session :filter])]
-    ;; (log/debug "status-page" login)
+        filter (get-in request [:session :filter] "")
+        no-thanks (str/split filter #"\s")]
+    (log/debug "status-page" "no-thanks" no-thanks)
     (layout/render
      request
      "status.html"
@@ -121,12 +124,13 @@
       :status (map #(solved? solved %) (map :num (db/problems)))
       :individual-chart (individual-chart individual period 600 150)
       :class-chart (class-chart all-answers period 600 150)
+      :no-thanks filter
       :recents
       (->> (db/recent-answers {:n 20})
-           (remove #(= (:login %) no-thanks)))
+           (remove #(my-contains? no-thanks (:login %))))
       :recent-comments
       (->> (db/recent-comments {:n 20})
-           (remove #(= (:from_login %) no-thanks)))})))
+           (remove #(my-contains? no-thanks (:from_login %))))})))
 
 (defn problems-page
   "display problems."
@@ -134,7 +138,6 @@
   ;; (log/debug "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
-;; title
 (defn answer-page
   "Take problem number `num` as path parameter, prep answer to the
    problem."
@@ -144,7 +147,6 @@
         answers (db/answers-to {:num num})
         frozen? (db/frozen? {:num num})
         uptime (uptime)]
-    ;; (log/debug "answer-page" (login request))
     ;; この if の理由？
     (if-let [answer (db/get-answer {:num num :login (login request)})]
       (let [answers (group-by #(= (:md5 answer) (:md5 %)) answers)]
@@ -166,8 +168,9 @@
                       :uptime uptime
                       :exam? (env :exam-mode)}))))
 
+;; --------------------
 ;; validations
-;; FIXME: remove docstring
+
 (defn- remove-comments
   "Remove lines starting from #, they are comments in Python."
   [s]
@@ -181,7 +184,6 @@
   [s]
   (-> s
       (str/replace #"\n" "")
-      ;; shortest match. 2023-11-24
       (str/replace #"\"\"\".+?\"\"\"", "")))
 
 (defn- strip
@@ -206,15 +208,8 @@
   (io/delete-file fname))
 
 (defn ruff-formatter
-  "`ruff format --no-cache --diff s` this wors on macos, but ubuntu."
   [s]
-  (let [;;tempfile (java.io.File/createTempFile "python" ".py")
-        tempfile (make-tempfile "tmp/" ".py")]
-    ;; (log/info "tempfile" tempfile)
-    ;; (log/info "s" s)
-    ;; (with-open [file (io/writer tempfile)]
-    ;;   (binding [*out* file]
-    ;;     (println s)))
+  (let [tempfile (make-tempfile "tmp/" ".py")]
     (spit tempfile (str s "\n")) ;; ruff expect end "\n"
     (let [timeout 10
           ret (timeout-sh timeout
@@ -224,8 +219,8 @@
                           "--diff"
                           #_(.getAbsolutePath tempfile)
                           tempfile)]
-      (log/info "ruff error:" (:exit ret) (:err ret))
-      (delete-tempfile tempfile)
+      (log/info "ruff error:" ret)
+      ;; (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
         (throw (Exception. "Ruff に通したか？"))))))
 
@@ -264,7 +259,6 @@
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
 ;; allow `# include nnn`
-;; 2023-10-13
 (defn expand-includes
   "expand `#include` recursively."
   [s login]
@@ -275,7 +269,6 @@
        (expand-includes (get-answer (Integer/parseInt num) login) login)
        line))))
 
-;; 2023-10-19
 (defn- has-docstring-test
   "if s contains docstring returns nil or throw.
    FIXME: should check `def` proceeds the comment line."
@@ -311,10 +304,8 @@
   [s]
   (let [lines (->> (str/split-lines s)
                    (remove #(re-matches #"" %)))]
-    ;; (prn "no-exec-statements" lines)
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
-      ;; (prn (map starts-with-def-import-from-indent? lines))
-      (throw (Exception. "found exec statements.")))))
+      (throw (Exception. (str "found exec statements" s))))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."
@@ -322,9 +313,10 @@
   (let [stripped (strip answer)]
     (try
       (not-empty-test stripped)
+      (not-same-md5-login stripped login)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      (ruff-formatter (remove-comments answer))
+      (ruff-formatter (remove-comments answer)) ; why remove-comments?
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil
@@ -383,7 +375,6 @@
                       :title "Access Forbidden"
                       :message "まず自分で解いてから。"}))))
 
-
 (defn create-comment! [request]
   (let [params (:params request)
         num (Integer/parseInt (:p_num params))]
@@ -437,35 +428,6 @@
     (layout/render request "comments.html"
                    {:comments (db/comments-by-num {:num num})
                     :num num})))
-
-;;
-;; weekly counts
-;;
-;; (defn- before? [s1 s2]
-;;   ;; 2022-10-20 s/</<=/
-;;   (<= (compare s1 s2) 0))
-
-;; (defn- count-up [m]
-;;   (reduce + (map :count m)))
-
-;; (defn bin-count
-;;   "data は週ごとの集計。単純な answers や comments じゃないので、
-;;    (count-up f)が必要。"
-;;   [data bin]
-;;   (loop [data data bin bin ret []]
-;;     (if (empty? bin)
-;;       ret
-;;       (let [g (group-by #(before? (:create_at %) (first bin)) data)
-;;             f (g true)
-;;             s (g false)]
-;;         (recur s (rest bin) (conj ret (count-up f)))))))
-
-;; (defn py99 [login]
-;;   (bin-count (db/answers-by-date-login {:login login}) weeks))
-
-;; (defn comm [login]
-;;   (bin-count (db/comments-by-date-login {:login login}) weeks))
-
 
 (defn- sum-endterm
   "sum endterm points in `m`, append as {:mt pt}."
@@ -615,7 +577,6 @@
                    {:date today
                     :todays (db/todays? {:date today})})))
 
-
 ;; (defn midterm [request]
 ;;   (layout/render request "midterm.html"))
 
@@ -653,11 +614,10 @@
 ;; FIXME: (assoc-in [:session :identity])が必要な理由は？
 (defn add-filter
   [{{:keys [filter]} :params :as request}]
-  (println "session:" (:session request))
+  (log/debug "add-filter:" filter)
   (-> (response/found "/")
       (assoc-in [:session :identity] (get-in request [:session :identity]))
       (assoc-in [:session :filter] filter)))
-
 
 (defn home-routes []
   ["" {:middleware [middleware/auth

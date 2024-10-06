@@ -1,9 +1,6 @@
 (ns py99.utils)
 
-;;;;;;;;;;;;;;;;;;;;;;
-;; from home.clj
 (defn- before? [s1 s2]
-  ;; 2022-10-20 s/</<=/
   (<= (compare s1 s2) 0))
 
 (defn- count-up [m]

@@ -11,24 +11,24 @@
     <a href="/answer/{{s.n}}" class="{{s.stat}}">{{s.n}}</a>
     {% endfor %}
   </div>
+    <!--<h3>{{login}} Submissions</h4>-->
+    <!--<p>{{individual-chart|safe}}</p>-->
 
-  <h3>{{login}} Submissions</h4>
-
-    <p>{{individual-chart|safe}}</p>
-
-    <p>&rArr; <a href='/profile'>profile</a></p>
+    <p>
+    <a href='/profile' class="button is-small is-info">Profile</a>
+    <a href='/activities' class="button is-small is-info">Activities</a>
+    <a href='/ranking' class="button is-small is-info">Ranking</a>
+    </p>
 
     <h3>Class Submissions</h3>
 
     <p>{{class-chart|safe}}</p>
-    <!--
-    <p>&rArr; <a href='/answers'>count answers</a></p>
-   -->
-    <p>&rArr; <a href='/ranking'>ranking</a></p>
+    <!--<p>&rArr; <a href='/answers'>count answers</a></p>-->
 
     <p>
     <form method='get' action='/filter'>
-      <input name='filter'><input type='submit' value='filter'>
+      <input name='filter' value="{{no-thanks}}">
+      <input type='submit' value='filter'>
     </form>
     </p>
 
@@ -41,6 +41,7 @@
     </p>
 
     <h4>recent comments</h4>
+
     {% for c in recent-comments %}
     <p>{{c.create_at|date:shortDateTime}},
       <b>{{c.p_num}}</b>,

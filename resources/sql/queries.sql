@@ -117,7 +117,7 @@ ORDER BY id
 -- :doc retrieve all answers to `num`, chronological order.
 SELECT * FROM answers
 WHERE num = :num
-ORDER BY id
+ORDER BY id DESC
 
 -- :name get-answer-by-id :? :1
 -- :doc retrieve answer by `id`

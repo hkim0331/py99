@@ -310,8 +310,7 @@
   (let [lines (->> (str/split-lines s)
                    (remove #(re-matches #"" %)))]
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
-      ;; (prn (map starts-with-def-import-from-indent? lines))
-      (throw (Exception. (str "found exec statements" s)))))
+      (throw (Exception. (str "found exec statements" s))))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."

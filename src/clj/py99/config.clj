@@ -38,7 +38,7 @@
        (map str)))
 
 (def weeks
-  "monday 23:59:00 is the weekly deadline."
+  "sunday 23:59:00 is the weekly deadline."
   (->> py99-period
-       (filter jt/monday?)
+       (filter jt/sunday?)
        (map str)))

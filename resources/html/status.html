@@ -36,7 +36,7 @@
     <p>
       {% for a in recents %}
       <a href='/comment/{{a.id}}'>{{a.login}}🐉{{a.num}}</a>
-      &nbsp;
+      &nbsp
       {% endfor %}
     </p>
 
@@ -51,6 +51,6 @@
         {{c.comment|first-line}}{{c.comment|rest-lines}}</a>
     </p>
     {% endfor %}
-    <form action='/comments' <p><a href='/comments'>older comments...</a></p>
+    <p><a href='/comments'>older comments...</a></p>
 </div>
 {% endblock %}

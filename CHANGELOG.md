@@ -7,10 +7,16 @@
 - 返事のついたコメントだけ数える。
 - 自分には見えるが、他の人には見えない。ブラックリスト。
 
-## v1.3.974 / 2024-10-06
+## v1.4-SNAPSHOT / 2024-10-02
 
-- profile, activities ranking のリンクをボタンに。フォントが小さいか？
-- `class button is-sm is-info`
+- list answers new ones first.
+- check validations.
+- updated .gitignore
+
+```
+!/tmp/.keep
+/tmp/*
+```
 
 ## v1.3.967 / 2024-09-30
 

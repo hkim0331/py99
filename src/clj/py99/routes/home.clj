@@ -138,7 +138,6 @@
   ;; (log/debug "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
-;; title
 (defn answer-page
   "Take problem number `num` as path parameter, prep answer to the
    problem."
@@ -148,7 +147,6 @@
         answers (db/answers-to {:num num})
         frozen? (db/frozen? {:num num})
         uptime (uptime)]
-    ;; (log/debug "answer-page" (login request))
     ;; この if の理由？
     (if-let [answer (db/get-answer {:num num :login (login request)})]
       (let [answers (group-by #(= (:md5 answer) (:md5 %)) answers)]
@@ -170,8 +168,9 @@
                       :uptime uptime
                       :exam? (env :exam-mode)}))))
 
+;; --------------------
 ;; validations
-;; FIXME: remove docstring
+
 (defn- remove-comments
   "Remove lines starting from #, they are comments in Python."
   [s]
@@ -185,7 +184,6 @@
   [s]
   (-> s
       (str/replace #"\n" "")
-      ;; shortest match. 2023-11-24
       (str/replace #"\"\"\".+?\"\"\"", "")))
 
 (defn- strip
@@ -210,7 +208,6 @@
   (io/delete-file fname))
 
 (defn ruff-formatter
-  "`ruff format --no-cache --diff s` this wors on macos, but ubuntu."
   [s]
   (let [tempfile (make-tempfile "tmp/" ".py")]
     (spit tempfile (str s "\n")) ;; ruff expect end "\n"
@@ -222,8 +219,8 @@
                           "--diff"
                           #_(.getAbsolutePath tempfile)
                           tempfile)]
-      (log/info "ruff error:" (:exit ret) (:err ret))
-      (delete-tempfile tempfile)
+      (log/info "ruff error:" ret)
+      ;; (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
         (throw (Exception. "Ruff に通したか？"))))))
 
@@ -262,7 +259,6 @@
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
 ;; allow `# include nnn`
-;; 2023-10-13
 (defn expand-includes
   "expand `#include` recursively."
   [s login]
@@ -273,7 +269,6 @@
        (expand-includes (get-answer (Integer/parseInt num) login) login)
        line))))
 
-;; 2023-10-19
 (defn- has-docstring-test
   "if s contains docstring returns nil or throw.
    FIXME: should check `def` proceeds the comment line."
@@ -321,8 +316,8 @@
       (not-same-md5-login stripped login)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      ;; was (ruff-formatter (remove-comments answer))
-      (ruff-formatter answer)
+      (ruff-formatter (remove-comments answer)) ; why remove-comments?
+      (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil
       (catch Exception e (throw (Exception. (.getMessage e)))))))

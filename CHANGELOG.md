@@ -7,7 +7,7 @@
 - 返事のついたコメントだけ数える。
 - 自分には見えるが、他の人には見えない。ブラックリスト。
 
-## v1.4-SNAPSHOT / 2024-10-02
+## v1.4.981 / 2024-10-06
 
 - list answers new ones first.
 - check validations.

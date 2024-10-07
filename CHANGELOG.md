@@ -1,6 +1,7 @@
 # py99/CHANGELOG.md
 
 ## Unreleased
+
 - コードをカラフルに表示する。
 - ChatGPT 対策、間違い修正問題では？
 - submissions/comments into a single plot.
@@ -10,6 +11,7 @@
 - keep validation failed answers.
 - same md5 answers/answers.
 - home.clj から validation を別ファイルに出す。
+
 
 ## v1.4.999 / 2024-10-07
 

@@ -138,7 +138,6 @@
   ;; (log/debug "problem-page" (login request))
   (layout/render request "problems.html" {:problems (db/problems)}))
 
-;; title
 (defn answer-page
   "Take problem number `num` as path parameter, prep answer to the
    problem."
@@ -148,7 +147,6 @@
         answers (db/answers-to {:num num})
         frozen? (db/frozen? {:num num})
         uptime (uptime)]
-    ;; (log/debug "answer-page" (login request))
     ;; この if の理由？
     (if-let [answer (db/get-answer {:num num :login (login request)})]
       (let [answers (group-by #(= (:md5 answer) (:md5 %)) answers)]
@@ -170,8 +168,9 @@
                       :uptime uptime
                       :exam? (env :exam-mode)}))))
 
+;; --------------------
 ;; validations
-;; FIXME: remove docstring
+
 (defn- remove-comments
   "Remove lines starting from #, they are comments in Python."
   [s]
@@ -185,7 +184,6 @@
   [s]
   (-> s
       (str/replace #"\n" "")
-      ;; shortest match. 2023-11-24
       (str/replace #"\"\"\".+?\"\"\"", "")))
 
 (defn- strip
@@ -201,7 +199,7 @@
    so, no use to call `strip` inside this function. 2023-11-24."
   [answer]
   (when-not (re-find #"\S" answer)
-    (throw (Exception. "answer is empty"))))
+    (throw (Exception. "回答がカラです。"))))
 
 (defn- make-tempfile [dir suffix]
   (str dir (System/nanoTime) suffix))
@@ -210,7 +208,9 @@
   (io/delete-file fname))
 
 (defn ruff-formatter
-  "`ruff format --no-cache --diff s` this wors on macos, but ubuntu."
+  "command `ruff format` can't on tempfile.
+   The reasons were not identified yet.
+   so, defined private `make-tempfile` function, use it."
   [s]
   (let [tempfile (make-tempfile "tmp/" ".py")]
     (spit tempfile (str s "\n")) ;; ruff expect end "\n"
@@ -220,11 +220,10 @@
                           "format"
                           "--no-cache"
                           "--diff"
-                          #_(.getAbsolutePath tempfile)
                           tempfile)]
-      (log/info "ruff error:" (:exit ret) (:err ret))
       (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
+        (log/info "run-formatter" ret)
         (throw (Exception. "Ruff に通したか？"))))))
 
 (defn pytest-test
@@ -262,7 +261,6 @@
     (throw (Exception. (str "P-" num " の回答が見当たりません。")))))
 
 ;; allow `# include nnn`
-;; 2023-10-13
 (defn expand-includes
   "expand `#include` recursively."
   [s login]
@@ -273,7 +271,6 @@
        (expand-includes (get-answer (Integer/parseInt num) login) login)
        line))))
 
-;; 2023-10-19
 (defn- has-docstring-test
   "if s contains docstring returns nil or throw.
    FIXME: should check `def` proceeds the comment line."
@@ -283,14 +280,14 @@
                    (re-find #"^\s+\s\'\'\'" s)))
        (str/split-lines lines))
     nil
-    (throw (Exception. "no docstring"))))
+    (throw (Exception. "関数コメントがねえべさ。"))))
 
 (defn- not-same-md5-login
   "s is a stripped answer."
   [s login]
   (if (seq (db/answers-same-md5-login {:md5 (digest/md5 s)
                                        :login login}))
-    (throw (Exception. "no need to send a same answer."))
+    (throw (Exception. "同じ回答は提出の必要なし。"))
     nil))
 
 (defn- starts-with-def-import-from-indent?
@@ -309,10 +306,8 @@
   [s]
   (let [lines (->> (str/split-lines s)
                    (remove #(re-matches #"" %)))]
-    ;; (prn "no-exec-statements" lines)
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
-      ;; (prn (map starts-with-def-import-from-indent? lines))
-      (throw (Exception. "found exec statements.")))))
+      (throw (Exception. "回答中に実行文があるのはまずい。")))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."
@@ -320,9 +315,10 @@
   (let [stripped (strip answer)]
     (try
       (not-empty-test stripped)
+      (not-same-md5-login stripped login)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      (ruff-formatter (remove-comments answer))
+      (ruff-formatter (remove-comments answer)) ; why remove-comments?
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil
@@ -342,7 +338,6 @@
       :num (Integer/parseInt num)
       :answer answer
       :md5 (-> answer strip digest/md5)})
-    ;; 2023-10-20
     (db/action! {:login (name (login request))
                  :action "answer(!)"
                  :num (Integer/parseInt num)})
@@ -381,7 +376,6 @@
                       :title "Access Forbidden"
                       :message "まず自分で解いてから。"}))))
 
-
 (defn create-comment! [request]
   (let [params (:params request)
         num (Integer/parseInt (:p_num params))]
@@ -397,7 +391,6 @@
                              :to_login (:to_login params)
                              :p_num num
                              :a_id (Integer/parseInt (:a_id params))})
-        ;; 2023-10-20
         (db/action! {:login (name (login request))
                      :action "comment(!)"
                      :num num})
@@ -443,7 +436,6 @@
     (assoc m :et (+ (:e1 m) (:e2 m) (:e3 m) (:e4 m) (:e5 m)))
     (catch Exception _ {})))
 
-;; CHANGED 2023-10-20, bug, resume.
 (defn profile
   [request]
   (log/debug "user" (:user request))
@@ -584,7 +576,6 @@
                    {:date today
                     :todays (db/todays? {:date today})})))
 
-
 ;; (defn midterm [request]
 ;;   (layout/render request "midterm.html"))
 
@@ -626,7 +617,6 @@
   (-> (response/found "/")
       (assoc-in [:session :identity] (get-in request [:session :identity]))
       (assoc-in [:session :filter] filter)))
-
 
 (defn home-routes []
   ["" {:middleware [middleware/auth

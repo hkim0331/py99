@@ -13,16 +13,17 @@
   </div>
     <!--<h3>{{login}} Submissions</h4>-->
     <!--<p>{{individual-chart|safe}}</p>-->
-    <ul>
-    <li> <a href='/profile'>profile</a></li>
-    <li> <a href='/activities'>activities</a></li>
-    <li> <a href='/ranking'>ranking</a></li>
-    </ul>
+
+    <p>
+    <a href='/profile' class="button is-small is-info">Profile</a>
+    <a href='/activities' class="button is-small is-info">Activities</a>
+    <a href='/ranking' class="button is-small is-info">Ranking</a>
+    </p>
+
     <h3>Class Submissions</h3>
 
     <p>{{class-chart|safe}}</p>
     <!--<p>&rArr; <a href='/answers'>count answers</a></p>-->
-
 
     <p>
     <form method='get' action='/filter'>
@@ -35,7 +36,7 @@
     <p>
       {% for a in recents %}
       <a href='/comment/{{a.id}}'>{{a.login}}🐉{{a.num}}</a>
-      &nbsp;
+      &nbsp
       {% endfor %}
     </p>
 
@@ -50,6 +51,6 @@
         {{c.comment|first-line}}{{c.comment|rest-lines}}</a>
     </p>
     {% endfor %}
-    <form action='/comments' <p><a href='/comments'>older comments...</a></p>
+    <p><a href='/comments'>older comments...</a></p>
 </div>
 {% endblock %}

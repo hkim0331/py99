@@ -22,6 +22,8 @@ pom.xml
 !/resources/migrations/*.sql
 /target/
 /test-config.edn
+!/tmp/.keep
+/tmp/*
 start.sh
 stop.sh
 

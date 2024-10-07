@@ -199,7 +199,7 @@
    so, no use to call `strip` inside this function. 2023-11-24."
   [answer]
   (when-not (re-find #"\S" answer)
-    (throw (Exception. "answer is empty"))))
+    (throw (Exception. "回答がカラです。"))))
 
 (defn- make-tempfile [dir suffix]
   (str dir (System/nanoTime) suffix))
@@ -208,6 +208,9 @@
   (io/delete-file fname))
 
 (defn ruff-formatter
+  "command `ruff format` can't on tempfile.
+   The reasons were not identified yet.
+   so, defined private `make-tempfile` function, use it."
   [s]
   (let [tempfile (make-tempfile "tmp/" ".py")]
     (spit tempfile (str s "\n")) ;; ruff expect end "\n"
@@ -217,11 +220,10 @@
                           "format"
                           "--no-cache"
                           "--diff"
-                          #_(.getAbsolutePath tempfile)
                           tempfile)]
-      (log/info "ruff error:" ret)
-      ;; (delete-tempfile tempfile)
+      (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
+        (log/info "run-formatter" ret)
         (throw (Exception. "Ruff に通したか？"))))))
 
 (defn pytest-test
@@ -278,14 +280,14 @@
                    (re-find #"^\s+\s\'\'\'" s)))
        (str/split-lines lines))
     nil
-    (throw (Exception. "no docstring"))))
+    (throw (Exception. "関数コメントがねえべさ。"))))
 
 (defn- not-same-md5-login
   "s is a stripped answer."
   [s login]
   (if (seq (db/answers-same-md5-login {:md5 (digest/md5 s)
                                        :login login}))
-    (throw (Exception. "no need to send a same answer."))
+    (throw (Exception. "同じ回答は提出の必要なし。"))
     nil))
 
 (defn- starts-with-def-import-from-indent?
@@ -305,7 +307,7 @@
   (let [lines (->> (str/split-lines s)
                    (remove #(re-matches #"" %)))]
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
-      (throw (Exception. (str "found exec statements" s))))))
+      (throw (Exception. "回答中に実行文があるのはまずい。")))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."
@@ -336,7 +338,6 @@
       :num (Integer/parseInt num)
       :answer answer
       :md5 (-> answer strip digest/md5)})
-    ;; 2023-10-20
     (db/action! {:login (name (login request))
                  :action "answer(!)"
                  :num (Integer/parseInt num)})
@@ -390,7 +391,6 @@
                              :to_login (:to_login params)
                              :p_num num
                              :a_id (Integer/parseInt (:a_id params))})
-        ;; 2023-10-20
         (db/action! {:login (name (login request))
                      :action "comment(!)"
                      :num num})
@@ -436,7 +436,6 @@
     (assoc m :et (+ (:e1 m) (:e2 m) (:e3 m) (:e4 m) (:e5 m)))
     (catch Exception _ {})))
 
-;; CHANGED 2023-10-20, bug, resume.
 (defn profile
   [request]
   (log/debug "user" (:user request))

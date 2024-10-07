@@ -5,7 +5,11 @@
 - ChatGPT 対策、間違い修正問題では？
 - submissions/comments into a single plot.
 - 返事のついたコメントだけ数える。
-- 自分には見えるが、他の人には見えない。ブラックリスト。
+- 自分には見えるが、他の人には見えない。ブラックリスト。filter users again(reconsider)
+- 同じですカウント。コピーされた方もグレー度が上がってしまうが。
+- keep validation failed answers.
+- same md5 answers/answers.
+
 
 ## v1.4.981 / 2024-10-06
 

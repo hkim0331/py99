@@ -318,7 +318,8 @@
       (not-same-md5-login stripped login)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      (ruff-formatter (remove-comments answer)) ; why remove-comments?
+      ; why remove-comments?
+      (ruff-formatter (str/trim (remove-comments answer)))
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil

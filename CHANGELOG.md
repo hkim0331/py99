@@ -9,7 +9,15 @@
 - 同じですカウント。コピーされた方もグレー度が上がってしまうが。
 - keep validation failed answers.
 - same md5 answers/answers.
+- home.clj から validation を別ファイルに出す。
 
+## v1.4.999 / 2024-10-07
+
+-  回答からコメントはいで、トリミングしてから ruff-formatter に通す。
+
+```
+(ruff-formatter (str/trim (remove-comments answer)))
+```
 
 ## v1.4.996 / 2024-10-07
 

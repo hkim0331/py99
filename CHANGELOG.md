@@ -10,6 +10,9 @@
 - keep validation failed answers.
 - same md5 answers/answers.
 
+## v1.4-SNAPSHOT
+
+- バリデーションのエラーメッセージを日本語に。
 
 ## v1.4.981 / 2024-10-06
 

@@ -208,6 +208,8 @@
   (io/delete-file fname))
 
 (defn ruff-formatter
+  "ruff format can't on tempfile. the reasons were not identified yet.
+   so, defined private `make-tempfile` function, use it."
   [s]
   (let [tempfile (make-tempfile "tmp/" ".py")]
     (spit tempfile (str s "\n")) ;; ruff expect end "\n"
@@ -219,9 +221,9 @@
                           "--diff"
                           #_(.getAbsolutePath tempfile)
                           tempfile)]
-      (log/info "ruff error:" ret)
-      ;; (delete-tempfile tempfile)
+      (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
+        (log/info "run-formatter" ret)
         (throw (Exception. "Ruff に通したか？"))))))
 
 (defn pytest-test
@@ -336,7 +338,6 @@
       :num (Integer/parseInt num)
       :answer answer
       :md5 (-> answer strip digest/md5)})
-    ;; 2023-10-20
     (db/action! {:login (name (login request))
                  :action "answer(!)"
                  :num (Integer/parseInt num)})
@@ -390,7 +391,6 @@
                              :to_login (:to_login params)
                              :p_num num
                              :a_id (Integer/parseInt (:a_id params))})
-        ;; 2023-10-20
         (db/action! {:login (name (login request))
                      :action "comment(!)"
                      :num num})
@@ -436,7 +436,6 @@
     (assoc m :et (+ (:e1 m) (:e2 m) (:e3 m) (:e4 m) (:e5 m)))
     (catch Exception _ {})))
 
-;; CHANGED 2023-10-20, bug, resume.
 (defn profile
   [request]
   (log/debug "user" (:user request))

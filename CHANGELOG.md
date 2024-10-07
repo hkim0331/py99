@@ -10,6 +10,11 @@
 - keep validation failed answers.
 - same md5 answers/answers.
 
+
+## v1.4.996 / 2024-10-07
+
+- updated src/clj/py99/config.clj for 2024 classes.
+
 ## v1.4.991 / 2024-10-07
 
 - バリデーションのエラーメッセージを日本語に。

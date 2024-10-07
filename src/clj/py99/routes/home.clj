@@ -208,7 +208,8 @@
   (io/delete-file fname))
 
 (defn ruff-formatter
-  "ruff format can't on tempfile. the reasons were not identified yet.
+  "command `ruff format` can't on tempfile.
+   The reasons were not identified yet.
    so, defined private `make-tempfile` function, use it."
   [s]
   (let [tempfile (make-tempfile "tmp/" ".py")]
@@ -219,7 +220,6 @@
                           "format"
                           "--no-cache"
                           "--diff"
-                          #_(.getAbsolutePath tempfile)
                           tempfile)]
       (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))

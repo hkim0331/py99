@@ -199,7 +199,7 @@
    so, no use to call `strip` inside this function. 2023-11-24."
   [answer]
   (when-not (re-find #"\S" answer)
-    (throw (Exception. "answer is empty"))))
+    (throw (Exception. "回答がカラです。"))))
 
 (defn- make-tempfile [dir suffix]
   (str dir (System/nanoTime) suffix))
@@ -280,14 +280,14 @@
                    (re-find #"^\s+\s\'\'\'" s)))
        (str/split-lines lines))
     nil
-    (throw (Exception. "no docstring"))))
+    (throw (Exception. "関数コメントがねえべさ。"))))
 
 (defn- not-same-md5-login
   "s is a stripped answer."
   [s login]
   (if (seq (db/answers-same-md5-login {:md5 (digest/md5 s)
                                        :login login}))
-    (throw (Exception. "no need to send a same answer."))
+    (throw (Exception. "同じ回答は提出の必要なし。"))
     nil))
 
 (defn- starts-with-def-import-from-indent?
@@ -307,7 +307,7 @@
   (let [lines (->> (str/split-lines s)
                    (remove #(re-matches #"" %)))]
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
-      (throw (Exception. "found exec statements.")))))
+      (throw (Exception. "回答中に実行文があるのはまずい。")))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."

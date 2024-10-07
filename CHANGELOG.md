@@ -11,7 +11,7 @@
 - same md5 answers/answers.
 
 
-## v1.4-SNAPSHOT
+## v1.4.996 / 2024-10-07
 
 - updated src/clj/py99/config.clj for 2024 classes.
 

@@ -207,6 +207,19 @@
 (defn- delete-tempfile [fname]
   (io/delete-file fname))
 
+(defn- ruff-path
+  "ruff version 0.7.0 is out."
+  []
+  (cond
+    (.exists (io/file "/home/ubuntu/.local/bin/ruff")) ;; 0.7.0
+    "/home/ubuntu/.local/bin/ruff"
+    (.exists (io/file "/snap/bin/ruff")) ;; 0.6.9
+    "/snap/bin/ruff"
+    (.exists (io/file "/opt/homebrew/bin/ruff")) ;; develop
+    "/opt/homebrew/bin/ruff"
+    ;; need raise
+    :else nil))
+
 (defn ruff-formatter
   "command `ruff format` can't on tempfile.
    The reasons were not identified yet.
@@ -216,7 +229,7 @@
     (spit tempfile (str s "\n")) ;; ruff expect end "\n"
     (let [timeout 10
           ret (timeout-sh timeout
-                          "ruff"
+                          (ruff-path)
                           "format"
                           "--no-cache"
                           "--diff"
@@ -318,7 +331,8 @@
       (not-same-md5-login stripped login)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      (ruff-formatter (remove-comments answer)) ; why remove-comments?
+      ; why remove-comments?
+      (ruff-formatter (str/trim (remove-comments answer)))
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil

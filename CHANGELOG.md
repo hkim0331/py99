@@ -12,7 +12,7 @@
 - same md5 answers/answers.
 - home.clj から validation を別ファイルに出す。
 
-## v1.5-SNAPSHOT
+## v1.5.1005 / 2024-10-18
 - ruff was installed in `app.melt:/home/ubuntu/.local/bin/ruff`
   by pipx.
 

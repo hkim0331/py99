@@ -3,13 +3,6 @@
 <div class="content">
   <h2>{{login}}'s Profile</h2>
 
-  <!--
-  <h4>Today's Activities</h4>
-  <p>
-    <a href="/activities">activities</a>
-  </p>
-  -->
-
   <h4>submissions</h4>
   <p>{{chart|safe}}</p>
 
@@ -23,10 +16,6 @@
     {% endfor %}
   </p>
 
-  <!--
-    <h4>last login</h4>
-    <p>{{user.last_login|date:shortDateTime}}</p>
-    -->
   <h4>last submission</h4>
   <p>{{last.create_at|date:shortDateTime}},
     <a href='/comment/{{last.id}}'>{{last.num}}</a>
@@ -56,7 +45,7 @@
       {{n.create_at|date:shortDateTime}}</li>
     {% endfor %}
   </ol>
-
+<!--
   <h4>day by day submissons</h4>
   <p>自分の再試験受験資格を次の「日々回答数」から自分で計算すること。</p>
   <p>10/2から今日までの<a href="/s-point">日々回答数</a></p>
@@ -89,6 +78,7 @@
     <li>goal-in:{{points.goal}}</li>
     <li>7-4: {{points.seven_four}}</li>
   </ul>
+-->
 
   <h4>Change your password</h4>
 

@@ -12,7 +12,7 @@
 - same md5 answers/answers.
 - home.clj から validation を別ファイルに出す。
 
-## v1.6-SNAPSHOT / 2024-10-24
+## v1.6.1014 / 2024-10-25
 
 - 自力回答は関数コメントに「自力」を明示すること。
 - home/signature? --- answers に署名(by hkimura, 自力、自作)が含まれているか？

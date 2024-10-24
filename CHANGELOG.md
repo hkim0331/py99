@@ -15,6 +15,14 @@
 ## v1.6-SNAPSHOT / 2024-10-24
 
 - 自力回答は関数コメントに「自力」を明示すること。
+- home/signature? --- answers に署名(by hkimura, 自力、自作)が含まれているか？
+- resources/sql/queries.sql
+```
+INSERT INTO answers
+(login, num, answer, md5, signature)
+VALUES (:login, :num, :answer, :md5, :signature)
+RETURNING id
+```
 
 ## v1.5.1005 / 2024-10-18
 

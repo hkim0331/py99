@@ -338,6 +338,18 @@
       nil
       (catch Exception e (throw (Exception. (.getMessage e)))))))
 
+(defn- signature?
+  [login answer]
+  (or (re-find #"自力" answer)
+      (re-find #"自作" answer)
+      (and (seq login) (re-find (re-pattern login) answer))))
+
+(comment
+  (seq "")
+  (not-empty "")
+  (signature? ""  "abc")
+  :rcf)
+
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
   (log/debug "create-answer!" (login request) num)
@@ -351,15 +363,11 @@
      {:login (login request)
       :num (Integer/parseInt num)
       :answer answer
-      :md5 (-> answer strip digest/md5)})
+      :md5 (-> answer strip digest/md5)
+      :signature (if (signature? (login request) answer) true false)})
     (db/action! {:login (name (login request))
                  :action "answer(!)"
                  :num (Integer/parseInt num)})
-    ;; 2023-10-15
-    ;; (if (env :dev)
-    ;;   (redirect (str "/answer/" num))
-    ;;   (redirect "https://qa.melt.kyutech.ac.jp/qs"))
-    ;; resume 2023-10-24
     (redirect (str "/answer/" num))
     (catch Exception e
       (layout/render request "error.html"

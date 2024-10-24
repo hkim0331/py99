@@ -23,6 +23,11 @@ INSERT INTO answers
 VALUES (:login, :num, :answer, :md5, :signature)
 RETURNING id
 ```
+- resourcces/html/status.html
+```
+  <a href='/comment/{{a.id}}'>{{a.login}}
+        {% if a.signature %}💪{% else %}--{% endif %}{{a.num}}</a>
+```
 
 ## v1.5.1005 / 2024-10-18
 

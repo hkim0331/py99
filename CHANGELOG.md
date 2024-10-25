@@ -3,20 +3,20 @@
 ## Unreleased
 
 - コードをカラフルに表示する。
-- submissions/comments into a single plot.
 - 返事のついたコメントだけ数える。
-- 同じですカウント。コピーされた方もグレー度が上がってしまうが。
-- keep validation failed answers.
-- same md5 answers/answers.
+- 同じですカウント。コピーされた方もグレードが上がってしまうが。
+- バリデーションに失敗した回答をキープする。
 - home.clj から validation を別ファイルに出す。
-- /admin に add ボタン ---  新しい問題（内容はカラ）を追加する。
-- ダウトを吊し上げる、さらし首にする --- あんまりか。
+- ダウトをさらし首にする --- あんまりか。
 
+## v1.6-SNAPSHOT
+
+- /home/docstring
+- /admin に add ボタン ---  新しい問題（内容はカラ）を追加する。
 
 ## v1.6.1019 / 2024-10-25
 
 - user💪num を詰めて表示。
-- get-docstring
 
 ## v1.6.1014 / 2024-10-25
 

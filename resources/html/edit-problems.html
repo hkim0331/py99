@@ -3,6 +3,17 @@
   <div class="content">
 
     <h2>Admin/Problems</h2>
+    <div>
+      <h2>Add an problem at `num`</h2>
+      <form method="post" action="/admin/create">
+        {% csrf-field %}
+        num: <input name="num"><br>
+        <input type="submit" value="add">
+      </form>
+    </div>
+
+    <hr>
+    <h2>Update Problems</h2>
 
     <p>問題文に改行には &lt;br&gt; が必要。
       テストコードは &lt;pre&gt;~&lt;/pre&gt; で表示する。<br>
@@ -34,5 +45,8 @@
    </form>
    <hr>
    {% endfor %}
+
+
+
   </div>
 {% endblock %}

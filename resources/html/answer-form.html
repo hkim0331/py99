@@ -11,9 +11,10 @@
   <form method='post'>
     {% csrf-field %}
     <input type='hidden' name='num' value='{{problem.num}}'>
-    <textarea name='answer' class='textarea h300 mono' placeholder='関数コメント(doc string)のない回答は基本的にコメントしない。間違いあっても指摘しない。
-コピー回答するヤツもコメントまでコピーじゃばれる。
-動作確認してから submit するのはごく普通のマナーだ。'></textarea><br>
+    <textarea name='answer' class='textarea h300 mono'
+    placeholder='自力回答には関数コメントに「自力」を明記しよう。
+    コピー回答するヤツもコメントまでコピーじゃばれる。
+    動作確認してから submit するのはごく普通のマナーだ。'></textarea><br>
     <div>{{uptime}}</div>
     <input type='submit' name='action' value='submit' class='button is-warning is-small'>
   </form>
@@ -52,8 +53,8 @@
     </a>
   </p>
 
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
     alert("自力回答は関数コメントに「自力」を明記すること。")
-  </script>
+  </script> -->
 </div>
 {% endblock %}

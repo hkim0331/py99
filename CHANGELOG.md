@@ -3,14 +3,20 @@
 ## Unreleased
 
 - コードをカラフルに表示する。
-- ChatGPT 対策、間違い修正問題では？
-- submissions/comments into a single plot.
 - 返事のついたコメントだけ数える。
-- 自分には見えるが、他の人には見えない。ブラックリスト。filter users again(reconsider)
-- 同じですカウント。コピーされた方もグレー度が上がってしまうが。
-- keep validation failed answers.
-- same md5 answers/answers.
+- 同じですカウント。コピーされた方もグレードが上がってしまうが。
+- バリデーションに失敗した回答をキープする。
 - home.clj から validation を別ファイルに出す。
+- ダウトをさらし首にする --- あんまりか。
+
+## v1.6.1025 / 2024-10-25
+
+- /home/docstring
+- /admin に add ボタン ---  新しい問題（内容はカラ）を追加する。
+
+## v1.6.1019 / 2024-10-25
+
+- user💪num を詰めて表示。
 
 ## v1.6.1014 / 2024-10-25
 

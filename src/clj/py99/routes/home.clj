@@ -179,12 +179,24 @@
    (interpose "\n"
               (remove #(str/starts-with? % "#") (str/split-lines s)))))
 
-(defn remove-docstrings
+(defn- remove-docstrings
   "Remove all \"\"\" ~ \"\"\" parts from `s`."
   [s]
   (-> s
       (str/replace #"\n" "")
       (str/replace #"\"\"\".+?\"\"\"", "")))
+
+(defn- docstring
+  "returns the first string surrounding by \"\"\"~\"\"\".
+   caustion: newlines."
+  [answer]
+  (re-find #"\"\"\".+?\"\"\"" (-> answer
+                                  str/split-lines
+                                  str/join)))
+
+(comment
+  (docstring "def abc \"\"\"\r\nby hkimura.\"\"\"xyz")
+  :rcf)
 
 (defn- strip
   "just use in not-empty-test, digest/md5."
@@ -339,15 +351,14 @@
       (catch Exception e (throw (Exception. (.getMessage e)))))))
 
 (defn- signature?
-  [login answer]
-  (or (re-find #"自力" answer)
-      (re-find #"自作" answer)
-      (and (seq login) (re-find (re-pattern login) answer))))
+  [login docstring]
+  (some? (or (re-find #"自力" docstring)
+             (re-find #"自作" docstring)
+             (and (seq login) (re-find (re-pattern login) docstring)))))
 
 (comment
-  (seq "")
-  (not-empty "")
   (signature? ""  "abc")
+  (signature? "abc" "abc")
   :rcf)
 
 (defn create-answer!
@@ -364,7 +375,7 @@
       :num (Integer/parseInt num)
       :answer answer
       :md5 (-> answer strip digest/md5)
-      :signature (if (signature? (login request) answer) true false)})
+      :signature (signature? (login request) (docstring answer))})
     (db/action! {:login (name (login request))
                  :action "answer(!)"
                  :num (Integer/parseInt num)})

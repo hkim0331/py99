@@ -35,8 +35,8 @@
     <h4>recent submissions (&lArr; newer is left)</h4>
     <p>
       {% for a in recents %}
-      <a href='/comment/{{a.id}}'>{{a.login}}
-        {% if a.signature %}💪{% else %}- {% endif %}{{a.num}}</a>
+      <a href='/comment/{{a.id}}'>
+        {{a.login}}{% if a.signature %}💪{% else %}-{% endif %}{{a.num}}</a>
       &nbsp
       {% endfor %}
     </p>

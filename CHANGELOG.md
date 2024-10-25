@@ -9,7 +9,7 @@
 - home.clj から validation を別ファイルに出す。
 - ダウトをさらし首にする --- あんまりか。
 
-## v1.6-SNAPSHOT
+## v1.6.1025 / 2024-10-25
 
 - /home/docstring
 - /admin に add ボタン ---  新しい問題（内容はカラ）を追加する。

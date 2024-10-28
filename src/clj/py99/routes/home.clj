@@ -352,8 +352,8 @@
 
 (defn- signature?
   [login docstring]
-  (some? (or (re-find #"自力" docstring)
-             (re-find #"自作" docstring)
+  (some? (or ;;(re-find #"自力" docstring)
+             ;;(re-find #"自作" docstring)
              (and (seq login) (re-find (re-pattern login) docstring)))))
 
 (comment

@@ -3,16 +3,45 @@
 ## Unreleased
 
 - コードをカラフルに表示する。
-- ChatGPT 対策、間違い修正問題では？
-- submissions/comments into a single plot.
 - 返事のついたコメントだけ数える。
-- 自分には見えるが、他の人には見えない。ブラックリスト。filter users again(reconsider)
-- 同じですカウント。コピーされた方もグレー度が上がってしまうが。
-- keep validation failed answers.
-- same md5 answers/answers.
+- 同じですカウント。コピーされた方もグレードが上がってしまうのをどうする？
+- バリデーションに失敗した回答をキープする。
 - home.clj から validation を別ファイルに出す。
+- ダウトをさらし首にする --- あんまりか。
+- いけすかないフィルターをセッションに保存する。
+
+## v1.6.`git-rev`
+
+- signature, login-name only. not "自作" nor "自力".
+
+## v1.6.1025 / 2024-10-25
+
+- improved /home/docstring
+- added `add` button to /admin ---  create a new empty problem.
+
+## v1.6.1019 / 2024-10-25
+
+- user💪num を詰めて表示。
+
+## v1.6.1014 / 2024-10-25
+
+- 自力回答は関数コメントに「自力」を明示すること。
+- home/signature? --- answers に署名(by hkimura, 自力、自作)が含まれているか？
+- resources/sql/queries.sql
+```
+INSERT INTO answers
+(login, num, answer, md5, signature)
+VALUES (:login, :num, :answer, :md5, :signature)
+RETURNING id
+```
+- resourcces/html/status.html
+```
+  <a href='/comment/{{a.id}}'>{{a.login}}
+        {% if a.signature %}💪{% else %}--{% endif %}{{a.num}}</a>
+```
 
 ## v1.5.1005 / 2024-10-18
+
 - ruff was installed in `app.melt:/home/ubuntu/.local/bin/ruff`
   by pipx.
 

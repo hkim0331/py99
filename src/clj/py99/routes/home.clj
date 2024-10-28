@@ -179,12 +179,24 @@
    (interpose "\n"
               (remove #(str/starts-with? % "#") (str/split-lines s)))))
 
-(defn remove-docstrings
+(defn- remove-docstrings
   "Remove all \"\"\" ~ \"\"\" parts from `s`."
   [s]
   (-> s
       (str/replace #"\n" "")
       (str/replace #"\"\"\".+?\"\"\"", "")))
+
+(defn- docstring
+  "returns the first string surrounding by \"\"\"~\"\"\".
+   caustion: newlines."
+  [answer]
+  (re-find #"\"\"\".+?\"\"\"" (-> answer
+                                  str/split-lines
+                                  str/join)))
+
+(comment
+  (docstring "def abc \"\"\"\r\nby hkimura.\"\"\"xyz")
+  :rcf)
 
 (defn- strip
   "just use in not-empty-test, digest/md5."
@@ -338,6 +350,17 @@
       nil
       (catch Exception e (throw (Exception. (.getMessage e)))))))
 
+(defn- signature?
+  [login docstring]
+  (some? (or ;;(re-find #"自力" docstring)
+             ;;(re-find #"自作" docstring)
+             (and (seq login) (re-find (re-pattern login) docstring)))))
+
+(comment
+  (signature? ""  "abc")
+  (signature? "abc" "abc")
+  :rcf)
+
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
   (log/debug "create-answer!" (login request) num)
@@ -351,15 +374,11 @@
      {:login (login request)
       :num (Integer/parseInt num)
       :answer answer
-      :md5 (-> answer strip digest/md5)})
+      :md5 (-> answer strip digest/md5)
+      :signature (signature? (login request) (docstring answer))})
     (db/action! {:login (name (login request))
                  :action "answer(!)"
                  :num (Integer/parseInt num)})
-    ;; 2023-10-15
-    ;; (if (env :dev)
-    ;;   (redirect (str "/answer/" num))
-    ;;   (redirect "https://qa.melt.kyutech.ac.jp/qs"))
-    ;; resume 2023-10-24
     (redirect (str "/answer/" num))
     (catch Exception e
       (layout/render request "error.html"

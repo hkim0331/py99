@@ -85,12 +85,20 @@
                   :login login
                   :date date}))
 
+(defn create! [{{:keys [num]} :params}]
+  (try
+    (db/create-problem! {:num (parse-long num) :problem "" :test ""})
+    (redirect "/admin/problems")
+    (catch Exception _
+      (redirect "/error.html"))))
+
 (defn admin-routes []
   ["/admin"
    {:middleware [middleware/admin
                  middleware/wrap-csrf
                  middleware/wrap-formats]}
    ["" {:get  admin-page}]
+   ["/create" {:post create!}]
    ["/user-actions" {:get user-actions-page}]
    ["/problems" {:get problems-all-page
                  :post update-problem!}]

@@ -9,8 +9,10 @@
 - home.clj から validation を別ファイルに出す。
 - ダウトをZZさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
+- log のタイムスタンプ --- iso フォーマットになってない。
 
-## v1.6.`git-rev`
+
+## v1.6.1032
 
 - signature, login-name only. not "自作" nor "自力".
 

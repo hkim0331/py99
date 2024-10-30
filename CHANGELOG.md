@@ -11,6 +11,14 @@
 - いけすかないフィルターをセッションに保存する。
 - log のタイムスタンプ --- iso フォーマットになってない。
 
+## v1.6-SNAPSHOT / 2024-10-31
+
+- number of answers/comments to display. home.clj,
+```
+(def ^:private number-of-answers 30)
+(def ^:private number-of-comments 30)
+```
+
 ## v1.6.1037 / 2024-10-30
 
 - show one's class on `/comment/:n` page via `class` buttn.

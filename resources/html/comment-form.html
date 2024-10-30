@@ -47,15 +47,14 @@
   </form>
   <br>
 
-
-
-  <!-- added 2023-12-06 -->
+  <form method='get' action='/user-class'>
+    show <input name="login" size="10" value="{{answer.login}}">'s
+    <input type="submit" value="class">
+  </form>
   <form method='get' action='/comments-sent'>
     show <input name="login" size="10" value="{{answer.login}}">'s
     <input type="submit" value="comments">
   </form>
-
-  <!-- added 2023-12-16 -->
   <form method='get' action='/submissions'>
     show <input name="login" size="10" value="{{answer.login}}">'s
     <input type="submit" value="submissions">

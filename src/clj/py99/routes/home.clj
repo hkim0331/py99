@@ -11,6 +11,7 @@
    [py99.config :refer [env weeks period]] ;; defstate env
    [py99.db.core :as db]
    [py99.layout :as layout]
+   [py99.routes.login :refer [get-user]]
    [py99.middleware :as middleware]
    [py99.utils :as u]
    ;; [py99.routes.login :refer [get-user]]
@@ -651,6 +652,16 @@
       (assoc-in [:session :identity] (get-in request [:session :identity]))
       (assoc-in [:session :filter] filter)))
 
+(defn user-class
+  "user の履修クラス。履修クラスを Py99 では `uhour` という。"
+  [request]
+  (let [login (or (get-in request [:path-params :login])
+                  (get-in request [:params :login]))
+        user (get-user login)]
+    (log/info "user-class" "login" login "user" user)
+    (layout/render request "user-class.html" {:user user})))
+
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -680,6 +691,7 @@
    ["/submissions" {:get submissions}]
    ["/todays" {:get list-todays-today}]
    ["/todays/:date" {:get list-todays}]
+   ["/user-class" {:get user-class}]
    ;;  ["/wp" {:get (fn [_]
    ;;                   {:status 200
    ;;                    :headers {"Content-Type" "text/html"}

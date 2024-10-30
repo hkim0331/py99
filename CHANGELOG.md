@@ -10,7 +10,7 @@
 - ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
 
-## v1.6-SNAPSHOT
+## v1.6.1037 / 2024-10-30
 
 - show one's class on `/comment/:n` page via `class` buttn.
 - signature, login-name only. not "自作" nor "自力".

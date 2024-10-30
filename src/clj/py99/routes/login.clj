@@ -96,7 +96,8 @@
           (-> (redirect "/login")
               (assoc :flash "login failure")))))))
 
-(defn logout [_]
+(defn logout [request]
+  (log/info "logout" (get-in request [:session :identuty]))
   (-> (redirect "/")
       (assoc :session {})))
 

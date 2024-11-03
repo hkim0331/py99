@@ -9,9 +9,18 @@
 - home.clj から validation を別ファイルに出す。
 - ダウトをZZさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
-- log のタイムスタンプ --- iso フォーマットになってない。
+- <login>-<nn> を短く <login>で表示？ 問題番号と紛らわしい。
 
-## v1.6-SNAPSHOT / 2024-10-31
+
+## v1.7-SNAPSHOT / 2024-11-03
+
+- log のタイムスタンプ --- iso フォーマットになってない。
+  logback.xml:
+  %date{ISO8601} -> %date
+
+- テストコードを選択的に表示・非表示する。
+- created db-dumps/migrations folder.
+- alter table py99.problems add show_testcode column default true;
 
 - number of answers/comments to display. home.clj,
 ```

@@ -13,12 +13,15 @@
         </rollingPolicy>
         <encoder>
             <charset>UTF-8</charset>
-            <pattern>%date [%thread] %-5level %logger{36} - %msg %n</pattern>
+            <pattern>%date{ISO8601} %-5level %logger{36} - %msg %n</pattern>
         </encoder>
     </appender>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
+        <!-- why relative? 2024-11-04
             <pattern>%-5relative %-5level %logger{35} - %msg%n</pattern>
+            -->
+            <pattern>%date %-5level %logger{35} - %msg%n</pattern>
         </encoder>
     </appender>
     <logger name="org.apache.http" level="warn" />

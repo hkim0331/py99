@@ -12,11 +12,16 @@
 - <login>-<nn> を短く <login>で表示？ 問題番号と紛らわしい。
 
 
-## v1.7-SNAPSHOT / 2024-11-03
+## v1.7-SNAPSHOT / 2024-11-04
 
 - log のタイムスタンプ --- iso フォーマットになってない。
   logback.xml:
   %date{ISO8601} -> %date
+  これだ。env/prod/resources/logback.xml
+  どうしてrelative なんかに？
+  ```
+  <pattern>%-5relative %-5level %logger{35} - %msg%n</pattern>
+  ```
 
 - テストコードを選択的に表示・非表示する。
 - created db-dumps/migrations folder.

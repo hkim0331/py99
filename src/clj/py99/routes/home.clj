@@ -250,6 +250,7 @@
                           "--no-cache"
                           "--diff"
                           tempfile)]
+      ;; error のファイルは消さずにおくか？
       (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
         (log/info "run-formatter" ret)

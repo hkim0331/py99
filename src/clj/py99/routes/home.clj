@@ -2,7 +2,7 @@
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]
-   [clojure.tools.logging :as log]
+   [clojure.tools.logging :as log]; search log/
    [digest]
    [java-time.api :as jt]
    [jx.java.shell :refer [timeout-sh]]
@@ -475,7 +475,7 @@
 
 (defn profile
   [request]
-  (log/debug "user" (:user request))
+  ;; (log/debug "user" (:user request))
   (let [login (get request :user (login request))
         solved (db/answers-by {:login login})
         individual (db/answers-by-date-login {:login login})
@@ -661,7 +661,7 @@
   (let [login (or (get-in request [:path-params :login])
                   (get-in request [:params :login]))
         user (get-user login)]
-    (log/info "user-class" "login" login "user" user)
+    ;; (log/info "user-class" "login" login "user" user)
     (layout/render request "user-class.html" {:user user})))
 
 

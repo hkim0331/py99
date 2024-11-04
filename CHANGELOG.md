@@ -7,8 +7,31 @@
 - 同じですカウント。コピーされた方もグレードが上がってしまうのをどうする？
 - バリデーションに失敗した回答をキープする。
 - home.clj から validation を別ファイルに出す。
-- ダウトをさらし首にする --- あんまりか。
+- ダウトをZZさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
+- <login>-<nn> を短く <login>で表示？ 問題番号と紛らわしい。
+
+
+## v17.1049 / 2024-11-04
+
+- log のタイムスタンプ --- iso フォーマットになってない。
+  logback.xml:
+  %date{ISO8601} -> %date
+  これだ。env/prod/resources/logback.xml
+  どうしてrelative なんかに？
+  ```
+  <pattern>%-5relative %-5level %logger{35} - %msg%n</pattern>
+  ```
+
+- テストコードを選択的に表示・非表示する。
+- created db-dumps/migrations folder.
+- alter table py99.problems add show_testcode column default true;
+
+- number of answers/comments to display. home.clj,
+```
+(def ^:private number-of-answers 30)
+(def ^:private number-of-comments 30)
+```
 
 ## v1.6.1037 / 2024-10-30
 

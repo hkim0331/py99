@@ -19,6 +19,9 @@
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
 
+(def ^:private number-of-answers 30)
+(def ^:private number-of-comments 30)
+
 ;; https://stackoverflow.com/questions/16264813/
 ;; clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
@@ -127,10 +130,10 @@
       :class-chart (class-chart all-answers period 600 150)
       :no-thanks filter
       :recents
-      (->> (db/recent-answers {:n 20})
+      (->> (db/recent-answers {:n number-of-answers})
            (remove #(my-contains? no-thanks (:login %))))
       :recent-comments
-      (->> (db/recent-comments {:n 20})
+      (->> (db/recent-comments {:n number-of-comments})
            (remove #(my-contains? no-thanks (:from_login %))))})))
 
 (defn problems-page

@@ -22,8 +22,10 @@
 
   <!-- test code -->
   {% if not exam? %}
-  <p>test code:</p>
-  <pre>{{problem.test}}</pre>
+    <p>test code:</p>
+    {% if problem.show_testcode %}
+      <pre>{{problem.test}}</pre>
+    {% endif %}
   {% endif %}
 
 

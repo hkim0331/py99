@@ -69,37 +69,44 @@
                    "re-exam-end.html"
                    {:login login
                     :logins (get-logins login)})))
+;; 2024-11-12
+(defn- remote-addr [req]
+  (or
+   (get-in req [:headers "cf-connecting-ip"])
+   (get-in req [:headers "x-real-ip"])
+   (get req :remote-addr)))
 
-(defn login-post [{{:keys [login password #_filter]} :params}]
+
+  (defn login-post [{{:keys [login password #_filter]} :params :as request}]
   ;; When dev mode, it is convenient to login as administrator
   ;; without authentication.
-  (if (env :dev)
-    (do
-      (log/debug "debug mode")
-      (-> (redirect "/")
-          (assoc-in [:session :identity] :hkimura)))
-    (let [user (get-user login)]
-      (if (and (seq user)
-               (= (:login user) login)
-               (hashers/check password (:password user)))
-        (do
-          (log/info "login success" login)
+    (if (env :dev)
+      (do
+        (log/debug "debug mode")
+        (-> (redirect "/")
+            (assoc-in [:session :identity] :hkimura)))
+      (let [user (get-user login)]
+        (if (and (seq user)
+                 (= (:login user) login)
+                 (hashers/check password (:password user)))
+          (do
+            (log/info "login success" login "from" (remote-addr request))
           ;; (log/info "filter:" filter)
           ;; in read-only mode, can not this.
           ;; (db/login {:login login})
           ;; after re-exam, use "/re-exam-end" instead of "/"
-          (-> (redirect "/")
-              (assoc-in [:session :identity] (keyword login))
-              #_(assoc-in [:session :filter] filter)))
-        (do
-          (log/info "login faild" login)
-          (-> (redirect "/login")
-              (assoc :flash "login failure")))))))
+            (-> (redirect "/")
+                (assoc-in [:session :identity] (keyword login))
+                #_(assoc-in [:session :filter] filter)))
+          (do
+            (log/info "login faild" login)
+            (-> (redirect "/login")
+                (assoc :flash "login failure")))))))
 
-(defn logout [request]
-  (log/info "logout" (get-in request [:session :identuty]))
-  (-> (redirect "/")
-      (assoc :session {})))
+  (defn logout [request]
+    (log/info "logout" (get-in request [:session :identuty]))
+    (-> (redirect "/")
+        (assoc :session {})))
 
 ;; this facility went to l22.melt
 ;;
@@ -119,17 +126,17 @@
 ;;       (catch Exception _
 ;;         (redirect "/register")))))
 
-(defn login-routes []
-  [""
-   {:middleware [middleware/wrap-csrf
-                 middleware/wrap-formats]}
-   ["/about" {:get about-page}]
-   ["/admin-only" {:get admin-only}]
-   ["/login" {:get  login
-              :post login-post}]
-   ["/logout" {:get logout}]
-   ["/logins" {:get show-logins}]
+  (defn login-routes []
+    [""
+     {:middleware [middleware/wrap-csrf
+                   middleware/wrap-formats]}
+     ["/about" {:get about-page}]
+     ["/admin-only" {:get admin-only}]
+     ["/login" {:get  login
+                :post login-post}]
+     ["/logout" {:get logout}]
+     ["/logins" {:get show-logins}]
    ;;
-   ["/re-exam-end" {:get re-exam-end}]
-   #_["/register" {:get  register
-                   :post register-post}]])
+     ["/re-exam-end" {:get re-exam-end}]
+     #_["/register" {:get  register
+                     :post register-post}]])

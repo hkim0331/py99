@@ -293,12 +293,16 @@
 (defn expand-includes
   "expand `#include` recursively."
   [s login]
-  (str/join
-   "\n"
-   (for [line (str/split-lines s)]
-     (if-let [[_ num] (re-matches #"#\s*include\s*(\d+).*" line)]
-       (expand-includes (get-answer (Integer/parseInt num) login) login)
-       line))))
+  (try
+    (str/join
+     "\n"
+     (for [line (str/split-lines s)]
+       (if-let [[_ num] (re-matches #"#\s*include\s*(\d+).*" line)]
+         (expand-includes (get-answer (Integer/parseInt num) login) login)
+         line)))
+    (catch Exception e
+      (log/error "expand-include" (.getMessage e))
+      (throw (Exception. (.getMessage e))))))
 
 (defn- has-docstring-test
   "if s contains docstring returns nil or throw.

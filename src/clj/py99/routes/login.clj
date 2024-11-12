@@ -12,8 +12,8 @@
    #_[struct.core :as st]
    #_[py99.db.core :as db]))
 
-(def ^:private version "v1.8-SNAPSHOT")
-(def ^:private updated "2024-11-09 08:27:52")
+(def ^:private version "v1.9-SNAPSHOT")
+(def ^:private updated "2024-11-12 14:09:54")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 
@@ -104,7 +104,7 @@
                 (assoc :flash "login failure")))))))
 
   (defn logout [request]
-    (log/info "logout" (get-in request [:session :identuty]))
+    (log/info "logout" (get-in request [:session :identity]))
     (-> (redirect "/")
         (assoc :session {})))
 

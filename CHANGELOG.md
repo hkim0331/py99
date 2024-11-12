@@ -12,7 +12,7 @@
 - <login>-<nn> を短く <login>で表示？ 問題番号と紛らわしい。
 
 
-## v1.9-SNAPSHOT / 2024-11-12
+## v1.9.1060 / 2024-11-12
 - fixed typo login.clj/logout
 - try expand-includes
 - alter table answers add column doctest bool default false;

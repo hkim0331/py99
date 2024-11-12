@@ -24,7 +24,7 @@
         action (-> template
                    (str/replace #".html$" "")
                    (str/replace #"-form$" ""))]
-    (log/debug login action num)
+    (log/info login action num)
     (db/action! {:login login
                  :num num
                  :action action})

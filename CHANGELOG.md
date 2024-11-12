@@ -11,10 +11,11 @@
 - いけすかないフィルターをセッションに保存する。
 - <login>-<nn> を短く <login>で表示？ 問題番号と紛らわしい。
 
+
 ## v1.9-SNAPSHOT / 2024-11-12
 - fixed typo login.clj/logout
 - try expand-includes
--
+- (not yet)answers.doctest bool を導入するか？
 
 ## v1.9-SNAPSHOT / 2024-11-12
 - コネクションプールを使い切った？

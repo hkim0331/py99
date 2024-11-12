@@ -120,7 +120,7 @@
         all-answers (db/answers-by-date)
         filter (get-in request [:session :filter] "")
         no-thanks (str/split filter #"\s")]
-    (log/debug "status-page" "no-thanks" no-thanks)
+    ;; (log/debug "status-page" "no-thanks" no-thanks)
     (layout/render
      request
      "status.html"
@@ -174,6 +174,7 @@
 
 ;; --------------------
 ;; validations
+;; use declare?
 
 (defn- remove-comments
   "Remove lines starting from #, they are comments in Python."

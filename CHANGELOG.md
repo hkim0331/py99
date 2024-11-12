@@ -6,22 +6,48 @@
 - 返事のついたコメントだけ数える。
 - 同じですカウント。コピーされた方もグレードが上がってしまうのをどうする？
 - バリデーションに失敗した回答をキープする。
-- home.clj から validation を別ファイルに出す。
-- ダウトをZZさらし首にする --- あんまりか。
+- home.clj から validation を別ファイルに出す。declare 使えば？
+- ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
 - <login>-<nn> を短く <login>で表示？ 問題番号と紛らわしい。
 
 
-## v17.1049 / 2024-11-04
+## v1.9-SNAPSHOT / 2024-11-12
+- fixed typo login.clj/logout
+- try expand-includes
+- (not yet)answers.doctest bool を導入するか？
+
+## v1.9-SNAPSHOT / 2024-11-12
+- コネクションプールを使い切った？
+```
+2024-11-07 20:24:27,626 ERROR py99.middleware - nil
+java.lang.StackOverflowError: null
+...
+2024-11-08 19:58:03,964 ERROR py99.middleware - HikariPool-1 - Connection is not available,
+request timed out after 30001ms.
+```
+- ログをもうちょっとしっかり出す。
+- layout.clj: log/debug -> log/info
+
+## v1.9-SNAPSHOT / 2024-11-12
+- login.clj: ログにリモートアドレス
+
+## v1.7.1049 / 2024-11-04
 
 - log のタイムスタンプ --- iso フォーマットになってない。
   logback.xml:
   %date{ISO8601} -> %date
   これだ。env/prod/resources/logback.xml
-  どうしてrelative なんかに？
-  ```
+  どうして relative なんかに? 2024-09-11までは ISO フォーマット。
+
+```
+2024-09-11 20:27:33,397 [XNIO-1 task-3] INFO  py99.routes.login - login success\
+ *****
+```
+
+```
   <pattern>%-5relative %-5level %logger{35} - %msg%n</pattern>
-  ```
+```
 
 - テストコードを選択的に表示・非表示する。
 - created db-dumps/migrations folder.

@@ -2,7 +2,7 @@
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]
-   [clojure.tools.logging :as log]
+   [clojure.tools.logging :as log]; search log/
    [digest]
    [java-time.api :as jt]
    [jx.java.shell :refer [timeout-sh]]
@@ -120,7 +120,7 @@
         all-answers (db/answers-by-date)
         filter (get-in request [:session :filter] "")
         no-thanks (str/split filter #"\s")]
-    (log/debug "status-page" "no-thanks" no-thanks)
+    ;; (log/debug "status-page" "no-thanks" no-thanks)
     (layout/render
      request
      "status.html"
@@ -174,6 +174,7 @@
 
 ;; --------------------
 ;; validations
+;; use declare?
 
 (defn- remove-comments
   "Remove lines starting from #, they are comments in Python."
@@ -250,10 +251,10 @@
                           "--no-cache"
                           "--diff"
                           tempfile)]
-      (delete-tempfile tempfile)
       (when-not (zero? (:exit ret))
         (log/info "run-formatter" ret)
-        (throw (Exception. "Ruff に通したか？"))))))
+        (throw (Exception. "Ruff に通したか？")))
+      (delete-tempfile tempfile))))
 
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
@@ -274,7 +275,7 @@
               ret (timeout-sh timeout
                               "python3" "-m" "pytest"
                               (.getAbsolutePath tempfile))]
-          (log/debug "pytest-test returns" ret)
+          (log/info "pytest-test returns" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
             (throw (Exception. (->> (str/split-lines (:out ret))
@@ -293,12 +294,16 @@
 (defn expand-includes
   "expand `#include` recursively."
   [s login]
-  (str/join
-   "\n"
-   (for [line (str/split-lines s)]
-     (if-let [[_ num] (re-matches #"#\s*include\s*(\d+).*" line)]
-       (expand-includes (get-answer (Integer/parseInt num) login) login)
-       line))))
+  (try
+    (str/join
+     "\n"
+     (for [line (str/split-lines s)]
+       (if-let [[_ num] (re-matches #"#\s*include\s*(\d+).*" line)]
+         (expand-includes (get-answer (Integer/parseInt num) login) login)
+         line)))
+    (catch Exception e
+      (log/error "expand-include" (.getMessage e))
+      (throw (Exception. (.getMessage e))))))
 
 (defn- has-docstring-test
   "if s contains docstring returns nil or throw.
@@ -327,6 +332,7 @@
       (str/starts-with? s "def")
       (str/starts-with? s "from")
       (str/starts-with? s "import")
+      ;; global variable must start with "g_"
       (str/starts-with? s "g_")
       ;; doctest, 2024-01-08
       (str/starts-with? s "if")))
@@ -352,13 +358,13 @@
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil
-      (catch Exception e (throw (Exception. (.getMessage e)))))))
+      (catch Exception e
+        (log/info "exception" (.getMessage e))
+        (throw (Exception. (.getMessage e)))))))
 
 (defn- signature?
   [login docstring]
-  (some? (or ;;(re-find #"自力" docstring)
-             ;;(re-find #"自作" docstring)
-             (and (seq login) (re-find (re-pattern login) docstring)))))
+  (some? (and (seq login) (re-find (re-pattern login) docstring))))
 
 (comment
   (signature? ""  "abc")
@@ -367,7 +373,7 @@
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
-  (log/debug "create-answer!" (login request) num)
+  (log/info "create-answer!" (login request) num)
   (try
     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
     ;; 2024-02-23, after endterm. must resume when reuse.
@@ -385,6 +391,7 @@
                  :num (Integer/parseInt num)})
     (redirect (str "/answer/" num))
     (catch Exception e
+      (log/info "create-answer!" (.getMessage e))
       (layout/render request "error.html"
                      {:status 406
                       :message "ブラウザのバックで戻って、修正後、再提出してください。"
@@ -416,7 +423,7 @@
 (defn create-comment! [request]
   (let [params (:params request)
         num (Integer/parseInt (:p_num params))]
-    ;;(log/debug "create-comment!" (login request) num)
+    (log/info "create-comment!" (login request) num)
     (if (db/frozen? {:num num})
       (layout/render request "error.html"
                      {:status 403
@@ -661,7 +668,7 @@
   (let [login (or (get-in request [:path-params :login])
                   (get-in request [:params :login]))
         user (get-user login)]
-    (log/info "user-class" "login" login "user" user)
+    ;; (log/info "user-class" "login" login "user" user)
     (layout/render request "user-class.html" {:user user})))
 
 

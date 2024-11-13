@@ -10,12 +10,16 @@
 - いけすかないフィルターをセッションに保存する。
 - Ruff バリデーションに失敗した回答のファイル名にアカウントをアペンドする。
 
+
+
 ## v1.9-SNAPSHOT / 2024-11-13
 
 - layout/shorten-login
-  <login>-<nn> を短く <login>で表示？ 問題番号と紛らわしい。
+  問題番号とログイン名の後ろの数字が紛らわしい。
+  <login>-<nn> を短く <login>で表示。
 - html/status.html
   🚀 と ~ で。
+- 問題番号だけ別色を使う。
 
 ```
 {{a.login|shorten-login}}{% if a.doctest %}🚀{% else %}~{% endif %}{{a.num}}

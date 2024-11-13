@@ -8,11 +8,22 @@
 - home.clj から validation を別ファイルに出す。declare 使えば？
 - ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
-- <login>-<nn> を短く <login>で表示？ 問題番号と紛らわしい。
+
 - Ruff バリデーションに失敗した回答をキープする。ファイル名にアカウントをアペンドする。
 
+## v1.9-SNAPSHOT
+
+- layout/shorten-login
+  <login>-<nn> を短く <login>で表示？ 問題番号と紛らわしい。
+- html/status.html
+  🚀 と ~ で。
+
+```
+{{a.login|shorten-login}}{% if a.doctest %}🚀{% else %}~{% endif %}{{a.num}}
+```
 
 ## v1.9.1060 / 2024-11-12
+
 - fixed typo login.clj/logout
 - try expand-includes
 - alter table answers add column doctest bool default false;

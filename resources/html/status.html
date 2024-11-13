@@ -36,7 +36,7 @@
     <p>
       {% for a in recents %}
       <a href='/comment/{{a.id}}'>
-        {{a.login}}{% if a.doctest %}🚀{% else %}-{% endif %}{{a.num}}</a>
+        {{a.login|shorten-login}}{% if a.doctest %}🚀{% else %}~{% endif %}{{a.num}}</a>
       &nbsp
       {% endfor %}
     </p>

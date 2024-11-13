@@ -116,8 +116,8 @@
   [request]
   (let [login (login request)
         solved (map #(:num %) (db/answers-by {:login login}))
-        individual  (db/answers-by-date-login {:login login})
-        all-answers (db/answers-by-date)
+        ;;individual  (db/answers-by-date-login {:login login})
+        ;;all-answers (db/answers-by-date)
         filter (get-in request [:session :filter] "")
         no-thanks (str/split filter #"\s")]
     ;; (log/debug "status-page" "no-thanks" no-thanks)
@@ -126,8 +126,12 @@
      "status.html"
      {:login login
       :status (map #(solved? solved %) (map :num (db/problems)))
-      :individual-chart (individual-chart individual period 600 150)
-      :class-chart (class-chart all-answers period 600 150)
+      :individual-chart (individual-chart
+                         (db/answers-by-date-login {:login login})
+                         period 600 150)
+      :class-chart (class-chart
+                    (db/answers-by-date)
+                    period 600 150)
       :no-thanks filter
       :recents
       (->> (db/recent-answers {:n number-of-answers})
@@ -371,6 +375,10 @@
   (signature? "abc" "abc")
   :rcf)
 
+;; (defn- doctest?
+;;   [docstring]
+;;   (re-find #">>> " docstring))
+
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]
   (log/info "create-answer!" (login request) num)
@@ -385,7 +393,9 @@
       :num (Integer/parseInt num)
       :answer answer
       :md5 (-> answer strip digest/md5)
-      :signature (signature? (login request) (docstring answer))})
+      :signature (signature? (login request) (docstring answer))
+      :doctest (some? (re-find #">>> " (docstring answer)))})
+
     (db/action! {:login (name (login request))
                  :action "answer(!)"
                  :num (Integer/parseInt num)})

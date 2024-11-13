@@ -91,8 +91,8 @@ ORDER BY id;
 -- :name create-answer! :! :1
 -- :doc creates a new problem record
 INSERT INTO answers
-(login, num, answer, md5, signature)
-VALUES (:login, :num, :answer, :md5, :signature)
+(login, num, answer, md5, signature, doctest)
+VALUES (:login, :num, :answer, :md5, :signature, :doctest)
 RETURNING id
 
 -- :name get-answer :? :1

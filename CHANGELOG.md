@@ -5,19 +5,18 @@
 - コードをカラフルに表示する。
 - 返事のついたコメントだけ数える。
 - 同じですカウント。コピーされた方もグレードが上がってしまうのをどうする？
-- バリデーションに失敗した回答をキープする。
 - home.clj から validation を別ファイルに出す。declare 使えば？
 - ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
 - <login>-<nn> を短く <login>で表示？ 問題番号と紛らわしい。
+- Ruff バリデーションに失敗した回答をキープする。ファイル名にアカウントをアペンドする。
 
 
-## v1.9-SNAPSHOT / 2024-11-12
+## v1.9.1060 / 2024-11-12
 - fixed typo login.clj/logout
 - try expand-includes
-- (not yet)answers.doctest bool を導入するか？
+- alter table answers add column doctest bool default false;
 
-## v1.9-SNAPSHOT / 2024-11-12
 - コネクションプールを使い切った？
 ```
 2024-11-07 20:24:27,626 ERROR py99.middleware - nil
@@ -29,7 +28,6 @@ request timed out after 30001ms.
 - ログをもうちょっとしっかり出す。
 - layout.clj: log/debug -> log/info
 
-## v1.9-SNAPSHOT / 2024-11-12
 - login.clj: ログにリモートアドレス
 
 ## v1.7.1049 / 2024-11-04

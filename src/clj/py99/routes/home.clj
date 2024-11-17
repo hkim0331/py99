@@ -222,8 +222,8 @@
   (when-not (re-find #"\S" answer)
     (throw (Exception. "回答がカラです。"))))
 
-(defn- make-tempfile [dir suffix]
-  (str dir (System/nanoTime) suffix))
+(defn- make-tempfile [dir login suffix]
+  (str dir (System/nanoTime) "-" login suffix))
 
 (defn- delete-tempfile [fname]
   (io/delete-file fname))
@@ -245,8 +245,8 @@
   "command `ruff format` can't on tempfile.
    The reasons were not identified yet.
    so, defined private `make-tempfile` function, use it."
-  [s]
-  (let [tempfile (make-tempfile "tmp/" ".py")]
+  [s login]
+  (let [tempfile (make-tempfile "tmp/" login ".py"  )]
     (spit tempfile (str s "\n")) ;; ruff expect end "\n"
     (let [timeout 10
           ret (timeout-sh timeout
@@ -358,7 +358,7 @@
       (has-docstring-test answer)
       (no-exec-statements answer)
       ; why remove-comments?
-      (ruff-formatter (str/trim (remove-comments answer)))
+      (ruff-formatter (str/trim (remove-comments answer)) login)
       (not-same-md5-login stripped login)
       (pytest-test num (expand-includes answer login))
       nil

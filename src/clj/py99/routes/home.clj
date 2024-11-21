@@ -416,13 +416,16 @@
         num (:num answer)
         my-answer (db/get-answer {:num num :login (login request)})
         exam? (env :exam-mode)
+        comments (db/get-comments {:a_id id})
+        comment_to (:from_login (last comments) (:login answer))
         uptime (uptime)]
     (if my-answer ;; (and my-answer (not exam?))
       (layout/render request "comment-form.html"
                      {:answer   (if exam? my-answer answer)
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
-                      :comments (when-not exam? (db/get-comments {:a_id id}))
+                      :comments (when-not exam? comments)
+                      :comment_to comment_to
                       :uptime   uptime
                       :exam?    exam?})
       (layout/render request "error.html"

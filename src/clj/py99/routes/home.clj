@@ -229,10 +229,10 @@
   (io/delete-file fname))
 
 (defn- ruff-path
-  "ruff version 0.7.0 is out."
+  "ruff version 0.8.0 is out. 2024-11-23"
   []
   (cond
-    (.exists (io/file "/home/ubuntu/.local/bin/ruff")) ;; 0.7.0
+    (.exists (io/file "/home/ubuntu/.local/bin/ruff")) ;; 0.8.0
     "/home/ubuntu/.local/bin/ruff"
     (.exists (io/file "/snap/bin/ruff")) ;; 0.6.9
     "/snap/bin/ruff"
@@ -246,7 +246,7 @@
    The reasons were not identified yet.
    so, defined private `make-tempfile` function, use it."
   [s login]
-  (let [tempfile (make-tempfile "tmp/" login ".py"  )]
+  (let [tempfile (make-tempfile "tmp/" login ".py")]
     (spit tempfile (str s "\n")) ;; ruff expect end "\n"
     (let [timeout 10
           ret (timeout-sh timeout
@@ -673,7 +673,6 @@
         user (get-user login)]
     ;; (log/info "user-class" "login" login "user" user)
     (layout/render request "user-class.html" {:user user})))
-
 
 (defn home-routes []
   ["" {:middleware [middleware/auth

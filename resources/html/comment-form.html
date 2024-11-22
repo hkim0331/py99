@@ -44,7 +44,7 @@
     <input type='hidden' name='to_login' value='{{answer.login}}'>
     <textarea name='comment'
               class='textarea'
-              placeholder='Your comment please.'>🔔 {{comment_to}}, </textarea><br>
+              placeholder='Your comment please.'>{% if comment_to %}💡 {{comment_to}}, {%endif %}</textarea><br>
     <div>{{uptime}}</div>
     <input type='submit' value='comment' class='button is-warning is-small'>
   </form>

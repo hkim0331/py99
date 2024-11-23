@@ -47,6 +47,8 @@ VALUES (:num, :problem, :test)
 -- :doc updates an existing problem record
 UPDATE problems
 SET num = :num, problem = :problem, test = :test,
+     is_avail = :is_avail,
+     show_testcode = :show_testcode,
      update_at = now()
 WHERE id = :id
 

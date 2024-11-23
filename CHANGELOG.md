@@ -11,6 +11,20 @@
 - 行の折り返し、文字数でなくて、行の長さで。
 - admin 専用でダウンロードボタン
 
+## v1.2-SNAPSHOT
+- bugfix
+```
+(defn update-problem! [{:keys [params]}]
+  (let [q (-> params
+              (update :id parse-long)
+              (update :num parse-long)
+              (update :is_avail parse-long)
+              (update :show_testcode #(= "true" %)))]
+    (log/debug "q:" q)
+    (if (= 1 (db/update-problem! q))
+      (redirect "/admin/problems")
+      (redirect "/error.html"))))
+```
 
 ## v1.1.1090 / 2024-11-23
 - Ruff 0.8.0.

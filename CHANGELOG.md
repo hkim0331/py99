@@ -27,6 +27,14 @@
       (redirect "/error.html"))))
 ```
 
+## v1.12-SNAPSHOT
+
+-  admin/update-problems! から同問あたりにリダイレクトする。
+
+```
+  (redirect (str "/admin/problems#" (:num q))
+```
+
 ## v1.12.1101 / 2024-11-23
 
 - radio buttons for showing on/off testcodes.

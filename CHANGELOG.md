@@ -11,7 +11,7 @@
 - 行の折り返し、文字数でなくて、行の長さで。
 - admin 専用でダウンロードボタン
 
-## v1.2-SNAPSHOT
+## v1.2-SNAPSHOT / 2024-11-23
 - bugfix
 ```
 (defn update-problem! [{:keys [params]}]

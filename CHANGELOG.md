@@ -27,7 +27,11 @@
       (redirect "/error.html"))))
 ```
 
-## v1.1.1090 / 2024-11-23
+## v1.12-SNAPSHOT
+
+- radio buttons for showing on/off testcodes.
+
+## v1.12.1090 / 2024-11-23
 
 - Ruff 0.8.0.
 

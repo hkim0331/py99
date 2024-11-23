@@ -13,6 +13,7 @@
 
 ## v1.2-SNAPSHOT / 2024-11-23
 - bugfix
+
 ```
 (defn update-problem! [{:keys [params]}]
   (let [q (-> params
@@ -27,9 +28,11 @@
 ```
 
 ## v1.1.1090 / 2024-11-23
+
 - Ruff 0.8.0.
 
 ## v1.11.1086 / 2024-11-22
+
 - comment textarea に回答オーサーあるいは、直上のコメンター。
 - '💡commenter' only for replies.
 

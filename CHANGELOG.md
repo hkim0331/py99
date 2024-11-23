@@ -27,7 +27,7 @@
       (redirect "/error.html"))))
 ```
 
-## v1.12-SNAPSHOT
+## v1.12.1101 / 2024-11-23
 
 - radio buttons for showing on/off testcodes.
 

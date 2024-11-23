@@ -3,6 +3,7 @@
    [clojure.java.io :as io]
    clojure.pprint
    [clojure.string :as str]
+   [clojure.tools.logging :as log]
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.middleware :as middleware]
@@ -70,11 +71,13 @@
   (layout/render request "edit-problems.html" {:problems (db/problems-all)}))
 
 (defn update-problem! [{:keys [params]}]
-  (let [q (update (update params :id #(Integer/parseInt %))
-                  :num
-                  #(Integer/parseInt %))
-        ret (db/update-problem! q)]
-    (if (= 1 ret)
+  (let [q (-> params
+              (update :id parse-long)
+              (update :num parse-long)
+              (update :is_avail parse-long)
+              (update :show_testcode #(= "true" %)))]
+    (log/debug "q:" q)
+    (if (= 1 (db/update-problem! q))
       (redirect "/admin/problems")
       (redirect "/error.html"))))
 

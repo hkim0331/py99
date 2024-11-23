@@ -11,11 +11,28 @@
 - 行の折り返し、文字数でなくて、行の長さで。
 - admin 専用でダウンロードボタン
 
+## v1.2-SNAPSHOT / 2024-11-23
+- bugfix
+
+```
+(defn update-problem! [{:keys [params]}]
+  (let [q (-> params
+              (update :id parse-long)
+              (update :num parse-long)
+              (update :is_avail parse-long)
+              (update :show_testcode #(= "true" %)))]
+    (log/debug "q:" q)
+    (if (= 1 (db/update-problem! q))
+      (redirect "/admin/problems")
+      (redirect "/error.html"))))
+```
 
 ## v1.1.1090 / 2024-11-23
+
 - Ruff 0.8.0.
 
 ## v1.11.1086 / 2024-11-22
+
 - comment textarea に回答オーサーあるいは、直上のコメンター。
 - '💡commenter' only for replies.
 

@@ -17,12 +17,14 @@
     {% endfor %}
   </p>
 
-  <h3>{{answer.login}}'s other solutions (just one means this only)</h3>
+  {% if 1 < answers|length %}
+  <h3>{{answer.login}}'s solutions</h3>
   <ol>
     {% for a in answers %}
     <li><a href='/comment/{{a.id}}'>{{a.create_at|date:shortDateTime}}</a></li>
     {% endfor %}
   </ol>
+  {% endif %}
 
   <h3>Comments</h3>
 

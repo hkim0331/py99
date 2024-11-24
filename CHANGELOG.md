@@ -16,6 +16,8 @@
 
 - same answers, different answers の間に
   one's other solutions (just one means this only)
+- 回答一個の時は表示しない.
+  one's solutions
 
 ## v1.12.1097 / 2024-11-23
 - bug fixed, admin で num, show_testcode 等を変更しても変更できなかった。

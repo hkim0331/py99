@@ -78,7 +78,7 @@
               (update :show_testcode #(= "true" %)))]
     (log/debug "q:" q)
     (if (= 1 (db/update-problem! q))
-      (redirect "/admin/problems")
+      (redirect (str "/admin/problems#" (:num q)))
       (redirect "/error.html"))))
 
 (defn user-actions-page [{{:keys [login date]} :params :as request}]

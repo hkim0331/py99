@@ -10,9 +10,18 @@
 - いけすかないフィルターをセッションに保存する。
 - 行の折り返し、文字数でなくて、行の長さで。
 - admin 専用でダウンロードボタン
+- clojure.tools.logging を telemere でリプレース。
+
+## v1.13.1110 / 2024-11-24
+
+- same answers, different answers の間に
+  one's other solutions (just one means this only)
+- 回答一個の時は表示しない.
+  one's solutions
 
 ## v1.12.1097 / 2024-11-23
-- bugfix
+- bug fixed, admin で num, show_testcode 等を変更しても変更できなかった。
+  insert の時は int/string を気にせず行けても、update の時はケアしないとか？
 
 ```
 (defn update-problem! [{:keys [params]}]
@@ -21,10 +30,17 @@
               (update :num parse-long)
               (update :is_avail parse-long)
               (update :show_testcode #(= "true" %)))]
-    (log/debug "q:" q)
     (if (= 1 (db/update-problem! q))
       (redirect "/admin/problems")
       (redirect "/error.html"))))
+```
+
+## v1.13.1110 / 2024-11-24
+
+-  admin/update-problems! から同問題の付近にリダイレクトする。
+
+```
+  (redirect (str "/admin/problems#" (:num q))
 ```
 
 ## v1.12.1101 / 2024-11-23

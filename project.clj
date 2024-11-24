@@ -1,4 +1,4 @@
-(defproject py99 "v1.13-SNAPSHOT"
+(defproject py99 "v1.13.1110"
   :description "py99 site"
   :url "https://py99.melt.kyutech.ac.jp"
   :dependencies

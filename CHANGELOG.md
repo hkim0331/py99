@@ -12,7 +12,7 @@
 - admin 専用でダウンロードボタン
 - clojure.tools.logging を telemere でリプレース。
 
-## v1.13-SNAPSHOT
+## v1.13-SNAPSHOT / 2024-11-24
 
 - same answers, different answers の間に
   one's other solutions (just one means this only)
@@ -33,7 +33,7 @@
       (redirect "/error.html"))))
 ```
 
-## v1.12-SNAPSHOT
+## v1.13-SNAPSHOT / 2024-11-24
 
 -  admin/update-problems! から同問題の付近にリダイレクトする。
 

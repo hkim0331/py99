@@ -12,6 +12,10 @@
 - admin 専用でダウンロードボタン
 - clojure.tools.logging を telemere でリプレース。
 
+## v1.13-SNAPSHOT
+
+- same answers, different answers の間に
+  one's other solutions (just one means this only)
 
 ## v1.12.1097 / 2024-11-23
 - bug fixed, admin で num, show_testcode 等を変更しても変更できなかった。

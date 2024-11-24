@@ -103,6 +103,12 @@ SELECT * FROM answers
 WHERE num = :num and login = :login
 ORDER BY id DESC
 
+-- :name get-answers :? :*
+-- :doc retrives answers to `num` from user `login`.
+SELECT * FROM answers
+WHERE num = :num and login = :login
+ORDER BY id DESC
+
 -- :name answers-by :? :*
 -- :doc retrieve all answers solved by user `login`
 SELECT * FROM answers

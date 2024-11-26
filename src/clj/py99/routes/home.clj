@@ -282,9 +282,13 @@
           (log/info "pytest-test returns" ret)
           (.delete tempfile)
           (when-not (zero? (:exit ret))
-            (throw (Exception. (->> (str/split-lines (:out ret))
-                                    (filter #(re-find #"^[>E]" %))
-                                    (str/join "\n"))))))))))
+            (if (:timeout ret)
+              (throw
+               (Exception. "timeout occured. took 10s or more to evaluate."))
+              (throw
+               (Exception. (->> (str/split-lines (:out ret))
+                                (filter #(re-find #"^[>E]" %))
+                                (str/join "\n")))))))))))
 
 (defn- get-answer
   "get user login's answer to `num` from db."

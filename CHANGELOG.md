@@ -24,16 +24,15 @@
   one's other solutions (just one means this only)
 - 回答一個の時は表示しない.
   one's solutions
-
-
-
-## v1.13.1110 / 2024-11-24
-
 -  admin/update-problems! から同問題の付近にリダイレクトする。
 
 ```
   (redirect (str "/admin/problems#" (:num q))
 ```
+
+## v1.12.1101 / 2024-11-23
+
+- radio buttons for showing on/off testcodes.
 
 ## v1.12.1097 / 2024-11-23
 - bug fixed, admin で num, show_testcode 等を変更しても変更できなかった。
@@ -50,10 +49,6 @@
       (redirect "/admin/problems")
       (redirect "/error.html"))))
 ```
-
-## v1.12.1101 / 2024-11-23
-
-- radio buttons for showing on/off testcodes.
 
 ## v1.12.1090 / 2024-11-23
 

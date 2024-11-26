@@ -13,7 +13,7 @@
 - clojure.tools.logging を telemere でリプレース。
 
 
-## v1.14-SNAPSHOT
+## v1.14.1114 / 2024-11-26
 - timeout エラーを明示する。
 
   timeout occured. took 10s or more to evaluate.

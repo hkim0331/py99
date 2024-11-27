@@ -8,14 +8,28 @@
 - home.clj から validation を別ファイルに出す。declare 使えば？
 - ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
-- 行の折り返しを現行の文字数から行の長さで。
-- admin 専用でダウンロードボタン
+- 行の折り返しを文字数ではなく行の長さで判断する。
+- admin 専用のダウンロードボタンを作る。
 - clojure.tools.logging を telemere でリプレース。
 - doctest? を#include 展開後の最後に見つかる def の関数コメントで。
 - doctest があれば実施する。エラーになった回答を受け取らない。
 
 
+## v1.15-SNAPSHOT
+
+- libraries, riing を除いてアップデート。
+
+| :file       | :name                               | :current | :latest |
+|------------ | ----------------------------------- | -------- | --------|
+| project.clj | ch.qos.logback/logback-classic      | 1.5.8    | 1.5.12  |
+|             | clojure.java-time/clojure.java-time | 1.4.2    | 1.4.3   |
+|             | markdown-clj/markdown-clj           | 1.12.1   | 1.12.2  |
+|             | mount/mount                         | 0.1.19   | 0.1.20  |
+|             | ring/ring-core                      | 1.12.2   | 1.13.0  |
+|             | ring/ring-devel                     | 1.12.2   | 1.13.0  |
+
 ## v1.14.1114 / 2024-11-26
+
 - timeout エラーを明示する。
 
   timeout occured. took 10s or more to evaluate.

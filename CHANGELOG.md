@@ -8,12 +8,14 @@
 - home.clj から validation を別ファイルに出す。declare 使えば？
 - ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
-- 行の折り返し、文字数でなくて、行の長さで。
-- admin 専用でダウンロードボタン
-- clojure.tools.logging を telemere でリプレース。
+- 行の折り返し、文字数でなくて、行の長さで判断する。
+- admin 専用のダウンロードボタン。
+- telemere --- clojure.tools.logging をリプレース。
+- doctest を実行する。
 
 
 ## v1.14.1114 / 2024-11-26
+
 - timeout エラーを明示する。
 
   timeout occured. took 10s or more to evaluate.

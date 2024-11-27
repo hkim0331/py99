@@ -14,6 +14,19 @@
 - doctest を実行する。
 
 
+## v1.15-SNAPSHOT
+
+- libraries, riing を除いてアップデート。
+
+| :file       | :name                               | :current | :latest |
+|------------ | ----------------------------------- | -------- | --------|
+| project.clj | ch.qos.logback/logback-classic      | 1.5.8    | 1.5.12  |
+|             | clojure.java-time/clojure.java-time | 1.4.2    | 1.4.3   |
+|             | markdown-clj/markdown-clj           | 1.12.1   | 1.12.2  |
+|             | mount/mount                         | 0.1.19   | 0.1.20  |
+|             | ring/ring-core                      | 1.12.2   | 1.13.0  |
+|             | ring/ring-devel                     | 1.12.2   | 1.13.0  |
+
 ## v1.14.1114 / 2024-11-26
 
 - timeout エラーを明示する。

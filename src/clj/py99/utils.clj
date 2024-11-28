@@ -1,5 +1,10 @@
 (ns py99.utils)
 
+(defn dev? []
+  (= (System/getenv "PY99_DEV") "true"))
+
+;; (dev?)
+
 (defn- before? [s1 s2]
   (<= (compare s1 s2) 0))
 

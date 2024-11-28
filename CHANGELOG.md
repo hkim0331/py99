@@ -17,7 +17,7 @@
 ## v1.6-SNAPSHOT
 
 - pytest error も記録する。
-- db/declare
+- db/declare db functions.
 
 ## v1.5.1141 / 2024-11-28
 

@@ -175,6 +175,12 @@
 ;; validations
 ;; use declare? no.
 
+(defn- make-tempfile [dir login suffix]
+  (str dir (System/nanoTime) "-" login suffix))
+
+(defn- delete-tempfile [fname]
+  (io/delete-file fname))
+
 (defn- remove-comments
   "Remove lines starting from #, they are comments in Python."
   [s]
@@ -189,6 +195,10 @@
   (-> s
       (str/replace #"\n" "")
       (str/replace #"\"\"\".+?\"\"\"", "")))
+
+(defn- signature?
+  [login docstring]
+  (some? (and (seq login) (re-find (re-pattern login) docstring))))
 
 (defn- docstring
   "returns the last string surrounding by \"\"\"~\"\"\".
@@ -230,74 +240,6 @@
   [answer]
   (when-not (re-find #"\S" answer)
     (throw (Exception. "回答がカラです。"))))
-
-(defn- make-tempfile [dir login suffix]
-  (str dir (System/nanoTime) "-" login suffix))
-
-(defn- delete-tempfile [fname]
-  (io/delete-file fname))
-
-(defn- ruff-path
-  "ruff version 0.8.0 is out. 2024-11-23"
-  []
-  (cond
-    (.exists (io/file "/home/ubuntu/.local/bin/ruff")) ;; 0.8.0
-    "/home/ubuntu/.local/bin/ruff"
-    (.exists (io/file "/snap/bin/ruff")) ;; 0.6.9
-    "/snap/bin/ruff"
-    (.exists (io/file "/opt/homebrew/bin/ruff")) ;; develop
-    "/opt/homebrew/bin/ruff"
-    ;; need raise
-    :else nil))
-
-(defn ruff-formatter
-  "command `ruff format` can't on tempfile.
-   The reasons were not identified yet.
-   so, defined private `make-tempfile` function, use it."
-  [s login]
-  (let [tempfile (make-tempfile "tmp/" login ".py")]
-    (spit tempfile (str s "\n")) ;; ruff expect end "\n"
-    (let [timeout 10
-          ret (timeout-sh timeout
-                          (ruff-path)
-                          "format"
-                          "--no-cache"
-                          "--diff"
-                          tempfile)]
-      (when-not (zero? (:exit ret))
-        (log/info "run-formatter" ret)
-        (throw (Exception. "Ruff に通したか？")))
-      (delete-tempfile tempfile))))
-
-(defn pytest-test
-  "Fetch testcode from `num`, test string `answer`.
-   Throw exception when pytest on them fails."
-  [num answer]
-  (when-let [test (:test (db/get-problem {:num num}))]
-    ;; FIXME: to skip validations,
-    ;;        current py99 requires empty tests.
-    (when (re-find #"\S" test)
-      ;; (log/debug "test is not empty" test)
-      (let [tempfile (java.io.File/createTempFile "python" ".py")]
-        (with-open [file (clojure.java.io/writer tempfile)]
-          (binding [*out* file]
-            (println "#-*- coding: UTF-8 -*-")
-            (println answer)
-            (println test)))
-        (let [timeout 10
-              ret (timeout-sh timeout
-                              "python3" "-m" "pytest"
-                              (.getAbsolutePath tempfile))]
-          (log/info "pytest-test returns" ret)
-          (.delete tempfile)
-          (when-not (zero? (:exit ret))
-            (if (:timeout ret)
-              (throw
-               (Exception. "timeout occured. took 10s or more to evaluate."))
-              (throw
-               (Exception. (->> (str/split-lines (:out ret))
-                                (filter #(re-find #"^[>E]" %))
-                                (str/join "\n")))))))))))
 
 (defn- get-answer
   "get user login's answer to `num` from db."
@@ -361,6 +303,79 @@
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
       (throw (Exception. "回答中に実行文があるのはまずい。")))))
 
+
+
+(defn- ruff-path
+  "ruff version 0.8.0 is out. 2024-11-23"
+  []
+  (cond
+    (.exists (io/file "/home/ubuntu/.local/bin/ruff")) ;; 0.8.0
+    "/home/ubuntu/.local/bin/ruff"
+    (.exists (io/file "/snap/bin/ruff")) ;; 0.6.9
+    "/snap/bin/ruff"
+    (.exists (io/file "/opt/homebrew/bin/ruff")) ;; develop
+    "/opt/homebrew/bin/ruff"
+    ;; need raise
+    :else nil))
+
+(defn ruff-formatter
+  "command `ruff format` can't on tempfile.
+   The reasons were not identified yet.
+   so, defined private `make-tempfile` function, use it."
+  [s login]
+  (let [tempfile (make-tempfile "ruff/" login ".py")]
+    (spit tempfile (str s "\n")) ;; ruff expect end "\n"
+    (let [timeout 10
+          ret (timeout-sh
+               timeout (ruff-path) "format" "--no-cache" "--diff" tempfile)]
+      (when-not (zero? (:exit ret))
+        (log/info "run-formatter" ret)
+        (throw (Exception. "Ruff に通したか？")))
+      (delete-tempfile tempfile))))
+
+
+(defn doctest-test
+  [answer login]
+  (let [tempfile (make-tempfile "doctest/" login ".py")]
+    (spit tempfile (str answer "\n")) ;; ruff expect end "\n"
+    (let [timeout 10
+          ret (timeout-sh timeout
+                          "python3" "-m" "doctest" tempfile)]
+      (when-not (zero? (:exit ret))
+        (log/info "doctest" ret)
+        (throw (Exception. (str "doctest error\n" (:out ret)))))
+      (delete-tempfile tempfile))))
+
+(defn pytest-test
+  "Fetch testcode from `num`, test string `answer`.
+   Throw exception when pytest on them fails."
+  [num answer]
+  (when-let [test (:test (db/get-problem {:num num}))]
+    ;; FIXME: to skip validations,
+    ;;        current py99 requires empty tests.
+    (when (re-find #"\S" test)
+      ;; (log/debug "test is not empty" test)
+      (let [tempfile (java.io.File/createTempFile "python" ".py")]
+        (with-open [file (clojure.java.io/writer tempfile)]
+          (binding [*out* file]
+            (println "#-*- coding: UTF-8 -*-")
+            (println answer)
+            (println test)))
+        (let [timeout 10
+              ret (timeout-sh timeout
+                              "python3" "-m" "pytest"
+                              (.getAbsolutePath tempfile))]
+          (log/info "pytest-test returns" ret)
+          (.delete tempfile)
+          (when-not (zero? (:exit ret))
+            (if (:timeout ret)
+              (throw
+               (Exception. "timeout occured. took 10s or more to evaluate."))
+              (throw
+               (Exception. (->> (str/split-lines (:out ret))
+                                (filter #(re-find #"^[>E]" %))
+                                (str/join "\n")))))))))))
+
 (defn- validate
   "Return nil if all validations success, or raize exeption."
   [num answer login]
@@ -370,18 +385,15 @@
       (not-same-md5-login stripped login)
       (has-docstring-test answer)
       (no-exec-statements answer)
-      ; why remove-comments?
       (ruff-formatter (str/trim (remove-comments answer)) login)
-      (not-same-md5-login stripped login)
+      (doctest-test answer login)
       (pytest-test num (expand-includes answer login))
       nil
       (catch Exception e
         (log/info "exception" (.getMessage e))
         (throw (Exception. (.getMessage e)))))))
 
-(defn- signature?
-  [login docstring]
-  (some? (and (seq login) (re-find (re-pattern login) docstring))))
+
 
 (defn create-answer!
   [{{:keys [num answer]} :params :as request}]

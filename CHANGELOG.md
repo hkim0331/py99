@@ -16,7 +16,7 @@
 - refactor
 
 
-## v1.15-SNAPSHOT / 2024-11-28
+## v1.5.1134 / 2024-11-28
 
 - added: 回答に doctest があれば実施する。エラーになった回答を受け取らない。
 - changed: doctest? を#include 展開後の最後に見つかる def の関数コメントで。

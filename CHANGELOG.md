@@ -11,18 +11,17 @@
 - 行の折り返しを文字数ではなく行の長さで判断する。
 - admin 専用のダウンロードボタンを作る。
 - clojure.tools.logging を telemere でリプレース。
-- doctest? を#include 展開後の最後に見つかる def の関数コメントで。
-- doctest があれば実施する。エラーになった回答を受け取らない。
+
 - 一般性の高い関数を utils.clj に移動する。
 - refactor
 
 
 ## v1.15-SNAPSHOT / 2024-11-28
 
-- libraries: ring/ring-core, ring-develop も1.13.0にアップデート。
+- added: 回答に doctest があれば実施する。エラーになった回答を受け取らない。
+- changed: doctest? を#include 展開後の最後に見つかる def の関数コメントで。
+- updated: libraries: ring/ring-core, ring-develop も1.13.0にアップデート。
   jetty のアップデートくらいか、影響あるのは。
-
-- changed: take the last docstring found in the answer.
 
 ```
 ; home.clj

@@ -19,9 +19,13 @@
 
 ## v1.15-SNAPSHOT / 2024-11-28
 
-- changed:home/docstring --- take the last docstring found.
+- libraries: ring/ring-core, ring-develop も1.13.0にアップデート。
+  jetty のアップデートくらいか、影響あるのは。
+
+- changed: take the last docstring found in the answer.
 
 ```
+; home.clj
 (defn- docstring
   "returns the last string surrounding by \"\"\"~\"\"\".
    caustion: newlines."

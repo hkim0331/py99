@@ -379,15 +379,17 @@
 (defn- validate
   "Return nil if all validations success, or raize exeption."
   [num answer login]
-  (let [stripped (strip answer)]
+  (let [stripped (strip answer)
+        expanded-answer (expand-includes answer login)]
     (try
       (not-empty-test stripped)
-      (not-same-md5-login stripped login)
+      (when-not (u/dev?)
+        (not-same-md5-login stripped login))
       (has-docstring-test answer)
       (no-exec-statements answer)
       (ruff-formatter (str/trim (remove-comments answer)) login)
-      (doctest-test answer login)
-      (pytest-test num (expand-includes answer login))
+      (doctest-test expanded-answer login)
+      (pytest-test num expanded-answer)
       nil
       (catch Exception e
         (log/info "exception" (.getMessage e))

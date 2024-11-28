@@ -11,10 +11,14 @@
 - 行の折り返しを文字数ではなく行の長さで判断する。
 - admin 専用のダウンロードボタンを作る。
 - clojure.tools.logging を telemere でリプレース。
-
 - 一般性の高い関数を utils.clj に移動する。
-- refactor
 
+## v1.5-SNAPSHOT
+
+- pytest error も記録する。
+- utils/dev?
+  (= true (utils/dev?)) 時は not-same-md5-loginチェックをしない。
+- bugfix: forgot to include in doctest.
 
 ## v1.5.1134 / 2024-11-28
 

@@ -13,7 +13,7 @@
 - clojure.tools.logging を telemere でリプレース。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v1.5-SNAPSHOT
+## v1.5.1141 / 2024-11-28
 
 - pytest error も記録する。
 - utils/dev?

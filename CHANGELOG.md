@@ -14,7 +14,7 @@
 - 一般性の高い関数を utils.clj に移動する。
 - 2023年度 s 関連を外に出す。
 
-## v1.17-SNAPSHOT
+## v1.17-SNAPSHOT / 2024-11-28
 
 - /api/recents/:n
 

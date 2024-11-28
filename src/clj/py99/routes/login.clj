@@ -10,8 +10,8 @@
    [py99.middleware :as middleware]
    [ring.util.response :refer [redirect]]))
 
-(def ^:private version "v1.6.1142")
-(def ^:private updated "2024-11-28 20:30:37")
+(def ^:private version "v1.17-SNAPSHOT")
+(def ^:private updated "2024-11-28 22:06:45")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 

@@ -13,10 +13,12 @@
 - clojure.tools.logging を telemere でリプレース。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v1.6-SNAPSHOT
+## v1.5-SNAPSHOT
 
 - pytest error も記録する。
-
+- utils/dev?
+  (= true (utils/dev?)) 時は not-same-md5-loginチェックをしない。
+- bugfix: forgot to include in doctest.
 
 ## v1.5.1134 / 2024-11-28
 

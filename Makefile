@@ -4,6 +4,10 @@ develop:
 
 clean:
 	${RM} py99.zip
+	${RM} ./doctest/*.py
+	${RM} ./pytest/*.py
+	${RM} ./ruff/*.py
+	${RM} ./tmp/*.py
 
 uberjar:
 	lein uberjar

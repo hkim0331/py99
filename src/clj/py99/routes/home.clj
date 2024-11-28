@@ -346,24 +346,21 @@
 (defn pytest-test
   "Fetch testcode from `num`, test string `answer`.
    Throw exception when pytest on them fails."
-  [num answer]
+  [num answer login]
   (when-let [test (:test (db/get-problem {:num num}))]
     ;; FIXME: to skip validations,
     ;;        current py99 requires empty tests.
     (when (re-find #"\S" test)
       ;; (log/debug "test is not empty" test)
-      (let [tempfile (java.io.File/createTempFile "python" ".py")]
+      (let [tempfile (make-tempfile "pytest/" login ".py")]
         (with-open [file (clojure.java.io/writer tempfile)]
           (binding [*out* file]
             (println "#-*- coding: UTF-8 -*-")
             (println answer)
             (println test)))
         (let [timeout 10
-              ret (timeout-sh timeout
-                              "python3" "-m" "pytest"
-                              (.getAbsolutePath tempfile))]
+              ret (timeout-sh timeout "python3" "-m" "pytest" tempfile)]
           (log/info "pytest-test returns" ret)
-          (.delete tempfile)
           (when-not (zero? (:exit ret))
             (if (:timeout ret)
               (throw
@@ -371,7 +368,8 @@
               (throw
                (Exception. (->> (str/split-lines (:out ret))
                                 (filter #(re-find #"^[>E]" %))
-                                (str/join "\n")))))))))))
+                                (str/join "\n"))))))
+          (delete-tempfile tempfile))))))
 
 (defn- validate
   "Return nil if all validations success, or raize exeption."
@@ -386,7 +384,7 @@
       (no-exec-statements answer)
       (ruff-formatter (str/trim (remove-comments answer)) login)
       (doctest-test expanded-answer login)
-      (pytest-test num expanded-answer)
+      (pytest-test num expanded-answer login)
       nil
       (catch Exception e
         (log/info "exception" (.getMessage e))

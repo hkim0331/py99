@@ -12,20 +12,24 @@
 - admin 専用のダウンロードボタンを作る。
 - clojure.tools.logging を telemere でリプレース。
 - 一般性の高い関数を utils.clj に移動する。
+- 2023年度 s 関連を外に出す。
+
+## v1.17-SNAPSHOT
+
 - /api/recents/:n
 
-## v1.6.1142 / 2024-11-28
+## v1.16.1142 / 2024-11-28
 
 - keep pytest error with includings.
 - db/declare db functions. reduced clj-kondo warnings.
 
-## v1.5.1141 / 2024-11-28
+## v1.15.1141 / 2024-11-28
 
 - utils/dev?
   (= true (utils/dev?)) 時は not-same-md5-loginチェックをしない。
 - bugfix: forgot to include in doctest.
 
-## v1.5.1134 / 2024-11-28
+## v1.15.1134 / 2024-11-28
 
 - added: 回答に doctest があれば実施する。エラーになった回答を受け取らない。
 - changed: doctest? を#include 展開後の最後に見つかる def の関数コメントで。

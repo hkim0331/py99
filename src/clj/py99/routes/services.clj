@@ -102,7 +102,6 @@
   (response/ok
    (assoc (db/solved-by {:login login}) :login login)))
 
-;; why m1, m2, m3 does not exist?
 (defn py99!
   [{{:keys [secret login col pt]} :params}]
   (if (= secret (System/getenv "PY99_PASSWORD"))
@@ -128,16 +127,23 @@
                            :pt pt
                            :secret secret})))
 
+(defn recents [{{:keys [n]} :path-params}]
+  (println "recents" n)
+  (response/ok (->> (db/recent-answers {:n (parse-long n)})
+                    (map #(select-keys % [:num :login :create_at])))))
+
 (defn service-routes
   []
   ["/api" {:middleware [middleware/wrap-formats]}
    ["/actions/:login/:date" {:get actions?}]
+   ["/comm/:login" {:get comm}]
+   ["/goal-in/:login" {:get goal-in}]
    ["/points/:login" {:get points}]
    ["/problem/:n" {:get fetch-problem}]
    ["/pt/:login" {:get pt}]
-   ["/s/:login/:date" {:get s-point-login-date}]
-   ["/comm/:login" {:get comm}]
    ["/py99/:login" {:get py99}]
-   ["/goal-in/:login" {:get goal-in}]
+   ["/s/:login/:date" {:get s-point-login-date}]
+   ;;
+   ["/recents/:n" {:get recents}]
    ;; update
    ["/py99" {:post py99!}]])

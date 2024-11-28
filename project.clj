@@ -1,9 +1,8 @@
-(defproject py99 "v1.6.1142"
+(defproject py99 "v1.17-SNAPSHOT"
   :description "py99 site"
   :url "https://py99.melt.kyutech.ac.jp"
   :dependencies
-  [;;[babashka/fs "0.5.22"]
-   [ch.qos.logback/logback-classic "1.5.12"]
+  [[ch.qos.logback/logback-classic "1.5.12"]
    [clojure.java-time "1.4.3"]
    [conman "0.9.6"]
    [cprop "0.1.20"]

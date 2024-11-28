@@ -173,7 +173,7 @@
 
 ;; --------------------
 ;; validations
-;; use declare?
+;; use declare? no.
 
 (defn- remove-comments
   "Remove lines starting from #, they are comments in Python."

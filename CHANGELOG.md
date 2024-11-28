@@ -16,6 +16,7 @@
 
 ## v1.17-SNAPSHOT / 2024-11-28
 
+- should be better not to include SNAPSHOT in release.
 - /api/recents/:n
 
 ## v1.16.1142 / 2024-11-28

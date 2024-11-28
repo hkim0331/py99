@@ -12,7 +12,7 @@
 - admin 専用のダウンロードボタンを作る。
 - clojure.tools.logging を telemere でリプレース。
 - 一般性の高い関数を utils.clj に移動する。
-
+- /api/recents/:n
 
 ## v1.6.1142 / 2024-11-28
 

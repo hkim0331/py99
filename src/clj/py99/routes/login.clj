@@ -12,8 +12,8 @@
    #_[struct.core :as st]
    #_[py99.db.core :as db]))
 
-(def ^:private version "v1.14.1114")
-(def ^:private updated "2024-11-26 13:27:23")
+(def ^:private version "v1.15-SNAPSHOT")
+(def ^:private updated "2024-11-28 09:37:49")
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 

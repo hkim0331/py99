@@ -5,37 +5,39 @@
 - コードをカラフルに表示する。
 - 返事のついたコメントだけ数える。
 - 同じですカウント。コピーされた方もブラック度が上がってしまうのをどうする？
-- home.clj から validation を別ファイルに出す。declare 使えば？
 - ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
 - 行の折り返しを文字数ではなく行の長さで判断する。
 - admin 専用のダウンロードボタンを作る。
+- clj-kondo warnings に対処する。
 - clojure.tools.logging を telemere でリプレース。
+- home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
-- 2023年度 s 関連を外に出す。
+- 2023年度 s-point 関連、成績付け関連を外に出す。
+- refactor. いらないコードを消す。
+
 
 ## v1.17-SNAPSHOT / 2024-11-28
 
-- should be better not to include SNAPSHOT in release.
-- /api/recents/:n
+- added: /api/recents/:n
 
 ## v1.16.1142 / 2024-11-28
 
-- keep pytest error with includings.
-- db/declare db functions. reduced clj-kondo warnings.
+- keep user pytest error files.
+- reduced clj-kondo warnings by db/declare db-functions.
 
 ## v1.15.1141 / 2024-11-28
 
-- utils/dev?
+- added: utils/dev?
   (= true (utils/dev?)) 時は not-same-md5-loginチェックをしない。
-- bugfix: forgot to include in doctest.
+- bug fixed: forgot to exand includes in doctest.
 
 ## v1.15.1134 / 2024-11-28
 
 - added: 回答に doctest があれば実施する。エラーになった回答を受け取らない。
-- changed: doctest? を#include 展開後の最後に見つかる def の関数コメントで。
 - updated: libraries: ring/ring-core, ring-develop も1.13.0にアップデート。
   jetty のアップデートくらいか、影響あるのは。
+- changed: doctest? を#include 展開後の最後に見つかる def の関数コメントで。
 
 ```
 ; home.clj
@@ -46,6 +48,7 @@
   (-> (re-seq #"\"\"\".+?\"\"\"" (-> answer
                                      str/split-lines
                                      str/join))
+      last)
 ```
 
 - libraries, ring 1.13.0 を除いてアップデート。

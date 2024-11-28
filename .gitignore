@@ -24,7 +24,8 @@ pom.xml
 /test-config.edn
 !/tmp/.keep
 /tmp/*
+/doctest/*
+/ruff/*
 start.sh
 stop.sh
-
 .DS_Store

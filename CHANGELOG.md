@@ -8,9 +8,48 @@
 - home.clj から validation を別ファイルに出す。declare 使えば？
 - ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
-- 行の折り返し、文字数でなくて、行の長さで。
-- admin 専用でダウンロードボタン
+- 行の折り返しを文字数ではなく行の長さで判断する。
+- admin 専用のダウンロードボタンを作る。
 - clojure.tools.logging を telemere でリプレース。
+
+- 一般性の高い関数を utils.clj に移動する。
+- refactor
+
+
+## v1.5.1134 / 2024-11-28
+
+- added: 回答に doctest があれば実施する。エラーになった回答を受け取らない。
+- changed: doctest? を#include 展開後の最後に見つかる def の関数コメントで。
+- updated: libraries: ring/ring-core, ring-develop も1.13.0にアップデート。
+  jetty のアップデートくらいか、影響あるのは。
+
+```
+; home.clj
+(defn- docstring
+  "returns the last string surrounding by \"\"\"~\"\"\".
+   caustion: newlines."
+  [answer]
+  (-> (re-seq #"\"\"\".+?\"\"\"" (-> answer
+                                     str/split-lines
+                                     str/join))
+```
+
+- libraries, ring 1.13.0 を除いてアップデート。
+
+| :file       | :name                               | :current | :latest |
+|------------ | ----------------------------------- | -------- | --------|
+| project.clj | ch.qos.logback/logback-classic      | 1.5.8    | 1.5.12  |
+|             | clojure.java-time/clojure.java-time | 1.4.2    | 1.4.3   |
+|             | markdown-clj/markdown-clj           | 1.12.1   | 1.12.2  |
+|             | mount/mount                         | 0.1.19   | 0.1.20  |
+|             | ring/ring-core                      | 1.12.2   | 1.13.0  |
+|             | ring/ring-devel                     | 1.12.2   | 1.13.0  |
+
+## v1.14.1114 / 2024-11-26
+
+- timeout エラーを明示する。
+
+  timeout occured. took 10s or more to evaluate.
 
 ## v1.13.1110 / 2024-11-24
 
@@ -18,6 +57,15 @@
   one's other solutions (just one means this only)
 - 回答一個の時は表示しない.
   one's solutions
+-  admin/update-problems! から同問題の付近にリダイレクトする。
+
+```
+  (redirect (str "/admin/problems#" (:num q))
+```
+
+## v1.12.1101 / 2024-11-23
+
+- radio buttons for showing on/off testcodes.
 
 ## v1.12.1097 / 2024-11-23
 - bug fixed, admin で num, show_testcode 等を変更しても変更できなかった。
@@ -34,18 +82,6 @@
       (redirect "/admin/problems")
       (redirect "/error.html"))))
 ```
-
-## v1.13.1110 / 2024-11-24
-
--  admin/update-problems! から同問題の付近にリダイレクトする。
-
-```
-  (redirect (str "/admin/problems#" (:num q))
-```
-
-## v1.12.1101 / 2024-11-23
-
-- radio buttons for showing on/off testcodes.
 
 ## v1.12.1090 / 2024-11-23
 

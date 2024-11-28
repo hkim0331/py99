@@ -15,4 +15,5 @@
             f (g true)
             s (g false)]
         (recur s (rest bin) (conj ret (count-up f)))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

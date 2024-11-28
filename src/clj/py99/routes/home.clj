@@ -191,15 +191,29 @@
       (str/replace #"\"\"\".+?\"\"\"", "")))
 
 (defn- docstring
-  "returns the first string surrounding by \"\"\"~\"\"\".
+  "returns the last string surrounding by \"\"\"~\"\"\".
    caustion: newlines."
   [answer]
-  (re-find #"\"\"\".+?\"\"\"" (-> answer
-                                  str/split-lines
-                                  str/join)))
+  (-> (re-seq #"\"\"\".+?\"\"\"" (-> answer
+                                     str/split-lines
+                                     str/join))
+      last))
 
 (comment
-  (docstring "def abc \"\"\"\r\nby hkimura.\"\"\"xyz")
+  (let [answer "def abc():
+    \"\"\"
+    by hkimura.
+    \"\"\"
+    xyz
+
+    def def():
+    \"\"\"
+    last comment.
+    how are you?
+    \"\"\"
+    xyz"]
+    (println answer)
+    (docstring answer))
   :rcf)
 
 (defn- strip

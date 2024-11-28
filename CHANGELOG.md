@@ -19,6 +19,18 @@
 
 ## v1.15-SNAPSHOT
 
+- changed:home/docstring --- take the last docstring found.
+
+```
+(defn- docstring
+  "returns the last string surrounding by \"\"\"~\"\"\".
+   caustion: newlines."
+  [answer]
+  (-> (re-seq #"\"\"\".+?\"\"\"" (-> answer
+                                     str/split-lines
+                                     str/join))
+```
+
 - libraries, ring 1.13.0 を除いてアップデート。
 
 | :file       | :name                               | :current | :latest |

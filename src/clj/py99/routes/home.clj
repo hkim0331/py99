@@ -173,7 +173,6 @@
 
 ;; --------------------
 ;; validations
-;; use declare? no.
 
 (defn- make-tempfile [dir login suffix]
   (str dir (System/nanoTime) "-" login suffix))
@@ -302,8 +301,6 @@
                    (remove #(re-matches #"" %)))]
     (when-not (every? true?  (map starts-with-def-import-from-indent? lines))
       (throw (Exception. "回答中に実行文があるのはまずい。")))))
-
-
 
 (defn- ruff-path
   "ruff version 0.8.0 is out. 2024-11-23"
@@ -573,7 +570,6 @@
 
 (defn rank-submissions [request]
   (let [login (login request)]
-    ;; (log/debug "rank-submissions" login)
     (layout/render request "ranking-all.html"
                    {:data (db/submissions)
                     :title "Ranking Submissions"
@@ -582,7 +578,6 @@
 
 (defn rank-solved [request]
   (let [login (login request)]
-    ;; (log/debug "rank-solved" login)
     (layout/render request "ranking-all.html"
                    {:data (db/solved)
                     :title "Ranking Solved"
@@ -594,7 +589,6 @@
         data (map (fn [x] {:login (:from_login x)
                            :count (:count x)})
                   (db/comments-counts))]
-    ;; (log/debug "rank-comments" login)
     (layout/render request "ranking-all.html"
                    {:data data
                     :title "Comments Ranking"
@@ -603,7 +597,6 @@
 
 (defn answers-by-problems [request]
   (let [data (db/answers-by-problems)]
-    ;; (log/debug "answers-by-problems" (login request))
     (layout/render request "answers-by-problems.html"
                    {:data (reverse data)
                     :title "Answers by Problems"
@@ -629,13 +622,11 @@
 
 (defn list-stocks [request]
   (let [login (login request)]
-    ;; (log/debug "list-stocks" login)
     (layout/render request "stocks.html"
                    {:stocks (db/stocks? {:login login})})))
 
 (defn list-todays
   [{{:keys [date]} :path-params :as request}]
-  ;; (log/debug "list-todays" date)
   (if (re-matches #"\d\d\d\d-\d\d-\d\d" date)
     (layout/render request "todays.html"
                    {:date date
@@ -699,7 +690,6 @@
   (let [login (or (get-in request [:path-params :login])
                   (get-in request [:params :login]))
         user (get-user login)]
-    ;; (log/info "user-class" "login" login "user" user)
     (layout/render request "user-class.html" {:user user})))
 
 (defn home-routes []

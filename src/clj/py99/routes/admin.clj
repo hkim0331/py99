@@ -16,7 +16,7 @@
 (defn seed-problems!
   "rebuild problems table from resources/docs/problems.edn.
    before rebuilding, delete all problems from table."
-  [request]
+  [_]
   (let [problems (-> dump-file
                      slurp
                      read-string)]

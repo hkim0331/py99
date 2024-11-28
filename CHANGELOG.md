@@ -13,11 +13,13 @@
 - clojure.tools.logging を telemere でリプレース。
 - doctest? を#include 展開後の最後に見つかる def の関数コメントで。
 - doctest があれば実施する。エラーになった回答を受け取らない。
+- 一般性の高い関数を utils.clj に移動する。
+- refactor
 
 
 ## v1.15-SNAPSHOT
 
-- libraries, riing を除いてアップデート。
+- libraries, ring 1.13.0 を除いてアップデート。
 
 | :file       | :name                               | :current | :latest |
 |------------ | ----------------------------------- | -------- | --------|

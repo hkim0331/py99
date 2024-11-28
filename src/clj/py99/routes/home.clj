@@ -7,14 +7,12 @@
    [java-time.api :as jt]
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
-   ;; clj-kondo can not trace defstate
    [py99.config :refer [env weeks period]] ;; defstate env
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.routes.login :refer [get-user]]
    [py99.middleware :as middleware]
    [py99.utils :as u]
-   ;; [py99.routes.login :refer [get-user]]
    [ring.util.http-response :as response]
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
@@ -78,7 +76,6 @@
           (:out $)
           (re-find #"load average: .*" $)
           (str/split $ #"\s+"))
-        ;; _ (println one five fifteen)
         busy (- (int (first one)) (int \0))
         busy-mark (cond
                     (<= 5 busy) "🔴"
@@ -97,8 +94,6 @@
 (defn- admin?
   "return is `user` admin?"
   [user]
-  ;;(println "admin? user" user)
-  ;; see above. name function.
   (or (= user "hkimura") (= user :hkimua)))
 
 (defn- solved?

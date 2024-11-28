@@ -14,10 +14,10 @@
 - 一般性の高い関数を utils.clj に移動する。
 
 
-## v1.6-SNAPSHOT
+## v1.6.1142 / 2024-11-28
 
-- pytest error も記録する。
-- db/declare db functions.
+- keep pytest error with includings.
+- db/declare db functions. reduced clj-kondo warnings.
 
 ## v1.5.1141 / 2024-11-28
 

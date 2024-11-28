@@ -10,6 +10,52 @@
    [mount.core :refer [defstate]])
   (:import (org.postgresql.util PGobject)))
 
+(declare action!
+         actions?
+         answer-by-login
+         answers-by
+         answers-by-date
+         answers-by-date-login
+         answers-by-login-date
+         answers-by-problems
+         answers-same-md5
+         answers-same-md5-login
+         answers-to
+         comments
+         comments-by-date-login
+         comments-by-num
+         comments-counts
+         comments-count-by-number
+         comments-rcvd
+         comments-sent
+         create-answer!
+         create-comment!
+         create-problem!
+         create-stock!
+         delete-problems-all!
+         frozen?
+         fetch-problems
+         get-answer
+         get-answer-by-id
+         get-answers
+         get-comments
+         get-problem
+         points?
+         problems
+         problems-all
+         recent-answers
+         recent-comments
+         sent-comments
+         solved
+         solved-by
+         stocks?
+         submissions
+         todays?
+         update-problem!
+         )
+
+
+
 (defstate ^:dynamic *db*
   :start (if-let [jdbc-url (env :database-url)]
            (conman/connect! {:jdbc-url jdbc-url})

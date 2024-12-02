@@ -143,7 +143,5 @@
    ["/pt/:login" {:get pt}]
    ["/py99/:login" {:get py99}]
    ["/s/:login/:date" {:get s-point-login-date}]
-   ;;
-   ["/recents/:n" {:get recents}]
-   ;; update
+   ;; ["/recents/:n" {:get recents}]
    ["/py99" {:post py99!}]])

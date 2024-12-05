@@ -9,16 +9,16 @@
 - いけすかないフィルターをセッションに保存する。
 - 行の折り返しを文字数ではなく行の長さで判断する。
 - admin 専用のダウンロードボタンを作る。
-- clj-kondo warnings に対処する。
 - clojure.tools.logging を telemere でリプレース。
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 - 2023年度 s-point 関連、成績付け関連を外に出す。
-- refactor. いらないコードを消す。
+- いらないコードを消す。
 - 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
+- p-point
 
 
-## v1.17-SNAPSHOT / 2024-11-28
+## v1.17.1161 / 2024-12-05
 
 - endpoint /s-point
 - added: /api/recents/:n
@@ -26,7 +26,7 @@
 ## v1.16.1142 / 2024-11-28
 
 - keep user pytest error files.
-- reduced clj-kondo warnings by db/declare db-functions.
+- **reduced clj-kondo warnings** by db/declare db-functions.
 
 ## v1.15.1141 / 2024-11-28
 

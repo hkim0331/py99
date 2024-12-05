@@ -18,7 +18,7 @@
 - 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
 
 
-## v1.17-SNAPSHOT / 2024-11-28
+## v1.171161 / 2024-12-05
 
 - endpoint /s-point
 - added: /api/recents/:n

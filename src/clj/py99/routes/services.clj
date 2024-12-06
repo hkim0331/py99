@@ -28,14 +28,8 @@
   [date]
   (remove #(pos? (compare % date)) period))
 
-(defn- s
-  [col]
-  (let [zeros (count (filter #(= 0 %) col))]
-    (* (apply + col) (- 6 zeros))))
-
-(defn s-point
-  "calc `login`s s-point from star to until `date`."
-  [login date]
+(defn point-f
+  [login date f]
   (let [date-count (db/answers-by-login-date
                     {:login login :date date})
         dc (apply merge (for [mm date-count]
@@ -44,14 +38,45 @@
                   reverse
                   (partition 7)
                   (take 3))
-        sp (->> py99
-                (map s)
+        pt (->> py99
+                (map f)
                 (apply +))]
-    (log/debug "s-point-login-date" py99 sp)
+    (log/debug "point-f" py99 pt)
     (response/ok {:login login
                   :date date
                   :py99 py99
-                  :s sp})))
+                  :point pt})))
+
+(defn- s [col]
+  (let [zeros (count (filter #(= 0 %) col))]
+    (* (apply + col) (- 6 zeros))))
+
+(defn- sq [x] (* x x))
+
+(defn- p
+  "pantsman point 2024-12-05."
+  [col]
+  (let [avg (/ (reduce + col) (count col))
+        sd  (reduce + (map #(sq (- % avg)) col))]
+    (/ 7 (+ 1.5 sd))))
+
+(comment
+  (p [1, 1, 1, 1, 1, 1, 0])
+  (p [3, 3, 3, 3, 3, 3, 3])
+  (p [0, 0, 0, 0, 0, 0, 6])
+  (p [0,0,4,8,2,0,1])
+  (p [0,2,1,1,1,0,3])
+  (p [1,0,1,7,0,2,0]))
+
+(defn s-point
+  "a_syouko09's answer 2023-12-05 13:51:46,
+   calc `login`s s-point from start to `date`."
+  [login date]
+  (-> (point-f login date s)))
+
+(defn p-point
+  [login date]
+  (-> (point-f login date p)))
 
 (defn s-point-login-date
   [{{:keys [login date]} :path-params}]

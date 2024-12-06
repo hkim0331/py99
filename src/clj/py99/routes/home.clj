@@ -11,7 +11,7 @@
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.routes.login :refer [get-user]]
-   [py99.routes.services :refer [s-point p-point]]
+   [py99.routes.services :refer [s-point p-point o-point]]
    [py99.middleware :as middleware]
    [py99.utils :as u]
    [ring.util.http-response :as response]
@@ -667,6 +667,9 @@
 (defn p [request]
   (p-point (login request) (today)))
 
+(defn o [request]
+  (o-point (login request) (today)))
+
 (defn activities-page
   [request]
   (let [login (login request)
@@ -725,6 +728,7 @@
    ;
    ["/s-point" {:get s}]
    ["/p-point" {:get p}]
+   ["/o-point" {:get o}]
    ; ["/s-point/:login" {:get s-point-days}]
    ;
    ;;  ["/wp" {:get (fn [_]

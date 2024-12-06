@@ -31,7 +31,7 @@
   (remove #(pos? (compare % date)) period))
 
 (defn point-f
-  [login date f]
+  [login date f display]
   (let [date-count (db/answers-by-login-date
                     {:login login :date date})
         dc (apply merge (for [mm date-count]
@@ -47,7 +47,7 @@
     (response/ok {:login login
                   :date date
                   :py99 py99
-                  :point pt})))
+                  display pt})))
 
 (defn- s [col]
   (let [zeros (count (filter #(= 0 %) col))]
@@ -68,17 +68,52 @@
   (p [0, 0, 0, 0, 0, 0, 6])
   (p [0,0,4,8,2,0,1])
   (p [0,2,1,1,1,0,3])
-  (p [1,0,1,7,0,2,0]))
+  (p [1,0,1,7,0,2,0])
+  :rcf)
+
+(defn- o
+  "oki-2004 point 2024-12-05"
+  [coll]
+  (let [count1 (atom 0)
+        count0 (atom 0)
+        renzoku1 (atom 0)
+        renzoku0 (atom 0)
+        score (atom 0)]
+    (doseq [p coll]
+      (when (not (zero? p))
+        (swap! count1 inc)
+        (reset! renzoku0 (max @renzoku0 @count0))
+        (reset! count0 0))
+      (when (zero? p)
+        (swap! count0 inc)
+        (reset! renzoku1 (max @renzoku1 @count1))
+        (reset! count1 0)))
+    (reset! renzoku1 (max @renzoku1 @count1))
+    (reset! renzoku0 (max @renzoku0 @count0))
+    (reset! score (* (reduce + coll) (+ 1 (/ (- @renzoku1 @renzoku0) 10))))
+    (int (* 2.14 @score))))
+
+(comment
+  (o [0 3 0 0 2 0 3])
+  (o [2 3 3 0 0 0 0])
+  (o [1 1 1 1 1 1 1])
+  (o [2 2 2 2 2 2 2])
+  (o [0 0 6 0 0 0 0])
+  :rcf)
 
 (defn s-point
   "a_syouko09's answer 2023-12-05 13:51:46,
    calc `login`s s-point from start to `date`."
   [login date]
-  (-> (point-f login date s)))
+  (-> (point-f login date s :s-point)))
 
 (defn p-point
   [login date]
-  (-> (point-f login date p)))
+  (-> (point-f login date p :p-point)))
+
+(defn o-point
+  [login date]
+  (-> (point-f login date o :o-point)))
 
 (defn s-point-login-date
   [{{:keys [login date]} :path-params}]

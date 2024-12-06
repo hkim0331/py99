@@ -23,6 +23,8 @@
   (let [ret (db/actions? {:login login :date date})]
     (response/ok ret)))
 
+;---------------------------------------------------
+
 (defn- until-date
   "return a list of `yyyy-mm-dd ` up to today from the day class started."
   [date]
@@ -81,6 +83,8 @@
 (defn s-point-login-date
   [{{:keys [login date]} :path-params}]
   (s-point login date))
+
+;--------------------------------------------
 
 (defn points [{{:keys [login]} :path-params}]
   (response/ok

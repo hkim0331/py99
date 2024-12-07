@@ -53,6 +53,11 @@
   (let [zeros (count (filter #(= 0 %) col))]
     (* (apply + col) (- 6 zeros))))
 
+(comment
+  (let [xs (shuffle [2 2 2 2 0 0 0])]
+    (map #(* 3 %) [(s xs) (p xs) (o xs)]))
+  :rcf)
+
 (defn- sq [x] (* x x))
 
 (defn- p

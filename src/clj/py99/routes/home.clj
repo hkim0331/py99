@@ -11,7 +11,7 @@
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.routes.login :refer [get-user]]
-   [py99.routes.services :refer [s-point]]
+   [py99.routes.services :refer [s-point p-point o-point]]
    [py99.middleware :as middleware]
    [py99.utils :as u]
    [ring.util.http-response :as response]
@@ -664,6 +664,12 @@
 (defn s [request]
   (s-point (login request) (today)))
 
+(defn p [request]
+  (p-point (login request) (today)))
+
+(defn o [request]
+  (o-point (login request) (today)))
+
 (defn activities-page
   [request]
   (let [login (login request)
@@ -714,13 +720,17 @@
    ["/rank/submissions" {:get rank-submissions}]
    ["/rank/solved" {:get rank-solved}]
    ["/rank/comments" {:get rank-comments}]
-   ["/s-point" {:get s}]
-   ; ["/s-point/:login" {:get s-point-days}]
    ["/stock" {:post create-stock! :get  list-stocks}]
    ["/submissions" {:get submissions}]
    ["/todays" {:get list-todays-today}]
    ["/todays/:date" {:get list-todays}]
    ["/user-class" {:get user-class}]
+   ;
+   ["/s-point" {:get s}]
+   ["/p-point" {:get p}]
+   ["/o-point" {:get o}]
+   ; ["/s-point/:login" {:get s-point-days}]
+   ;
    ;;  ["/wp" {:get (fn [_]
    ;;                   {:status 200
    ;;                    :headers {"Content-Type" "text/html"}

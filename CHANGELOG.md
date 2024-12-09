@@ -5,36 +5,52 @@
 - コードをカラフルに表示する。
 - 返事のついたコメントだけ数える。
 - 同じですカウント。コピーされた方もブラック度が上がってしまうのをどうする？
-- home.clj から validation を別ファイルに出す。declare 使えば？
 - ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
 - 行の折り返しを文字数ではなく行の長さで判断する。
 - admin 専用のダウンロードボタンを作る。
 - clojure.tools.logging を telemere でリプレース。
+- home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
-- 2023年度 s 関連を外に出す。
+- 2023年度 s-point 関連、成績付け関連を外に出す。
+- いらないコードを消す。
+- 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
+- ちょっとログがうるさい。
+2024-12-05 21:35:30,039 INFO  py99.routes.home - dc {2024-10-23 4, 2024-10-12 1, 2024-10-19 1, 2024-10-18 2, 2024-10-08 2, 2024-10-06 7, 2024-10-21 2, 2024-12-0...}
 
-## v1.17-SNAPSHOT / 2024-11-28
 
-- /api/recents/:n
+## v1.19.1184 / 2024-12-09
+
+- changed GET /api/recents/:n => POST /api/recents n:=4
+- POST /api/py99 login=login
+
+## v1.18.1180 / 2024-12-07
+- links to {s,p,o}-pint
+- p-point
+- o-point
+
+## v1.17.1161 / 2024-12-05
+
+- endpoint /s-point
+- added: /api/recents/:n
 
 ## v1.16.1142 / 2024-11-28
 
-- keep pytest error with includings.
-- db/declare db functions. reduced clj-kondo warnings.
+- keep user pytest error files.
+- **reduced clj-kondo warnings** by db/declare db-functions.
 
 ## v1.15.1141 / 2024-11-28
 
-- utils/dev?
+- added: utils/dev?
   (= true (utils/dev?)) 時は not-same-md5-loginチェックをしない。
-- bugfix: forgot to include in doctest.
+- bug fixed: forgot to exand includes in doctest.
 
 ## v1.15.1134 / 2024-11-28
 
 - added: 回答に doctest があれば実施する。エラーになった回答を受け取らない。
-- changed: doctest? を#include 展開後の最後に見つかる def の関数コメントで。
 - updated: libraries: ring/ring-core, ring-develop も1.13.0にアップデート。
   jetty のアップデートくらいか、影響あるのは。
+- changed: doctest? を#include 展開後の最後に見つかる def の関数コメントで。
 
 ```
 ; home.clj
@@ -45,6 +61,7 @@
   (-> (re-seq #"\"\"\".+?\"\"\"" (-> answer
                                      str/split-lines
                                      str/join))
+      last)
 ```
 
 - libraries, ring 1.13.0 を除いてアップデート。
@@ -570,13 +587,15 @@ admin ページからユーザ login の回答、コメントの一覧表示。
 ## 0.77.0 - 2023-12-10
 - /s-point, /s-point/:login
 - a_syouko09's answer 2023-12-05 13:51:46,
-```
+
 こういうのはどうですか？0以外の数を足したやつかける(6-0の日数)
 
+```
 [0,3,0,0,2,0,3] => (3+2+3)*(6-4) =16
 [0,0,6,0,0,0,0] => 6*(5-5)=0
-これだと毎日する人が点数が高くなると思うのでいいと思います。
 ```
+これだと毎日する人が点数が高くなると思うのでいいと思います。
+
 
 ## 0.76.2 - 2023-12-06
 ### Changed

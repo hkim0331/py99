@@ -137,32 +137,32 @@
 
 ;--------------------------------------------
 
-(defn points [{{:keys [login]} :path-params}]
-  (response/ok
-   (-> (db/points? {:login login}))))
+; (defn points [{{:keys [login]} :path-params}]
+;   (response/ok
+;    (-> (db/points? {:login login}))))
 
-(defn pt
-  "returns `login`s sum of points."
-  [{{:keys [login]} :path-params}]
-  (let [{:keys [py99 comm goal seven_four m1 m2 m3 e1 e2 e3 e4 e5]}
-        (db/points? {:login login})
-        pt (+ py99 comm goal seven_four e1 e2 e3 e4 e5 (max m1 m2 m3))]
-    (response/ok {:login login :pt pt})))
+; (defn pt
+;   "returns `login`s sum of points."
+;   [{{:keys [login]} :path-params}]
+;   (let [{:keys [py99 comm goal seven_four m1 m2 m3 e1 e2 e3 e4 e5]}
+;         (db/points? {:login login})
+;         pt (+ py99 comm goal seven_four e1 e2 e3 e4 e5 (max m1 m2 m3))]
+;     (response/ok {:login login :pt pt})))
 
 ;; update は grading の仕事．
-(defn py99 [{{:keys [login]} :path-params}]
-  (response/ok
-   {:login login
-    :py99 (u/bin-count (db/answers-by-date-login {:login login}) weeks)}))
+; (defn py99 [{{:keys [login]} :path-params}]
+;   (response/ok
+;    {:login login
+;     :py99 (u/bin-count (db/answers-by-date-login {:login login}) weeks)}))
 
-(defn comm [{{:keys [login]} :path-params}]
-  (response/ok
-   {:login login
-    :comm (u/bin-count (db/comments-by-date-login {:login login}) weeks)}))
+; (defn comm [{{:keys [login]} :path-params}]
+;   (response/ok
+;    {:login login
+;     :comm (u/bin-count (db/comments-by-date-login {:login login}) weeks)}))
 
-(defn goal-in [{{:keys [login]} :path-params}]
-  (response/ok
-   (assoc (db/solved-by {:login login}) :login login)))
+; (defn goal-in [{{:keys [login]} :path-params}]
+;   (response/ok
+;    (assoc (db/solved-by {:login login}) :login login)))
 
 ; (defn py99!
 ;   [{{:keys [secret login col pt]} :params}]
@@ -189,10 +189,20 @@
 ;                            :pt pt
 ;                            :secret secret})))
 
-(defn recents [{{:keys [n]} :path-params}]
-  (println "recents" n)
-  (response/ok (->> (db/recent-answers {:n (parse-long n)})
+(defn recents [{{:keys [n]} :params}]
+  (log/info "recents")
+  (response/ok (->> (db/recent-answers {:n n})
                     (map #(select-keys % [:num :login :create_at])))))
+
+(defn py99 [{{:keys [login]} :params}]
+  (log/info "py99")
+  (response/ok (->> (db/answer-by-login {:login login})
+                    (map :num))))
+
+(comment
+  (->> (db/answer-by-login {:login "hkimura"})
+       (map :num))
+  :rcf)
 
 (defn service-routes
   []
@@ -205,6 +215,5 @@
    ; ["/pt/:login" {:get pt}]
    ; ["/py99/:login" {:get py99}]
    ["/s/:login/:date" {:get s-point-login-date}]
-   ; ["/recents/:n" {:get recents}]
-   ; ["/py99" {:post py99!}]
-   ])
+   ["/recents" {:post recents}]
+   ["/py99" {:post py99}]])

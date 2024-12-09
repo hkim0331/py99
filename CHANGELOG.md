@@ -19,7 +19,7 @@
 2024-12-05 21:35:30,039 INFO  py99.routes.home - dc {2024-10-23 4, 2024-10-12 1, 2024-10-19 1, 2024-10-18 2, 2024-10-08 2, 2024-10-06 7, 2024-10-21 2, 2024-12-0...}
 
 
-## v1.19-SNAPSHOT
+## v1.19.1184 / 2024-12-09
 
 - changed GET /api/recents/:n => POST /api/recents n:=4
 - POST /api/py99 login=login

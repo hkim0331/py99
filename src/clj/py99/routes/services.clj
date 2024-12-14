@@ -31,21 +31,22 @@
   (remove #(pos? (compare % date)) period))
 
 (defn point-f
-  [login date f display]
+  [login dates f display]
   (let [date-count (db/answers-by-login-date
-                    {:login login :date date})
+                    {:login login :date (last dates)})
         dc (apply merge (for [mm date-count]
                           {(:create_at mm) (:count mm)}))
-        py99 (->> (map #(get dc % 0) (until-date date))
-                  reverse
+        py99 (->> (map #(get dc % 0) dates)
+                  ; reverse
                   (partition 7)
                   (take 3))
         pt (->> py99
                 (map f)
                 (apply +))]
-    (log/debug "point-f" py99 pt)
+    ; (log/debug "point-f" py99 pt)
     (response/ok {:login login
-                  :date date
+                  :from (first dates)
+                  :to (last dates)
                   :py99 py99
                   display pt})))
 
@@ -54,6 +55,7 @@
     (* (apply + col) (- 6 zeros))))
 
 (comment
+  (s [2 2 2 2 0 0 0])
   (let [xs (shuffle [2 2 2 2 0 0 0])]
     (map #(* 3 %) [(s xs) (p xs) (o xs)]))
   :rcf)
@@ -120,16 +122,16 @@
 (defn s-point
   "a_syouko09's answer 2023-12-05 13:51:46,
    calc `login`s s-point from start to `date`."
-  [login date]
-  (-> (point-f login date s :s-point)))
+  [login dates]
+  (-> (point-f login dates s :s-point)))
 
 (defn p-point
-  [login date]
-  (-> (point-f login date p :p-point)))
+  [login dates]
+  (-> (point-f login dates p :p-point)))
 
 (defn o-point
-  [login date]
-  (-> (point-f login date o :o-point)))
+  [login dates]
+  (-> (point-f login dates o :o-point)))
 
 (defn s-point-login-date
   [{{:keys [login date]} :path-params}]

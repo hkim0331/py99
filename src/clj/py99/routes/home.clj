@@ -29,6 +29,13 @@
 (defn- today []
   (str (jt/local-date)))
 
+(defn- days-from-to
+  "days `from` inclusive to `to` exclusive."
+  [from to]
+  (->> period
+       (drop-while #(not= from %))
+       (take-while #(not= to %))))
+
 (defn- up-to-today
   "return a list of `yyyy-mm-dd ` up to today from the day class started."
   []
@@ -647,14 +654,23 @@
                  {:login (login request)
                   :comments (db/comments-count-by-number)}))
 ;; 2023-12-10
+;; revised 2024-12-14
 (defn s-point-days
   [{{:keys [login]} :path-params}]
   (log/info "s-point-days" login)
   (let [date-count (db/answers-by-date-login {:login login})
         dc (apply merge (for [mm date-count]
                           {(:create_at mm) (:count mm)}))]
-    (log/info "dc" dc)
-    (response/ok (map #(get dc % 0) (up-to-today)))))
+    ; (log/info "dc" dc)
+    (response/ok (map (fn [d] [d (get dc d 0)])
+                      (days-from-to "2024-12-06" "2024-12-27")))))
+(comment
+  (let [date-count (db/answers-by-date-login {:login "hkimura"})
+        dc (apply merge (for [mm date-count]
+                          {(:create_at mm) (:count mm)}))]
+    (log/info "map" (map (fn [d] [d (get dc d 0)]) (days-from-to "2024-12-01" "2024-12-04"))))
+
+  :rcf)
 
 ; (defn s-point
 ;   [request]
@@ -729,7 +745,7 @@
    ["/s-point" {:get s}]
    ["/p-point" {:get p}]
    ["/o-point" {:get o}]
-   ; ["/s-point/:login" {:get s-point-days}]
+   ["/s-point/:login" {:get s-point-days}]
    ;
    ;;  ["/wp" {:get (fn [_]
    ;;                   {:status 200

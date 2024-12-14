@@ -655,7 +655,7 @@
                   :comments (db/comments-count-by-number)}))
 ;; 2023-12-10
 ;; revised 2024-12-14
-(defn s-point-days
+(defn py99-days
   [{{:keys [login]} :path-params}]
   (log/info "s-point-days" login)
   (let [date-count (db/answers-by-date-login {:login login})
@@ -664,27 +664,22 @@
     ; (log/info "dc" dc)
     (response/ok (map (fn [d] [d (get dc d 0)])
                       (days-from-to "2024-12-06" "2024-12-27")))))
+
 (comment
   (let [date-count (db/answers-by-date-login {:login "hkimura"})
         dc (apply merge (for [mm date-count]
                           {(:create_at mm) (:count mm)}))]
     (log/info "map" (map (fn [d] [d (get dc d 0)]) (days-from-to "2024-12-01" "2024-12-04"))))
-
   :rcf)
 
-; (defn s-point
-;   [request]
-;   (log/info "s-point" (login request))
-;   (s-point-days {:path-params {:login (login request)}}))
-
 (defn s [request]
-  (s-point (login request) (today)))
+  (s-point (login request) (days-from-to "2024-12-05" "2024-12-27")))
 
 (defn p [request]
-  (p-point (login request) (today)))
+  (p-point (login request) (days-from-to "2024-12-05" "2024-12-27")))
 
 (defn o [request]
-  (o-point (login request) (today)))
+  (o-point (login request) (days-from-to "2024-12-05" "2024-12-27")))
 
 (defn activities-page
   [request]
@@ -745,7 +740,7 @@
    ["/s-point" {:get s}]
    ["/p-point" {:get p}]
    ["/o-point" {:get o}]
-   ["/s-point/:login" {:get s-point-days}]
+   ["/py99/:login" {:get py99-days}]
    ;
    ;;  ["/wp" {:get (fn [_]
    ;;                   {:status 200

@@ -23,6 +23,8 @@
 - added: home/days-from-to "from-day" "to-day"
 - changed: home/s-point-days - takes arguments `from-day` and `to-day`.
 - resumed: endpoint /s-point/:login
+- renamed: home/s-point-days/:login to home/py99/:login
+
 ## v1.19.1184 / 2024-12-09
 
 - changed GET /api/recents/:n => POST /api/recents n:=4

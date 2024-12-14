@@ -438,7 +438,8 @@
         uptime (uptime)]
     (if my-answer ;; (and my-answer (not exam?))
       (layout/render request "comment-form.html"
-                     {:answer   (if exam? my-answer answer)
+                     {:login (login request)
+                      :answer   (if exam? my-answer answer)
                       :answers  (db/get-answers {:num num :login (:login answer)})
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})
@@ -709,6 +710,14 @@
         user (get-user login)]
     (layout/render request "user-class.html" {:user user})))
 
+(defn download [{{:keys [id]} :path-params}]
+  (let [answer (db/get-answer-by-id {:id (parse-long id)})]
+    {:status 200
+     ; :headers {"Content-type" "application/octet-stream"}
+     :headers {"Content-disposition"
+               (str "attachment; filename=p" (:num answer) ".py")}
+     :body (:answer answer)}))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -743,6 +752,7 @@
    ["/o-point" {:get o}]
    ["/py99/:login" {:get py99-days}]
    ;
+   ["/download/:id" {:get download}]
    ;;  ["/wp" {:get (fn [_]
    ;;                   {:status 200
    ;;                    :headers {"Content-Type" "text/html"}

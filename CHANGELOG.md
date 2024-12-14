@@ -8,15 +8,18 @@
 - ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
 - 行の折り返しを文字数ではなく行の長さで判断する。
-- admin 専用のダウンロードボタンを作る。
 - clojure.tools.logging を telemere でリプレース。
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
-- 2023年度 s-point 関連、成績付け関連を外に出す。
-- いらないコードを消す。
 - 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
-- ちょっとログがうるさい。
-2024-12-05 21:35:30,039 INFO  py99.routes.home - dc {2024-10-23 4, 2024-10-12 1, 2024-10-19 1, 2024-10-18 2, 2024-10-08 2, 2024-10-06 7, 2024-10-21 2, 2024-12-0...}
+
+
+## v1.21.1201 / 2024-12-14
+
+- admin can download answers.
+  content-disposition: attachment; filename=<name>
+- added: home/download/:id
+- fixed bug: pass `login` to status-page.
 
 ## v1.20.1193 / 2024-12-14
 

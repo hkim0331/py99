@@ -19,6 +19,7 @@
 - admin can download answers.
   content-disposition: attachment; filename=<name>
 - added: home/download/:id
+- fixed bug: pass `login` to status-page.
 
 ## v1.20.1193 / 2024-12-14
 

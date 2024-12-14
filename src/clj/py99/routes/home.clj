@@ -438,7 +438,8 @@
         uptime (uptime)]
     (if my-answer ;; (and my-answer (not exam?))
       (layout/render request "comment-form.html"
-                     {:answer   (if exam? my-answer answer)
+                     {:login (login request)
+                      :answer   (if exam? my-answer answer)
                       :answers  (db/get-answers {:num num :login (:login answer)})
                       :problem  (db/get-problem {:num num})
                       :same-md5 (db/answers-same-md5 {:md5 (:md5 answer)})

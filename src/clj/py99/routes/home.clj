@@ -709,6 +709,15 @@
         user (get-user login)]
     (layout/render request "user-class.html" {:user user})))
 
+(defn download [{{:keys [id]} :path-params}]
+  (let [answer (db/get-answer-by-id {:id (parse-long id)})]
+    (log/info "download" (subs (:answer answer) 0 10))
+    {:status 200
+     :headers {"Content-type" "application/octet-stream"}
+     ; :headers {"Content-disposition"
+     ;           (str "atatchment; filename=p" (:num answer) ".py")}
+     :body (:answer answer)}))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -743,6 +752,7 @@
    ["/o-point" {:get o}]
    ["/py99/:login" {:get py99-days}]
    ;
+   ["/download/:id" {:get download}]
    ;;  ["/wp" {:get (fn [_]
    ;;                   {:status 200
    ;;                    :headers {"Content-Type" "text/html"}

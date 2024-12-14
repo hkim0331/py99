@@ -8,6 +8,10 @@
   <p>{{problem.problem|safe}}</p>
   <pre class='nocopy'>{{answer.answer}}</pre>
 
+  {% if answer.login = "hkimura" %}
+  <p><a href="/download/{{answer.id}}">download p{{answer.num}}.py</a></p>
+  {% endif %}
+
   {% if not exam? %}
   <h3>Who sent the same answer with {{answer.login}}?</h3>
   <p>

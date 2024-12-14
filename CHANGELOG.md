@@ -14,8 +14,9 @@
 - 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
 
 
-## v1.21.1201 / 2024-12-14
+## v1.21-SNAPSHOT / 2024-12-14
 
+- users can download their answers.
 - admin can download answers.
   content-disposition: attachment; filename=<name>
 - added: home/download/:id

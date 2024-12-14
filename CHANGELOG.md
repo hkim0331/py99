@@ -16,7 +16,9 @@
 
 ## v1.21-SNAPSHOT
 
-- admin 専用のダウンロードボタンを作る。
+- admin can download answers.
+  content-disposition: attachment; filename=<name>
+- added: home/download/:id
 
 ## v1.20.1193 / 2024-12-14
 

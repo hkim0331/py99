@@ -711,11 +711,10 @@
 
 (defn download [{{:keys [id]} :path-params}]
   (let [answer (db/get-answer-by-id {:id (parse-long id)})]
-    (log/info "download" (subs (:answer answer) 0 10))
     {:status 200
-     :headers {"Content-type" "application/octet-stream"}
-     ; :headers {"Content-disposition"
-     ;           (str "atatchment; filename=p" (:num answer) ".py")}
+     ; :headers {"Content-type" "application/octet-stream"}
+     :headers {"Content-disposition"
+               (str "attachment; filename=p" (:num answer) ".py")}
      :body (:answer answer)}))
 
 (defn home-routes []

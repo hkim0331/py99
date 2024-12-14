@@ -532,7 +532,8 @@
                     :submissions (-> solved count)
                     :solved (->> solved
                                  (map :num)
-                                 (remove #(< 200 %))
+                                 ; off 2024-12-14
+                                 ; (remove #(< 200 %))
                                  distinct
                                  count)
                     :last (if (seq solved)
@@ -542,7 +543,7 @@
                                  weeks
                                  (u/bin-count individual weeks)
                                  (u/bin-count comments weeks))
-                    :groups (filter #(< 200 (:num %)) solved)
+                    :groups solved ; off 2024-12-14 (filter #(< 200 (:num %)) solved)
                     :points (sum-endterm (db/points? {:login login}))})))
 
 (defn profile-self

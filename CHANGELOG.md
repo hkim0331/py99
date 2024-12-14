@@ -24,6 +24,9 @@
 - changed: home/s-point-days - takes arguments `from-day` and `to-day`.
 - resumed: endpoint /s-point/:login
 - renamed: home/s-point-days/:login to home/py99/:login
+- changed: resources/queries.sql:  `< 200` -> `< 300`
+- removed: home/profile: (remove #(< 200 %)), (filter #(< 200 (:num %)) solved)
+
 
 ## v1.19.1184 / 2024-12-09
 

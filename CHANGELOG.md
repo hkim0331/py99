@@ -18,6 +18,15 @@
 - ちょっとログがうるさい。
 2024-12-05 21:35:30,039 INFO  py99.routes.home - dc {2024-10-23 4, 2024-10-12 1, 2024-10-19 1, 2024-10-18 2, 2024-10-08 2, 2024-10-06 7, 2024-10-21 2, 2024-12-0...}
 
+## v1.20.1193 / 2024-12-14
+
+- added: home/days-from-to "from-day" "to-day"
+- changed: home/s-point-days - takes arguments `from-day` and `to-day`.
+- resumed: endpoint /s-point/:login
+- renamed: home/s-point-days/:login to home/py99/:login
+- changed: resources/queries.sql:  `< 200` -> `< 300`
+- removed: home/profile: (remove #(< 200 %)), (filter #(< 200 (:num %)) solved)
+
 
 ## v1.19.1184 / 2024-12-09
 

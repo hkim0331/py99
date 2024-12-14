@@ -141,14 +141,14 @@ ORDER BY create_at::date
 -- :name answers-by-date-login :? :*
 -- :doc how may answers by login?
 SELECT create_at::date::text, count(*) FROM answers
-where login = :login and num < 200
+where login = :login and num < 300 -- was 200
 GROUP BY create_at::date
 ORDER BY create_at::date
 
 -- :name answers-by-login-date :? :*
 -- :doc how may answers by login?
 SELECT create_at::date::text, count(*) FROM answers
-where login = :login and num < 200 and DATE(create_at) < DATE(:date)
+where login = :login and num < 300 and DATE(create_at) < DATE(:date) -- was 200
 GROUP BY create_at::date
 ORDER BY create_at::date
 
@@ -178,7 +178,7 @@ ORDER BY count(num) DESC
 -- :name solved :? :*
 -- :doc get top n users order by distinct(num)
 SELECT login, count(distinct(num)) FROM answers
-WHERE num < 200
+WHERE num < 300 -- was 200
 GROUP BY login
 ORDER BY count(distinct(num)) DESC
 

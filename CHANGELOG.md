@@ -22,6 +22,13 @@
 - added: home/download/:id
 - fixed bug: pass `login` to status-page.
 
+## v1.21-SNAPSHOT / 2024-12-15
+
+- widen filter box
+- buttons text white
+- remove download button
+- /s, /p, /o pages.
+
 ## v1.20.1193 / 2024-12-14
 
 - added: home/days-from-to "from-day" "to-day"

@@ -10,8 +10,10 @@
 
   {% if login = "hkimura" %}
   <p>download as <a href="/download/{{answer.id}}">p{{answer.num}}.py</a></p>
+  <!--
   {% elif login = answer.login %}
   <p>download as <a href="/download/{{answer.id}}">p{{answer.num}}.py</a></p>
+  -->
   {% endif %}
 
   {% if not exam? %}

@@ -16,7 +16,6 @@
   (db/get-problem {:num 3})
   (db/actions? {:login "hkimura" :date "2023-10-20"})
   :rcf)
-
 ;; need auth?
 (defn actions?
   [{{:keys [login date]} :path-params}]

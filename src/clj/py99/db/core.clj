@@ -47,7 +47,6 @@
          recent-comments
          sent-comments
          solved
-         solved-by
          stocks?
          submissions
          todays?

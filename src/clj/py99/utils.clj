@@ -1,4 +1,5 @@
-(ns py99.utils)
+(ns py99.utils
+  (:require [py99.config :as conf]))
 
 (defn dev? []
   (= (System/getenv "PY99_DEV") "true"))
@@ -22,3 +23,10 @@
         (recur s (rest bin) (conj ret (count-up f)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn days-from-to
+  "days `from` inclusive to `to` exclusive."
+  [from to]
+  (->> conf/period
+       (drop-while #(not= from %))
+       (take-while #(not= to %))))

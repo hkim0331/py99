@@ -14,6 +14,11 @@
 - 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
 
 
+## v1.22-SNAPSHOT / 2024-12-16
+
+- moved `home/days-from-to` to `utils/days-from-to`
+- `py99.utils` namespace now requires `py99.config`
+
 ## v1.21.1206 / 2024-12-14
 
 - users can download their answers.
@@ -22,7 +27,7 @@
 - added: home/download/:id
 - fixed bug: pass `login` to status-page.
 
-## v1.21-SNAPSHOT / 2024-12-15
+## v1.22-SNAPSHOT / 2024-12-16
 
 - widen filter box
 - buttons text white

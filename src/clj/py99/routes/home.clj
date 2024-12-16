@@ -11,7 +11,7 @@
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.routes.login :refer [get-user]]
-   [py99.routes.services :refer [s-point p-point o-point]]
+   [py99.routes.services :as api]; [s-point p-point o-point]]
    [py99.middleware :as middleware]
    [py99.utils :as u]
    [ring.util.http-response :as response]
@@ -29,12 +29,13 @@
 (defn- today []
   (str (jt/local-date)))
 
-(defn- days-from-to
-  "days `from` inclusive to `to` exclusive."
-  [from to]
-  (->> period
-       (drop-while #(not= from %))
-       (take-while #(not= to %))))
+; moved to utils.
+; (defn- days-from-to
+;   "days `from` inclusive to `to` exclusive."
+;   [from to]
+;   (->> period
+;        (drop-while #(not= from %))
+;        (take-while #(not= to %))))
 
 (defn- up-to-today
   "return a list of `yyyy-mm-dd ` up to today from the day class started."
@@ -215,23 +216,6 @@
                                      str/split-lines
                                      str/join))
       last))
-
-(comment
-  (let [answer "def abc():
-    \"\"\"
-    by hkimura.
-    \"\"\"
-    xyz
-
-    def def():
-    \"\"\"
-    last comment.
-    how are you?
-    \"\"\"
-    xyz"]
-    (println answer)
-    (docstring answer))
-  :rcf)
 
 (defn- strip
   "just use in not-empty-test, digest/md5."
@@ -657,31 +641,25 @@
                   :comments (db/comments-count-by-number)}))
 ;; 2023-12-10
 ;; revised 2024-12-14
+;; 2024-12-16
 (defn py99-days
-  [{{:keys [login]} :path-params}]
+  [request]
   (log/info "s-point-days" login)
-  (let [date-count (db/answers-by-date-login {:login login})
+  (let [date-count (db/answers-by-date-login {:login (login request)})
         dc (apply merge (for [mm date-count]
                           {(:create_at mm) (:count mm)}))]
     ; (log/info "dc" dc)
     (response/ok (map (fn [d] [d (get dc d 0)])
-                      (days-from-to "2024-12-06" "2024-12-27")))))
-
-(comment
-  (let [date-count (db/answers-by-date-login {:login "hkimura"})
-        dc (apply merge (for [mm date-count]
-                          {(:create_at mm) (:count mm)}))]
-    (log/info "map" (map (fn [d] [d (get dc d 0)]) (days-from-to "2024-12-01" "2024-12-04"))))
-  :rcf)
+                      (u/days-from-to "2024-12-06" "2024-12-27")))))
 
 (defn s [request]
-  (s-point (login request) (days-from-to "2024-12-05" "2024-12-27")))
+  (api/s-point (login request) (u/days-from-to "2024-12-05" "2024-12-27")))
 
 (defn p [request]
-  (p-point (login request) (days-from-to "2024-12-05" "2024-12-27")))
+  (api/p-point (login request) (u/days-from-to "2024-12-05" "2024-12-27")))
 
 (defn o [request]
-  (o-point (login request) (days-from-to "2024-12-05" "2024-12-27")))
+  (api/o-point (login request) (u/days-from-to "2024-12-05" "2024-12-27")))
 
 (defn activities-page
   [request]
@@ -747,10 +725,11 @@
    ["/todays/:date" {:get list-todays}]
    ["/user-class" {:get user-class}]
    ;
-   ["/s-point" {:get s}]
-   ["/p-point" {:get p}]
-   ["/o-point" {:get o}]
-   ["/py99/:login" {:get py99-days}]
+   ; layout/render?
+   ["/s-point" {:get (fn [req] (response/ok (s req)))}]
+   ["/p-point" {:get (fn [req] (response/ok (p req)))}]
+   ["/o-point" {:get (fn [req] (response/ok (o req)))}]
+   ["/py99" {:get py99-days}]
    ;
    ["/download/:id" {:get download}]
    ;;  ["/wp" {:get (fn [_]

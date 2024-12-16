@@ -43,12 +43,12 @@
                 (map f)
                 (apply +))]
     ; (log/debug "point-f" py99 pt)
-    (response/ok {:login login
-                  :from (first dates)
-                  :to (last dates)
-                  :py99 py99
-                  display pt})))
+    {:login login :from (first dates) :to (last dates) :py99 py99 display pt}))
 
+(comment
+  (response/ok "hello")
+  (response/ok {:hello "world"})
+  :rcf)
 (defn- s [col]
   (let [zeros (count (filter #(= 0 %) col))]
     (* (apply + col) (- 6 zeros))))
@@ -120,21 +120,21 @@
 
 (defn s-point
   "a_syouko09's answer 2023-12-05 13:51:46,
-   calc `login`s s-point from start to `date`."
+   calc `login`s s-point from `dates`."
   [login dates]
-  (-> (point-f login dates s :s-point)))
+  (point-f login dates s :s-point))
 
 (defn p-point
   [login dates]
-  (-> (point-f login dates p :p-point)))
+  (point-f login dates p :p-point))
 
 (defn o-point
   [login dates]
-  (-> (point-f login dates o :o-point)))
+  (point-f login dates o :o-point))
 
-(defn s-point-login-date
-  [{{:keys [login date]} :path-params}]
-  (s-point login date))
+; (defn s-point-login-date
+;   [{{:keys [login date]} :path-params}]
+;   (s-point login date))
 
 ;--------------------------------------------
 
@@ -215,6 +215,7 @@
    ; ["/problem/:n" {:get fetch-problem}]
    ; ["/pt/:login" {:get pt}]
    ; ["/py99/:login" {:get py99}]
-   ["/s/:login/:date" {:get s-point-login-date}]
+   ;
+   ; ["/s/:login" {:get (response/ok (s-point login}]
    ["/recents" {:post recents}]
    ["/py99" {:post py99}]])

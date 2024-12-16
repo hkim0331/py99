@@ -1,5 +1,7 @@
 (ns py99.utils
-  (:require [py99.config :as conf]))
+  (:require
+   [java-time.api :as jt]
+   [py99.config :as conf]))
 
 (defn dev? []
   (= (System/getenv "PY99_DEV") "true"))
@@ -30,3 +32,11 @@
   (->> conf/period
        (drop-while #(not= from %))
        (take-while #(not= to %))))
+
+(defn today []
+  (str (jt/local-date)))
+
+;; https://stackoverflow.com/questions/16264813/
+;; clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+(defn lazy-contains? [col key]
+  (some #{key} col))

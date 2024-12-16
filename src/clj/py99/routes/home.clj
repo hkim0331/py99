@@ -633,7 +633,7 @@
                           {(:create_at mm) (:count mm)}))]
     ; (log/info "dc" dc)
     (response/ok (map (fn [d] [d (get dc d 0)])
-                      (u/days-from-to "2024-12-06" "2024-12-27")))))
+                      (u/days-from-to (first period) (today))))))
 
 (defn s [request]
   (api/s-point (login request) (u/days-from-to "2024-12-05" "2024-12-27")))

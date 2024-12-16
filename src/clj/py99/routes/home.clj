@@ -2,9 +2,9 @@
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]
-   [clojure.tools.logging :as log]; search log/
+   [clojure.tools.logging :as log]
    [digest]
-   [java-time.api :as jt]
+   ; [java-time.api :as jt]
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
    [py99.config :refer [env weeks period]] ;; defstate env
@@ -13,7 +13,7 @@
    [py99.routes.login :refer [get-user]]
    [py99.routes.services :as api]; [s-point p-point o-point]]
    [py99.middleware :as middleware]
-   [py99.utils :as u]
+   [py99.utils :refer [today] :as u]
    [ring.util.http-response :as response]
    [ring.util.response :refer [redirect]]
    [selmer.filters :refer [add-filter!]]))
@@ -25,9 +25,6 @@
 ;; clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
 (defn- lazy-contains? [col key]
   (some #{key} col))
-
-(defn- today []
-  (str (jt/local-date)))
 
 ; moved to utils.
 ; (defn- days-from-to
@@ -696,6 +693,11 @@
                (str "attachment; filename=p" (:num answer) ".py")}
      :body (:answer answer)}))
 
+(defn validation-errors [request]
+  {:status 200
+   :headers {"Content-Type" "text/plain"}
+   :body "一日3つ以上エラーを出してるアカウントを表示するの予定。"})
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -731,9 +733,13 @@
    ["/o-point" {:get (fn [req] (response/ok (o req)))}]
    ["/py99" {:get py99-days}]
    ;
+   ["/ruff-err" {:get validation-errors}]
+   ["/doctest-err" {:get validation-errors}]
    ["/download/:id" {:get download}]
+   ;
    ;;  ["/wp" {:get (fn [_]
    ;;                   {:status 200
    ;;                    :headers {"Content-Type" "text/html"}
    ;;                    :body (slurp (io/resource "docs/weekly-points.html"))})}]
    ])
+

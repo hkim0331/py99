@@ -25,7 +25,7 @@
 ;---------------------------------------------------
 
 (defn- until-date
-  "return a list of `yyyy-mm-dd ` up to today from the day class started."
+  "return a list of `yyyy-mm-dd ` up to  from the day class started."
   [date]
   (remove #(pos? (compare % date)) period))
 
@@ -205,6 +205,11 @@
        (map :num))
   :rcf)
 
+(defn validation-errors [type date thres]
+  {:error type
+   :date date
+   :thres thres})
+
 (defn service-routes
   []
   ["/api" {:middleware [middleware/wrap-formats]}
@@ -215,7 +220,9 @@
    ; ["/problem/:n" {:get fetch-problem}]
    ; ["/pt/:login" {:get pt}]
    ; ["/py99/:login" {:get py99}]
-   ;
-   ; ["/s/:login" {:get (response/ok (s-point login}]
    ["/recents" {:post recents}]
-   ["/py99" {:post py99}]])
+   ["/py99" {:post py99}]
+   ["/ruff-error" {:get (fn [_]
+                          (response/ok (validation-errors "ruff" (u/today) 5)))}]
+   ["/doctest-error" {:get (fn [_]
+                             (response/ok (validation-errors "doctest" (u/today) 5)))}]])

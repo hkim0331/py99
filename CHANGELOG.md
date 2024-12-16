@@ -11,14 +11,16 @@
 - clojure.tools.logging を telemere でリプレース。
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
-- 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
 
 
 ## v1.22-SNAPSHOT / 2024-12-16
 
-- moved `home/days-from-to` to `utils/days-from-to`
-- `py99.utils` namespace now requires `py99.config`
-- `/py99` is no use. Py99 has `/submissions?login=who`
+- 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
+
+- moved `home/days-from-to` to `utils/days-from-to`.
+- `py99.utils` namespace now requires `py99.config`.
+- `/py99` is no use. Py99 has `/submissions?login=who`.
+- moved `home/today` to `utils/today`.
 
 ## v1.21.1206 / 2024-12-14
 

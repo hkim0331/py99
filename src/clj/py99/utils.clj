@@ -35,3 +35,8 @@
 
 (defn today []
   (str (jt/local-date)))
+
+;; https://stackoverflow.com/questions/16264813/
+;; clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+(defn lazy-contains? [col key]
+  (some #{key} col))

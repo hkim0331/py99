@@ -4,14 +4,13 @@
    [clojure.string :as str]
    [clojure.tools.logging :as log]
    [digest]
-   ; [java-time.api :as jt]
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
    [py99.config :refer [env weeks period]] ;; defstate env
    [py99.db.core :as db]
    [py99.layout :as layout]
    [py99.routes.login :refer [get-user]]
-   [py99.routes.services :as api]; [s-point p-point o-point]]
+   [py99.routes.services :as api]
    [py99.middleware :as middleware]
    [py99.utils :refer [today] :as u]
    [ring.util.http-response :as response]
@@ -20,19 +19,6 @@
 
 (def ^:private number-of-answers 30)
 (def ^:private number-of-comments 30)
-
-;; https://stackoverflow.com/questions/16264813/
-;; clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
-(defn- lazy-contains? [col key]
-  (some #{key} col))
-
-; moved to utils.
-; (defn- days-from-to
-;   "days `from` inclusive to `to` exclusive."
-;   [from to]
-;   (->> period
-;        (drop-while #(not= from %))
-;        (take-while #(not= to %))))
 
 (defn- up-to-today
   "return a list of `yyyy-mm-dd ` up to today from the day class started."
@@ -104,7 +90,7 @@
 
 (defn- solved?
   [col n]
-  {:n n :stat (if (lazy-contains? col n) "solved" "yet")})
+  {:n n :stat (if (u/lazy-contains? col n) "solved" "yet")})
 
 (defn- my-contains? [v x]
   (cond
@@ -693,10 +679,14 @@
                (str "attachment; filename=p" (:num answer) ".py")}
      :body (:answer answer)}))
 
-(defn validation-errors [request]
-  {:status 200
-   :headers {"Content-Type" "text/plain"}
-   :body "一日3つ以上エラーを出してるアカウントを表示するの予定。"})
+(defn validation-errors [dir date]
+  (let [ret (api/validation-errors dir date)]
+    {:status 200
+     :headers {"Content-Type" "text/plain"}
+     :body (str dir " error\n\n"
+                (if (empty? ret)
+                  "4つ以上エラーになったアカウントはありません。"
+                  ret))}))
 
 (defn home-routes []
   ["" {:middleware [middleware/auth
@@ -733,8 +723,10 @@
    ["/o-point" {:get (fn [req] (response/ok (o req)))}]
    ["/py99" {:get py99-days}]
    ;
-   ["/ruff-err" {:get validation-errors}]
-   ["/doctest-err" {:get validation-errors}]
+   ["/ruff-err" {:get (fn [_]
+                        (validation-errors "ruff" (u/today)))}]
+   ["/doctest-err" {:get (fn [_]
+                           (validation-errors "doctest" (u/today)))}]
    ["/download/:id" {:get download}]
    ;
    ;;  ["/wp" {:get (fn [_]
@@ -742,4 +734,6 @@
    ;;                    :headers {"Content-Type" "text/html"}
    ;;                    :body (slurp (io/resource "docs/weekly-points.html"))})}]
    ])
+
+
 

@@ -1,5 +1,6 @@
 (ns py99.routes.services
   (:require
+   [clojure.java.shell :refer [sh]]
    [clojure.tools.logging :as log]
    [py99.config :refer [period weeks]]
    [py99.db.core :as db]
@@ -24,10 +25,10 @@
 
 ;---------------------------------------------------
 
-(defn- until-date
-  "return a list of `yyyy-mm-dd ` up to  from the day class started."
-  [date]
-  (remove #(pos? (compare % date)) period))
+; (defn- until-date
+;   "return a list of `yyyy-mm-dd ` up to  from the day class started."
+;   [date]
+;   (remove #(pos? (compare % date)) period))
 
 (defn point-f
   [login dates f display]
@@ -36,13 +37,11 @@
         dc (apply merge (for [mm date-count]
                           {(:create_at mm) (:count mm)}))
         py99 (->> (map #(get dc % 0) dates)
-                  ; reverse
                   (partition 7)
                   (take 3))
         pt (->> py99
                 (map f)
                 (apply +))]
-    ; (log/debug "point-f" py99 pt)
     {:login login :from (first dates) :to (last dates) :py99 py99 display pt}))
 
 (comment
@@ -205,10 +204,8 @@
        (map :num))
   :rcf)
 
-(defn validation-errors [type date thres]
-  {:error type
-   :date date
-   :thres thres})
+(defn validation-errors [dir date]; thres?
+  (:out (sh "./find-errors.sh" date :dir dir)))
 
 (defn service-routes
   []
@@ -222,7 +219,11 @@
    ; ["/py99/:login" {:get py99}]
    ["/recents" {:post recents}]
    ["/py99" {:post py99}]
-   ["/ruff-error" {:get (fn [_]
-                          (response/ok (validation-errors "ruff" (u/today) 5)))}]
-   ["/doctest-error" {:get (fn [_]
-                             (response/ok (validation-errors "doctest" (u/today) 5)))}]])
+   ["/ruff-error"
+    {:get (fn [_]
+            (response/ok
+             (validation-errors "ruff" (u/today) "123")))}]
+   ["/doctest-error"
+    {:get (fn [_]
+            (response/ok
+             (validation-errors "doctest" (u/today) "123")))}]])

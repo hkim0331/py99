@@ -18,6 +18,7 @@
 
 - moved `home/days-from-to` to `utils/days-from-to`
 - `py99.utils` namespace now requires `py99.config`
+- `/py99` is no use. Py99 has `/submissions?login=who`
 
 ## v1.21.1206 / 2024-12-14
 

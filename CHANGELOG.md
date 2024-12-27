@@ -12,6 +12,11 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+
+## v1.23-SNAPSHOT
+
+- add :login key
+
 ## v1.23.1224 / 2024-12-27
 
 - /api/spo/:login

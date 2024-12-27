@@ -12,12 +12,20 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
-## 1.23-SNAPSHOT
+## v1.23.1224 / 2024-12-27
 
 - /api/spo/:login
 
+```
+% http -pb :3099/api/spo/hkimura
+{
+    "o": 255,
+    "p": 0.61479392859072,
+    "s": 409
+}
+```
 
-## v1.22-SNAPSHOT / 2024-12-16
+## v1.23.1224 / 2024-12-27
 
 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
 
@@ -36,7 +44,7 @@
 - added: home/download/:id
 - fixed bug: pass `login` to status-page.
 
-## v1.22-SNAPSHOT / 2024-12-16
+## v1.23.1224 / 2024-12-27
 
 - widen filter box
 - buttons text white

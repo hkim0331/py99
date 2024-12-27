@@ -207,6 +207,12 @@
 (defn validation-errors [dir date]; thres?
   (:out (sh "./find-errors.sh" date :dir dir)))
 
+(defn spo [login]
+  (let [days (u/days-from-to "2024-12-05" "2024-12-27")]
+    {:s (:s-point (s-point login days))
+     :p (:p-point (p-point login days))
+     :o (:o-point (o-point login days))}))
+
 (defn service-routes
   []
   ["/api" {:middleware [middleware/wrap-formats]}
@@ -226,4 +232,7 @@
    ["/doctest-error"
     {:get (fn [_]
             (response/ok
-             (validation-errors "doctest" (u/today))))}]])
+             (validation-errors "doctest" (u/today))))}]
+   ["/spo/:login" {:get (fn [{{:keys [login]} :path-params}]
+                          (response/ok
+                           (spo login)))}]])

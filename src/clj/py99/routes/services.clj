@@ -1,5 +1,6 @@
 (ns py99.routes.services
   (:require
+   [clojure.java.shell :refer [sh]]
    [clojure.tools.logging :as log]
    [py99.config :refer [period weeks]]
    [py99.db.core :as db]
@@ -16,7 +17,6 @@
   (db/get-problem {:num 3})
   (db/actions? {:login "hkimura" :date "2023-10-20"})
   :rcf)
-
 ;; need auth?
 (defn actions?
   [{{:keys [login date]} :path-params}]
@@ -25,35 +25,35 @@
 
 ;---------------------------------------------------
 
-(defn- until-date
-  "return a list of `yyyy-mm-dd ` up to today from the day class started."
-  [date]
-  (remove #(pos? (compare % date)) period))
+; (defn- until-date
+;   "return a list of `yyyy-mm-dd ` up to  from the day class started."
+;   [date]
+;   (remove #(pos? (compare % date)) period))
 
 (defn point-f
-  [login date f display]
+  [login dates f display]
   (let [date-count (db/answers-by-login-date
-                    {:login login :date date})
+                    {:login login :date (last dates)})
         dc (apply merge (for [mm date-count]
                           {(:create_at mm) (:count mm)}))
-        py99 (->> (map #(get dc % 0) (until-date date))
-                  reverse
+        py99 (->> (map #(get dc % 0) dates)
                   (partition 7)
                   (take 3))
         pt (->> py99
                 (map f)
                 (apply +))]
-    (log/debug "point-f" py99 pt)
-    (response/ok {:login login
-                  :date date
-                  :py99 py99
-                  display pt})))
+    {:login login :from (first dates) :to (last dates) :py99 py99 display pt}))
 
+(comment
+  (response/ok "hello")
+  (response/ok {:hello "world"})
+  :rcf)
 (defn- s [col]
   (let [zeros (count (filter #(= 0 %) col))]
     (* (apply + col) (- 6 zeros))))
 
 (comment
+  (s [2 2 2 2 0 0 0])
   (let [xs (shuffle [2 2 2 2 0 0 0])]
     (map #(* 3 %) [(s xs) (p xs) (o xs)]))
   :rcf)
@@ -119,21 +119,21 @@
 
 (defn s-point
   "a_syouko09's answer 2023-12-05 13:51:46,
-   calc `login`s s-point from start to `date`."
-  [login date]
-  (-> (point-f login date s :s-point)))
+   calc `login`s s-point from `dates`."
+  [login dates]
+  (point-f login dates s :s-point))
 
 (defn p-point
-  [login date]
-  (-> (point-f login date p :p-point)))
+  [login dates]
+  (point-f login dates p :p-point))
 
 (defn o-point
-  [login date]
-  (-> (point-f login date o :o-point)))
+  [login dates]
+  (point-f login dates o :o-point))
 
-(defn s-point-login-date
-  [{{:keys [login date]} :path-params}]
-  (s-point login date))
+; (defn s-point-login-date
+;   [{{:keys [login date]} :path-params}]
+;   (s-point login date))
 
 ;--------------------------------------------
 
@@ -204,6 +204,15 @@
        (map :num))
   :rcf)
 
+(defn validation-errors [dir date]; thres?
+  (:out (sh "./find-errors.sh" date :dir dir)))
+
+(defn spo [login]
+  (let [days (u/days-from-to "2024-12-05" "2024-12-27")]
+    {:s (:s-point (s-point login days))
+     :p (:p-point (p-point login days))
+     :o (:o-point (o-point login days))}))
+
 (defn service-routes
   []
   ["/api" {:middleware [middleware/wrap-formats]}
@@ -214,6 +223,16 @@
    ; ["/problem/:n" {:get fetch-problem}]
    ; ["/pt/:login" {:get pt}]
    ; ["/py99/:login" {:get py99}]
-   ["/s/:login/:date" {:get s-point-login-date}]
    ["/recents" {:post recents}]
-   ["/py99" {:post py99}]])
+   ["/py99" {:post py99}]
+   ["/ruff-error"
+    {:get (fn [_]
+            (response/ok
+             (validation-errors "ruff" (u/today))))}]
+   ["/doctest-error"
+    {:get (fn [_]
+            (response/ok
+             (validation-errors "doctest" (u/today))))}]
+   ["/spo/:login" {:get (fn [{{:keys [login]} :path-params}]
+                          (response/ok
+                           (spo login)))}]])

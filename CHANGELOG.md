@@ -8,15 +8,57 @@
 - ダウトをさらし首にする --- あんまりか。
 - いけすかないフィルターをセッションに保存する。
 - 行の折り返しを文字数ではなく行の長さで判断する。
-- admin 専用のダウンロードボタンを作る。
 - clojure.tools.logging を telemere でリプレース。
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
-- 2023年度 s-point 関連、成績付け関連を外に出す。
-- いらないコードを消す。
-- 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
-- ちょっとログがうるさい。
-2024-12-05 21:35:30,039 INFO  py99.routes.home - dc {2024-10-23 4, 2024-10-12 1, 2024-10-19 1, 2024-10-18 2, 2024-10-08 2, 2024-10-06 7, 2024-10-21 2, 2024-12-0...}
+
+## v1.23.1224 / 2024-12-27
+
+- /api/spo/:login
+
+```
+% http -pb :3099/api/spo/hkimura
+{
+    "o": 255,
+    "p": 0.61479392859072,
+    "s": 409
+}
+```
+
+## v1.23.1224 / 2024-12-27
+
+本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
+
+- made shell scripts saved on `app.melt:py99/{ruff,doctest}` folders.
+
+- moved `home/days-from-to` to `utils/days-from-to`.
+- `py99.utils` namespace now requires `py99.config`.
+- `/py99` is no use. Py99 has `/submissions?login=who`.
+- moved `home/today` to `utils/today`.
+
+## v1.21.1206 / 2024-12-14
+
+- users can download their answers.
+- admin can download answers.
+  content-disposition: attachment; filename=<name>
+- added: home/download/:id
+- fixed bug: pass `login` to status-page.
+
+## v1.23.1224 / 2024-12-27
+
+- widen filter box
+- buttons text white
+- remove download button
+- /s, /p, /o pages.
+
+## v1.20.1193 / 2024-12-14
+
+- added: home/days-from-to "from-day" "to-day"
+- changed: home/s-point-days - takes arguments `from-day` and `to-day`.
+- resumed: endpoint /s-point/:login
+- renamed: home/s-point-days/:login to home/py99/:login
+- changed: resources/queries.sql:  `< 200` -> `< 300`
+- removed: home/profile: (remove #(< 200 %)), (filter #(< 200 (:num %)) solved)
 
 
 ## v1.19.1184 / 2024-12-09

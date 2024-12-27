@@ -209,7 +209,9 @@
 
 (defn spo [login]
   (let [days (u/days-from-to "2024-12-05" "2024-12-27")]
-    {:s (:s-point (s-point login days))
+    {
+     :login login
+     :s (:s-point (s-point login days))
      :p (:p-point (p-point login days))
      :o (:o-point (o-point login days))}))
 

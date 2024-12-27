@@ -12,10 +12,16 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## 1.23-SNAPSHOT
+
+- /api/spo/:login
+
 
 ## v1.22-SNAPSHOT / 2024-12-16
 
-- 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
+本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
+
+- made shell scripts saved on `app.melt:py99/{ruff,doctest}` folders.
 
 - moved `home/days-from-to` to `utils/days-from-to`.
 - `py99.utils` namespace now requires `py99.config`.

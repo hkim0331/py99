@@ -222,8 +222,8 @@
    ["/ruff-error"
     {:get (fn [_]
             (response/ok
-             (validation-errors "ruff" (u/today) "123")))}]
+             (validation-errors "ruff" (u/today))))}]
    ["/doctest-error"
     {:get (fn [_]
             (response/ok
-             (validation-errors "doctest" (u/today) "123")))}]])
+             (validation-errors "doctest" (u/today))))}]])

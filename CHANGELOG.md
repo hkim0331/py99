@@ -15,6 +15,7 @@
 
 ## v1.23-SNAPSHOT
 
+- updated Dockerfile baseimage clojure:temurin-21-lein-noble
 - updated docker compose hkim0331/py99:0.7.0, postgres:16
 - add :login key
 

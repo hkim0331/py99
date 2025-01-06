@@ -1,6 +1,6 @@
 services:
   py99:
-    image: hkim0331/py99:0.6.4
+    image: hkim0331/py99:0.7.0
     user: vscode
     environment:
       TZ: Asia/Tokyo
@@ -20,7 +20,7 @@ services:
       - infinity
 
   db:
-    image: postgres:14.11
+    image: postgres:16
     environment:
       TZ: Asia/Tokyo
       POSTGRES_DB: py99

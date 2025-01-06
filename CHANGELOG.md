@@ -15,6 +15,7 @@
 
 ## v1.23-SNAPSHOT
 
+- updated docker compose hkim0331/py99:0.7.0, postgres:16
 - add :login key
 
 ## v1.23.1224 / 2024-12-27

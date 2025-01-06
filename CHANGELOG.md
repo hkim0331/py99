@@ -13,10 +13,31 @@
 - 一般性の高い関数を utils.clj に移動する。
 
 
-## v1.22-SNAPSHOT / 2024-12-16
+## v1.23-SNAPSHOT
 
-- removed: html/ranking.html: (exclude exam submissions)
-- 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
+- updated Dockerfile baseimage clojure:temurin-21-lein-noble
+- updated docker compose hkim0331/py99:0.7.0, postgres:16
+- add :login key
+
+## v1.23.1224 / 2024-12-27
+
+- /api/spo/:login
+
+```
+% http -pb :3099/api/spo/hkimura
+{
+    "o": 255,
+    "p": 0.61479392859072,
+    "s": 409
+}
+```
+
+## v1.23.1224 / 2024-12-27
+
+本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
+
+- made shell scripts saved on `app.melt:py99/{ruff,doctest}` folders.
+
 - moved `home/days-from-to` to `utils/days-from-to`.
 - `py99.utils` namespace now requires `py99.config`.
 - `/py99` is no use. Py99 has `/submissions?login=who`.
@@ -30,7 +51,7 @@
 - added: home/download/:id
 - fixed bug: pass `login` to status-page.
 
-## v1.22-SNAPSHOT / 2024-12-16
+## v1.23.1224 / 2024-12-27
 
 - widen filter box
 - buttons text white

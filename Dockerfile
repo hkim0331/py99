@@ -1,4 +1,4 @@
-FROM clojure:temurin-21-lein-jammy
+FROM clojure:temurin-21-lein-noble
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -8,8 +8,8 @@ RUN set -ex; \
     apt-get -y install --no-install-recommends \
     sudo openssh-client \
     git git-flow \
-    postgresql-client-14 \
-    python3 python3-pytest black
+    postgresql-client-16 \
+    python3 python3-pytest
 
 RUN set -ex; apt-get autoremove -y; apt-get clean -y; rm -rf /var/lib/apt/lists/*
 

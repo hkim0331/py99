@@ -11,12 +11,9 @@
 - clojure.tools.logging を telemere でリプレース。
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
-- must improve py99/config.clj
-
-    Syntax error macroexpanding at (py99/config.clj:25:1).
 
 ## v1.23-SNAPSHOT
-
+- improved py99/config.clj -- env が定義されていなくてもエラーにしない。
 - stop to use USER `vscode`. vscode user could not `make uberjar`.
 - updated Dockerfile baseimage clojure:temurin-21-lein-noble
 - updated docker compose hkim0331/py99:0.7.0, postgres:16

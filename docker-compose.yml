@@ -1,18 +1,13 @@
 services:
   py99:
     image: hkim0331/py99:0.7.1
-    # user: vscode
     environment:
       TZ: Asia/Tokyo
     working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app
-      # docker desktop v4.24.0, too slow.
-      # v4.24.2 slow.
-      # v4.27.0 slow 5m14s on m24.
       - m2:/root/.m2
       - gitlibs:/root/.gitlibs
-    # vscode stops auto forwarding? 2024-04-01
     ports:
       - "3099:3099"
     command:

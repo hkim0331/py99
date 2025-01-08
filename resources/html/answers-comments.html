@@ -2,14 +2,18 @@
 {% block content %}
 <div class="content">
   <div class="container">
-    <h2>answers, comments</h2>
+    <h2>Activities</h2>
     <form method='post'>
       {% csrf-field %}
-      <input name='date' placeholder="2024-12-29" required>
+      <input name='login' placeholder='account' disabled>
+      this version yourself only<br>
+      <input name='date' placeholder='2024-12-29' required>
       <input type='submit' value='show'>
     </form>
+    <br>
     <div>
-      <p>data: {{data}}</p>
+      <h3>activities</h3>
+      <p>{{data}}</p>
     </div>
   </div>
   </div>

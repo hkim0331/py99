@@ -694,10 +694,11 @@
                  "answers-comments.html"
                  {:data nil}))
 
-(defn answers-comments! [{{:keys [date]} :params :as request}]
-  (let [ret (api/answers-comments (login request) date)]
-    (log/debug "login:" (login request))
-    (log/debug "date:" date)
+(defn answers-comments! [{params :params :as request}]
+  (let [login (or (:login params) (login request))
+        ret (api/answers-comments login (:date params))]
+    (log/debug "login:" login)
+    (log/debug "date:" (:date params))
     (log/debug "answers:" (:answers ret))
     (log/debug "comments:" (:comments ret))
     (layout/render request

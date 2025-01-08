@@ -13,15 +13,16 @@
     <div>
       <h3>activities</h3>
 
-      <p><span class="answer">answer</span>
-      <span class="comment">comment</span></p>
+      <p><span class="answer">Answer</span>
+      <span class="comment">Comment</span>
+      左が黄色、ピンクに見えてない時は、ブラウザのキャッシュをクリア。</p>
 
       <table>
       {% for i in data %}
         {% if i.num %}
-          <tr class="answer"><td>{{i.num}}</td><td>{{i.create_at}}</td></tr>
+          <tr class="answer"><td>{{i.num}}(A)</td><td>{{i.create_at}}</td></tr>
         {% else %}
-          <tr class="comment"><td>{{i.p_num}}</td><td>{{i.create_at}}</td></tr>
+          <tr class="comment"><td>{{i.p_num}}(C)</td><td>{{i.create_at}}</td></tr>
         {% endif %}
       {%endfor %}
       <table>

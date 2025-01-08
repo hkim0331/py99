@@ -12,6 +12,10 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## v1.25-SNAPSHOT
+
+- self accout, today's date as default for `/ap` page.
+
 
 ## v1.24.1255 / 2025-01-08
 

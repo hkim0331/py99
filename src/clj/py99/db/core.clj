@@ -47,11 +47,12 @@
          recent-comments
          sent-comments
          solved
-         solved-by
          stocks?
          submissions
          todays?
          update-problem!
+         answers-login-date
+         comments-login-date
          )
 
 

@@ -1,4 +1,7 @@
-(ns py99.utils)
+(ns py99.utils
+  (:require
+   [java-time.api :as jt]
+   [py99.config :as conf]))
 
 (defn dev? []
   (= (System/getenv "PY99_DEV") "true"))
@@ -22,3 +25,18 @@
         (recur s (rest bin) (conj ret (count-up f)))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn days-from-to
+  "days `from` inclusive to `to` exclusive."
+  [from to]
+  (->> conf/period
+       (drop-while #(not= from %))
+       (take-while #(not= to %))))
+
+(defn today []
+  (str (jt/local-date)))
+
+;; https://stackoverflow.com/questions/16264813/
+;; clojure-idiomatic-way-to-call-contains-on-a-lazy-sequence
+(defn lazy-contains? [col key]
+  (some #{key} col))

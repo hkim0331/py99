@@ -11,8 +11,45 @@
 - clojure.tools.logging を telemere でリプレース。
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
-- 本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
 
+## v1.25-SNAPSHOT
+
+- self accout, today's date as default for `/ap` page.
+
+
+## v1.24.1255 / 2025-01-08
+
+- 'Activities' in menu, links to '/ac'
+- added /api/ac/:login/:date
+- improved py99/config.clj -- env が定義されていなくてもエラーにしない。
+- stop to use USER `vscode`. vscode user could not `make uberjar`.
+- updated Dockerfile baseimage clojure:temurin-21-lein-noble
+- updated docker compose hkim0331/py99:0.7.0, postgres:16
+- add :login key
+
+## v1.23.1224 / 2024-12-27
+
+- /api/spo/:login
+
+```
+% http -pb :3099/api/spo/hkimura
+{
+    "o": 255,
+    "p": 0.61479392859072,
+    "s": 409
+}
+```
+
+## v1.23.1224 / 2024-12-27
+
+本日のエラー。ruff, doctest, pytest の各エラーを集計して表示する。
+
+- made shell scripts saved on `app.melt:py99/{ruff,doctest}` folders.
+
+- moved `home/days-from-to` to `utils/days-from-to`.
+- `py99.utils` namespace now requires `py99.config`.
+- `/py99` is no use. Py99 has `/submissions?login=who`.
+- moved `home/today` to `utils/today`.
 
 ## v1.21.1206 / 2024-12-14
 
@@ -21,6 +58,13 @@
   content-disposition: attachment; filename=<name>
 - added: home/download/:id
 - fixed bug: pass `login` to status-page.
+
+## v1.23.1224 / 2024-12-27
+
+- widen filter box
+- buttons text white
+- remove download button
+- /s, /p, /o pages.
 
 ## v1.20.1193 / 2024-12-14
 

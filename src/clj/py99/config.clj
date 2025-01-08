@@ -22,10 +22,21 @@
     (->> (iterate #(jt/+ % (jt/days 1)) start-day)
          (take n))))
 
-(let [[year month day] (map parse-long
-                            (-> (environ/env :py99-start)
+(comment
+  (environ/env :py99-start)
+  ; => "2024-10-01"
+  (environ/env :py99-days)
+  ; => "150"
+  )
+
+;; FIXME: mandatory env
+;; env がなくてもエラーにしない。
+(let [start (or (environ/env :py99-start) "2024-10-01")
+      days (or (environ/env :py99-days) "150")
+      [year month day] (map parse-long
+                            (-> start
                                 (str/split #"-")))
-      days (parse-long (environ/env :py99-days))]
+      days (parse-long days)]
   (println "start" year month day "," days)
   (def py99-period
     "2024-10-01 から150日間。"

@@ -1,26 +1,21 @@
 services:
   py99:
-    image: hkim0331/py99:0.6.4
-    user: vscode
+    image: hkim0331/py99:0.7.1
     environment:
       TZ: Asia/Tokyo
     working_dir: /usr/src/app
     volumes:
       - .:/usr/src/app
-      # docker desktop v4.24.0, too slow.
-      # v4.24.2 slow.
-      # v4.27.0 slow 5m14s on m24.
-      - m2:/home/vscode/.m2
-      - gitlibs:/home/vscode/.gitlibs
-    # vscode stops auto forwarding? 2024-04-01
+      - m2:/root/.m2
+      - gitlibs:/root/.gitlibs
     ports:
-      - "3010:3010"
+      - "3099:3099"
     command:
       - sleep
       - infinity
 
   db:
-    image: postgres:14.11
+    image: postgres:16
     environment:
       TZ: Asia/Tokyo
       POSTGRES_DB: py99

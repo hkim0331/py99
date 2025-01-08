@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content">
+  <div class="container">
+    <h2>Activities</h2>
+    <form method='post'>
+      {% csrf-field %}
+      <input name='login' placeholder='himura' required>
+      <input name='date' placeholder='2024-12-29' required>
+      <input type='submit' value='show'>
+    </form>
+    <br>
+    <div>
+      <h3>activities</h3>
+
+      <p><span class="answer">answer</span>
+      <span class="comment">comment</span></p>
+
+      <table>
+      {% for i in data %}
+        {% if i.num %}
+          <tr class="answer"><td>{{i.num}}</td><td>{{i.create_at}}</td></tr>
+        {% else %}
+          <tr class="comment"><td>{{i.p_num}}</td><td>{{i.create_at}}</td></tr>
+        {% endif %}
+      {%endfor %}
+      <table>
+    </div>
+  </div>
+  </div>
+{% endblock %}

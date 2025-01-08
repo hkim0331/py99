@@ -1,7 +1,7 @@
 services:
   py99:
-    image: hkim0331/py99:0.7.0
-    user: vscode
+    image: hkim0331/py99:0.7.1
+    # user: vscode
     environment:
       TZ: Asia/Tokyo
     working_dir: /usr/src/app

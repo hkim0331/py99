@@ -22,6 +22,7 @@
     (->> (iterate #(jt/+ % (jt/days 1)) start-day)
          (take n))))
 
+;; FIXME: mandatory env
 (let [[year month day] (map parse-long
                             (-> (environ/env :py99-start)
                                 (str/split #"-")))

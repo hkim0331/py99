@@ -14,7 +14,7 @@
 
 ## v1.25-SNAPSHOT
 
-- self accout, today's date as default for `/ap` page.
+- self accout, today's date as default for `/ac` page.
 
 
 ## v1.24.1255 / 2025-01-08

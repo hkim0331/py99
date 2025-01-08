@@ -14,7 +14,11 @@
     <div>
       <h3>activities</h3>
       {% for i in data %}
-      <p>{{i.create_at}}</p>
+        {% if i.num %}
+          <p>{{i.num}} {{i.create_at}}</p>
+        {% else %}
+          <p>{{i.p_num}} {{i.create_at}}</p>
+        {% endif %}
       {%endfor %}
     </div>
   </div>

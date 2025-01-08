@@ -13,7 +13,9 @@
     <br>
     <div>
       <h3>activities</h3>
-      <p>{{data}}</p>
+      {% for i in data %}
+      <p>{{i.create_at}}</p>
+      {%endfor %}
     </div>
   </div>
   </div>

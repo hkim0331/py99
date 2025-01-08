@@ -13,13 +13,15 @@
     <br>
     <div>
       <h3>activities</h3>
+      <table>
       {% for i in data %}
         {% if i.num %}
-          <p>{{i.num}} {{i.create_at}}</p>
+          <tr class="answer"><td>{{i.num}}</td><td>{{i.create_at}}</td></tr>
         {% else %}
-          <p>{{i.p_num}} {{i.create_at}}</p>
+          <tr class="comment"><td>{{i.p_num}}</td><td>{{i.create_at}}</td></tr>
         {% endif %}
       {%endfor %}
+      <table>
     </div>
   </div>
   </div>

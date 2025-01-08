@@ -215,6 +215,10 @@
      :p (:p-point (p-point login days))
      :o (:o-point (o-point login days))}))
 
+(defn answers-comments [{params :path-params}]
+  (response/ok {:answers  (db/answers-login-date params)
+                :comments (db/comments-login-date params)}))
+
 (defn service-routes
   []
   ["/api" {:middleware [middleware/wrap-formats]}
@@ -237,4 +241,5 @@
              (validation-errors "doctest" (u/today))))}]
    ["/spo/:login" {:get (fn [{{:keys [login]} :path-params}]
                           (response/ok
-                           (spo login)))}]])
+                           (spo login)))}]
+   ["/ac/:login/:date" {:get answers-comments}]])

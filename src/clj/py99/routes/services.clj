@@ -242,4 +242,5 @@
    ["/spo/:login" {:get (fn [{{:keys [login]} :path-params}]
                           (response/ok
                            (spo login)))}]
-   ["/ac/:login/:date" {:get answers-comments}]])
+   ["/ac/:login/:date" {:get (fn [request]
+                               (response/ok (answers-comments request)))}]])

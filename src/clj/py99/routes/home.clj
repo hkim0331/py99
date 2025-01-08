@@ -688,6 +688,21 @@
                   "4つ以上エラーになったアカウントはありません。"
                   ret))}))
 
+(defn answers-comments [request]
+  (layout/render request
+                 "answers-comments.html"
+                 {:login (login request)
+                  :data nil}))
+
+(defn answers-comments! [{params :params :as request}]
+  (let [{:keys [answers comments]} (api/answers-comments params)]
+    (log/debug "answers" answers)
+    (log/debug "comments" comments)
+    (layout/render request
+                   "answers-comments.html"
+                   {:login (login request)
+                    :data "under construction"})))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -728,12 +743,11 @@
    ["/doctest-err" {:get (fn [_]
                            (validation-errors "doctest" (u/today)))}]
    ["/download/:id" {:get download}]
+   ["/ac" {:get answers-comments
+           :post answers-comments!}]
    ;
    ;;  ["/wp" {:get (fn [_]
    ;;                   {:status 200
    ;;                    :headers {"Content-Type" "text/html"}
    ;;                    :body (slurp (io/resource "docs/weekly-points.html"))})}]
    ])
-
-
-

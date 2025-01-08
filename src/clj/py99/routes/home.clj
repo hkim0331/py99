@@ -689,19 +689,20 @@
                   ret))}))
 
 (defn answers-comments [request]
+  (log/debug "login" (login request))
   (layout/render request
                  "answers-comments.html"
-                 {:login (login request)
-                  :data nil}))
+                 {:data nil}))
 
-(defn answers-comments! [{params :params :as request}]
-  (let [{:keys [answers comments]} (api/answers-comments params)]
-    (log/debug "answers" answers)
-    (log/debug "comments" comments)
+(defn answers-comments! [{{:keys [date]} :params :as request}]
+  (let [ret (api/answers-comments (login request) date)]
+    (log/debug "login:" (login request))
+    (log/debug "date:" date)
+    (log/debug "answers:" (:answers ret))
+    (log/debug "comments:" (:comments ret))
     (layout/render request
                    "answers-comments.html"
-                   {:login (login request)
-                    :data "under construction"})))
+                   {:data (:answers ret)})))
 
 (defn home-routes []
   ["" {:middleware [middleware/auth

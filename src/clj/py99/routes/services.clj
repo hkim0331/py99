@@ -215,9 +215,11 @@
      :p (:p-point (p-point login days))
      :o (:o-point (o-point login days))}))
 
-(defn answers-comments [{params :path-params}]
-  (response/ok {:answers  (db/answers-login-date params)
-                :comments (db/comments-login-date params)}))
+(defn answers-comments [login date]
+  (log/debug "answers-comments:" "login:" login "date:" date)
+  (let [params {:login login :date date}]
+    {:answers  (db/answers-login-date params)
+     :comments (db/comments-login-date params)}))
 
 (defn service-routes
   []
@@ -242,5 +244,5 @@
    ["/spo/:login" {:get (fn [{{:keys [login]} :path-params}]
                           (response/ok
                            (spo login)))}]
-   ["/ac/:login/:date" {:get (fn [request]
-                               (response/ok (answers-comments request)))}]])
+   ["/ac/:login/:date" {:get (fn [{{:keys [login date]} :path-params}]
+                               (response/ok (answers-comments login date)))}]])

@@ -12,8 +12,10 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+
 ## v1.23-SNAPSHOT
 
+- 'Activities' in menu, links to '/ac'
 - added /api/ac/:login/:date
 - improved py99/config.clj -- env が定義されていなくてもエラーにしない。
 - stop to use USER `vscode`. vscode user could not `make uberjar`.

@@ -694,15 +694,30 @@
                  "answers-comments.html"
                  {:data nil}))
 
-(defn answers-comments! [{{:keys [date]} :params :as request}]
-  (let [ret (api/answers-comments (login request) date)]
-    (log/debug "login:" (login request))
-    (log/debug "date:" date)
-    (log/debug "answers:" (:answers ret))
-    (log/debug "comments:" (:comments ret))
+(defn- short-time [m]
+  (let [time (-> (:create_at m)
+                 (subs 11 19))]
+    (-> m
+        (dissoc :crate_at)
+        (assoc :create_at time))))
+
+(comment
+  (dissoc {:a 1 :b 2} :a)
+  (short-time {:create_at "2024-12-29 07:24:26.895117"})
+  :rcf)
+
+(defn answers-comments! [{params :params :as request}]
+  (let [login (or (:login params) (login request))
+        {:keys [answers comments]} (api/answers-comments login (:date params))]
+    (log/debug "login:" login)
+    (log/debug "date:" (:date params))
+    ;; (log/debug "answers:" answers)
+    ;; (log/debug "comments:" comments)
     (layout/render request
                    "answers-comments.html"
-                   {:data (:answers ret)})))
+                   {:data (sort-by :create_at
+                                   (mapv short-time
+                                         (concat answers comments)))})))
 
 (defn home-routes []
   ["" {:middleware [middleware/auth

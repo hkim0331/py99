@@ -43,3 +43,6 @@ a.stocks:hover {
   color:white;
   background:hsl(217,71%,53%);
 }
+
+.answer {background-color:lightyellow}
+.comment {background-color:lightpink}

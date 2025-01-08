@@ -5,14 +5,17 @@
     <h2>Activities</h2>
     <form method='post'>
       {% csrf-field %}
-      <input name='login' placeholder='account' disabled>
-      (this version yourself only)<br>
+      <input name='login' placeholder='himura' required>
       <input name='date' placeholder='2024-12-29' required>
       <input type='submit' value='show'>
     </form>
     <br>
     <div>
       <h3>activities</h3>
+
+      <p><span class="answer">answer</span>
+      <span class="comment">comment</span></p>
+
       <table>
       {% for i in data %}
         {% if i.num %}

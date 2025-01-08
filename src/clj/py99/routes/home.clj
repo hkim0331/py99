@@ -711,8 +711,8 @@
         {:keys [answers comments]} (api/answers-comments login (:date params))]
     (log/debug "login:" login)
     (log/debug "date:" (:date params))
-    (log/debug "answers:" answers)
-    (log/debug "comments:" comments)
+    ;; (log/debug "answers:" answers)
+    ;; (log/debug "comments:" comments)
     (layout/render request
                    "answers-comments.html"
                    {:data (sort-by :create_at

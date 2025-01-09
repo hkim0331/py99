@@ -406,3 +406,19 @@ UPDATE gradings SET e4=:pt, updated=now() WHERE login=:login
 -- :name update-e5! :! :n
 -- :doc update `login`'s e5 to `pt`
 UPDATE gradings SET e5=:pt, updated=now() WHERE login=:login
+
+-- ----------------
+-- /api/ac/:login/:date, 2025-01-08
+-- ----------------
+
+-- :name answers-login-date :? :*
+-- :doc num, create_at::text
+select num, create_at::text from answers
+where login = :login and DATE(create_at) = DATE(:date)
+order by id
+
+-- :name comments-login-date :? :*
+-- :doc p_num, create_at::text
+select p_num, create_at::text from comments
+where from_login = :login and DATE(create_at) = DATE(:date)
+order by id

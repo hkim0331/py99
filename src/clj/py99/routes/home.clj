@@ -3,7 +3,7 @@
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
-   [digest]
+   digest
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
    [py99.config :refer [env weeks period]] ;; defstate env
@@ -20,10 +20,10 @@
 (def ^:private number-of-answers 30)
 (def ^:private number-of-comments 30)
 
-(defn- up-to-today
-  "return a list of `yyyy-mm-dd ` up to today from the day class started."
-  []
-  (remove #(pos? (compare % (today))) period))
+;; (defn- up-to-today
+;;   "return a list of `yyyy-mm-dd ` up to today from the day class started."
+;;   []
+;;   (remove #(pos? (compare % (today))) period))
 
 ;; Selmer private extensions
 (defn- wrap-aux
@@ -103,11 +103,8 @@
   [request]
   (let [login (login request)
         solved (map #(:num %) (db/answers-by {:login login}))
-        ;;individual  (db/answers-by-date-login {:login login})
-        ;;all-answers (db/answers-by-date)
         filter (get-in request [:session :filter] "")
         no-thanks (str/split filter #"\s")]
-    ;; (log/debug "status-page" "no-thanks" no-thanks)
     (layout/render
      request
      "status.html"
@@ -688,6 +685,39 @@
                   "4つ以上エラーになったアカウントはありません。"
                   ret))}))
 
+(defn answers-comments [request]
+  (log/debug "login" (login request))
+  (layout/render request
+                 "answers-comments.html"
+                 {:login (login request)
+                  :date (today)
+                  :data nil}))
+
+
+(defn- short-time [m]
+  (let [time (-> (:create_at m)
+                 (subs 11 19))]
+    (-> m
+        (dissoc :crate_at)
+        (assoc :create_at time))))
+
+(comment
+  (today)
+  (dissoc {:a 1 :b 2} :a)
+  (short-time {:create_at "2024-12-29 07:24:26.895117"})
+  :rcf)
+
+(defn answers-comments! [{{:keys [login date]} :params :as request}]
+  (let [{:keys [answers comments]} (api/answers-comments login date)]
+    (log/debug "login:" login "date:" date)
+    (layout/render request
+                   "answers-comments.html"
+                   {:login login
+                    :date date
+                    :data (sort-by :create_at
+                                   (mapv short-time
+                                         (concat answers comments)))})))
+
 (defn home-routes []
   ["" {:middleware [middleware/auth
                     middleware/wrap-csrf
@@ -728,12 +758,11 @@
    ["/doctest-err" {:get (fn [_]
                            (validation-errors "doctest" (u/today)))}]
    ["/download/:id" {:get download}]
+   ["/ac" {:get answers-comments
+           :post answers-comments!}]
    ;
    ;;  ["/wp" {:get (fn [_]
    ;;                   {:status 200
    ;;                    :headers {"Content-Type" "text/html"}
    ;;                    :body (slurp (io/resource "docs/weekly-points.html"))})}]
    ])
-
-
-

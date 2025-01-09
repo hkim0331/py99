@@ -12,9 +12,20 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## v1.25.1261 / 2025-01-09
 
-## v1.23-SNAPSHOT
+- activities, fixed typo, chose defaults.
+- self accout, today's date as default for `/ac` page.
+- barrier free. Anwer, Comment.
 
+## v1.24.1255 / 2025-01-08
+
+- 'Activities' in menu, links to '/ac'
+- added /api/ac/:login/:date
+- improved py99/config.clj -- env が定義されていなくてもエラーにしない。
+- stop to use USER `vscode`. vscode user could not `make uberjar`.
+- updated Dockerfile baseimage clojure:temurin-21-lein-noble
+- updated docker compose hkim0331/py99:0.7.0, postgres:16
 - add :login key
 
 ## v1.23.1224 / 2024-12-27

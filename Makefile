@@ -20,7 +20,7 @@ deploy: uberjar
 # ----------------------------------
 # docker
 
-TAG=hkim0331/py99:0.7.0
+TAG=hkim0331/py99:0.7.1
 DEST="ubuntu@app.melt.kyutech.ac.jp"
 
 build:

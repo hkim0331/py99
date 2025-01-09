@@ -215,6 +215,12 @@
      :p (:p-point (p-point login days))
      :o (:o-point (o-point login days))}))
 
+(defn answers-comments [login date]
+  (log/debug "answers-comments:" "login:" login "date:" date)
+  (let [params {:login login :date date}]
+    {:answers  (db/answers-login-date params)
+     :comments (db/comments-login-date params)}))
+
 (defn service-routes
   []
   ["/api" {:middleware [middleware/wrap-formats]}
@@ -227,14 +233,14 @@
    ; ["/py99/:login" {:get py99}]
    ["/recents" {:post recents}]
    ["/py99" {:post py99}]
-   ["/ruff-error"
-    {:get (fn [_]
+   ["/ruff-error" {:get (fn [_]
             (response/ok
              (validation-errors "ruff" (u/today))))}]
-   ["/doctest-error"
-    {:get (fn [_]
+   ["/doctest-error" {:get (fn [_]
             (response/ok
              (validation-errors "doctest" (u/today))))}]
    ["/spo/:login" {:get (fn [{{:keys [login]} :path-params}]
                           (response/ok
-                           (spo login)))}]])
+                           (spo login)))}]
+   ["/ac/:login/:date" {:get (fn [{{:keys [login date]} :path-params}]
+                               (response/ok (answers-comments login date)))}]])

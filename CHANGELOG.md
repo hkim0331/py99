@@ -14,6 +14,7 @@
 
 ## v1.25-SNAPSHOT / 2025-01-08
 
+- activities, fixed typo, chose defaults.
 - self accout, today's date as default for `/ac` page.
 - barrier free. Anwer, Comment.
 

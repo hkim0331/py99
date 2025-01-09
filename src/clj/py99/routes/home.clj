@@ -3,7 +3,7 @@
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
-   [digest]
+   digest
    [jx.java.shell :refer [timeout-sh]]
    [py99.charts :refer [class-chart individual-chart comment-chart]]
    [py99.config :refer [env weeks period]] ;; defstate env
@@ -20,10 +20,10 @@
 (def ^:private number-of-answers 30)
 (def ^:private number-of-comments 30)
 
-(defn- up-to-today
-  "return a list of `yyyy-mm-dd ` up to today from the day class started."
-  []
-  (remove #(pos? (compare % (today))) period))
+;; (defn- up-to-today
+;;   "return a list of `yyyy-mm-dd ` up to today from the day class started."
+;;   []
+;;   (remove #(pos? (compare % (today))) period))
 
 ;; Selmer private extensions
 (defn- wrap-aux
@@ -103,11 +103,8 @@
   [request]
   (let [login (login request)
         solved (map #(:num %) (db/answers-by {:login login}))
-        ;;individual  (db/answers-by-date-login {:login login})
-        ;;all-answers (db/answers-by-date)
         filter (get-in request [:session :filter] "")
         no-thanks (str/split filter #"\s")]
-    ;; (log/debug "status-page" "no-thanks" no-thanks)
     (layout/render
      request
      "status.html"
@@ -692,7 +689,10 @@
   (log/debug "login" (login request))
   (layout/render request
                  "answers-comments.html"
-                 {:data nil}))
+                 {:login (login request)
+                  :date (today)
+                  :data nil}))
+
 
 (defn- short-time [m]
   (let [time (-> (:create_at m)
@@ -702,20 +702,19 @@
         (assoc :create_at time))))
 
 (comment
+  (today)
   (dissoc {:a 1 :b 2} :a)
   (short-time {:create_at "2024-12-29 07:24:26.895117"})
   :rcf)
 
-(defn answers-comments! [{params :params :as request}]
-  (let [login (or (:login params) (login request))
-        {:keys [answers comments]} (api/answers-comments login (:date params))]
-    (log/debug "login:" login)
-    (log/debug "date:" (:date params))
-    ;; (log/debug "answers:" answers)
-    ;; (log/debug "comments:" comments)
+(defn answers-comments! [{{:keys [login date]} :params :as request}]
+  (let [{:keys [answers comments]} (api/answers-comments login date)]
+    (log/debug "login:" login "date:" date)
     (layout/render request
                    "answers-comments.html"
-                   {:data (sort-by :create_at
+                   {:login login
+                    :date date
+                    :data (sort-by :create_at
                                    (mapv short-time
                                          (concat answers comments)))})))
 

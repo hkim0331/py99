@@ -233,12 +233,10 @@
    ; ["/py99/:login" {:get py99}]
    ["/recents" {:post recents}]
    ["/py99" {:post py99}]
-   ["/ruff-error"
-    {:get (fn [_]
+   ["/ruff-error" {:get (fn [_]
             (response/ok
              (validation-errors "ruff" (u/today))))}]
-   ["/doctest-error"
-    {:get (fn [_]
+   ["/doctest-error" {:get (fn [_]
             (response/ok
              (validation-errors "doctest" (u/today))))}]
    ["/spo/:login" {:get (fn [{{:keys [login]} :path-params}]

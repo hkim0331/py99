@@ -5,23 +5,24 @@
     <h2>Activities</h2>
     <form method='post'>
       {% csrf-field %}
-      <input name='login' placeholder='himura' required>
-      <input name='date' placeholder='2024-12-29' required>
+      <input name='login' value='{{login}}' required>
+      <input name='date' value='{{date}}' required>
       <input type='submit' value='show'>
     </form>
     <br>
     <div>
       <h3>activities</h3>
 
-      <p><span class="answer">answer</span>
-      <span class="comment">comment</span></p>
+      <p><span class="answer" style="padding: 5px;">Answer</span>
+      <span class="comment" style="padding: 5px;">Comment</span>
+      黄色、ピンクに見えてない時は、ブラウザのキャッシュをクリア。</p>
 
       <table>
       {% for i in data %}
         {% if i.num %}
-          <tr class="answer"><td>{{i.num}}</td><td>{{i.create_at}}</td></tr>
+          <tr class="answer"><td>{{i.num}}(A)</td><td>{{i.create_at}}</td></tr>
         {% else %}
-          <tr class="comment"><td>{{i.p_num}}</td><td>{{i.create_at}}</td></tr>
+          <tr class="comment"><td>{{i.p_num}}(C)</td><td>{{i.create_at}}</td></tr>
         {% endif %}
       {%endfor %}
       <table>

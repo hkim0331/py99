@@ -18,6 +18,7 @@
 
       $ pipx upgrade ruff
       upgraded package ruff from 0.8.0 to 0.9.0 (location: /home/ubuntu/.local/share/pipx/venvs/ruff)
+
 ## v1.25.1261 / 2025-01-09
 
 - defaults for '/ac'. user's login and today's date.

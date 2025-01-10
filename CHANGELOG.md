@@ -12,10 +12,15 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v1.25-SNAPSHOT / 2025-01-08
+## v1.25-SNAPSHOT
 
-- self accout, today's date as default for `/ac` page.
-- barrier free. Anwer, Comment.
+- Ruff 0.9.0.
+
+      $ pipx upgrade ruff
+      upgraded package ruff from 0.8.0 to 0.9.0 (location: /home/ubuntu/.local/share/pipx/venvs/ruff)
+
+- defaults for '/ac'. user's login and today's date.
+- barrier free. can see which is answer or  comment without colors.
 
 ## v1.24.1255 / 2025-01-08
 
@@ -31,14 +36,14 @@
 
 - /api/spo/:login
 
-```
-% http -pb :3099/api/spo/hkimura
-{
-    "o": 255,
-    "p": 0.61479392859072,
-    "s": 409
-}
-```
+
+      % http -pb :3099/api/spo/hkimura
+      {
+        "o": 255,
+        "p": 0.61479392859072,
+        "s": 409
+      }
+
 
 ## v1.23.1224 / 2024-12-27
 

@@ -5,15 +5,17 @@
     <h2>Activities</h2>
     <form method='post'>
       {% csrf-field %}
-      <input name='login' placeholder='himura' required>
-      <input name='date' placeholder='2024-12-29' required>
+      <input name='login' value='{{login}}' required>
+      <input name='date' value='{{date}}' required>
       <input type='submit' value='show'>
     </form>
     <br>
     <div>
-      <p><span class="answer">Answer</span>
-      <span class="comment">Comment</span>
-      左が黄色、ピンクに見えてない時は、ブラウザのキャッシュをクリア。</p>
+      <h3>activities</h3>
+
+      <p><span class="answer" style="padding: 5px;">Answer</span>
+      <span class="comment" style="padding: 5px;">Comment</span>
+      黄色、ピンクに見えてない時は、ブラウザのキャッシュをクリア。</p>
 
       <table>
       {% for i in data %}

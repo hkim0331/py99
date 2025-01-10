@@ -12,7 +12,7 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v1.25.1262 / 2025-01-10
+## v1.25-SNAPSHOT
 
 - Ruff 0.9.0.
 

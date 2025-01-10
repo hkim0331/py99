@@ -13,7 +13,7 @@
 - 一般性の高い関数を utils.clj に移動する。
 
 
-## v1.25-SNAPSHOT
+## v1.25.1278 / 2025-01-10
 
 - remove `profile` and `activities` from navbar. since buttons to same functions already exists on front page.
 

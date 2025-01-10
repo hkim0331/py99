@@ -12,6 +12,11 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+
+## v1.25-SNAPSHOT
+
+- remove `profile` and `activities` from navbar. since buttons to same functions already exists on front page.
+
 ## v1.25.1262 / 2025-01-10
 
 - Ruff 0.9.0.

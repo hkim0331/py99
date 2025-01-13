@@ -15,7 +15,9 @@
 
 ## v1.25.1278 / 2025-01-10
 
-- remove `profile` and `activities` from navbar. since buttons to same functions already exists on front page.
+- remove `profile` and `activities` from navbar.
+  since buttons to same functions already exists on front page.
+- Ruff 0.9.1.
 
 ## v1.25.1262 / 2025-01-10
 

@@ -12,6 +12,10 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## v1.26-SNAPSHOT
+
+- Ruff 0.9.6.
+- enable download again.
 
 ## v1.25.1278 / 2025-01-10
 

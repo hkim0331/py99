@@ -12,10 +12,16 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## v1.26.1286 / 2025-02-11
+
+- Ruff 0.9.6.
+- allow copying answers.
 
 ## v1.25.1278 / 2025-01-10
 
-- remove `profile` and `activities` from navbar. since buttons to same functions already exists on front page.
+- remove `profile` and `activities` from navbar.
+  since buttons to same functions already exists on front page.
+- Ruff 0.9.1.
 
 ## v1.25.1262 / 2025-01-10
 

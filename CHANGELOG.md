@@ -15,7 +15,7 @@
 ## v1.26-SNAPSHOT
 
 - Ruff 0.9.6.
-- enable download again.
+- allow copying answers.
 
 ## v1.25.1278 / 2025-01-10
 

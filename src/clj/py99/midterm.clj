@@ -29,7 +29,9 @@
   (doseq [answer (fetch-answers date num)]
     (try
       ;; FIXED: forgot expand-includes, 2022-12-14.
-      (pytest-test num (expand-includes (:answer answer) (:login answer)))
+      (pytest-test num
+                   (expand-includes (:answer answer) (:login answer))
+                   (:login answer))
       (save-as! "good" answer)
       (catch Exception _
         ;; (println (.getMessage e))

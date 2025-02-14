@@ -1,0 +1,7 @@
+# create answers.txt, comments.txt from py99 table.
+txt:
+  pg py99 -f answers-comments.txt
+
+clean:
+  rm answers.txt comments.txt
+

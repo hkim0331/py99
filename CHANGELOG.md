@@ -12,6 +12,13 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## v2.27.1296 / 2025-02-17
+
+- バージョン打ち間違い。
+```
+% git tag -d v2.7.1292
+% git push origin :v2.7.1292
+```
 ## v2.7.1292 / 2025-02-17
 
 QA-2207, Py99の今週のsubmission数がProfileのweekly[submissions comments]に反映されていません

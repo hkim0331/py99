@@ -12,11 +12,38 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## v2.7.1292 / 2025-02-17
+
+QA-2207, Py99の今週のsubmission数がProfileのweekly[submissions comments]に反映されていません
+
+- changed: exam mode var from 300 to 1000
+```
+resources/queries.sql:  `< 300` -> `< 1000`
+```
+
+
+## v1.26
+
+- Ruff 0.9.6.
+- allow copying answers.
+
+## v1.25.1278 / 2025-01-10
+
+- remove `profile` and `activities` from navbar.
+  since buttons to same functions already exists on front page.
+- Ruff 0.9.1.
+
+## v1.25.1262 / 2025-01-10
+
+- Ruff 0.9.0.
+
+      $ pipx upgrade ruff
+      upgraded package ruff from 0.8.0 to 0.9.0 (location: /home/ubuntu/.local/share/pipx/venvs/ruff)
+
 ## v1.25.1261 / 2025-01-09
 
-- activities, fixed typo, chose defaults.
-- self accout, today's date as default for `/ac` page.
-- barrier free. Anwer, Comment.
+- defaults for '/ac'. user's login and today's date.
+- barrier free. can see which is answer or  comment without colors.
 
 ## v1.24.1255 / 2025-01-08
 
@@ -32,14 +59,14 @@
 
 - /api/spo/:login
 
-```
-% http -pb :3099/api/spo/hkimura
-{
-    "o": 255,
-    "p": 0.61479392859072,
-    "s": 409
-}
-```
+
+      % http -pb :3099/api/spo/hkimura
+      {
+        "o": 255,
+        "p": 0.61479392859072,
+        "s": 409
+      }
+
 
 ## v1.23.1224 / 2024-12-27
 

@@ -6,7 +6,8 @@
     {{answer.create_at|date:shortDateTime}}
   </h2>
   <p>{{problem.problem|safe}}</p>
-  <pre class='nocopy'>{{answer.answer}}</pre>
+  <!-- class='nocopy' でコピー防止 -->
+  <pre class='cancopy'>{{answer.answer}}</pre>
 
   {% if login = "hkimura" %}
   <p>download as <a href="/download/{{answer.id}}">p{{answer.num}}.py</a></p>

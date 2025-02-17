@@ -11,8 +11,8 @@
             "settings": {},
             "extensions": [
                 "betterthantomorrow.calva",
-                "jsynowiec.vscode-insertdatestring",
-                "soutaro.emacs-c-k"
+                "jsynowiec.vscode-insertdatestring"
+                // "soutaro.emacs-c-k"
             ]
         }
     }

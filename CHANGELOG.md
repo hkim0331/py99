@@ -12,7 +12,7 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v1.27-SNAPSHOT
+## v2.7.1292 / 2025-02-17
 
 QA-2207, Py99の今週のsubmission数がProfileのweekly[submissions comments]に反映されていません
 

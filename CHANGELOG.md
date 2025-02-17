@@ -12,7 +12,17 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v1.26-SNAPSHOT
+## v1.27-SNAPSHOT
+
+QA-2207, Py99の今週のsubmission数がProfileのweekly[submissions comments]に反映されていません
+
+- changed: exam mode var from 300 to 1000
+```
+resources/queries.sql:  `< 300` -> `< 1000`
+```
+
+
+## v1.26
 
 - Ruff 0.9.6.
 - allow copying answers.

@@ -12,7 +12,7 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v1.26-SNAPSHOT
+## v1.26.1317 / 2025-02-18
 
 - fix days -- home.clj,
 

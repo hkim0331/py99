@@ -12,24 +12,12 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v2.27.1296 / 2025-02-17
+## v1.26.1307 / 2025-02-18
 
-- バージョン打ち間違い。
-```
-% git tag -d v2.7.1292
-% git push origin :v2.7.1292
-```
-## v2.7.1292 / 2025-02-17
+- SOP points from 2025-02-04 to 2025-02-27.
+- comment out unused py99.config and fetch-problem in service.clj.
 
-QA-2207, Py99の今週のsubmission数がProfileのweekly[submissions comments]に反映されていません
-
-- changed: exam mode var from 300 to 1000
-```
-resources/queries.sql:  `< 300` -> `< 1000`
-```
-
-
-## v1.26
+## v1.26.1286 / 2025-02-18
 
 - Ruff 0.9.6.
 - allow copying answers.

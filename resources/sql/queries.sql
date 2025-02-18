@@ -148,7 +148,9 @@ ORDER BY create_at::date
 -- :name answers-by-login-date :? :*
 -- :doc how may answers by login?
 SELECT create_at::date::text, count(*) FROM answers
-where login = :login and num < 300 and DATE(create_at) < DATE(:date) -- was 200
+where login = :login and
+     num < 1000 and
+     DATE(create_at) < DATE(:date) -- was 200
 GROUP BY create_at::date
 ORDER BY create_at::date
 

@@ -16,6 +16,7 @@
 
 - Ruff 0.9.6.
 - allow copying answers.
+- SOP points from 2025-02-04 to 2025-02-27.
 
 ## v1.25.1278 / 2025-01-10
 

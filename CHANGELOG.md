@@ -12,6 +12,10 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## v1.26-SNAPSHOT
+
+- fixed SOP count -- remained 300. changed to 1000.
+
 ## v1.26.1307 / 2025-02-18
 
 - SOP points from 2025-02-04 to 2025-02-27.

@@ -1,6 +1,7 @@
 (ns py99.routes.services
   (:require
    [clojure.java.shell :refer [sh]]
+   [clojure.string :as str]
    [clojure.tools.logging :as log]
   ;;  [py99.config :refer [period weeks]]
    [py99.db.core :as db]
@@ -33,8 +34,9 @@
 
 (defn point-f
   [login dates f display]
-  (let [date-count (db/answers-by-login-date
-                    {:login login :date (last dates)})
+  (let [date-count (->> (db/answers-by-login-date
+                         {:login login :date (last dates)})
+                        (filter (fn [m] (str/starts-with? (:create_at m) "2025-02"))))
         dc (apply merge (for [mm date-count]
                           {(:create_at mm) (:count mm)}))
         py99 (->> (map #(get dc % 0) dates)
@@ -43,6 +45,10 @@
         pt (->> py99
                 (map f)
                 (apply +))]
+    (log/info "date-count" date-count)
+    (log/info "dates" dates)
+    (log/info "dc" dc)
+    (log/info "py99" py99)
     {:login login :from (first dates) :to (last dates) :py99 py99 display pt}))
 
 (comment

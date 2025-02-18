@@ -633,13 +633,13 @@
                       (u/days-from-to (first period) (today))))))
 
 (defn s [request]
-  (api/s-point (login request) (u/days-from-to "2025-02-04" "2025-02-23")))
+  (api/s-point (login request) (u/days-from-to "2025-02-04" "2025-02-27")))
 
 (defn p [request]
-  (api/p-point (login request) (u/days-from-to "2025-02-04" "2025-02-23")))
+  (api/p-point (login request) (u/days-from-to "2025-02-04" "2025-02-27")))
 
 (defn o [request]
-  (api/o-point (login request) (u/days-from-to "2025-02-04" "2025-02-23")))
+  (api/o-point (login request) (u/days-from-to "2025-02-04" "2025-02-27")))
 
 (defn activities-page
   [request]

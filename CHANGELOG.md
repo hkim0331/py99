@@ -12,11 +12,15 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## v1.26.1307 / 2025-02-18
+
+- SOP points from 2025-02-04 to 2025-02-27.
+- comment out unused py99.config and fetch-problem in service.clj.
+
 ## v1.26.1286 / 2025-02-18
 
 - Ruff 0.9.6.
 - allow copying answers.
-- SOP points from 2025-02-04 to 2025-02-27.
 
 ## v1.25.1278 / 2025-01-10
 

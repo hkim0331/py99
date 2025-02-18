@@ -2,16 +2,16 @@
   (:require
    [clojure.java.shell :refer [sh]]
    [clojure.tools.logging :as log]
-   [py99.config :refer [period weeks]]
+  ;;  [py99.config :refer [period weeks]]
    [py99.db.core :as db]
    [py99.middleware :as middleware]
    [py99.utils :as u]
    [ring.util.http-response :as response]))
 
-(defn fetch-problem
-  [{{:keys [n]} :path-params}]
-  ;; (prn "fetch-problem" n)
-  (response/ok (db/get-problem {:num (Integer/parseInt n)})))
+;; (defn fetch-problem
+;;   [{{:keys [n]} :path-params}]
+;;   ;; (prn "fetch-problem" n)
+;;   (response/ok (db/get-problem {:num (Integer/parseInt n)})))
 
 (comment
   (db/get-problem {:num 3})

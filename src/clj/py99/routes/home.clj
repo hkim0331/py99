@@ -632,14 +632,17 @@
     (response/ok (map (fn [d] [d (get dc d 0)])
                       (u/days-from-to (first period) (today))))))
 
+(def days-from "2025-02-04") ; inclusive
+(def days-to   "2025-02-28") ; exclusive
+
 (defn s [request]
-  (api/s-point (login request) (u/days-from-to "2025-02-04" "2025-02-27")))
+  (api/s-point (login request) (u/days-from-to days-from days-to)))
 
 (defn p [request]
-  (api/p-point (login request) (u/days-from-to "2025-02-04" "2025-02-27")))
+  (api/p-point (login request) (u/days-from-to days-from days-to)))
 
 (defn o [request]
-  (api/o-point (login request) (u/days-from-to "2025-02-04" "2025-02-27")))
+  (api/o-point (login request) (u/days-from-to days-from days-to)))
 
 (defn activities-page
   [request]

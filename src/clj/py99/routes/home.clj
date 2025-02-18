@@ -53,7 +53,7 @@
               rest
               count)]
     (if (zero? c)
-      (str "")
+      ""
       (str " (+" c " lines)"))))
 
 (add-filter! :wrap66  (fn [x] (wrap 66 x)))

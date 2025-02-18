@@ -11,11 +11,7 @@
    [ring.util.response :refer [redirect]]))
 
 (def ^:private version "v1.26.1286")
-<<<<<<< HEAD
-(def ^:private updated "2025-02-18 21:03:50")
-=======
 (def ^:private updated "2025-02-11 08:39:09")
->>>>>>> release/v1.26.1286
 
 (def ^:private l22 "https://l22.melt.kyutech.ac.jp")
 

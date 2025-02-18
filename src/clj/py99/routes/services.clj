@@ -17,6 +17,7 @@
   (db/get-problem {:num 3})
   (db/actions? {:login "hkimura" :date "2023-10-20"})
   :rcf)
+
 ;; need auth?
 (defn actions?
   [{{:keys [login date]} :path-params}]
@@ -48,6 +49,7 @@
   (response/ok "hello")
   (response/ok {:hello "world"})
   :rcf)
+
 (defn- s [col]
   (let [zeros (count (filter #(= 0 %) col))]
     (* (apply + col) (- 6 zeros))))
@@ -208,7 +210,8 @@
   (:out (sh "./find-errors.sh" date :dir dir)))
 
 (defn spo [login]
-  (let [days (u/days-from-to "2024-12-05" "2024-12-27")]
+  ; was 2024-12-05, 2024-12-27
+  (let [days (u/days-from-to "2025-02-04" "2025-02-23")]
     {
      :login login
      :s (:s-point (s-point login days))

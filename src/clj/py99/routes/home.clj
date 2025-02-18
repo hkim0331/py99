@@ -75,7 +75,7 @@
                     :else "🟢")]
     (str busy-mark
          " "
-         (str one five fifteen)
+         one five fifteen
          " (過去 1, 5, 15 分間のサーバ負荷)")))
 
 (defn login
@@ -633,13 +633,13 @@
                       (u/days-from-to (first period) (today))))))
 
 (defn s [request]
-  (api/s-point (login request) (u/days-from-to "2024-12-05" "2024-12-27")))
+  (api/s-point (login request) (u/days-from-to "2025-02-04" "2025-02-23")))
 
 (defn p [request]
-  (api/p-point (login request) (u/days-from-to "2024-12-05" "2024-12-27")))
+  (api/p-point (login request) (u/days-from-to "2025-02-04" "2025-02-23")))
 
 (defn o [request]
-  (api/o-point (login request) (u/days-from-to "2024-12-05" "2024-12-27")))
+  (api/o-point (login request) (u/days-from-to "2025-02-04" "2025-02-23")))
 
 (defn activities-page
   [request]

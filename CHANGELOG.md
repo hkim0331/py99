@@ -12,6 +12,15 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## v1.26.1317 / 2025-02-18
+
+- fix days -- home.clj,
+
+```
+(def days-from "2025-02-04") ; inclusive
+(def days-to   "2025-02-28") ; exclusive
+```
+
 ## v1.26.1313 / 2025-02-18
 
 - fixed SOP count -- remained 300. changed to 1000.

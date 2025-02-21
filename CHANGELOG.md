@@ -12,7 +12,7 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v1.27-SNAPSHOT
+## v1.27.1321 / 2025-02-21
 
 - enable endpoints for grading
   - /api/py99/:login

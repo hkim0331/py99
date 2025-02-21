@@ -3,7 +3,7 @@
    [clojure.java.shell :refer [sh]]
    [clojure.string :as str]
    [clojure.tools.logging :as log]
-  ;;  [py99.config :refer [period weeks]]
+   [py99.config :refer [period weeks]]
    [py99.db.core :as db]
    [py99.middleware :as middleware]
    [py99.utils :as u]
@@ -158,19 +158,19 @@
 ;     (response/ok {:login login :pt pt})))
 
 ;; update は grading の仕事．
-; (defn py99 [{{:keys [login]} :path-params}]
-;   (response/ok
-;    {:login login
-;     :py99 (u/bin-count (db/answers-by-date-login {:login login}) weeks)}))
+(defn py99 [{{:keys [login]} :path-params}]
+  (response/ok
+   {:login login
+    :py99 (u/bin-count (db/answers-by-date-login {:login login}) weeks)}))
 
-; (defn comm [{{:keys [login]} :path-params}]
-;   (response/ok
-;    {:login login
-;     :comm (u/bin-count (db/comments-by-date-login {:login login}) weeks)}))
+(defn comm [{{:keys [login]} :path-params}]
+  (response/ok
+   {:login login
+    :comm (u/bin-count (db/comments-by-date-login {:login login}) weeks)}))
 
-; (defn goal-in [{{:keys [login]} :path-params}]
-;   (response/ok
-;    (assoc (db/solved-by {:login login}) :login login)))
+(defn goal-in [{{:keys [login]} :path-params}]
+  (response/ok
+   (assoc (db/solved-by {:login login}) :login login)))
 
 ; (defn py99!
 ;   [{{:keys [secret login col pt]} :params}]
@@ -202,10 +202,10 @@
   (response/ok (->> (db/recent-answers {:n n})
                     (map #(select-keys % [:num :login :create_at])))))
 
-(defn py99 [{{:keys [login]} :params}]
-  (log/info "py99")
-  (response/ok (->> (db/answer-by-login {:login login})
-                    (map :num))))
+; (defn py99 [{{:keys [login]} :params}]
+;   (log/info "py99")
+;   (response/ok (->> (db/answer-by-login {:login login})
+;                     (map :num))))
 
 (comment
   (->> (db/answer-by-login {:login "hkimura"})
@@ -218,8 +218,7 @@
 (defn spo [login]
   ; was 2024-12-05, 2024-12-27
   (let [days (u/days-from-to "2025-02-04" "2025-02-23")]
-    {
-     :login login
+    {:login login
      :s (:s-point (s-point login days))
      :p (:p-point (p-point login days))
      :o (:o-point (o-point login days))}))
@@ -234,20 +233,22 @@
   []
   ["/api" {:middleware [middleware/wrap-formats]}
    ["/actions/:login/:date" {:get actions?}]
-   ; ["/comm/:login" {:get comm}]
-   ; ["/goal-in/:login" {:get goal-in}]
+   ["/py99/:login" {:get py99}]
+   ["/comm/:login" {:get comm}]
+   ["/goal-in/:login" {:get goal-in}]
    ; ["/points/:login" {:get points}]
    ; ["/problem/:n" {:get fetch-problem}]
    ; ["/pt/:login" {:get pt}]
-   ; ["/py99/:login" {:get py99}]
+
    ["/recents" {:post recents}]
-   ["/py99" {:post py99}]
+   ; off
+   ; ["/py99" {:post py99}]
    ["/ruff-error" {:get (fn [_]
-            (response/ok
-             (validation-errors "ruff" (u/today))))}]
+                          (response/ok
+                           (validation-errors "ruff" (u/today))))}]
    ["/doctest-error" {:get (fn [_]
-            (response/ok
-             (validation-errors "doctest" (u/today))))}]
+                             (response/ok
+                              (validation-errors "doctest" (u/today))))}]
    ["/spo/:login" {:get (fn [{{:keys [login]} :path-params}]
                           (response/ok
                            (spo login)))}]

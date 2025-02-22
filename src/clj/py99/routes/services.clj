@@ -169,8 +169,8 @@
     :comm (u/bin-count (db/comments-by-date-login {:login login}) weeks)}))
 
 (defn goal-in [{{:keys [login]} :path-params}]
-  (response/ok
-   (assoc (db/solved-by {:login login}) :login login)))
+  (let [m (assoc (db/solved-by {:login login}) :login login)]
+    (response/ok {:goal-in (:count m) :login (:login m)})))
 
 ; (defn py99!
 ;   [{{:keys [secret login col pt]} :params}]
@@ -197,60 +197,60 @@
 ;                            :pt pt
 ;                            :secret secret})))
 
-(defn recents [{{:keys [n]} :params}]
-  (log/info "recents")
-  (response/ok (->> (db/recent-answers {:n n})
-                    (map #(select-keys % [:num :login :create_at])))))
+  (defn recents [{{:keys [n]} :params}]
+    (log/info "recents")
+    (response/ok (->> (db/recent-answers {:n n})
+                      (map #(select-keys % [:num :login :create_at])))))
 
 ; (defn py99 [{{:keys [login]} :params}]
 ;   (log/info "py99")
 ;   (response/ok (->> (db/answer-by-login {:login login})
 ;                     (map :num))))
 
-(comment
-  (->> (db/answer-by-login {:login "hkimura"})
-       (map :num))
-  :rcf)
+  (comment
+    (->> (db/answer-by-login {:login "hkimura"})
+         (map :num))
+    :rcf)
 
-(defn validation-errors [dir date]; thres?
-  (:out (sh "./find-errors.sh" date :dir dir)))
+  (defn validation-errors [dir date]; thres?
+    (:out (sh "./find-errors.sh" date :dir dir)))
 
-(defn spo [login]
+  (defn spo [login]
   ; was 2024-12-05, 2024-12-27
-  (let [days (u/days-from-to "2025-02-04" "2025-02-23")]
-    {:login login
-     :s (:s-point (s-point login days))
-     :p (:p-point (p-point login days))
-     :o (:o-point (o-point login days))}))
+    (let [days (u/days-from-to "2025-02-04" "2025-02-23")]
+      {:login login
+       :s (:s-point (s-point login days))
+       :p (:p-point (p-point login days))
+       :o (:o-point (o-point login days))}))
 
-(defn answers-comments [login date]
-  (log/debug "answers-comments:" "login:" login "date:" date)
-  (let [params {:login login :date date}]
-    {:answers  (db/answers-login-date params)
-     :comments (db/comments-login-date params)}))
+  (defn answers-comments [login date]
+    (log/debug "answers-comments:" "login:" login "date:" date)
+    (let [params {:login login :date date}]
+      {:answers  (db/answers-login-date params)
+       :comments (db/comments-login-date params)}))
 
-(defn service-routes
-  []
-  ["/api" {:middleware [middleware/wrap-formats]}
-   ["/actions/:login/:date" {:get actions?}]
-   ["/py99/:login" {:get py99}]
-   ["/comm/:login" {:get comm}]
-   ["/goal-in/:login" {:get goal-in}]
+  (defn service-routes
+    []
+    ["/api" {:middleware [middleware/wrap-formats]}
+     ["/actions/:login/:date" {:get actions?}]
+     ["/py99/:login" {:get py99}]
+     ["/comm/:login" {:get comm}]
+     ["/goal-in/:login" {:get goal-in}]
    ; ["/points/:login" {:get points}]
    ; ["/problem/:n" {:get fetch-problem}]
    ; ["/pt/:login" {:get pt}]
 
-   ["/recents" {:post recents}]
+     ["/recents" {:post recents}]
    ; off
    ; ["/py99" {:post py99}]
-   ["/ruff-error" {:get (fn [_]
-                          (response/ok
-                           (validation-errors "ruff" (u/today))))}]
-   ["/doctest-error" {:get (fn [_]
-                             (response/ok
-                              (validation-errors "doctest" (u/today))))}]
-   ["/spo/:login" {:get (fn [{{:keys [login]} :path-params}]
-                          (response/ok
-                           (spo login)))}]
-   ["/ac/:login/:date" {:get (fn [{{:keys [login date]} :path-params}]
-                               (response/ok (answers-comments login date)))}]])
+     ["/ruff-error" {:get (fn [_]
+                            (response/ok
+                             (validation-errors "ruff" (u/today))))}]
+     ["/doctest-error" {:get (fn [_]
+                               (response/ok
+                                (validation-errors "doctest" (u/today))))}]
+     ["/spo/:login" {:get (fn [{{:keys [login]} :path-params}]
+                            (response/ok
+                             (spo login)))}]
+     ["/ac/:login/:date" {:get (fn [{{:keys [login date]} :path-params}]
+                                 (response/ok (answers-comments login date)))}]])

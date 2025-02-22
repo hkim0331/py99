@@ -12,6 +12,10 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
+## v1.28-SNAPSHOT
+
+- changed /api/goal-in/:login returns {:login "login" :goal-in n}
+
 ## v1.27.1321 / 2025-02-21
 
 - enable endpoints for grading

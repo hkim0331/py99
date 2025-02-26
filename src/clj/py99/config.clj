@@ -32,7 +32,7 @@
 ;; FIXME: mandatory env
 ;; env がなくてもエラーにしない。
 (let [start (or (environ/env :py99-start) "2024-10-01")
-      days (or (environ/env :py99-days) "150")
+      days (or (environ/env :py99-days) "143")
       [year month day] (map parse-long
                             (-> start
                                 (str/split #"-")))
@@ -43,11 +43,13 @@
     (make-period (or year 2024)
                  (or month 10)
                  (or day 1)
-                 (or days 150))))
+                 (or days 143))))
 (def period
   (->> py99-period
        (map str)))
-
+(comment
+  period
+  :rcf)
 (def weeks
   "sunday 23:59:00 is the weekly deadline."
   (->> py99-period

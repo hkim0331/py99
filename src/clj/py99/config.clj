@@ -38,6 +38,8 @@
                                 (str/split #"-")))
       days (parse-long days)]
   (println "start" year month day "," days)
+  (println "PY99_days env:" (environ/env :py99-days))
+  (println "days" days)
   (def py99-period
     "2024-10-01 から150日間。"
     (make-period (or year 2024)

@@ -12,9 +12,10 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v1.28-SNAPSHOT
+## v1.28-SNAPSHOT / 2025-02-26
 
 - changed /api/goal-in/:login returns {:login "login" :goal-in n}
+- 表示を 02-23 までにする。誤解を生まないように。
 
 ## v1.27.1321 / 2025-02-21
 

@@ -632,6 +632,7 @@
     (response/ok (map (fn [d] [d (get dc d 0)])
                       (u/days-from-to (first period) (today))))))
 
+; endterm-final-exam
 (def days-from "2025-02-04") ; inclusive
 (def days-to   "2025-02-28") ; exclusive
 

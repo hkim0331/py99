@@ -12,7 +12,13 @@
 - home.clj から validation を別ファイルに出す。
 - 一般性の高い関数を utils.clj に移動する。
 
-## v1.28-SNAPSHOT / 2025-02-26
+## 1.29 (2025-04-08)
+
+- change url in ./git/config
+
+    sed -i.bak 's/github.com/github-hkim0331/' .git/config
+
+## 1.29 (2025-04-08)
 
 - changed /api/goal-in/:login returns {:login "login" :goal-in n}
 - 表示を 02-23 までにする。誤解を生まないように。

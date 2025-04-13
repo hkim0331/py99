@@ -1,4 +1,4 @@
-FROM clojure:temurin-21-lein-noble
+FROM clojure:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 

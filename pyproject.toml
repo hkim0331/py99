@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "py99"
-version = "0.1.0"
+version = "2.0.0"
 description = "py99 server"
 authors = ["Hiroshi Kimura <hiroshi.kimura.0331@gmail.com>"]
 readme = "README.md"
